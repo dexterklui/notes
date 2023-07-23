@@ -1,0 +1,428 @@
+[~{ Source }~] {{{1
+    ➱   From an undergraduate course at HKU, COMP3322 - WWW, from the year
+        about 2021.
+
+[~{ L1 Introduction }~] {{{1
+ == Internet and WWW == {{{2
+  > Internet < {{{3
+    ➱   An infrastructure that provides a platform on which services run.
+    ➱   Networks of networks.
+    ➱   Allow arbitrary networks to be included.
+    ➱   IP routers interconnect individual networks.
+
+  > WWW < {{{3
+    ➱   ['World Wide Web]'
+    ➱   Invented by the British Tim Berners-Lee and Belgian Robert Cailliau in
+        1990. He was working at CERN in Switzerland. The invention was to help
+        them access documents remotely easily.
+    ➱   An infrastructure on which different technology and services are
+        provided
+    ➱   Allows documents to be linked to one another using ['hypertext
+        links]'.
+        ⮱   [[Hyper]] means beyond text.
+        ⮱   A new way of organizing and linking information beyond linear
+            structure of traditional text
+        ⮱   "Hypertext" is coined by Ted Nelson in 1960:
+
+  > Evolution of WWW < {{{3
+    ➱   Web 1.0 - The web initially invented by Tim, [[Read-only]].
+    ➱   Web 2.0 - Allows ['read and write]', more interactive.
+    ➱   Web 3.0 - Possibly in the future? Semantic network? AI?
+
+ == URL == {{{2
+  > URI < {{{3
+    ➱   ['Uniform Resource Identifier]'
+    ➱   Sequence of characters that uniquely identify an abstract or physical
+        resource.
+
+  > URL < {{{3
+    ➱   ['Uniform Resource Locator]'
+    ➱   Is one type of URI that identifies the resource by its [[location]] on
+        the network.
+
+   |components|
+    https://www.funwebdev.com/index.php?page=17#article░
+    └──┬┘   └─────┬─────────┘ └──┬────┘ └──┬──┘ └─────┤░
+    protocol    domain          path  query string fragment
+
+  > URN < {{{3
+    ➱   Another type of URI that identifies the resource by its name or
+        namespace.
+    ➱   Without specifying an access protocol or mechanism, nor a particular
+        location.
+    ➱   E.g. International Standard Book Number (ISBN).
+
+ == Communication Models and Components == {{{2
+  > Client-server communication < {{{3
+    Used by applications to establish communication.
+
+   |server|
+    ➱   One application acts as a server
+        ⮱   NOTE the [[application]] is the server, not the machine
+    ➱   Always starts execution first; usually always online
+    ➱   Running in a host machine known by other peers
+    ➱   Awaits contact from any peer
+
+   |client|
+    ➱   Initiates contact to the server
+    ➱   Requests for services and/or information
+    ➱   Its location is not important
+
+  > Host-to-host communication < {{{3
+    For hosts to communicate with each other, they need some methods to:
+    ➱   [[identify]] the peer (['domain name]' of the server)
+    ➱   [[locate]] the peer (['IP address]' of the server)
+    ➱   [[deliver]] messages to the peer░
+        (internet protocol and the network path between)
+
+  > End-to-end communication < {{{3
+    To find the correct server program running on the server:
+    ➱   Each communication service is labelled by a ['port number]'.
+        ‣   E.g. some default: HTTP 80, Telnet 23, SSH - 22, FTP - 21.
+    ➱   The port number must be known by all clients.
+    ➱   No other application on the same machine can use the same port.
+
+  > Port numbers < {{{3
+    ➱   Valid range: 0 to 65535 (of size [[16 bits]])
+    ➱   Divide into three ranges
+        ‣   [[0 - 1023]]: Reserved for system processes and privileged users
+        ‣   1024 - 49151:
+            ⮱   Available for ordinary user processes
+            ⮱   Also allow to register with ['IANA]' (['Internet Assigned
+                Number Authority]').
+        ‣   49152 - 65535: Dynamic and/or private ports.
+
+  > IP address < {{{3
+   |purposes|
+    1.  Uniquely [[identify]] a network interface of a host machine
+    2.  Has information to [[locate]] the physical network the host is in.
+
+   |interface|
+    ➱   Network ports or cards
+    ➱   Routers have multiple ports
+    ➱   Machines can have multiple interfaces too, e.g. Ethernet and WiFi.
+
+   |IPv4|
+    ➱   [[32-bit]] address divided into 4 [[octets]] (8 bits each).
+    ➱   In ['Dotted-Decimal Notation]': 0.0.0.0 - 255.255.255.255
+    ➱   Typically divided into two parts:
+        ‣   Prefix: identify the physical network (locator)
+        ‣   Suffix: identify a host on that physical network (identity)
+
+   |IPv6|
+    ➱   [[128-bit]] address
+    ➱   Expressed as 8 groups of 16 bits (4 hex digits) with colons between
+        groups.
+        ⮱   To simplify long strings of zeros, successive zeros can be
+            replaced by two colons:
+            FE80::1:800:23E7:F5DB
+
+  > localhost < {{{3
+    ➱   ['localhost]' is the hostname of the local machine.
+        ⮱   [[127.0.0.1]] for IPv4 loopback address
+        ⮱   [[::1]] for IPv6
+
+  > Protocols < {{{3
+    A ['protocol]' is a set of communication rules between peers, that
+    defines:
+    ‣   The [[format]] of the message (where the control info and content are)
+    ‣   The [[order]] of the message
+    ‣   The [[actions]] taken on message transmission and receipt
+
+ == Domain Name System == {{{2
+  > DNS < {{{3
+    ['Domain Name System]' (['DNS]') runs at the [[application layer]].
+
+   |functions|
+    ➱   Translate domain names into IP addresses.
+    ➱   Reverse look up the domain name from an IP address.
+    ➱   Look up the info of the email server and DNS server of a domain.
+    ➱   [[Load distribution]]: maps one domain name to a set of IP
+        addresses
+
+  > Domain levels < {{{3
+    server1.www.funwebdev.com.
+
+    | part                                     | level                     |
+    |------------------------------------------+---------------------------|
+    | server 1                                 | fourth level domain       |
+    | www                                      | third level domain        |
+    | funwebdev                                | second level domain (['SLD]') |
+    | com                                      | top level domain (['TLD]')    |
+    | [empty string after last (optional) dot] | root domain               |
+
+  > Levels of DNS servers < {{{3
+    There are four levels of DNS servers:
+    ➱   ['Root Name Servers]'
+    ➱   ['TLD Servers]'
+    ➱   ['Authoritative DNS Servers]'
+    ➱   ['Local Name Servers]' (default name servers)
+
+  > Local name servers < {{{3
+    ➱   Each domain (e.g. ISP, company, university) has to provide one or more
+        local DNS server for internal requests.
+    ➱   All client applications are configured with the address of the local
+        DNS server(s).
+    ➱   Usually is the ISP's DNS for individual user.
+
+  > Authoritative DNS servers < {{{3
+    ➱   Each organization should have at least one ['authoritative DNS
+        server]' if they offer [[publicly accessible]] hosts.
+    ➱   These servers provide authoritative hostname-to-IP mappings (and vice
+        versa) for organization's computers.
+    ➱   They can serve as local name servers too.
+
+  > TLD servers < {{{3
+    ➱   Each top-level domain has its own set of name servers that are
+        responsible for providing information under its domain subtree.
+    ➱   They know the authoritative servers of a particular subdomain in its
+        subtree.
+        ⮱   .hk TLD servers know the authoritative DNS servers of .hku.hk.
+    ➱   There are ['Generic Top Level Domains]' (['gTLD]') and ['Country Code
+        Top Level Domain]' (['ccTLD]').
+
+  > Root name servers < {{{3
+    ➱   Have info on all TLD name servers.
+    ➱   Known publicly by all local name servers.
+    ➱   Respond to DNS queries from local name servers.
+
+  > Workflow to resolve domain name < {{{3
+    1.  For first contact, all client applications query the [[local DNS
+        server]].
+    2.  If the local DNS server does not have the information, it queries the
+        [[root name server]] for the info of the target TLD servers.
+    3.  The local DNS server queries the [[TLD servers]] for the info for the
+        info of the target authoritative DNS servers.
+    4.  The local DNS server queries the [[authoritative DNS servers]] for the
+        info of the domain.
+    5.  The local DNS server obtains the IP address and send it back to the
+        client application.
+
+  > DNS caching < {{{3
+    ➱   Cache mapping information in the name servers.
+    ➱   Improves efficiency and reduce DNS traffic.
+    ➱   Cache is removed after some configured time set by that particular
+        domain name.
+
+[~{ L2 HTTP }~] {{{1
+ == HTTP == {{{2
+  > Overview < {{{3
+    ➱   ['HyperText Transfer Protocol]' (['HTTP]')
+    ➱   On [[application layer]]
+    ➱   Sent over TCP
+    ➱   Follows a classic [[client-server]] communication model:
+        First initiate a TCP connection, then exchange requests and responses.
+    ➱   Is [[stateless]], i.e. without knowledge of previous requests.
+
+  > Versions < {{{3
+   |HTTP/0.9|
+    ➱   1991
+    ➱   The one-line protocol that only support GET requests
+
+   |HTTP/1.0|
+    ➱   1996
+    ➱   Introduced HTTP headers
+        ⮱   New functionality can be introduced anytime by adding new headers
+    ➱   Added status code
+    ➱   One major issue:
+        A new TCP connection is opened for each request-response exchange.
+
+   |HTTP/1.1|
+    ➱   1997
+    ➱   Introduced ['persistent connection]' for multiple request-response
+        exchanges
+    ➱   Supports ['pipelining]' requests to send multiple requests before
+        receiving their responses
+    ➱   Added ['caching]' mechanism
+    ➱   Support [[content negotiation]]:
+        Clients can specify the prefered representation of data (data type,
+        encoding, format, etc)
+    ➱   [[Still widely used]] [;as of 2023];
+
+   |HTTP/2|
+    ➱   2015
+    ➱   Not in plaintext, but in binary format.
+
+ == HTTP Requests and Responses == {{{2
+  > Structure < {{{3
+    |---------------------|
+    | Request/Status Line |
+    |---------------------|
+    |                     |
+    | Headers             |
+    |                     |
+    |---------------------|
+    | A Blank Line        |
+    |---------------------|
+    |                     |
+    | Message Body        |
+    |                     |
+    |---------------------|
+
+    ➱   The first line of an HTTP request is a request line.
+    ➱   The first line of an HTTP response is a status line.
+
+  > Request line < {{{3
+   |syntax|
+    [\:{request_type} {URL} {HTTP_version}:]\
+
+   |example|
+    [\GET /~atctam/view/Simple.html HTTP/1.1]\
+
+   |request type|
+    ‣   GET: Read a resource
+    ‣   HEAD: Read a Web page's header
+    ‣   POST: Append / add to a name resource
+    ‣   PUT: Store / update a Web page
+    ‣   DELETE: Remove a Web resource
+
+   |URL|
+    Could be just the path, or a complete URL
+
+  > Status line < {{{3
+   |syntax|
+    [\:{HTTP_version} {status_code} {status_phrase}:]\
+
+   |example|
+    [\HTTP/1.1 200 OK]\
+
+   |status codes|
+    A 3-digit code, where the first digit ranges from 1 to 5:
+    ‣   1xx [[Informational Message]]:
+        Provides general information; does not indicate success or failure of
+        a request.
+    ‣   2xx [[Success]]:
+        The request was received, understood and accepted.
+    ‣   3xx [[Redirection]]:
+        The request did not fail outright, but additional action is needed
+        before it can be successfully completed.
+    ‣   4xx [[Client Error]]:
+        The request was invalid, contained bad syntax or could not be
+        completed for some other reason that the server believes was the
+        client's fault.
+    ‣   5xx [[Server Error]]:
+        The request was valid but the server was unable to complete it due to
+        a problem of its own.
+
+   |some common status|
+    ‣   200 OK
+    ‣   302 Found
+    ‣   304 Not Modified
+    ‣   404 Not Found
+
+  > HTTP headers < {{{3
+   |basic structure|
+    A case-insensitive string followed by a colon ":" and a value whose format
+    depends on the header.
+    ⮱   Like a [[key:value]] pair
+
+   |header types|
+    ‣   ['General headers]': Apply to the message as a whole
+    ‣   ['Entity headers]': Apply to the message body
+    ‣   ['Request headers]': Provide more information about the resource to be
+        fetched or about the client itself
+    ‣   ['Response headers]': Give additional information about the response
+
+  > Message body < {{{3
+   |HTTP requests|
+    ➱   GET or HEAD requests do not have a body.
+    ➱   For POST requests, for example, the body contains HTML form data.
+
+   |HTTP responses|
+    ➱   Carries the resource requested.
+    ➱   Usually consists of a single file defined by the two headers:
+        ‣   Content-Type
+        ‣   Content-Length
+
+  > Example < {{{3
+   |HTTP request| {{{4
+    GET /~atctam/view/Simple.html HTTP/1.1
+    Host: i.cs.hku.hk
+    User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    Accept-Language: en-US,en;q=0.5
+    Accept-Encoding: gzip, deflate, br
+    Connection: keep-alive
+    Upgrade-Insecure-Requests: 1
+
+   |HTTP response| {{{4
+    HTTP/1.1 200 OK
+    Date: Sat, 05 Sep 2020 03:00:56 GMT
+    Server: Apache/2.4.29 (Ubuntu)
+    Last-Modified: Wed, 18 Jul 2018 06:47:40 GMT
+    ETag: "a9-571407054bb07-gzip"
+    Accept-Ranges: bytes
+    Vary: Accept-Encoding
+    Content-Encoding: gzip
+    Content-Length: 136
+    Keep-Alive: timeout=5, max=100
+    Connection: Keep-Alive
+    Content-Type: text/html
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <title>My Sample HTML Page</title>
+        </head>
+        <body>
+            <h1>This is an HTML Page</h1>
+        </body>
+    </html>
+
+ == Web Caching == {{{2
+    Storing a copy of a resource locally for future requests.
+
+   |two kinds of caches|
+    ➱   Private browser caches
+    ➱   Proxy servers caches
+        ⮱   Less common nowadays, because today webpages mainly serves dynamic
+            content, and proxy servers doesn't allow HTTPs end-to-end
+            encryption.
+
+   |checking if cache is outdated|
+    Some related response headers:
+    ➱   [\Cache-Control~: max-age=300]\:
+        Specifies the number of seconds that this resource is considered to be
+        fresh relative to the time of the request
+    ➱   [\Expires~: Wed, 15 Dec 2019 07~:30~:00 GMT]\:
+        Specifies the date/time after which the resource is considered stale.
+
+    After the resource is considered stale, the browser is supposed to perform
+    [[validation]] with the server.
+
+   |validation|
+    Two response headers:
+    ➱   [\ETag~: "33a64df551425fcc55e4d42a148795d9f25f89d4"]\:
+        Specifies an identifier for a specific version of a resource and is
+        generated by the server whenever the resource is updated.
+    ➱   [\Last-Modified~: Wed, 21 Oct 2015 07~:28~:00 GMT]\:
+        Specifies the date and time at which the origin server believes the
+        resource was last modified.
+
+    When asking for validation, a GET request is sent with the header:
+    ➱   [\If-None-Match~: "33a64df551425fcc55e4d42a148795d9f25f89d4"]\:
+    ➱   [\If-Modified-Since~: Wed, 21 Oct 2015 07~:28~:00 GMT]\
+
+    If the requested resource is not modified, the server responses:
+    ➱   [\HTTP/1.1 304 Not Modified]\
+    ➱   With other headers; usually update cache control info
+    ➱   Without the requested resource in the body
+
+ == Cookies == {{{2
+  > Overview < {{{3
+    Is a small piece of data that a server sends to the browser with a
+    response header: [\Set-Cookie~: user_id=1678]\.
+
+    The browser store the data, and send it back in future requests to the
+    same server with a request header: [\Cookie~: user_id=1678]\.
+
+   |purposes|
+    ➱   Session management
+    ➱   Personalisation
+    ➱   Tracking
+
+   |storing identifier|
+    Since a cookie is sent back in every requests, usually the content is just
+    an identifier, which allows the server to know the identity of the user
+    and retrieve information stored in the server's database.

@@ -1,0 +1,14 @@
+[~{ Misc }~] {{{1
+    ➱   There is [[no Vim keybind]] support. Unless you edit your notion documents
+        from Chrome with Chrome's extension "Vimium".
+    ➱   All files are saved on Notion's [[cloud]].
+    ➱   [[Markdown]] syntax is recognized
+
+[~{ Key Bindings }~] {{{1
+ == Editing == {{{2
+    ➱   [\<Esc>]\: Exit input mode, and allow navigation between blocks
+    ➱   [\<S-Enter>]\: Jump out of current block and go to next line
+    ➱   [\/]\: Search for block elements to insert
+
+ == Layout == {{{2
+    ➱   [\<C-\>]\: Toggle sidebar

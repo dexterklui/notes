@@ -1,0 +1,900 @@
+/// Language: DQNote_1.35
+[~{ Additional Syllabus from Ex / Tutorial }~] {{{1
+ == Functions == {{{2
+  > round() < {{{3
+  ‣ [\round(:FLOAT`, PT:)]\ roads the float into certain digits after the
+    decimal point given by PT.
+
+  > range() < {{{3
+   |value constraint| {{{4
+    ‣ Returns an empty sequence if stop is negative or 0 in [\range(:STOP:)]\
+
+    Note the following value constraint:
+    ‣ r[n] = start + step * n, where n ≥ 0 and
+    ‣ r[n] < stop (for +ve step)
+    ‣ r[n] > stop (for -ve step)
+
+    So [\range(0, 5, -1)]\ returns an [[empty string]].
+
+   |another problem| {{{4
+    #beginPython#
+    x = 2
+    for i in range(x):
+        x += 1
+        print(x, end = ' ')
+    #endPython#
+    The output would be {-3 4}-. Because [\range(x)]\ is only evaluated once.
+
+  > sum() < {{{3
+    Return the sum of all elements in a list. Note the type of elements.
+
+ == Others == {{{2
+  > while < {{{3
+   |else| {{{4
+    While loop allows [\else~:]\ statement following itself.
+
+    #beginPython#
+    i = 0
+    while i < 3:
+        print(i, end = ' ')
+        i += 1
+    else:
+        print(0)
+    #endPython#
+
+    The output is {{0 1 2 0}}.
+
+   |break and else| {{{4
+    The [\break]\ will terminate the while loop, and [\else~:]\ which is
+    deemed as a part of the while loop will not be executed in case of
+    [\break]\.
+
+    #beginPython#
+    i = 0
+    while i < 5:
+        print(i, end = ' ')
+        i += 1
+        if i == 3:
+            break
+    else:
+        print(0)
+    #endPython#
+
+    The output is {{0 1 2}}.
+
+  > for < {{{3
+   |else| {{{4
+    For loop allows [\else~:]\ statement following itself. The else branch is
+    executed only when the for loop is [[exhausted]], not if it breaks out of
+    the for loop.
+
+    #beginPython#
+    for i in range(5):
+        print(i, end = ' ')
+    else:
+        print("Here")
+    #endPython#
+
+    The output is {{0 1 2 3 4 Here}}.
+
+   |else and break| {{{4
+    The [\break]\ will terminate the for loop, and [\else~:]\ which is deemed
+    as a part of the for loop will not be executed in case of [\break]\.
+
+    #beginPython#
+    for i in range(10):
+        if i == 5:
+            break
+        else:
+            print(i, end = ' ')
+    else:
+        print("Here")
+    #endPython#
+
+    The output is {{0 1 2 3 4}}. When i == 5, [\break]\ will terminate the for
+    loop without executing the else branch of for loop.
+
+   |assigning one variable to one element in a nested list|
+    Consider the following valid example:
+
+    #beginPython#
+    mylist = [[0, 0], [1, 2], [2, 4], [4, 8]]
+    for a, b in mylist:
+        print(a, "-", end="")
+        print(b)
+    #endPython#
+
+    This gives the output:
+    {-0-0}-░
+    {-1-2}-░
+    {-2-4}-░
+    {-4-8}-░
+
+ == Concepts == {{{2
+  > Iterators < {{{3
+    ‣ Iterator vs Iterable Objects
+    ‣ Iterators such as: map, filter, file (in read mode)/?/ objects
+
+  > Global/local variable and mutable/immutable value < {{{3
+    See Tutorial 7 powerpoint to understand how variables and values are
+    stored and linked. Whether the value a global variable is holding can be
+    affected by modifying a local variable in a function depends on the value
+    data type.
+
+    Mutable data types include list, set and dict.
+
+    To create a new copy of an existing list, you can use░
+    [\newlist = oldlist + []]\, or [\.copy()]\ / [\.deepcopy()]\, or [\for]\
+    loop with [\.append()]\ method. Remember using concatenation creates a new
+    list, so using such operator for a local variable won't change the value
+    of any global variable.
+
+   |global / local variable|
+    In a function, if a variable is ever defined in any part in the body, all
+    invocation of that variable refers to the local variable. Therefore, if it
+    is invoked before its first local definition in the function, an [[error]]
+    results.
+
+    [\global :VAR:]\ will change the variable VAR in the function a global
+    one.
+
+[~{ L2 Sep 7 (Tue) }~] {{{1
+ == Arithmetic Operators == {{{2
+    ‣ Addition: [\+]\
+    ‣ Subtraction: [\-]\
+    ‣ Multiplication: [\*]\
+    ‣ Division: [\/]\
+    ‣ Floor division: [\//]\
+    ‣ Modulus: [\%]\
+    ‣ Exponent: [\**]\
+
+  > Python as Super Calculator < {{{3
+    Strengths over ordinary calculator:
+    ‣ Can remember intermediate results
+
+ == Modules == {{{2
+    The [[math]] module adds a lot of math functions and variables.
+
+    To use the module:
+    ‣ [\from :MODULE: import :[`*|FUNCTIONS]:]\
+        ⮱ E.g. [\from math import sqrt, sin]\ imports the sqrt() and sin ()
+          function
+        ⮱ Using this method, you can use a function in the module directly
+          [[without dot notation]].
+    ‣ [\import :MODULE:]\
+        ⮱ Unlike [\from :MODULE: import *]\, you need to use [[dot notation]]
+          to invoke the imported functions.░
+          E.g. [\math.sin(30.0 * math.pi / 180)]\.
+
+  > math Module < {{{3
+   |variables|
+    ‣ [\pi]\
+    ‣ [\e]\
+
+   |functions|
+    ‣ [\sqrt()]\
+    ‣ [\sin()]\
+    ‣ [\pow()]\
+    ‣ [\gcd()]\
+
+ == Errors == {{{2
+  > Bugs < {{{3
+    A ['bug]' is a mistake in a program, and the process of [[eliminating]] bugs
+    is called ['debugging]'.
+
+  > Three kinds of Errors < {{{3
+    ‣ ['Syntax errors]'
+    ‣ ['Run-time errors]'
+    ‣ ['Logic errors]'
+
+  > Testing < {{{3
+    In tutorials and homework, not only are you required to write a correct
+    program, but also prepare a [[comprehensive set of cases for testing]] the
+    program.
+
+ == Values and Variables == {{{2
+    ‣ ['bool]' (['boolean]' values)
+        ⮱ [\True]\, [\False]\
+    ‣ ['int]' ([[integers]])
+    ‣ ['float]' ([[real numbers]])
+        ⮱ When studying computer organization, you will learn that most
+          hardware will use floating point number to represent real numbers
+          and store it in the hardware.
+        ⮱ e.g. -2.36, 6.0e5, 7e-2 ([[scientific representation]])
+    ‣ ['str]' ([[character string]])
+
+    [\type(:VALUE:)]\ returns the [[value class]]. E.g. {-<class 'int'>}-.
+
+  > Value Assignment < {{{3
+    The token [\=]\ is used for ['value assignment]':
+    ‣ [\:VAR_NAME: = :EXPRESSION:]\ is an assignment statement.
+
+  > Naming Variables < {{{3
+    ‣ Comprised of digits, upper and lower cases, and underscore
+    ‣ Must starts with a letter or underscore
+    ‣ Is case sensitive.
+    ‣ Cannot use ['keywords]' reserved for python
+        ⮱ [\import keyword]\ and [\keyword.kwlist]\ gives you keywords
+          currently reserved.
+
+    [;Tip];: Pay attention to the [[colour]] of variable name when naming.
+    Avoid using coloured name, for it means a keyword is used, or you are
+    [[changing the meaning of names]] that are already in use for either
+    purpose! E.g. [\print = 10]\.
+
+  > Type Casting < {{{3
+    [[Convert]] a value from one type to another.
+    ‣ [\float()]\ changes value to a float
+    ‣ [\int()]\ changes value to an integer, truncating at the decimal point
+    ‣ [\bool()]\ returns True when the input is 0, and returns True for any
+      other integers or floats.
+
+    ‣ [\int(True)]\ returns {-1}-.
+    ‣ [\int(False)]\ returns {-0}-.
+        ⮱ Actually 1 and 0 are used to represent true and false respectively
+          in python.
+
+    ‣ If you want to convert a string to an integer, the string must be an
+      integer.
+        ⮱ [\int("1234.0")]\ gives an error, but [\int("1234")]\ returns
+          {-1234}-.
+  
+    ‣ [\float("12")]\ and [\float("12.0")]\ returns {-12.0}-.
+        ⮱ but [\float("12-12")]\ gives an error.
+
+  > Read Values From Keyboard < {{{3
+    ‣ [\input(:[STR]:)]\ waits and read input from keyboard as the value. If
+      STR is given, then python prints the STR on the screen as a message and
+      a prompt to ask the user to input a value.
+    ‣ To use, e.g. [\name = input("Please tell me your name~: ")]\
+    ‣ NOTE that the input is taken as a [[string]] no matter what the input
+      is.
+        ⮱ To change to int: [\s = int(input("Input an integer~:"))]\
+
+ == Resource for Practicing Python == {{{2
+    ‣ Codewar
+    ‣ Kaggle
+    ‣ leetcode
+
+[~{ L3 Sep 10 (Thu) list and tuple }~] {{{1
+ == List == {{{2
+    A ['list]' is a ordered sequence of values (of different types). An
+    element in the list can be a list.
+
+  > Assignment < {{{3
+    To assign a list, [\:VAR_NAME: = [:[VAL]`,...:~]]\. The list can then be
+    invoked using VAR_NAME. An empty list is a list with no element.
+
+  > Index < {{{3
+   |one element|
+    You can invoke an element in a list by indices: [\:LST`[IDX`]:]\, where
+    IDX=0 refers to the first element and so on.
+
+   |range of elements|
+    To invoke a range of elements: [\:LST`[IDX1`, IDX2`]:]\.
+
+    [ A B C D E F G ]░
+     | | | | | | | |░
+     0 1 2 3 4 5 6 7
+
+    It is best to think index as residing at the edges of each elements like
+    the above diagram. So a range of IDX1=1 and IDX2=5 would selects elements
+    B, C, D and E.
+
+  > Changing a list < {{{3
+    To [[assign]] a new value to an element of a list, use index method again:
+    [\:LST`[IDX:] = :VALUE:]\. This is called ['item assignment]'.
+
+   |appending a new element|
+    [\:LST:.append(:VALUE:)]\ append a new element with VALUE at the end of
+    list. This append() is called a method for object list.
+
+    Note that [\list = list.append('E')]\ makes [\print(list)]\ returns
+    {-None}-. Since [\list.append('E')]\ is a function call that returns
+    {-None}-, which is assigned to list.
+
+  > Tables from List < {{{3
+    A list: [\T = [[0,1,2], [3,4,5], [6,7,8]]]\ can be seen as a 3x3 matrix.
+    To invoke the element in the x-th row and y-th column, you use
+    [\T[:x:][:y:]]\.
+
+ == Tuple == {{{2
+    It is like a list, but it cannot be changed once assigned, but only
+    reassigned completely. To assign a tuple, use [[parentheses]] rather than
+    square brackets, or you may even omit the parentheses as well.
+
+    That is, [\tuple = (1, 2, 3)]\ is equivalent with [\tuple = 1, 2, 3]\.
+
+    Attempts to modify a tuple would result to an error, which can be helpful to
+    notify programmer you are modifying a tuple you didn't want to modified in the
+    first place.
+
+   |single element|
+    [\a = (1,)]\ or [\a = 1,]\ assigns a tuple with a single element.░
+    Whereas [\a = (1)]\ assigns an integer, since here python thinks they are just
+    arithmetic parentheses.
+
+[~{ L4 Sep 14 (Mon) multiple assignments, set, dict and expressions }~] {{{1
+ == Variable Assignment == {{{2
+    Variable assignment can also be done in the following tuple-like way:
+    [\(a, b, c) = (1, 2, 3)]\
+
+    NOTE the difference with [\a, b, c = 1, 2, 3]\
+
+  > Swaping a Pair of Variables < {{{3
+    [\a, b = b, a]\ Python first evaluates the value on the RHS, then assigned
+    the value to the variables on LHS.
+
+ == Tuples == {{{2
+  > Strings as Tuples < {{{3
+    String is a special case of [[tuple]].
+
+  > Converting Tuples to Lists < {{{3
+    The type casting function [\list()]\ converts a tuple into a list. E.g.:
+    [\mylist = (1, 2, 3)]\░
+    [\mytuple = ("a", "b", "c")]\░
+    [\newlist = list(mytuple)]\
+
+ == Set == {{{2
+    Use curly braces, [\{]\, [\}]\ to assign a set. Unlike a list or a tuple,
+    it has no specific order among its elements. So we cannot refer to a set's
+    entry by indexes. When you print the list, sometimes the order is
+    different from the order when it is assigned. It is because Python just
+    doesn't bother to remember the order.
+
+    The condition [\:VALUE: in :SET:]\ returns a boolean value to reflect if a
+    value is in a set.
+
+    ‣ NOTE that a tuple can be an element of a set, but a list cannot be an
+      element of a set.
+    ‣ NOTE no duplicate value can be stored in a set.
+    ‣ Also NOTE that True and False are deemed as equivalent to 1 and 0
+      respectively, so they are duplicate, and whichever element (e.g. 1 or
+      True) is defined in a set first will be printed out.
+
+  > Add Item to Set < {{{3
+    [\:SET:.add(:VALUE:)]\ adds a VALUE as a new element into a set.
+
+ == Dictionary == {{{2
+    [\mydict = {"Peter"~:"boy", "Mary"~:"girl"}]\ assigns a dictionary to a
+    variable. A ['dictionary]' is a set of [[key:value]] pairs. The entries do
+    not have order.
+
+  > Accessing Entries < {{{3
+    We can access the corresponding value in a set given a key:
+    [\:DICT`[KEY:]]\.
+
+  > Adding Entries < {{{3
+    To assign a new key:value pair:
+    [\:DICT`[NEW_KEY:] = :NEW_VALUE:]\
+
+  > Dictonaries as Elements of List < {{{3
+    #beginPython#
+    users = [
+        {'name': 'John Doe', 'date_of_birth': 1987},
+        {'name': 'Jane Doe', 'date_of_birth': 1996}
+    ]
+    #endPython#
+
+    To access the name of the first record: [\users[0]["name"]]\
+
+ == Expressions == {{{2
+    In each expressions, there are ['operators]' and ['operands]'.
+
+  > Relational Operators < {{{3
+    For comparison of values.
+    ‣ [\==]\ returns True if two operands are equal.
+    ‣ [\!=]\ returns True if two operands are not equal.
+    ‣ [\<>]\ works as [\!=]\.
+    ‣ [\>]\ returns True if left operand is greater than right.
+    ‣ [\<]\ returns True if left operand is less than right.
+    ‣ [\>=]\ returns True if left operand is greater than or equal to right.
+    ‣ [\>=]\ returns True if left operand is less than or equal to right.
+
+  > Logical Operators < {{{3
+    ‣ [\and]\ returns True when both operands are True.
+    ‣ [\or]\ returns True if either one or both operands are True.
+    ‣ [\not]\ takes one operand after it. It returns True if the operand is
+      False.
+
+  > Membership Operators < {{{3
+    ‣ [\in]\ returns True if left operand exists in right.
+        ⮱ The right operand can be a list, set, tuple or string.
+    ‣ [\not in]\ returns True if left operand does not exist in right.
+
+   |interesting example|
+    [\"bc" in "abc"]\ returns True. [\"cb" in "abc"]\ returns False.
+
+  > Operators Priority < {{{3
+    Lowest priority (consider last) are listed first.
+    ‣ OR
+    ‣ AND
+    ‣ NOT
+    ‣ Comparison (including membership tests and identity tests)
+    ‣ Addition and Subtraction
+    ‣ Multiplication, matrix multiplication, division, floor division,
+      remainder
+    ‣ Positive, negative (e.g. +x, -x)
+    ‣ Exponentation
+
+  > Operators for Combining Sequences < {{{3
+   |concatenation|
+    ‣ [\"abc" + "efg"]\ returns {{"abcefg"}}.
+    ‣ [\('a', 'b') + ('e', 'f')]\ returns {{('a', 'b', 'e', 'f')}}.
+    ‣ Works similarly for [[lists]] and [[sets]].
+
+   |repetition|
+    ‣ [\"abc" * 4]\ returns {{"abcabcabcabc"}}.
+    ‣ [\('a', 'b') * 2]\ returns {{('a', 'b', 'a', 'b')}}.
+    ‣ Works similarly for [[lists]] and [[sets]].
+
+  > Comparison Operators on Sequences < {{{3
+    [[Lexicographical (dictionary) order on sequences]] is used in Python.
+
+    STR_1 and STR_2 are two sequence (string, list or tuple) of same length:
+    [\:STR_1: == :STR_2:]\ returns True if they have the same values at the same
+    position.
+
+    [\:STR_1: < :STR_2:]\ Python checks if the condition is fulfilled at index
+    0. If Python cannot decide (here if they values are equal), Python checks
+    at the next index. When there is no more index to check (here if values at
+    every indices are the same), Python returns False.
+
+    If the two sequence has different length, then if all the indices of the
+    shorter sequence has been checked and values are the same, then the longer
+    sequence is the bigger one. E.g. [\[1, 2] < [1, 2, 3]]\ returns True, but
+    [\[2, 2] < [1, 2, 3]]\ returns False.
+
+    In short, Python just compares [[element by element]].
+
+ == Special Characters == {{{2
+   |backspace|
+    ‣ [\\b]\ is backspace, which moves back the input prompt.
+
+ == Print Statement == {{{2
+    [\print()]\ accepts special arguments using parameter assignment method.
+    In [\print(:VALUE1`, VALUE2:, sep=:SEPARATOR:, end=:END:)]\, Python
+    inserts SEPARATOR between VALUE1 and VALUE2 (default is space), and insert
+    END after printing all the values (default is newline).
+
+[~{ L5 Sep 21 (Mon): if statement }~] {{{1
+ == eval == {{{2
+    ‣ [\eval()]\ takes a string as an [[expression]] and evaluates it to a value
+        ⮱ It can takes a function from math module too.
+        ⮱ It is very useful ([[may be used in exam question]])
+
+ == if-else statement == {{{2
+    ‣   We call the indented body of an if-statement the ['yes-statement]'.
+    ‣   We call the indented body of an else-statement the ['no-statement]'.
+    ‣   [\pass]\ is a statement that does nothing. Useful for a temporary
+        statement for one conditional branch.
+  
+    ‣   [\if :CONDITION:~:]\
+    ‣   [\elif :CONDITION:~:]\
+    ‣   [\else~:]\
+
+  > decision tree < {{{3
+    Starting from the uppermost node, each node is a condition evaluated to be
+    true/false, and branches into two different routes. The whole tree covers all
+    the possibilities.
+
+[~{ L6 Sep 28 (Mon) Loops / Iteration }~] {{{1
+ == while Loop == {{{2
+    [\while :CONDITION:~:]\. As long as CONDITION is evaluated to be true
+    (non-zero), the loop-body is run. At the end of the execution of the
+    loop-body, CONDITION is evaluated again to decide whether the loop
+    continues.
+
+ == for Loop == {{{2
+    [\for :VAR: in :VALUES:~:]\ where VALUES can be:
+    ‣   string
+    ‣   list
+    ‣   tuple
+    ‣   set
+    ‣   dictionary (in such case VAR will takes the value of [[keys]] of the
+        dict)
+
+  > Generate Lists of Values < {{{3
+    [\range(:[START`,] END [`,INCREMENT]:)]\ generates a data type {-range}-:
+    ‣   All parameters must be int.
+    ‣   Default starting index (when START is not given) is 0.
+    ‣   Default increment (when INCREMENT is not given) is 1.
+    ‣   The range generated end just before the ending index is reached.
+
+   |examples|
+    ‣   [\list(range(10))]\ generate {-[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}-.
+    ‣   [\list(range(3, 11))]\ generates {-[3, 4, 5, 6, 7, 8, 9, 10]}-.
+    ‣   [\list(range(4, 20, 5))]\ generates {-[4, 9, 14, 19]}-.
+
+    Use type casting function [\list()]\ to change it type to a list. But
+    [\range()]\ can be used in [\for]\ statement [[without the need to
+    typecasting]].
+
+ == Misc == {{{2
+    ‣   [\print()]\ takes parameter [\END=:STRING:]\ and other parameters.
+
+[~{ L7 Oct5-Mon More whileloop and Functions }~] {{{1
+ == while Loop == {{{2
+    ‣   [\break]\ stops the execution of the current loop, and execute the
+        statement immediately after the current body.
+    ‣   [\continue]\ stops the execution of the current loop, and restarts
+        again at the header of the current loop. (continue on with the next
+        execution)
+
+ == Modeules for Random Number Generation (RNG) == {{{2
+  > random < {{{3
+    the module [[random]] provides useful functions:
+    ‣   [\randint(:A`, B:)]\ returns an random integer N: a ≤ N ≤ b.
+    ‣   [\random()]\ returns a random float number R: 0.0 ≤ R [[<]] 1.0.
+    ‣   [\choice(:LIST:)]\ returns a random element from the list.
+
+ == Functions == {{{2
+  > Properties of Functions < {{{3
+    ‣   Must have a unique name (from variables and other functions)
+    ‣   May or may not return a value.
+    ‣   May accept one or more arguments. When calling a function, it is the
+        responsibility of the caller to make sure a correct data type is used.
+
+  > Defining Functions < {{{3
+   |definition|
+    #beginPython#
+    def function_name(arg1, arg2):
+        # statement_body
+    #endPython#
+
+   |return value|
+    The statement [\return :EXPRESSION:]\ terminates the function call and
+    return a value.
+
+[~{ L8 Oct19Mon Functions }~] {{{1
+ == Main Function == {{{2
+    Many programmers prefer defining a function call [\main()]\, which
+    contains the main part of the programs.
+    
+    Also it is also a convention to have the following statements:
+    #beginPython#
+    if __name__ == "__main__":
+        main()
+    #endPython#
+
+ == Local vs Global Variables == {{{2
+    ‣   Variables defined in a function definition are local to that function.
+    ‣   Variables defined outside a function definition are global.
+
+ == Map Function == {{{2
+    [\map(:FUNC`, ARG1_LST...:)]\ will call function FUNC, taking the elements
+    in ARG1_LST, ARG2_LST... one by one for each call. Then [\map()]\ will
+    return [[a map object]] (can be type-casted to a list) of return values of
+    those function calls, each element is the return value of a function call
+    to the corresponding input element in the INPUT_LST.
+    ⮱   ARG1_LST is a list that contains values for the first argument of
+        FUNC, whereas ARG2_LST contains the second argument.
+    ⮱   If ARG1_LST and ARG2_LST have different length, then map() will run
+        until the shortest list is exhausted.
+    
+    E.g. [\map(is_even, [7,16,25,48])]\ returns [[a map object]] which is kind
+    of equivalent to a list {{[False,True,False,True]}} (recall [\range()]\
+    doesn't return a list either). You can type-cast it into a list object.
+
+   |iterator|
+    A map object is an ['iterator]' which can be only iterated only once. Once
+    the iteration hits to the end, it will raise {-StopIteration}- immediately
+    upon any further iteration attempt. Google concept for more detail.
+    
+    Type cast an iterator to a list or tuple if you want to iterate on it more
+    than once.
+
+   |iterable vs iterator|
+    A list, tuple, dictionary, or a string is an iterable object, from which
+    an iterator can be generated.
+
+ == Filter Function == {{{2
+    [\filter(:FUNC`, INPUT_LST:)]\ creates a filter object of elements for
+    which a function returns True. It returns back the INPUT_LST, except it
+    filter out (discard) all elements that is correspond to a False return
+    value of FUNC taking that element as input.
+    
+    E.g. [\filter(is_prime, [2,3,4,5,6,7])]\ returns [[a filter object]] which
+    is kind of equivalent to a list {{[3,5,7]}}.
+
+[~{ L9 Oct19Mon Functions, and Recursion }~] {{{1
+ == Lambda: One-line Function == {{{2
+    [\:FUNC_NAME: = lambda :[ARG1[`, ARG2]...]`: {RETURN_VALUE|FUNC_BODY}:]\░
+    
+    Example:░
+    #beginPython#
+    add = lambda x, y: x + y
+    is_even = lambda x: print("It is even") if x%2 == 0 else print("It is odd")
+    #endPython#
+    
+    You can Google what else you can do with lambda
+
+  > lambda with map, filter < {{{3
+    An example:░
+    [\map(lambda x, y~: x + y, list1, list2)]\
+
+ == Recursion == {{{2
+    Python will keep an ['activation record]' for each recursive call of the
+    function itself.
+
+    A ['recursion tree]' can be drawn to help visualise the recursion.
+
+[~{ L10 Python Strings }~] {{{1
+ == Simple Solution with lambda and map() == {{{2
+    See the powerpoint.
+
+ == Object-Oriented Programming Language and Immutable String == {{{2
+    Python uses a hash table
+
+    Encountering this statement, [\s = "comfortable"]\, python will store a
+    string {{"comfortable"}} in memory, then use {"s}" to store the location
+    of that memory, i.e. {"s}" points to {{"comfortable"}}. If now python
+    encounters another statement [\s = "happy"]\, python will store a new
+    string {{"happy"}} in memory and [[change the pointer]] of {"s}" from
+    {{"comfortable"}} to {{"happy"}}.
+    
+    Then, if there is another statement [\s[1] = 'x']\. Python will throw an
+    error because what the string {"s}" is referring to, {{"happy"}}, is
+    immutable.
+
+ == Built-in Methods for Strings == {{{2
+  > Methods < {{{3
+   |type of characters| {{{4
+    ‣   [\:STR:.isupper()]\ returns True if the string {{s}} contains only
+        upper-case letters.
+    ‣   [\:STR:.islower()]\ - returns True if contains only lower-case
+        letters.
+    ‣   [\:STR:.isnumeric()]\ - returns True if contains only digits 0 - 9
+    ‣   [\:STR:.isalpha()]\ - returns True if contains only alphabets
+    ‣   [\:STR:.isspace()]\ - returns True if contains only whitespace
+        characters (space, tab, return, newline [\\n]\, carriage return
+        [\\r]\).
+
+   |modification and casting into lists| {{{4
+    ‣   [\:STR:.join(:OTHER_STR)]\: the string STR is inserted between every
+        adjacent characters in OTHER_STR. The idea is like using the STR to
+        join the characters in OTHER_STR.
+        ⮱   E.g. [\print(a.join("HELLO")]\ where [\a = "."]\ returns░
+            {{"H.E.L.L.O"}}.
+
+    ‣   [\:STR:.split(:[DELIM]:)]\ returns a list of substrings separated by
+        delimiter (which is a string) DELIM. The [[default]] delimiter is any
+        series of whitespaces (spaces and tabs).
+
+   |handle substring| {{{4
+    ‣   [\:STR:.find(:SUB_STR[`, START[`, END]]:)]\ returns the lowest index
+        in the string where SUB_STR occurs within the slicing
+        {{STR[START:END]}}. Returns -1 if no SUB_STR found.
+
+    ‣   [\:STR:.count(:SUB_STR[`, START[`, END]]:)]\ returns the number of
+        non-overlapping occurrences of SUB_STR in the range of indices
+        [[[start, end)]], i.e. within the slicing {{STR[START:END]}}.
+
+    ‣   [\:STR:.replace(:SUB_STR`, REPLC[`, COUNT]:)]\ works like substitute.
+        Without COUNT, replaces all non-overlapping occurrences of SUB_STR in
+        STR with REPLC. NOTE that a string is [[immutable]], that means
+        [\replace()]\ method will [[not change]] the original STR, but to
+        return a new string.
+        ⮱   So if you want to update the string of the original variable, use
+            [\:STR_VAR `= STR_VAR:.replace(:SUB_STR`, REPLC[`, COUNT]:)]\
+
+    ‣   [\:STR:.strip(:[CHARS]:)]\ returns a string with all the leading and
+        trailing characters that appear in CHARS removed.
+        ⮱   The [[default]] SUB_STR is any whitespace characters (space, tab,
+            return, newline, carriage return).
+
+        #beginPython#
+        mystr = "Tommy"
+        print(mystr.strip("Ty"))
+        #endPython#
+
+        The above example will print [\omm]\.
+
+    ‣   [\:STR:.rstrip(:[CHARS]:)]\ works like strip but only remove
+        trailing characters.
+
+    ‣   [\:STR:.lstrip(:[CHARS]:)]\ works like strip but only remove leading
+        characters.
+
+[~{ L11 Slicing and Files }~] {{{1
+ == Slicing == {{{2
+    To invoke a range of elements: [\:LST`[IDX1`, IDX2`, INCREMENT`]:]\.
+
+   |using ascending order (positive increment)|
+    [ A B C D E F G ][ A B C D E F G ]░
+     | | | | | | | └─┬┘ | | | | | | |░
+    -7 6 5 4 3 2 1   +0 1 2 3 4 5 6 7
+
+   |using reversed order (negative increment)|
+    [ A B C D E F G ][ A B C D E F G ]░
+     | | | | | | | └┬─┘ | | | | | | |░
+    -8 7 6 5 4 3 2  1  +0 1 2 3 4 5 6
+
+   |tips to picture the indices|
+    It is best to think index as residing at the edges of each elements like
+    the above diagram. So a range of IDX1=1 and IDX2=5 would selects elements
+    B, C, D and E.
+
+   |default value|
+    ‣   INCREMENT: 1
+    ‣   IDX1: starting index (left most for ascending order, right most for
+        descending order)
+    ‣   IDX1: ending index (right most for ascending order, left most for
+        descending order)
+
+   |examples|
+    ‣   [\"1234567"[~:~:-1]]\ returns {{"7654321"}}.
+    ‣   [\"1234567"[5~:-7~:-1]]\ returns {{"65432"}}.
+    ‣   [\"1234567"[5~:-7~:1]]\ returns {{""}}.
+    ‣   [\"1234567"[2~:~:2]]\ returns {{"357"}}.
+
+ == Special Way to Create Lists and Grids == {{{2
+    ‣   [\[0 for i in range(n)]]\ create a list with n elements of 0.
+    ‣   [\[i for i in range(4)]]\ creates {{[0, 1, 2, 3]}}.
+    ‣   [\[[0 for j in range(4)] for i in range(4)]]\ creates a 4x4
+        zero-matrix.
+
+ == Reading Data from Files == {{{2
+  > Read a File to a Variable < {{{3
+    [\:VAR_FILE: = open(:FILE_NAME:)]\ reads the file and store the content to
+    the VAR. FILE_NAME can be a relative path (of cwd) or a full path. NOTE
+    that in windows, you need to convert backslashes in the path name to
+    slashes.
+    
+    [\print(:VAR_FILE:)]\ will output (check your self). The {-mode=r}- means
+    the [[read]] mode.
+
+  > Read a File Line by Line < {{{3
+    [\for :LN_VAR: in :VAR_FILE:~:]\ puts each line in VAR_FILE to LN_VAR in
+    each iteration. NOTE that each line that is put into LN_VAR contains a
+    [[trailing newline character]]. So if you print each line with
+    [\print(:LN_VAR:)]\ with each iteration, there is an extra blank line
+    between each line of the original file. To get rid of the newline
+    character, [\.strip()]\ method is handy.
+
+  > Close a File < {{{3
+    [\:VAR_FILE:.close()]\ DUNNO what it does exactly.
+
+[~{ L12 Files }~] {{{1
+ == Read Files == {{{2
+  > Reading From Internet < {{{3
+    You need to import a function with the following:
+    [\from urllib.request import urlopen]\
+
+    Instead of [\open(:FILE_PATH:)]\, use [\urlopen(:URL:)]\ to access a
+    remote file on the internet. The text opened this way through the internet
+    may have extra leading and ending characters on each line, this is due to
+    the communication protocol of the internet. You can use slicing to remove
+    those extra characters.
+
+  > Reading a File a Second Time < {{{3
+    To read a file a second time, close it with [\:FILE_OBJECT:.close()]\, and
+    then reopen it with [\open(:FILEPATH:)]\. The [[closing]] of the file
+    object is important, otherwise implicit error may happen.
+
+ == Editing Files == {{{2
+  > Overwriting Files < {{{3
+    To write file, use [\open(:FILEPATH:, "w")]\, where "w" stands for write
+    mode. The default mode is "r" which stands for read.
+    ‣   The Python first check if the file exists.
+    ‣   If the file already exists, then all content will be [[erased]]. If
+        the file does not exist, then Python creates a new file with the given
+        name.
+
+    After opening a file and having created a file object,
+    [\:FILE_OBJ:.write(:CONTENT:)]\ will [[append faithfully]] content to the
+    file, that means no newline characters or any other characters are
+    appended. The [\.write()]\ method also returns an integer represented the
+    number of appended characters.
+
+    To write the changes (i.e. save the changes) to the file, you need to
+    close the file object properly with [\:FILE_OBJ:.close()]\.
+
+  > Appending Files < {{{3
+    To append new content on a file, use [\"a"]\ - append - mode instead of
+    [\"w"]\ - write - mode. Everything else the same.
+
+  > Notes on Editing Files < {{{3
+    Following things can make reading or writing fail:
+    ‣    File does not exist
+    ‣    Program does not have enough permission
+
+ == Catching Exceptions == {{{2
+    As we have seen, without any bug in the program, there can be exceptions
+    when reading and writing due to other reasons. To prevent these exceptions
+    from terminating the execution of the program, you can catch those
+    exceptions.
+
+    #beginPython#
+    try:
+        # Codes to run
+    except:
+        # Codes here run itself when exceptions were caught in the try body
+    #endPython#
+
+ == Dictionary == {{{2
+  > Creating Dictionary and Adding Elements < {{{3
+    To create an empty dictionary, use [\mydict = dict()]\. Then you can use
+    [\mydict[:KEY:] = :VALUE:]\ to add elements to the dictionary.
+
+  > Key Error < {{{3
+    Note that there is no order among the elements. When invoking an element
+    of a dict by using a key, make sure the key exists otherwise there is a
+    [[key error]].
+
+  > get Method < {{{3
+    To avoid key error, you can use the get method:
+    [\:DICT_VAR:.get(:KEY`, [DEFAULT_VALUE]:)]\ returns the value
+    corresponding to that key or the DEFAULT_VALUE if the key doesn't exist in
+    the dictionary. doesn't exist. If argument DEFAULT_VALUE is not provided,
+    then it will return {{None}} when they key doesn't exist.
+
+  > in Operator < {{{3
+    [\in]\ can only work on the keys.
+
+  > Checking for Values < {{{3
+    [\list(:DICTIONARY:.values())]\ will give you a list of all values in the
+    dictionary (duplicate values will retain in the list). With this list, you
+    can easily check if a value is in a dictionary.
+
+    Without type casting [\list()]\, the object returned by [\.values()]\ is a
+    [[dict_values object]] which can be used with [\in]\ operator directly to
+    check if a dictionary contains a certain value.
+
+  > Deleting an Element < {{{3
+    [\del :DICT`[KEY:]]\ deletes an element from the dictionary. But be ware
+    of the key error in case that the key doesn't exist.
+
+[~{ L13 Histogram, Dictionary, Tuples }~] {{{1
+ == Dictionary == {{{2
+    ‣   [\sorted(:VALUE:)]\ returns a (new) [[list]] of sorted keys or elements.
+
+ == List and Tuples == {{{2
+    ‣   [\max(:SEQ:)]\ and [\min(:SEQ:)]\ returns the maximum and minimum in
+        the sequence.
+
+ == Create a Dictionary from List == {{{2
+    ‣   [\zip(:KEY_SEQ`, VAL_SEQ:)]\ returns a [[zip object]] that can be type
+        cased into a dictionary, using the first sequence as the keys and
+        second sequence as the values. The key-value pair is:
+        {-KEY_SEQ[i] : VAL_SEQ[i]}-,░
+        for i in [[range(min([len(KEY_SEQ), len(VAL_SEQ)))]], i.e. until either
+        one of the sequence come to an end.
+
+[~{ Hash Table }~] {{{1
+ == Some Built-in Functions == {{{2
+    ‣   [\hash(:INPUT:)]\
+        ⮱   Input is any non-mutable object
+        ⮱   For relatively small integers, it just returns the integer itself
+    ‣   [\id(:INPUT:)]\
+        ⮱   Print memory address of input object in decimal integer
+    ‣   [\ord(:CHARACTER:)]\
+        ⮱   Return the numeric unicode of the unicode character (ordinal
+            value)
+    ‣   [\chr(:INTEGER:)]\
+        ⮱   Inverse of [\ord()]\
+    ‣   [\repr(:INPUT:)]\
+        ⮱   Return a string that represents the input
+        ⮱   If input is a string, the function encloses it with an additional
+            pair of apostrophes (')
+
+[~{ Useful Built-in Functions }~] {{{1
+ == enumerate() == {{{2
+    [\enumerate(:ITERABLE:)]\
+    ⮱   Add a counter to an iterable and returns it in a form of an enumerate
+        object, allowing us to loop through and keep track of indices.
+    ⮱   The counter by default starts at 0. To change the starting counter,
+        use the [\start]\ argument: [\enumerate(values, start=1)]\.
+    
+   |example|
+    #beginPython#
+    for count, value in enumerate(values, start=1):
+        print(count, ": ", value)
+    #endPython#
+
+   |benefits|
+    Prevent the hard to debug off-by-one error. Or another hard to debug error
+    when you forget to update the counter or value in each loop iteration.
+
+[~{ Iterators and Generators }~] {{{1
+    [=https://realpython.com/introduction-to-python-generators/#understanding-the-python-yield-statement]=

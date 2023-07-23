@@ -1,0 +1,495 @@
+/// Language: DQNote_1.35
+[~{ Concept and Terminology }~] {{{1
+ == Terms == {{{2
+  > Terms < {{{3
+   |account| {{{4
+    Anywhere money can go. Some other finance programs use ['categories]'.
+
+   |reimbursement| {{{4
+    Money paid on behave of someone else, i.e. the money will be paid back to
+    you. It should be treated as an asset.
+
+   |equity| {{{4
+    It is the value of something. Usage such as [\Equity~:Opening Balances]\
+
+   |net worth| {{{4
+    Net worth = Asset + Liabilities
+    ⮱   It is the sum of accounts that belong to you
+
+   |cash flow| {{{4
+    Cash flow = Income + Expenses (positive means spending more than earning)
+    ⮱   It is the sum of accounts that do not belong to you
+    ➱   Net worth = - Cash flow, i.e. they check to 0.
+
+   |lot prices| {{{4
+    See [==Fixing Lot Prices=]=.
+
+   |auxiliary dates| {{{4
+    The optional second date associated with a transaction following the
+    primary date: [\:PRIM_DATE`=AUX_DATE:]\.
+
+    How to use it is entirely up to you. One common way is to use it to
+    represent effective date where the transaction is officially
+    accepted/recorded (while the primary date is the date where you made that
+    transaction).
+
+    The only use Ledger has for it is [\--aux-date]\ when Ledger use it in
+    place for primary date.
+
+   |hard separator| {{{4
+    At least one tab or two space (or a space and a tab).
+
+   |transaction| {{{4
+    A transaction is composed of one or more posting that are balanced out to
+    be zero (unless for a virtual posting/transaction).
+
+   |posting| {{{4
+    Postings compose a transaction. Each signifies a flow of commodity of an
+    account.
+
+   |virtual postings| {{{4
+    That the postings are not considered "real" and so that not need balance
+    to zero.
+
+    It can be removed from all reports using [\--real]\.
+
+    It is useful for recording flow in budgets and funds.
+
+ == Commodity == {{{2
+    ➱   Any non-numeric string that does NOT contain any of [\.,/@]\.
+    ➱   May appear before or after the amount.
+        ⮱   Assume symbols appearing before refer to currencies
+        ⮱   Assume non-joined symbols appearing after refer to commodities.
+    ➱   Ledger will examine the first use of any commodity to determine how it
+        should be printed on reports.
+
+  > Commodity price histories < {{{3
+    Whenever a commodity is purchased using a different commodity, it
+    establishes a price for that commodity on that day.
+
+    It is also possible to record prices in a price history file:
+    [\P 2004/06/21 02~:18~:01 FEQTX $$22.49]\░
+    [\P 2004/06/21 02~:18~:01 BORL $6.20   ]\░
+    [\P 2004/06/21 02~:18~:02 AAPL $32.91  ]\░
+    [\P 2004/06/21 02~:18~:02 AU $400.00   ]\░
+
+   |Related options|
+    Specify the price history to use with the [\--price-db :FILE:]\,
+    with [\--market]\ or [\-V]\ to report in terms of current market
+    value.
+
+    Show amount in terms of a commodity:
+    [\$ ledger -T "{1 AU}*{O/P{1 AU})" balance checking]\ says that the
+    reported total should be in multiples of AU units, where the quantity
+    is the account total divided by the price of one AU.
+
+  > Commodity equivalences < {{{3
+    E.g. for storage memory size, time, there is a equivalent relation. To
+    create data equivalences:
+    [\C 1.00 Kib = 1024 b  ]\░
+    [\C 1.00 Mib = 1024 Kib]\░
+    [\C 1.00 Gib = 1024 MiB]\░
+    [\C 1.00 TiB = 1024 GiB]\░
+    [\C 1 min = 60 sec     ]\░
+    [\C 1 hr = 60 min      ]\░
+    ⮱   NOTE the default precision is also mentioned here.
+    ⮱   Whenever a commodity would report as a decimal ammount (less than
+        '1.00'), the next smallest commodity is used.
+
+ == Working with multiple funds and accounts == {{{2
+    See [=3.8]= in manual.
+
+ == Fixing Lot Prices == {{{2
+    Commodities that you keep in order to sell at a later time have a variable
+    value that fluctuates with the market prices. Commodities that you consume
+    should not fluctuate in value, but stay at the ['lot price]' they were
+    purchased at.
+
+    See [=4.5.3]= in manuals for examples.
+
+    [\2009/01/01 Shell                         ]\░
+    [\    Expenses~:Gasoline    11 GAL {=$2.299}]\░
+    [\    Assets~:Checking                      ]\░
+    ⮱   This fix the value of each unit of GAL at $2.299 at future report even
+        though the price for 11 GAL is different in the future.
+    ⮱   Actually this transaction introduces a new commodity [\GAL {=$2.29}]\.
+
+    If you don't want price fixing, you can specify in two ways:
+    1.  [\11 GAL {$2.299}]\
+    2.  [\11 GAL @ 2.299]\
+
+    [\11 GAL {=$2.299} @ $2.30]\ means you bought 11 gallons priced at $2.299
+    per gallon at a cost to you of $2.30 per gallon. Ledger auto-generates a
+    balance posting in this to Equity:Capital Losses to reflect the 1.1 cent
+    difference, which is then balanced by Assets:Checking because its amount
+    is null.
+
+ == Structuring Account == {{{2
+    ➱   Expenses: where money goes
+    ➱   Assets: where money sits
+    ➱   Income: where money comes from
+    ➱   Liabilities: money you owe
+    ➱   Equity: the real value of your property
+
+ == Metadata == {{{2
+  > Two types < {{{3
+    ‣   ['plain tags]'
+        ⮱   Inside a comment, put any word not containing whitespace between
+            two colons: [\~:TAG1~:TAG2~:TAG3:]\
+    ‣   tag/value pairs: ['metadata tag]'. Two ways to specify a metadata tag:
+        1.  Inside a comment, put [\:TAG`: VALUE:]\, where VALUE is any
+            string.
+        2.  Inside a comment, put [\:TAG`: EXPR:]\, where EXPR is evaluated to
+            a value.
+        *   NOTE that the whitespace is needed after colon.
+
+  > Special tag < {{{3
+   |Payee|
+    [\Payee~: :PAYEE:]\ for a [[posting]]. NOTE that you still need to declare
+    this tag to preven warnings and errors with [\--string]\ or
+    [\--pedantic]\.
+
+ == Virtual postings == {{{2
+    Parentheses indicates this is a virtual posting that need not to be
+    balanced to be zero.
+    ➱   [\(:ACCOUNT`) AMOUNT:]\
+
+    Square brackets indicates this is a virtual posting that should balance
+    against one or more other virtual postings.
+    ➱   [\[:ACCOUNT`] AMOUNT:]\
+
+ == Value Expression == {{{2
+   |dates|
+    ➱   Surround a date with square brackets: [\[2012/02/30]]\.
+
+   |expression amounts|
+    ➱   Surround the amount expression with parentheses:
+        [\($10.00 + $20.00)]\.
+
+ == Verification and Assertion == {{{2
+  > Balance verification < {{{3
+    If at the end of a posting's amount (and after the cost too, if there is
+    one) there is an [[equal sign]] [\=]\, then Ledger will verify that the
+    total value for that account as of that posting matches the amount
+    specified.
+    ⮱   [\--permissive]\ relax the balance assertions checks.
+    ⮱   It only has effect on the specified commodity.
+
+   |balance assertion|
+    [\Assets~:Cash    $-20.00 = $500.00]\
+    
+
+[~{ Files }~] {{{1
+ == Syntax == {{{2
+  > Initial character < {{{3
+    The initial character of each line determines what the line means.
+
+   |NUMBER| {{{4
+    ‣   [\:NUMBER:]\ denotes a transaction. It may be followed by any number
+        of lines, each beginning with [[whitespace]] to denote the
+        transaction's account posting.
+
+   |= : automated transaction| {{{4
+    ‣   [\=]\ specifies an [[automated transaction]].
+        ⮱   A value expression must appear after the equal sign.
+        ⮱   One or more postings follows in the indented body.
+
+   |~ : periodic transaction| {{{4
+    ‣   [\~~]\ specifies a [[periodic transaction]].
+        ⮱   A period expression must appear after the tilde.
+        ⮱   One or more postings follows in the indented body.
+
+   |P : historical price| {{{4
+    ‣   [\P]\ specifies a [[historical price]] for a commodity.
+    ‣   Either character of [\; # % | *]\ indicates a comment.
+
+  > command directive < {{{3
+    Command directives must occur at the beginning of a line.
+
+   |account| {{{4
+    [\account]\ pre-declare valid account names. Only has an effect if
+    [\--strict]\ or [\--pedantic]\ is used. Sub-directives:
+    ➱   [\note]\ associates a textual note with the account
+    ➱   [\alias]\ allows the alias to be used in place of the full account
+        name. Can occur multiple times.
+    ➱   [\payee]\ provides RegEx that identify the account if that payee is
+        encountered and an account within its transaction ends inthe name
+        [\Unknown]\.
+    ➱   [\check]\ and [\assert]\ warn or raise an error if the given value
+        expression evalse to false with in the context of any posting.
+    ➱   [\default]\ specifies that this account should be used as the
+        balancing account for any future transactions that contain only a
+        single posting.
+
+   |apply account| {{{4
+    [\apply account :ROOT_ACCOUNT:]\ sets the [[root for all accounts]]
+    following this directive. It may be convenient to keep two root accounts:
+    [\personal~:]\ and [\business~:]\
+
+    It is effective until [\end apply account]\.
+
+   |apply fixed| {{{4
+    [\apply fixed :COMMODITY UNIT_PRICE:]\ sets fixated [[lot prices]]. It is
+    effective until [\end apply fixed]\.
+
+    E.g. after [\apply fixed CAD $0.90]\, the amount [\-15.50 CAD]\ means:
+    [\-15.50 CAD {=$0.90}]\
+
+   |alias| {{{4
+    [\alias :ALIAS`=ACCOUNT:]\ defines an [[alias for an account]] name. Only
+    in effect for transactions read in after the definition.
+
+    Option [\--recursive-aliases]\ allows aliases to refer to other aliases.
+    [\--no-aliases]\ completely disables alias expansion.
+
+   |assert| {{{4
+    [\assert :EXPR:]\ can [[throw]] an error if a condition is not met during
+    runtime.
+
+   |bucket| {{{4
+    [\bucket :ACCOUNT:]\ defines the [[default account]] to use for balancing
+    transactions until the next [\bucket]\ directive.
+
+   |capture| {{{4
+    [\capture :ACCOUNT REGEX:]\ directs Ledger to replace any account matching
+    a [[regex]] with the given account.
+
+   |check| {{{4
+    [\check :EXPR:]\ issues a warning if a condition is not met during
+    runtime.
+
+   |comment| {{{4
+    [\comment]\ starts a block comment closed by [\end comment]\.
+
+   |commodity| {{{4
+    Pre-declare commodity names. This only has an effect if [\--strict]\ or
+    [\--pedantic]\ is used. Sub-directives:
+    ‣   [\note :DESCRIPTION:]\ associates a textual note with the commodity.
+    ‣   [\format :FORMAT:]\ tells Ledger how to format the commodity.
+        ·   Whether the thousand mark is used
+        ·   The precision
+        ·   The position (before the amount or after) and spacing
+    ‣   [\nomarket]\ states that the commodity's price should never be
+        auto-downloaded.
+    ‣   [\alias :ALIAS:]\ sets alias.
+    ‣   [\default]\ marks this as the default commodity.
+
+   |define| {{{4
+    [\define :VAR_NAME`=VALUE:]\ define value expression. E.g.:
+    [\define var_name=$100      ]\░
+    [\:...:                       ]\░
+    [\    Expenses  (var_name*4)]\░
+
+   |end| {{{4
+    Closes block commands like [\apply]\ or [\comment]\.
+
+   |expr| {{{4
+    DUNNO, but there was no explanation in the manual though it is listed.
+
+   |include| {{{4
+    Include the stated file as if it were part of the current file. The
+    filename can contain a wildcard [\*]\ to refer to multiple files.
+
+   |payee| {{{4
+    [\payee :PAYEE:]\ supports two optional sub-directives:
+    ‣   [\alias :REGEX:]\ provides a regex which, if it matches a parsed
+        payee, the parsed payee name is substituted by the payee declared
+        here.
+    ‣   [\uuid :UUID:]\ specifies that a transaction with exactly the uuid
+        given should have its payee name substituted.
+
+        [\payee KFC                                                ]\░
+        [\  uuid 12345                                             ]\░
+        [\                                                         ]\░
+        [\2014-05-13 UNHELPFUL PAYEE  ; will be read as being 'KFC']\░
+        [\  ; UUID~: 12345                                          ]\░
+
+        Ledger will display the mapped payees in [\print]\ and [\register]\
+        reports.
+
+   |apply tag| {{{4
+    [\apply tag :TAG[`: VALUE]:]\ starts a block that assigns a tag to all transactions
+    inside it. Ends with [\end apply tag]\.
+
+    Note that tags can have values and may be [[nested]].
+    ⮱   The [\end apply tag]\ will end the last applied tag.
+
+   |tag| {{{4
+    [\tag :TAG:]\ pre-declares tag names. Only has an effect if [\--strict]\
+    or [\--pedantic]\ is used. Two optional sub-directives:
+    ‣   [\check]\ and [\assert]\ warns or throw error if the given condition
+        is not met within the context of any use of the related tag.
+        ⮱   NOTE that in such context a special expression [\value]\ is bound
+            to the value of the tag.
+
+   |test| {{{4
+    This is synonym for [\comment]\ directive and must be closed by an [\end]\
+    tag.
+
+   |year| {{{4
+    [\year :YEAR:]\ denotes the year used for all subsequent transactions that
+    give a date without a year.
+
+   |N SYMBOL - ignored pricing information for a symbol| {{{4
+    [\N :SYMBOL:]\ indicates that pricing information is to be ignored for a
+    given symbol, nor will quotes ever be downloaded for that symbol.
+
+   |D AMOUNT - set default commodity| {{{4
+    [\D :AMOUNT:]\ specifies the default commodity to use, until the next [\D
+    :AMOUNT:]\ directive. The [\:AMOUNT:]\ specifies the commodity and the
+    expected format for that commodity.
+
+   |C AMOUNT1 = AMOUNT2 - commodity conversion| {{{4
+    Specifies a commodity conversion, where the first amount is given to be
+    equivalent to the second amount.
+
+    See [={Concept and Terminology} =Commodity= >Commodity equivalences<]=.
+
+   |I, i, O, o, b, h - timeclock support| {{{4
+    See manual.
+
+ == Sections == {{{2
+  > Comments < {{{3
+    ➱   [\;]\ for inline comment
+    ➱   [\#]\, [\#]\, [\|]\, [\*]\ and [\%]\ for comment if used at the
+        [[beginning]] of a line.
+    ➱   For a block of comment:
+        [\comment    ]\░
+        [\  :...:      ]\░
+        [\end comment]\░
+
+    There are [[global comments]] that are not indented within the body of a
+    transaction. There are also indented [[transaction comments]] that are
+    attached to a specific transaction.
+
+    Inside transaction comments, [\~:]\ indicates meta-data and tags.
+
+  > Commodities < {{{3
+    If the commodity name includes whitespace or numeric characters, it must
+    be enclosed in double quotes [\"]\.
+
+  > Transaction < {{{3
+    ➱   A heading and an indented body indicating the postings
+    ➱   Heading must begin at first column
+    ➱   Indentation for body can be any non-zero number of spaces and/or tab
+    ➱   There must be at least two spaces between the account name and the
+        amount in a posting.
+
+   |heading|
+    ➱   [\:DATE[`=EDATE] [`*|`!] [`(CODE`)] DESC {HARD_SEPARATOR} [`; NOTE]:]\
+        ⮱   [\:EDATE:]\ is effective date
+        ⮱   [\*]\ indicates the transaction (all its postings) is [[cleared]]
+        ⮱   [\!]\ indicates the transaction is [[pending]]
+        ⮱   Without [\*]\ or [\!]\ is [[uncleared]].
+        ⮱   [\:CODE:]\ indicates a check number, or the type of the posting.
+            It is a textual code, e.g. [\(#100)]\ 
+        ⮱   [\:DESC:]\ is the payee or a description of the posting.
+        ⮱   [\:HARD_SEPARATOR:]\ is at least one tab or two spaces.
+        ⮱   [\:NOTE:]\ may specify an actual and/or effective date:
+            ⮱   The note can continue or only start at the next line.
+
+   |posting|
+    ➱   [\:[SPACE...] [`*] ACCOUNT AMOUNT {HARD_SEPARATOR} [`; NOTE]:]\
+        ⮱   [\*]\ indicates this particular posting is cleared.
+        ⮱   [\:ACCOUNT:]\ may be surrounded by parentheses for virtual
+            posting.
+        ⮱   [\:AMOUNT:]\ can be followed by either:
+            ‣   A per-unit posting cost [\@ :AMOUNT:]\
+            ‣   A complete posting cost with [\@@ :AMOUNT:]\
+        ⮱   [\:HARD_SEPARATOR:]\ is at least one tab or two spaces.
+        ⮱   [\:NOTE:]\ may specify an actual and/or effective date:
+            ‣   [\[:ACTUAL_DATE:]]\
+            ‣   [\[=:EFFECTIVE_DATE:]]\
+            ‣   [\[:{ACTUAL_DATE}`={EFFECTIVE_DATE}:]]\
+
+  > Historical price for a commodity < {{{3
+    [\P :DATE SYMBOL PRICE:]\. Also see the [\--download]\ ([\-Q]\), option.
+
+ == Archiving Previous Years == {{{2
+    ➱   Use [\print]\ to output all earlier transactions to a file:
+        [\$ ledger -f :FILE: -b :FROM_DATE: -e :BY_DATE: print > :OLD_FILE:]\
+    ➱   Use [\print]\ to output all desired data for current live file:
+        [\$ ledger -f :FILE: -b :FROM_DATE: print > :{NEW_POSTING_FILE}:]\
+    ➱   This new file contains only postings from given date onward, which
+        will not yield accurate present-day balances. So we must append an
+        equity report for the old ledger at the beginning of the new one:
+        [\$ ledger -f :OLD_FILE: equity > :EQUITY_FILE:              ]\░
+        [\$ cat :{EQUITY_FILE} {NEW_POSTING_FILE} `> {CURRENT_FILE}:]\░
+        ⮱   You can remove the intermediate files now.
+
+[~{ Using Ledger }~] {{{1
+    [\ledger :OPTION COMMAND PATTERN]\
+
+ == Examples == {{{2
+    ➱   [\ledger -X HKD balance ^assets ^liabilities]\
+        ⮱   [\-X HKD]\ is to translate all commodity into HK dollar
+        ⮱   [\balance]\ is the command that prints out the balance of accounts
+        ⮱   [\^assets]\ and [\^liabilities]\ are RegEx - prints out only
+            accounts that starts with assets and liabilities.
+    ➱   [\ledger -X HKD --budget --monthly register ^expenses]\
+        ⮱   Prints monthly expense budget in HKD.
+
+ == Pattern == {{{2
+    Are RegEx to match. RegEx after the keyword [\not]\ is the inverse match
+    (i.e. those matches will not output).
+
+ == Command == {{{2
+  > Report < {{{3
+    ➱   [\register]\ shows all transactions and a running total
+    ➱   [\balance]\ shows the balance of accounts
+    ➱   [\equity]\ shows the value (net worth) of each accounts.
+    ➱   
+
+  > Output items < {{{3
+    ➱   [\accounts]\ lists all accounts registered in a journal.
+
+ == Option == {{{2
+    ➱   [\-X]\ or [\--exchange :COMMODITY:]\ exchanges amount to target
+        commodity if possible.
+    ➱   [\-T]\ or [\total :EXPR:]\ defines a value expression used to
+        calculate the total in reports.
+    ➱   [\--price-db :FILE:]\ provides a price history data base file.
+    ➱   [\-V]\ or [\--market]\ use the [[latest]] market value for all
+        commodities.
+
+  > Limit results < {{{3
+    ➱   [\-b]\ or [\--begin :DATE:]\
+    ➱   [\-e]\ or [\--end :DATE:]\
+    ➱   [\--cleared]\ shows only cleared items.
+    ➱   [\--uncleared]\ shows both uncleared and pending items.
+    ➱   [\--pending]\ shows only pending items.
+
+  > Warning < {{{3
+
+ == Converting from Other Formats == {{{2
+    ➱   [\ledger convert download.csv]\
+    ➱   [\hledger -f checking.csv print]\
+    ➱   [\icsv2ledger]\ (github.com/quentinsf/icsv2ledger)
+    ➱   [\csvToLedger]\ (github.com/tazzben/csvToLedger)
+    ➱   [\CSV2Ledger]\ (launchpad.net/csv2ledger)
+
+    Info pulled from bank as csv file can be convert to ledger in this way.
+
+[~{ Vim }~] {{{1
+ == Shortcuts == {{{2
+  > Insert mode < {{{3
+    ➱   [\<C-x><C-o>]\ auto completes.
+        ⮱   E.g. As:Ban:HS<C-x><C-o>
+
+   |self-defined shortcuts|
+    ➱   [\<M-;>]\ autocompletes and aligns
+        ⮱   [\Ass~:Sav~:HS:<Tab>:]\ expands to [\Assets~:Saving~:HSBC]\
+    ➱   [\<F11>]\ shows ledger status
+    ➱   [\<F12>]\ checks syntax
+    ➱   [\<M-d>]\ adds today's date as auxiliary date
+    ➱   [\<M-w>]\ shifts through transaction status:
+        ⮱   none, pending (!), cleared (*)
+
+ == Snippets == {{{2
+    Type the following to expand a snippet [\:TRIGGER:<Tab>]\. TRIGGER
+    includes:
+    ➱   [\ent]\: transaction
+    ➱   [\mtr]\: Expanses:Transportation:MTR
+    ➱   [\meal]\: Expanses:Food:Meal
+    ➱   [\snacks]\: Expanses:Food:Snacks
+    ➱   [\drinks]\: Expanses:Food:Drinks

@@ -1,0 +1,70 @@
+/// Language: DQNote_1.35
+[~{ LaTeX Basic }~] {{{1
+ == Reference == {{{2
+    ➱   [=https://latex-tutorial.com/tutorials/]=
+
+ == Basic Syntax == {{{2
+  > Basic Syntax < {{{3
+    ➱   [\\:COMMANDNAME`{OPTION...:}]\
+    ➱   [\%]\ for comments
+    ➱   [\\\]\ for line break.
+
+  > Structure < {{{3
+    In begin document:
+    ➱   [\\begin{:ENVIRONMENT:]\ ... [\\end{:ENVIRONMENT:}]\ where
+        [\document]\ must be the root environment for the content to appear
+        in.
+    ➱   [\\section{}]\, [\\subsection{}]\, [\\subsubsection{}]\,
+        [\\paragraph{}]\, [\\subparagraph{}]\.
+        ⮱   Paragraphs are not number and thus also not shown in the Content
+            Table.
+
+  > Misc < {{{3
+    ➱   [\\pagenumbering{gobble:|:arabic:|:roman:}]\
+    ➱   [\usepackage{:PACKAGE:}]\
+
+  > Preamble < {{{3
+    ➱   [\\documentclass{article}]\
+    ➱   [\\date{:...:}]\
+    ➱   [\author{:...:}]\
+
+ == Math == {{{2
+  > Environment < {{{3
+    ➱   A special environment [\equation]\: [\\begin{equation}]\, to enter one
+        [[single]] equation. LaTeX will automatically number the equation for
+        you.
+        ⮱   If you don't want LaTeX to number this equation, you need to use
+            the [[package]] [\amsmath]\ and use [\\begin{equation*}]\.
+
+    ➱   [\$:MATH_EXPRESSION:$]\ uses inline Math mode and prints a
+        mathematical expression.
+
+    ➱   [\\begin{align:[`*]:}]\ allows you to input multiple (multi-line)
+        equations, and also align them at the [\&]\ sign. E.g. [\&=]\ align at
+        the equal sign.
+        ⮱   [\\\]\ linebreak is needed.
+
+    ➱   [\\begin{matrix}]\ only allowed in afore-mentioned math environments.
+        Uses linebreak [\\\]\ to separate rows, and [\&]\ to separate columns.
+        ‣   [\\begin{bmatrix}]\: with surrounding square brackets
+        ‣   [\\begin{pmatrix}]\: with surrounding parentheses
+        ‣   [\\begin{vmatrix}]\: with surrounding vertical lines
+            ⮱   [\\det\begin{vmatrix}:...:\end{vmatrix}]\ for determinant
+        ⮱   Or you can use [\\left:{`[|`{|`(}:]\ and [\\right:{`[|`{|`(}:]\ to
+            surround the whole matrix. The brackets will adjust their sizes
+            for the content inside.
+
+    ➱   [\\begin{cases}]\ creates a system of multiple equations. It uses an
+        opening braces on the left ([[{]]) to represent a system of equations. It is
+        only allowed in afore-mentioned math environments. Uses [\\\]\ to
+        separate rows.
+
+  > Expressions < {{{3
+    ➱   Superscript: [\^]\
+    ➱   Subscript: [\_]\
+    ➱   Integral sign: [\\int]\
+        ⮱   Integrate from a to b: [\\int_a^b]\
+    ➱   Fractions: [\\frac{:NOMINATOR:}{:DENOMINATOR:}]\
+    ➱   square root: [\\sqrt{}]\
+    ➱   Brackets: [\\left:{`[|`{|`(}:]\ and [\\right:{`[|`{|`(}:]\
+

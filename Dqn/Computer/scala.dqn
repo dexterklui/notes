@@ -1,0 +1,27 @@
+/// Language: DQNote_1.35
+[~{ Object Oriented Programming }~] {{{1
+ == Basic concepts == {{{2
+  > Salient features < {{{3
+    ➱   Encapsulation
+    ➱   Abstraction
+    ➱   Inheritance
+    ➱   Polymorphism
+
+  > Hierarchy < {{{3
+   |Two types| {{{4
+    ‣   Inheritance hierarchy
+        ➱   Subclassing
+        ➱   Descendent inheriting features of parents
+    ‣   Instantiation hierarchy
+        ➱   An instance, i.e. a working example, of a class
+
+   |Instance hierarchy| {{{4
+    Two types:
+    ‣   A [[part-of]] relationship
+    ‣   A using relationship ([[is-a]] relationship)
+
+    WARN Not to confuse with other relationship that also signifies the
+    concept of "is-a". Particularly these relationship are different:
+    ‣   Is a subtype of
+    ‣   Is a subclass of
+    ‣   Is an instance of

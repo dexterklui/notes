@@ -1,0 +1,1022 @@
+/// Language: DQNote_1.35
+[~{ Reference }~] {{{1
+
+    ➱   Git Textbook: [=https://git-scm.com/book/en/v2]=
+
+[~{ Git Concepts }~] {{{1
+ == About Version Control == {{{2
+  > Centralized version control systems < {{{3
+   |centralized|
+    ‣   ['Centralized version control systems]' (['CVCs]')
+    ‣   Have a [[single server]] that contains all versioned files.
+    ‣   Client check out files of a version from central server
+
+   |benefits|
+    ‣   Everyone knows (to a degree) what everyone else on the project is
+        doing.
+    ‣   Administrators have easier, but fine-grained control over files
+        privileges.
+
+   |drawbacks|
+    ‣   Server down halts everything
+    ‣   Risk losing everything if there is corruption on central repository
+        without a good backup
+
+   |examples|
+    ‣   CVS
+    ‣   Subversion
+    ‣   Perforce
+
+  > Distributed version control systems < {{{3
+   |distributed|
+    ‣   ['Distributed version control systems]' (['DVCSs]')
+    ‣   Client fully mirror the repository (or only a branch)
+
+   |examples|
+    ‣   Git
+    ‣   Mercurial
+    ‣   Bazaar
+    ‣   Darcs
+
+  > Delta-based version control systems < {{{3
+    ['Delta-based version control systems]' thinks of the information as:
+    ‣   A set of files, and
+    ‣   The changes made to each file over time (patches)
+
+  > Snapshot-based version control systems < {{{3
+    This thinks of the information as a series of snapshots. Doesn't save
+    patches of files, but the different versions of a files.
+
+ == Repository == {{{2
+    Git stores three kinds of objects:
+    ‣   Commit
+    ‣   Tree
+    ‣   Blob
+
+ == Reference Pointers == {{{2
+  > HEAD < {{{3
+    The special pointer [\HEAD]\ points to a local branch you are working on.
+    Or in a detached HEAD state points to a commit.
+
+  > Branch < {{{3
+    ➱   Just a movable pointer to a commit, that moves forward to the newest
+        made commit in that branch.
+
+  > Tags < {{{3
+   |Two types|
+    ‣   ['Lightweight]' tags are just like a branch that doesn't change, i.e.
+        it's just a pointer to a specific commit. It is just a commit
+        checksum.
+    ‣   ['Annotated]' tags are full objects. They are checksummed, contain the
+        tagger name, email, and date, have a tagging message, and can be
+        signed and verified with GPG.
+
+ == States of a file == {{{2
+  > States of files < {{{3
+    The tracked files (that are in the last commit) can have three states:
+    ‣   modified
+    ‣   staged
+    ‣   committed
+
+    Untracked files are those that are not in the last commit (and not yet
+    staged) and that Git doesn't recognize.
+
+  > The three areas files are in < {{{3
+    ‣   staging area or ['index]'
+    ‣   working directory or working tree
+    ‣   commit or snapshot
+
+ == Configuration == {{{2
+  > Config files < {{{3
+    You can edit the config file directly or with [\git config]\ (see
+    [={Commands}]=). The three configuration files are:
+    ‣   {=[path]/etc/gitconfig}= with option [\--system]\ to [\git config]\
+    ‣   {=~/.gitconfig}= with option [\--global]\
+    ‣   {=.git/config}= with option [\--local]\ which is the default
+
+  > Ignore files < {{{3
+    {".gitignore}" file lists the files that Git doesn't track for version
+    control.
+
+    ➱   Blank lines or lines starting with [\#]\ are ignored.
+    ➱   Standard glob pattern works, and will be applied [[recursively]]
+        throughout the entire working tree.
+    ➱   You can start patterns with a forward slash [\/]\ to avoid recursive
+        application.
+    ➱   You can end patterns with a forward slash [\/]\ to specify a
+        directory.
+    ➱   You can negate a pattern by starting it with an exclamation point
+        [\!]\. But you cannot include files back this way if they are in a
+        directory that is still ignored.
+        ⮱   To include only a file type, use
+            #beginCode#
+            *.*
+            !*.md
+            #endCode#
+
+   |glob patterns|
+    ➱   [\*]\ matches zero or more characters
+    ➱   [\[abc]]\ matches any single character inside the brackets
+    ➱   [\?]\ matches a single character
+    ➱   [\[0-9]\ matches any single character between a range (inclusive).
+    ➱   [\**]\ match nested directories. [\a/**/z]\ matches:
+        [\a/z]\, [\a/b/z]\, [\a/b/c/z]\.
+
+   |example gitignore|
+    GitHub provides a comprehensive list of examples for different kinds of
+    projects and languages. See [=https://github.com/github/gitignore]=.
+
+   |multiple gitignore|
+    {".gitignore}" only works for their directory and subdirectories.
+
+  > Alias < {{{3
+    ➱   [\git config --global alias.co checkout]\
+    ➱   [\git config --global alias.unstage "reset HEAD --"]\
+    ➱   [\git config --global alias.last "log -1 HEAD"]\
+
+    For running external commands, use [\!]\:
+    ➱   [\git config --global alias.visual "!gitk"]\
+
+  > Cached credential < {{{3
+    ➱   [\git config --global credential.helper cache]\
+
+ == Commit message == {{{2
+  > Basic format < {{{3
+    ➱   First line is title with no more than 50 characters.
+    ➱   Then an empty line before any body message, which should be of a width
+        no more than 78/80 characters.
+
+ == Branches and integration == {{{2
+  > Branches < {{{3
+    ['Remote-tracking branches]' are
+    ➱   references to the state of remote branches.
+    ➱   They are [[local references]] that you can't move.
+    ➱   Git updates them for you during network communication.
+    ➱   Takes the form [\:remote`/branch:]\
+
+    ['Tracking branches]' are [[local branches]] that have a direct
+    relationship to a remote branch. ['Upstream branches]' are the [[remote
+    branches]] that are tracked by tracking branches.
+    ➱   An upstream branch of a current branch can be referred in commands by
+        [\@{u}]\ or [\@{upstream}]\.
+
+  > Merging < {{{3
+   |fast-forward|
+    When you merge into the current branch which is reachable from the target
+    branch's history, Git simply ['fast-forwards]' the current branch to the
+    target branch. I.e. Git simply moves the pointer to the target branch.
+
+   |three-way merge|
+    Using the two branches (target and current) and the common ancestor.
+
+  > Rebasing < {{{3
+    Rebase is to take the patch of all changes in one branch and reapply it on
+    top of another branch:
+    1.  Going back to common ancestor.
+    2.  Getting the patches by each commit of the branch you are currently on.
+    3.  Saving those patches to temporary files.
+    4.  Resetting the current branch to the same commit as the branch you are
+        rebasing onto.
+    5.  Applying each patch in turn.
+    See [=https://git-scm.com/book/en/v2/Git-Branching-Rebasing]=.
+
+    After rebasing onto a target branch, you can do a fast-forward merge to
+    fast-forward the target branch.
+
+   |perils of rebasing|
+    WARN: In short, do NOT rebase commits that exist outside your local
+    repository and that people may have based work on.
+
+ == Branching Workflow == {{{2
+  > Long-running branches < {{{3
+    Have branches on one long running chains of commits. Each branch has
+    different level of stability and they are considered as work silos, where
+    sets of commits graduate to a more stable silo when they are fully tested.
+
+    E.g.
+    ➱   master: stable and released
+    ➱   develop: not yet stable, pull in topic
+    ➱   topic: short lived branch
+
+  > Topic branches < {{{3
+    A topic branch is a short-lived branch for a single particular feature or
+    related work.
+
+ == Git Terms == {{{2
+  > Man page < {{{3
+    ➱   [\:tree-ish:]\ indicates a tree, commit, or tag object name. Git
+        ultimately wants to operate on a tree object, but automatically
+        dereference commit and tag objects.
+
+[~{ Git Commands }~] {{{1
+ == Getting Help == {{{2
+    ➱   [\git help :verb:]\
+    ➱   [\git :verb: --help]\
+    ➱   [\man git-:verb:]\
+
+    ➱   [\git :verb: -h]\ for a more concise help.
+
+ == Config == {{{2
+    ➱   [\git config --list --show-origin]\ show current setting and the
+        source of the setting
+        ⮱   You may see multiple keys (i.e. for same setting), this is because
+            of different origin. Git uses the last value for each unique key
+            it sees.
+
+    ➱   [\git config :key:]\ shows the setting for that key.
+
+    ➱   [\git config :[:--:{:system:|:global:|:local:}] key value]\ set a
+        configuration setting
+        ⮱   Seems like default is local
+
+  > Settings in configuration < {{{3
+   |user|
+    ‣   [\user.name "John Doe"]\
+    ‣   [\user.email johndoe@example.com]\
+
+ == Basics == {{{2
+  > Version control < {{{3
+    ➱   [\git init]\ turns current directory into a version controlled working
+        directory.
+    ➱   [\git clone :url [dir]:]\ clones a git repository, and place the repository
+        in a new subdirectory in current working directory.
+        ⮱   [\git clone :url custom_name:]\ gives a custom name to the new
+            subdirectory.
+        ⮱   Different protocols: https, git, ssh.
+    ➱   [\git add :file...:]\ adds untracked or modified files into index. If
+        you add a directory, all files inside are also added [[recursively]].
+    ➱   [\git commit :[:-m "my git message":]:]\ commits.
+        ⮱   [\--amend]\ uses current index and/or new commit message to
+            overwrites the last commit.
+    ➱   [\git status]\ shows the states of files: untracked or modified.
+    ➱   [\git diff :[file]:]\ lists out the exact changes (patch) between the
+        files that are in the tree and that are in the index.
+        ⮱   [\--staged]\ or [\--cached]\ compares index with last commit
+            instead.
+    ➱   [\git difftool]\ uses the preferred software for showing difference.
+    ➱   [\git show :object:]\ shows info about a Git object, be it a commit, a
+        file, a directory, or a tag.
+    ➱   [\git reset HEAD :file...:]\ unstages a file.
+    ➱   [\git restore --staged :file...:]\ unstages a file.
+    ➱   [\git checkout -- :file...:]\ discards changes in working tree.
+    ➱   [\git checkout :{tag|branch|commit}:]\ checkouts to a pointed version.
+        ⮱   Checking out to tag or commit puts you in detached HEAD state.
+    ➱   [\git restore :file...:]\ discards changes in working tree, by
+        replacing it with the version in index, or if none then last commit.
+    ➱   [\git rm :file...:]\ removes a file from the index (thus making it
+        untracked again) and from the working tree.
+        ⮱   [\--cached]\ to only removes from the index, but not from the
+            working tree. So this only untracks a file.
+        ⮱   Remember to escape glob pattern special characters, to past them
+            to Git for its own expansion (but not the bash expansion)
+    ➱   [\git mv :file_from file_to:]\ is equivalent to:
+        [\mv :file_from file_to: && git rm :file_from: && git add :file_to:]\
+    ➱   [\git log]\ views commit history.
+
+  > Remote repositories < {{{3
+    ➱   [\git remote]\ lists the short names of each remote you've specified.
+        ⮱   [\-v]\ shows also the URLs.
+    ➱   [\git remote show :remote:]\ shows more info about a remote.
+    ➱   [\git remote add :name url:]\ to add a remote.
+    ➱   [\git remote rename :remote new_name:]\. This also intelligently
+        changes all your remote-tracking branch names, e.g. [\pb/master]\ to
+        [\paul/master]\.
+    ➱   [\git remote remove :remote:]\ or [\git remote rm :remote:]\. All
+        remote-tracking branches and configuration settings associated with
+        that remote are also deleted.
+    ➱   [\git fetch :remote:]\ to fetch all (new) information that is not
+        local from a remote. The fetched branch will have a prefix, e.g.
+        [\origin/master]\.
+    ➱   [\git pull]\ to fetch from the [[upstream branch]] of current branch
+        and immediately merge the remote branch into your current branch.
+    ➱   [\git push :remote branch:]\ to push a (local) branch to a remote. If
+        others has pushed to the remote, your push will rightly be rejected,
+        until you fetch and incorporate their work first.
+
+ == Overview of Undo Commands == {{{2
+    ➱   [\checkout]\: change index, then working tree
+    ➱   [\restore]\: change working tree by default, or index
+    ➱   [\reset]\: change index; or move branch label
+    ➱   [\revert]\: make a new commit that apply anti-patch of target
+        commit(s)
+
+ == Commands == {{{2
+  > General options < {{{3
+    ➱   [\--no-pager]\ to stop using pager
+    ➱   [\-S:[keyid]:]\ or [\--gpg-sign:[`=keyid]:]\ signs with a given PGP
+        key. If no PGP key is given, use the default key of current author
+        identity. NOTE there is no space between the key and [\-S]\.
+        ⮱   Use in commit, merge and rebase.
+    ➱   [\--dry-run]\ shows what would be done, without making any change.
+
+   |Selecting range of commits|
+    See [==Commands in Details= >log< |select range of commits|]=.
+
+  > clone < {{{3
+    [\git clone :url [dir]:]\ by default set the url is the default remote and names
+    it as "origin".
+
+   |options| {{{4
+    ➱   [\-o :remote_name:]\: Use a custom name instead of "origin".
+    ➱   [\--branch :branch:]\ or [\-b]\: Check out at target branch after
+        cloning.
+    ➱   [\--depth :n:]\: Clone only n most recent commits.
+        ⮱   Implies [\--single-branch]\ by default.
+        ⮱   Use [\--shallow-submodules]\ for submodules.
+    ➱   [\--single-branch]\: Clone only one branch.
+        ⮱   Default is where the remote's HEAD points to. Overridden by
+            [\--branch]\.
+
+  > submodule < {{{3
+   |commands| {{{4
+    ‣   [\add]\
+    ‣   [\init]\
+    ‣   [\update]\
+
+   |add a submodule| {{{4
+    ➱   [\git submodule add :URL [path]:]\ is like [\git clone]\ but the
+        cloned is a submodule inside a parent Git directory.
+        ⮱   NOTE that the URL should be one that all users (when the project
+            is distributed) can be accessed to pull from.
+
+   |submodule directories and .gitmodules| {{{4
+    ➱   A file [\.gitmodules]\ is created when the first submodule is added.
+    ➱   [\.gitmodules]\ stors all mapping between the URLs and path of all
+        submodules directories
+    ➱   The submodules directories and [\.gitmodules]\ are needed to be
+        [[version-controlled]] by the parent Git repository.
+    ➱   The parent repository [[doesn't track the submodule content]], but as
+        a particular commit from that repository. Unless you are inside that
+        submodule directory, can you see the tracking.
+        ⮱   Use [\--submodule]\ in [\git diff]\ to see for how different
+            submodules.
+    ➱   When you commit, the line for a submodule directory will be:
+        [\create mode 160000 subModuleDir]\░
+        Where [\160000]\ means recording a commit as a directory entry.
+
+   |cloning a repo with submodules| {{{4
+    After running [\git clone]\, you will find the submodules directories, but
+    they are empty at first. You need to run two commands:
+    1.  Run [\git submodule init]\ (I think must be in the submodule
+        directory)
+    2.  Run [\git submodule update]\ to fetch all the data and then check out
+        the appropriate commit.
+
+    An [[easier way]]: Use [\--recurse-submodules]\ in [\git clone]\
+    ⮱   Will automatically initialize and update all, including nested,
+        submodules.
+    ⮱   Or if forgot to use this option when cloing, run:
+        [\git submodule update --init --recursive]\
+
+
+  > status < {{{3
+    ➱   [\-s]\ or [\--short]\ gives a simplified output. There are a
+        two-column status indication, left for status of the index, right for
+        status of the working tree.
+        ‣   [\??]\ for untracked file
+        ‣   [\A]\ for staged new file
+        ‣   [\M]\ for modified file.
+
+  > commit < {{{3
+    ➱   [\-a]\ automatically stages every modified tracked files before
+        committing.
+    ➱   [\--cached]\ to only removes from the index, but not from the working
+        tree. So this only untracks a file.
+    ➱   [\--amend]\ uses current index and/or new commit message to overwrites
+        the last commit. NOTE this does not replacing the old commit entirely,
+        but just doesn't show it in the log history.
+        WARN: only amend a commit that has only a local copy. Do NOT amend a
+        pushed (i.e. distributed) commit.
+    ➱   [\--amend --reset-author]\ to declare the authorship of previous
+        commit to be a new author (current author). Name, Emails, timestamp
+        and PGP signature will be updated.
+
+  > add < {{{3
+    [\git add :file...:]\
+    ➱   [\-i]\ or [\--interactive]\ enters an interactive shell mode.░
+        See [=https://git-scm.com/book/en/v2/Git-Tools-Interactive-Staging]=
+    ➱   [\-p]\ or [\--patch]\ starts an interactive partial-file staging.
+        ⮱   In interactive staging, use [\?]\ to show help.
+        ⮱   [\--patch]\ can be used in
+            ‣   [\reset]\
+            ‣   [\checkout]\
+            ‣   [\stash save]\
+
+  > rm < {{{3
+    [\git rm]\
+    ➱   [\-f]\ to force remove a modified or staged file from index.
+
+  > mv < {{{3
+    [\git mv :file_from file_to:]\ is equivalent to:
+    [\mv :file_from file_to: && git rm :file_from: && git add :file_to:]\
+
+  > log < {{{3
+    [\git log :[branch]:]\ shows the commit history [[below the branch]] you
+    mentioned, or if none provided, the branch have checked out.
+   |limit log entries| {{{4
+    ➱   [\--all]\ shows all the branches.
+    ➱   [\-:n:]\ where n is a number for number of entries to be shown.
+    ➱   [\--since=:value:]\ and [\--until=:value:]\, where values can be:
+        ‣   2.weeks
+        ‣   "2008-01-15"
+        ‣   "2 years 1 day 3 minutes ago"
+    ➱   [\--after=:value:]\ and [\--before=:value]\ are like the above.
+    ➱   [\--author=:regex:]\ and [\--committer=:regex:]\
+    ➱   [\--grep=:regex:]\ searches for keywords in commit messages.
+    ➱   [\--no-merge]\ filters away all merge commit.
+
+    NOTE that you can specify more than one instance of limit option, even for
+    the same kind of option. This will show entries that matches [[any]] of
+    the condition.
+    ⮱   [\--all-match]\ shows entries that matches [[all]] grep conditions
+        instead.
+
+    The following are really useful:
+    ➱   [\-S :string:]\, the Git's "pickaxe" option, which takes a string a
+        shows only those commits that changed the number of occurrences of
+        that string. E.g. [\git log -S function_name]\ shows the last commit
+        that added or removed a reference to a specific function.
+    ➱   [\-- :path/to/file:]\: the [\--]\ separate the paths from the options.
+
+   |select range of commits| {{{4
+    ➱   [\:commit:^]\ selects the parent of a commit (refs and HEAD also
+        works)
+    ➱   [\:commit`^n:]\ selects an n-th [[alternative]] parent of a merge
+        commit. The parent commit that is in the branch where the merge was
+        done is the first parent, others are the 2nd, 3rd ... etc.
+    ➱   [\:commit:~~]\ selects the parent of a commit.
+    ➱   [\:commit:~~~~]\ selects the grand-parent of a commit.
+    ➱   [\:commit`~n:]\ selects the n-th parents of a commit. Only select the
+        1st alternative parent at each ancestral level.
+    ➱   [\HEAD~~3^2]\ selects the 2nd alternative parent of the great-grand
+        parent of HEAD.
+    ➱   [\:commit_1:..:commit_2:]\ selects the commit that are reachable by
+        commit_2 but not by commit_1.
+        ⮱   I tend to think it as the [[missing link]] from commit_1 to
+            commit_2. But note that it doesn't mean commit_1's tree will
+            become commit_2's if it incorporate the missing link, for there
+            may be a missing link in reverse order as well. This happens when
+            two commits diverge.
+        ⮱   If either one side is omitted, Git assumes it to be HEAD. E.g.
+            [\origin/master..]\ selects all commits reachable by the current
+            branch but not by origin/master.
+    ➱   [\^:commit commit_i...:]\ selects all commits reachable by any of the
+        commit_i... but not by commit (that one with a [\^]\).
+        ⮱   This is equivalent to [\--not :commit commit_i...:]\
+    ➱   [\:commit_1:...:commit_2:]\ selects all commits that are reachable by
+        [[either]] of the two commits but [[not both]] of them.
+        ⮱   Usually with option [\--left-right]\ to show a [\<]\/[\>]\ to show
+            which side of the commit history each commit is in.
+
+   |information control| {{{4
+    ➱   [\--decorate]\ shows where the branch pointers are pointing to.
+    ➱   [\-p]\ or [\--patch]\ shows also the patch in each commit.
+    ➱   [\--stat]\ shows also the abbreviated patch stats.
+    ➱   [\--name-only]\ lists also the files modified.
+    ➱   [\--name-status]\ lists also the files and their changed information.
+    ➱   [\--abbrev-commit]\ shows only first few characters of checksum.
+    ➱   [\--oneline]\ uses one line for each commit entry. Same as
+        [\--pretty=oneline --abbrev-commit]\.
+    ➱   [\--pretty=:options:]\ specifies format options.
+    ➱   [\--graph]\ prints a graphical branch and merge history
+
+   |format options| {{{4
+    ‣   [\oneline]\
+    ‣   [\short]\
+    ‣   [\full]\
+    ‣   [\fuller]\
+    ‣   [\format~::format_string:]\
+
+   |format string| {{{4
+|-----------+--------------------------------------------|
+| Specifier | Description of Output                      |
+|-----------+--------------------------------------------|
+| %H        | Commit hash                                |
+| %h        | Abbreviated commit hash                    |
+| %T        | Tree hash                                  |
+| %t        | Abbreviated tree hash                      |
+| %P        | Parent hashes                              |
+| %p        | Abbreviated parent hashes                  |
+| %an       | Author name                                |
+| %ae       | Author Email                               |
+| %ad       | Author date (format respects --date=option |
+| %ar       | Author date, relative                      |
+| %cn       | Committer name                             |
+| %ce       | Committer email                            |
+| %cd       | Committer date                             |
+| %cr       | Committer date, relative                   |
+| %s        | Subject                                    |
+|-----------+--------------------------------------------|
+
+  > blame < {{{3
+    Check the modification history of each line of a file.
+
+  > show < {{{3
+    [\git show :object:]\
+    ➱   Show various types of objects
+
+  > diff < {{{3
+   |general notes| {{{4
+    ➱   Refs such as HEAD and branches can be used to specify commits
+
+   |tree vs index (default)| {{{4
+    [\git diff :[:--:] [path]:]\
+    ➱   Show difference of files in the working tree relative to the index
+    ➱   [\-1 --base]\, [\-2 --ours]\, [\-3 --theirs]\ compare the working tree
+        with the base version, out branch or their branch during a merge
+        conflict.
+
+   |index vs commit| {{{4
+    [\git diff --cached :[:--merge-base:] [commit] [:--:] [path]...]\
+    ➱   Show difference of files in the index relative to a commit
+    ➱   Default commit is [[HEAD]]
+    ➱   [\--staged]\ is synonym of [\--cached]\
+    ➱   With [\--merge-base]\, use the merge base of commit and HEAD
+
+   |tree vs commit| {{{4
+    [\git diff :commit [:--:] [path]:]\
+    ➱   Show difference of files in the working tree relative to a commit
+
+   |commit vs commit| {{{4
+    [\git diff :[:--merge-base:] commit_1 commit_2 [:--:] [path]:]\
+    ➱   Show difference of files in one commit relative to the other
+    ➱   With [\--merge-base]\, show difference of files in commit_2 relative
+        to the merge base of the two commits
+
+   |options| {{{4
+    ➱   [\--submodule:[`=format]:]\: Show how different submodules are.
+
+  > tag < {{{3
+   |list tags|
+    [\git tag]\ lists existing tags in alphabetical order. The options are
+    optional.
+    ➱   [\-l :glob_pattern:]\ lists matching tags. Remember to quote the
+        pattern from bash expansion.
+
+    ➱   [\git ls-remote :remote:]\ list all references (pointers) in the
+        remote.
+
+   |create tags|
+    [\git tag :tag_name [commit_hash]:]\ creates a lightweight tag. No [\-a]\, [\-s]\ or
+    [\-m]\ option. If no hash is provided, use current commit.
+    ➱   [\-a]\ creates an annotated tag instead.
+    ➱   [\-m "My tagging message."]\
+
+   |delete tags|
+    ➱   [\git tag -d :tag_name:]\ deletes a tag locally.
+
+    To delete a remote tag:
+    ➱   [\git push :remote: ~:refs/tags/:tag_name:]\ deletes a tag on remote.
+        This is done by pushing a null value (before colon) to a remote tag.
+    ➱   [\git push :remote: --delete :tag_name:]\ also deletes a remote tag.
+
+   |sharing tags|
+    By default, [\git push]\ doesn't transfer tags. You need to push tags
+    explicitly, like pushing a remote branch. [\git push :remote tag:]\.
+    ➱   [\--tags]\ pushes all tags that are not already in remote.
+    ➱   [\--folow-tags]\ pushes only annotated tags.
+
+  > Branching < {{{3
+   |listing branches| {{{4
+    [\git branch]\ lists all local branches. The branch marked by [\*]\ is the
+    current branch.
+    ➱   [\-v]\ shows also the last commit on each branch.
+    ➱   [\--merged]\ and [\--no-merged]\ list only branches merged and not yet
+        merged into the current branch respectively.
+        ⮱   The side merged branches are usually safe to delete.
+        ⮱   To take reference to another branch but not the current branch,
+            uses e.g. [\git branch --merged :reference_branch:]\
+    ➱   [\-vv]\ list local branches with info about what each branch is
+        tracking and whether local branches are ahead, behind, or both.
+
+    ➱   [\git ls-remote :remote:]\ list all references (pointers) in the
+        remote.
+
+   |create branch| {{{4
+    To create a local branch:
+    ➱   [\git branch :branch_name:]\ creates a new branch at current commit.
+    ➱   [\git switch -c :branch_name:]\ creates a new branch at current commit
+        and switch to it. ([\--create]\)
+        ⮱   [\-C]\ instead of [\-c]\ to force create a new branch even there
+            is an existing one (i.e. deleting the existing one)
+    ➱   [\git checkout -b :branch_name:]\ also creates a new branch at current
+        commit and switch to it.
+        ⮱   [\git checkout -b :new_branch existing_branch:]\ creates a new
+            branch at an existing branch and switches to the new branch.
+        ⮱   [\-B]\ instead of [\-b]\ to force create a new branch even there
+            is an existing one (i.e. deleting the existing one)
+
+    To create a new tracking branch:
+    ➱   [\git checkout -b :{new_branch} {remote_tracking_branch}:]\
+    ➱   [\git checkout --track :{remote_tracking_branch}:]\
+    ➱   [\git checkout :branch_name:]\ NOTE that the branch_name must:
+        ‣   Be non-existent
+        ‣   Matching with the branch name part of a remote tracking branch.
+
+    To set up an existing branch to track an upstream branch:
+    ➱   [\git branch -u :upstream_branch:]\. ([\--set-upstream-to]\)
+
+   |switching branch| {{{4
+    ➱   [\git switch :branch:]\ switches to an existing branch.
+    ➱   [\git switch -]\ returns to previously checked out branch.
+
+   |delete branch| {{{4
+    ➱   [\git branch -d :branch:]\ deletes a branch.
+        ⮱   Will fail when deleting a branch that is not yet merged.
+    ➱   [\git branch -D :branch:]\ forces to delete a branch.
+    ➱   [\git branch -rd :branch:]\ deletes a remote-tracking branch.
+
+    To delete a branch on a remote:
+    ➱   [\git push :remote: --delete :remote_branch:]\
+
+   |rename branch| {{{4
+    [\git branch --move :branch new_name:]\ to rename branches [[locally]].
+
+    After renaming locally, you pushes the changes to the remote by two steps:
+    ➱   [\git push --set-upstream :remote {local_new_branch_name}:]\
+    ➱   [\git push :remote: --delete :old_branch:]\
+
+  > switch < {{{3
+    See [=>Brancing<]=.
+
+  > merge < {{{3
+    ➱   [\git merge :branch:]\ merges the branch into the current branch.
+        ⮱   When you are on a separate branch, and want to pull in the changes
+            made in another branch, you just merge that target branch. Or
+            rather, you can not pull in any changes but wait until finish
+            working on this separate branch and pull this branch to the target
+            (e.g. master) branch.
+        ⮱   [\--amend]\ uses current index and/or new commit message to
+            overwrites the last commit.
+    ➱   [\git mergetool]\ uses a custom program to resolve existing merge
+        conflicts.
+    ➱   [\--no-ff]\ to always create a new commit even if a simply
+        fast-forward is possible. This is usually use in merging pull requests
+        in GitHub.
+
+  > rebase < {{{3
+    For rebasing, the patches of [[each commit]] is replayed onto a target
+    branch.
+
+    [\git rebase :target_branch:]\ means:
+    1.  Find common ancestor of current branch and target branch.
+    2.  Figure out the patches of current branch since the common ancestor
+    3.  Replay these patches in the target branch.
+
+    [\git rebase :{target_branch} {source_branch}]\ checks out the source
+    branch and replays it onto the target branch.
+
+    [\git rebase --onto :{target_br} {diverge_br} {source_br}:]\ means:
+    1.  Take the source branch.
+    2.  Figure out the patches (changes) since it diverged from diverge
+        branch.
+    3.  Replay these patches in the client target branch.
+
+    NOTE that if there is a merge conflict during rebasing, you need to use
+    [\git rebsae --continue]\ after manually solving the conflict.
+
+   |interactive|
+    This allows you to drop, squash, amend and split commits to [[rewrite]]
+    git history. This is also handy to [[reset author]] information
+    ➱   [\-i]\ interactive rebasing
+        ‣   [\HEAD~3]\ or [\HEAD~2^]\ rebase the last three commits onto the
+            forth last commit.
+        ‣   Or just provide the commit hash onto which you want to rebase
+
+    ➱   To reset author, use [\edit]\ to the target commits, then once rebase
+        leave you at that commit, runs [\git commit --amend --reset-author]\
+        and then [\git rebase --continue]\.
+
+   |finding and fixing bug|
+    You can use [[interactive]] rebase to find and fix a bug with [\--exec]\.
+    ➱   [\git rebase -i --exec "make test" HEAD~5^]\ let you to take 5 past
+        commits and then rebase it to the first commit's parent while running
+        a make test after rebasing each commit. This brings you the todo
+        rebase list:
+        [\pick 5928aea one  ]\░
+        [\fxec make test    ]\░
+        [\pick 04d0fda two  ]\░
+        [\exec make test    ]\░
+        [\pick ba46169 three]\░
+        [\exec make test    ]\░
+        [\pick f4593f9 four ]\░
+        [\exec make test    ]\░
+
+  > stash < {{{3
+   |list|
+    [\git stash list]\ lists stored stashes.
+
+   |push stash|
+    [\git stash :[:push:]:]\ pushes a new stash onto your stack. Then revert
+    your working tree into a clean state.
+
+   |apply stash|
+    [\git stash apply :[target_stash]:]\ reapply the newest stash (at the top
+    of the stack) or the one specified:
+    ⮱   [\stash@{:n:}]\ specifies a specific stash (as shown in [\list]\).
+
+    ➱   You can apply a stash on different branch and on a working tree that
+        is not clean. Git gives you merge conflicts if necessary.
+    ➱   [\--index]\ also reapply the staged changes.
+
+    [\git stash pop :[target_stash]:]\ to reapply and immediately drop a
+    stash.
+
+   |delete stash|
+    [\git stash drop :target_stash:]\ to remove a stash from your stack.
+
+   |use stash to discard changes|
+    To discard all and only changes in the working tree while leaving the
+    index intact:
+    1.  [\git stash push -ku]\
+        ➱   [\-k]\ or [\--keep-index]\ to leave the index intact
+        ➱   [\-u]\ or [\--include-untracked]\ to also included untracked files
+    2.  [\git stash drop]\
+
+  > checkout < {{{3
+    [\git checkout :{branch|commit} [pathspec]...:]\
+    ➱   Change [[both index and working tree]]
+
+   |no paths|
+    ➱   If no paths are given:
+        0.  Check if working tree is clean, or can be cleanly merge with
+            target tree, if not, abort
+        1.  Move HEAD to point to target branch or commit
+        2.  Populate the index with the tree of the new commit - to which HEAD
+            is now pointing
+        3.  Trivial merge the working tree:
+            Update all files that you haven't change in the working tree with
+            the version at the target branch or commit
+        ⮱   More about step 0:
+            Abort if you have local modifications to one or more files that
+            are [[different between the current and the target branch]]. Local
+            modifications to files that are the same between the two branches
+            are carried over to the merged working tree; and since the new
+            index is just the tree of the new branch, the modification
+            continues to be shown in [\git diff]\ after the [\git checkout]\
+            command.
+    ➱   [\-b :[new_branch]:]\ also creates a new branch
+    ➱   [\-B :[new_branch]:]\ is like [\-b]\ but force re-moving the branch
+        when new_branch already exists. I.e. deleting old one and creating new
+        one.
+    ➱   [\-t]\ or [\--track]\ when creating a new branch, set up upstream
+        configuration with the target upstream branch.
+        ⮱   If no [\-b]\ is given, the name of new branch will be derived
+            automatically. E.g. [\origin/develop]\ will yield [\develop]\
+    ➱   [\--detach]\ also detaches HEAD
+    ➱   [\-m]\ if a trivial merge is not possible, do a three-way-merge (need
+        to manually solve merge conflict)
+
+   |with paths|
+    ➱   If paths are given, it is just like a hard reset:
+        Replace the paths in the index and the working tree with the given
+        version
+    ➱   [\-p]\ or [\--patch]\ interactively select hunks
+
+   |with paths but no branch/commit|
+    [\git checkout -- :{pathspec}...:]\
+    ➱   Overwrite paths in the working directory with that in the [[index]].
+
+   |branching|
+    See [=>Branching<]=
+
+  > reset < {{{3
+   |reset index| {{{4
+    [\git reset :[tree_ish] [:--:] path...:]\
+    ➱   reset files in the [[index]] to the state of tree_ish, which can be a
+        commit, tree or ref
+    ➱   By default tree_ish is [[HEAD]] (the tree of the commit current HEAD
+        is pointing to):
+        So in effect the default reset command [[unstages]] files, which is
+        opposite to [\git add]\.
+
+    ➱   [\-p]\ or [\--patch]\ interactively select hunks in the difference to
+        restore. Those chosen hunks are applied in reverse to the index, i.e.
+        it is opposite to [\git add -p]\.
+
+   |reset branch| {{{4
+    [\git reset :[mode] [commit]:]\
+    ➱   Reset current branch head to a commit (always), and possibly updates
+        the index and the working tree accordingly (to the tree of that
+        commit) depending on the mode.
+    ➱   Default mode is [\--mixed]\
+    ➱   Default commit is [[HEAD]]
+
+    ➱   [\--mixed]\ mode reset the index but not the working tree, i.e.
+        changes in the working tree is preserved but not marked for commit
+    ➱   [\--soft]\ leaves the index and working tree untouched but only reset
+        the branch head to commit (just like all modes do)
+    ➱   [\--hard]\ resets the index and the working tree.
+
+  > clean < {{{3
+    [\git clean :[:--:] path...:]\
+    ➱   Remove untracked files recursively (when path is given) from the
+        working tree
+    ➱   By default, [\clean.requireForce]\ configuration is set to true, and
+        therefore [\git clean]\ refuses to clean untracked files unless given
+        [\-f]\ or [\-i]\
+
+    ➱   [\-f]\ or [\--force]\ forces cleaning.
+    ➱   [\-i]\ or [\--interactive]\ cleans files interactively
+    ➱   [\-n]\ or [\--dry-run]\ doesn't actually remove, but show what would
+        have been done.
+    ➱   [\-e :pattern:]\ or [\--exclude=]\ uses given excluded pattern in
+        additional to standard ignore rules
+
+  > restore < {{{3
+    [\git restore :[:--source=:tree] path...:]\
+    ➱   Restore files in [[working tree (default) or index]] with some content
+        from a source. (If a file doesn't exist from the source, it is removed
+        from working tree)
+
+   |source| {{{4
+    ➱   [\-s :tree:]\ or [\--source]\ where tree can be a tree, commit or ref
+        ⮱   Default source is the [[index]] if restoring working tree
+        ⮱   Default source is [[HEAD]] if restoring index (with [\-S]\)
+
+   |place to restore| {{{4
+    ➱   [\-S]\ or [\--staged]\ restores files in [[index]] instead
+    ➱   [\-W]\ or [\--worktree]\ restores files in working tree. It is the
+        [[default]] if neither [\-W]\ or [\-S]\ is given. Specifying both
+        restores both.
+
+   |selecting restore content| {{{4
+    ➱   [\-p]\ or [\--patch]\ interactively select hunks in the difference to
+        restore. [[No path]] is accepted with this option, and will prompt to
+        restore all modified paths.
+
+   |misc| {{{4
+    ➱   [\-q]\ or [\--quiet]\
+
+  > revert < {{{3
+    [\git revert :commit...]\
+    ➱   [[Make]] new commits by applying the anti-patch (to neutralize the
+        effect) of the specified commits.
+    ➱   Require that the working tree to be clean.
+
+  > remote < {{{3
+    ➱   [\git remote add :{remote_name} {URL}:]\
+        ⮱   URL: use https:// if you want to login, use git@ for using ssh key
+    ➱   [\git push :remote branch:]\ pushes a local branch to a remote.
+        ⮱   [\-u]\ or [\--set-upstream]\: For successfully pushed branches,
+            add a tracking reference
+        ⮱   This is short-handed command for:
+            [\git push :remote: refs/heads/:branch:~:refs/heads/:branch:]\,
+            which means take my local branch and push it to update the
+            remote's branch.
+        ⮱   Another short-handed command for the above is:
+            [\git push :remote branch`:branch:]\.
+        ⮱   NOTE that the two different {{branch}} can be in different names.
+
+    ➱   [\git fetch -all]\ fetches all new changes from all remotes.
+
+    ➱   [\git pull]\ is basically a fetch then a merge immediately.
+        ⮱   [\--rebase]\ rebases local leading tracking branch onto the
+            fetched remote-tracking branch, instead of doing a merge.
+
+  > fetch < {{{3
+    [\git fetch :[opt] remote ref[`:dst_ref]:]\
+    ➱   Fetch a ref from a remote
+    ➱   With {{:dst_ref}} set up a local dst_ref to track the fetched ref head
+
+    ➱   [\--depth=:n:]\ limit fetching to the specified number of commits from
+        the tip of each remote branch history.
+        ⮱   If fetch to a shallow repository created by [\git clone]\ with
+            [\--depth]\ option, [[deepen/shorten]] the history to the
+            specified number of commits.
+
+  > push < {{{3
+    [\git push :[remote] [branch]:]\
+    ➱   Push local changes to an remote
+    ➱   [\-u]\ or [\--set-upstream]\ adds upstream tracking branch for every
+        branch that is up to date or successfully pushed
+    ➱   [\-f]\ or [\--force]\ to force update remote refs even if it is not an
+        direct ancestor to local refs that is being pushed.
+        ⮱   Used to rewrite remote history
+
+ == Plumbing commands == {{{2
+  > cat-file < {{{3
+    [\git cat-file :{print_choice} {object}:]\
+    ➱   Shows the content or type and size information for objects
+    ➱   object is usually the hash.
+
+   |print_choice|
+    ➱   [\-t]\ shows the object [[type]], instead of the content
+    ➱   [\-s]\ shows the object [[size]] in bytes, instead of the content
+    ➱   [\-p]\ [[pretty-print]] contents based on its type
+    ➱   [\:{:commit:|:tree:|:blob:}:]\ matches the real type of object or asks
+        for a type that can trivially be dereferenced from the given object.
+
+    ➱   [\-e]\ [[exit]] with zero status if object exists and is a valid
+        object. Else exit with non-zero with error on stderr.
+
+  > ls-tree < {{{3
+    [\git ls-tree :tree_ish [path]...]\
+    ➱   List the contents of a tree object
+    ➱   tree_ish is the id of a tree-ish
+    ➱   path is a path reference to the root of the given tree.
+    ➱   [\-d]\ shows only the named tree entry itself, not its children
+    ➱   [\-r]\ [[recurses]] into sub-tree
+    ➱   [\-t]\ show tree entries even though recurse with [\-r]\. [\-d]\
+        implies this option.
+
+  > ls-files < {{{3
+    [\git ls-files -:[`c|`d|`o|`i|`s|`u|`k|`m]:]\
+    ➱   Show info about files in the index or working tree
+
+   |what to show|
+    ➱   [\-c]\ or [\--cached]\ shows cached files
+    ➱   [\-d]\ or [\--deleted]\ shows deleted files
+    ➱   [\-m]\ or [\--modified]\ shows modified files
+    ➱   [\-o]\ or [\--others]\ shows other (i.e. untracked) file
+    ➱   [\-s]\ or [\--stage]\ shows staged contents' mode bits, object name
+        and stage number
+
+  > rev-parse < {{{3
+    [\git rev-parse :ref:]\ returns the SHA-1 hash given a ref
+
+[~{ GitHub }~] {{{1
+ == Making a New Repository == {{{2
+    1.  Create an empty repository on GitHub
+        ⮱   No description and no files
+    2.  Initialize a Git repository locally.
+    3.  Add GitHub repository as a remote locally.
+    3.  Make a new commit locally.
+    4.  Push the commit to the GitHub. E.g. [\git push -u origin master]\
+
+ == Pull Requests == {{{2
+  > Protecting branches < {{{3
+    Usually, you want to protect your master branch in the GitHub repository,
+    by requiring people to make a pull request before they can merge their
+    changes into the master branch.
+
+    This can be done in the GitHub repository setting.
+
+  > Making pull requests < {{{3
+    1.  Make a new branch
+    2.  Push the new branch
+    3.  On GitHub, make a pull request to merge the new branch into the target
+        branch (e.g. into master)
+    4.  Admins review the changes and may ask for further changes
+    5.  Developers make and push required changes in the new branch.
+    6.  Repeat 4-5 until the new branch is ready to merge into the target
+        branch.
+    7.  Finally admins accept the pull request by merging it into the target
+        branch, and the pull requests is closed upon a successful merge.
+        ⮱   Or admins reject and close the pull request.
+        ⮱   NOTE that it is a usual practice to make a [[fast-forward]] merge.
+            So developers making the pull requests usually need to pull
+            up-to-date changes of target branch, and then merge it into their
+            new branch to [[resolve any merge conflicts first]]. After that is
+            this commit pushed as the final version for completing the pull
+            request.
+
+  > More commits on pull request < {{{3
+    ➱   You simply make new commits on that topic branch and push to GitHub.
+    ➱   NOTE that updating a pull request this way won't trigger a
+        notification, so it is better to also leave a comment after that.
+    ➱   Those old suggested changes will be collapsed and flagged outdated if
+        your new commits made new changes on those lines.
+
+  > Merge pull request < {{{3
+   |locally|
+    GitHub provided all the command lines you need to run to do that.
+    Basically, you need to do a [[non-fast-forward]] merge:
+    run [\git merge --no-ff :target_branch:]\ from base branch.
+
+   |merge commit message|
+    You should mention the pull request number [\#:n:]\ in the git commit
+    message. One convention is to mention this at the end of commit title with
+    parentheses [\(#:n:)]\
+
+[~{ GitHub CLI }~] {{{1
+ == Pull Requests == {{{2
+  > checkout < {{{3
+    [\gh pr checkout :n:]\ where n is the pull request number.
+    ➱   Fetch the changes from the pull request and checkout to it. The
+        current branch will be updated to the pull request head branch
+        ⮱   Therefore you should first make a new branch at the base branch
+            with a name like [\:pr_author`-base_branch:]\
+            (e.g. [\dexterklui-develop]\).
+
+[~{ Vim Fugitive }~] {{{1
+ == Commands == {{{2
+  > Gdiffsplit < {{{3
+    [\~:Gdiffsplit :[object]:]\: Do [[vimdiff]]:
+    ➱   Without object given, between [[index]] and [[tree]] version of this file
+        ⮱   [\do]\ and [\dp]\ to stage or unstage changes. Or even restore
+            tree version.
+    ➱   With object given, between [[object]] and [[tree]] version.
+    ➱   New version is placed on the right / bottom
+
+    [\~:Gdiffsplit!]\ during a [[merge conflict]]
+    ➱   Do a three-way diff.
+    ➱   [\d2o]\ obtain hunks from [[ours]] or [\d3o]\ from [[theirs]].
+
+  > Git difftool < {{{3
+    [\~:Git difftool:[`!] [commit]:]\
+    ➱   Load changes of current file compared to another version to the
+        quickfix list. Jump to first change unless with [\!]\ .
+    ➱   E.g. [\~:Git difftool HEAD^]\ list the places of change compared to
+        last commit.
+    ➱   [\~:Git difftool -y :[commit]:]\ to also do a [\~:Gdiffsplit]\

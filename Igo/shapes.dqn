@@ -1,0 +1,11 @@
+[~{ Shapes }~] {{{1
+ == Jumps == {{{2
+   |one space jump|
+
+ == Knight Move == {{{2
+   |small knight move|
+    ➱   When in sccissor shape with an opponent stone.
+        ‣   Opponent can cut with an approach when the ladder is favourable to
+            them.
+        ‣   Opponent can still cut with a kosumi when the ladder is not
+            favourable.

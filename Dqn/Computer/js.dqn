@@ -1,0 +1,1640 @@
+[~{ JavaScript New Knowledge Stack }~] {{{1
+    ➱   Nullish coalescing operator [\??]\
+    ➱   Optional chaining operator [\?.]\
+    ➱   Function closure and memoising functions
+    ➱   Prototype-based language, getters and setters with private field.
+    ➱   jsdoc - function, prototype, class, callback
+        ⮱   Using @ts-check
+
+[~{ External References }~] {{{1
+    ➱   [=https://developer.mozilla.org/en-US/docs/Web/JavaScript]=
+    ➱   [=https://www.w3schools.com/js]=
+
+[~{ JavaScript Basics }~] {{{1
+ == Parsing == {{{2
+    When a JS statement locates before an HTML element in the HTML document,
+    JS cannot manipulate the HTML element (which hasn't been created)
+
+    When JS is included in a page, the browser executes that JS [[as soon as
+    it is read]] except the code fragment that is in a function. It only runs
+    when it is called.
+
+ == Insert JavaScript == {{{2
+  > Inline < {{{3
+    Examples:
+    ➱   [\<a href="JavaScript~:OpenWindow();">more info </a>]\
+    ➱   [\<input type="button" onclick="alert('Are you sure?');">]\
+
+    But this is not recommended for maintenance issue.
+
+  > Embedded JavaScript < {{{3
+    ➱   Placed JS statements between [\<script> </script>]\
+    ➱   [\<script>]\ can be placed in [\<head>]\ or [\<body>]\
+    ➱   In principle you can have multiple [\<script>]\ code in different
+        places in an HTML document
+
+  > Link to external file < {{{3
+    ➱   [\<script src=":JS_FILE:">]\
+    ➱   By convention, JS external files has the extension .js
+    ➱   You can place reference in [\<head>]\ or [\<body>]\
+    ➱   The script behave as if it was located where [\<script>]\ tag is
+        located
+
+ == Basic Syntax == {{{2
+    ➱   Very similar to C
+    ➱   Each statements ends with newline or semicolons [\;]\
+        ⮱   Lecturer's habit is to add the semicolons anyway, like that in C
+            family
+    ➱   Line continuation is [\\]\ at the end of line
+    ➱   [\//]\ for inline comment
+    ➱   [\/* */]\ for multi-line comments
+
+ == Variables == {{{2
+  > Types < {{{3
+    ➱   Dynamically typed
+
+  > Naming < {{{3
+    ➱   Case sensitive
+    ➱   First character can be a-z, A-Z, $ or _ (no numbers)
+        ➱   But not recommend to use $ to start a variable name
+    ➱   [[camelCase]] is used by JavaScript (JS), jQuery, and other JS
+        libraries
+
+  > Declaration < {{{3
+    There are two ways:
+    ➱   [\var :VAR_NAME `= VALUE:]\
+    ➱   [\let :VAR_NAME `= VALUE:]\ (since ES2015)
+        ⮱   [;I think]; it's better to always use [\let]\, which observerse
+            the rule of block scope.
+
+    Both ways behave the same when declaring variables within functions. But
+    behave differently within a block of code delimited by [\{ }]\. See
+    [=>Scope<]=.
+
+  > Scope < {{{3
+    There are three types of scope:
+    ‣   Global scope
+    ‣   Function scope
+    ‣   Block scope (since ES2015)
+
+    Using a outer-scope variable is a ['closure]'.
+
+   |global scope| {{{4
+    ➱   Variables that are defined outside of any function or block are in
+        ['global]' scope.
+    ➱   All scripts and functions on a web page can access it.
+
+    JS has a feature which automatically turn a variable to global:
+    ➱   If you assign a value to a variable that has not been declared:
+        [\carName = "Volvo";]\░
+        it will automatically become a global variable, even it first appears
+        in a function.
+        ➱   Using this feature is discouraged, because it should just have a
+            declaration in the global scope.
+    ➱   Avoid this by setting to "[[strict mode]]". This mode is recommended
+        for coding:
+        ⮱   The system will throw a [[ReferenceError]] in this situation
+        ⮱   To use this mode, put [\use strict;]\ before any other statements
+            in your code.
+
+   |function scope| {{{4
+    ➱   Or local scope
+    ➱   Variables declared within a function (by [\var]\ or [\let]\) has
+        function scope.
+
+   |block scope| {{{4
+    You can define a block by placing a pairs of braces [\{ }]\ anywhere.
+
+    Variables declared with [\var]\ outside a function [[always]] have global
+    scope even in a block.
+
+    Variables declared with [\let]\ has block scope, i.e. only accessible
+    inside the block where its declaration locates.
+
+   |function closure| {{{4
+    See [==Function= >Function closure<]=.
+
+  > Constant variables < {{{3
+    ➱   Has [[block scope]]
+    ➱   They cannot be redeclared.
+    ➱   Their values can't be changed.
+
+    [\const :VAR_NAME: = :VALUE:;]\
+
+ == Data Types == {{{2
+  > Primitive Types < {{{3
+    ➱   boolean
+    ➱   number
+    ➱   string
+    ➱   null
+    ➱   undefined
+
+  > Numbers < {{{3
+    ➱   All numbers are stored as [[floating-point]] values.
+    ➱   Uses 64 bits to store a numerical value.
+    ➱   JS does not raise overflow, underflow, or division by zero errors.
+        Instead they return special value in such cases:
+        ‣   Overflow or underflow: {{Infinity}} or {{-Infinity}}
+        ‣   Division by zero: {{Infinity}} or {{-Infinity}}
+        ‣   Zero divides zero or infinity divides infinity: {{NaN}}.
+        ‣   Imaginary numbers: {{NaN}}.
+    ➱   NOTE that [\NaN != NaN]\, [\NaN != true]\, [\NaN != false]\, but
+        [\NaN]\ evaluates to [[false]] in conditional
+
+   |special value|
+    ➱   {{Infinity}} or {{-Infinity}} for overflow and underflow respectively
+
+   |type casting|
+    [\Number(:value:)]\ type cast to a number type, if can't covert, then to
+    [\NaN]\.
+
+   |methods|
+    ➱   [\toFixed(:decimal_point:)]\: returns a [[string]] fixed to given decimal
+        point.
+
+   |bigint|
+    This number type is for arbitrary precision and big numbers. E.g.
+    [\821479129712412241n]\
+
+  > Strings < {{{3
+   |strings| {{{4
+    ➱   A string is [[immutable]]
+    ➱   Is a ordered sequence of [[16-bit Unicode]] characters.
+
+   |specify a string| {{{4
+    ➱   [\'Single "quotes"']\
+    ➱   [\"Double 'quotes'"]\
+    ➱   [\`Backticks`]\
+
+   |escape| {{{4
+    ➱   Use [\\]\ to escape special characters. Including include a " in a
+        double quoted string and that for single quoted string
+
+   |backticks| {{{4
+    It is used for specifying multi-line string, and also allows dynamic
+    content (string formatting).
+
+    Example:
+    [\var a = 5; var b = 10; `Fifteen is ${a + b} and not ${2 * a + b}.`]\
+    Output: "Fifteen is 15 and not 20"
+    
+   |strings operations| {{{4
+    ‣   [\:STRING_1 `+ STRING_2:]\ concatenate strings
+
+   |Methods| {{{4
+    See [=https://www.w3schools.com/js/js_string_methods.asp]=
+|---------------------------+-------------------------------------------------|
+| Methods                   | Description                                     |
+|---------------------------+-------------------------------------------------|
+| s.length                  | Returns the length of s                         |
+| s.substring(m, n)         | Returns the substring from index m to (n-1)     |
+| s.slice(m, n)             | Same as s.substring(m, n)                       |
+| s.slice(-n)               | Returns the substring of last n characters      |
+| "abcbeb".indexOf("b")     | Returns 1 in this case                          |
+| "abcbeb".lastIndexOf("b") | Returns 5 in this case                          |
+| "abcbeb".indexOf("b", 3)  | Returns 3, the index of first "b" at or after 3 |
+| s.toLowerCase()           | Returns a string in lowercase                   |
+| s.toUpperCase()           | Returns a string in uppercase                   |
+| s.trim()                  | Remove whitespace from both ends and return     |
+| s.trimStart()             | Remove whitespace from start and return         |
+| s.trimEnd()               | Remove whitespace from end and return           |
+|---------------------------+-------------------------------------------------|
+
+    ➱   [\.charAt(n)]\ returns the character at index n.
+        ⮱   Useful in template literal [\`${}`]\
+    ➱   [\.includes()]\ checks if a substring exists
+        ⮱   ["searchString, position?]"
+        ⮱   ["position]" is start idx searchString is supposed to be found
+    ➱   [\.startsWith()]\ checks if a substring exists at the beginning
+    ➱   [\.endsWith()]\ checks if a substring exists at the end
+    ➱   [\.split(:delim:)]\ accept a substring or regex as a delimiter to
+        split the string into an array.
+    ➱   [\.replace(:pattern:, :substitute:)]\ substitute and return a new
+        string
+        ⮱   pattern can be a string or a regex
+            ‣   If pattern is a string, only first occurrence will be replaced
+        ⮱   substitute can be a string or a function called for each match
+    ➱   [\.replaceAll(:pattern:, :substitute:)]\ like [\.replace()]\ but
+        replace all occurrence.
+
+    To test a string with a regex, you can create a RegExp object and use its
+    methods to [\.test(:str:)]\ against a string.
+
+  > Boolean < {{{3
+    ‣   either {{true}} or {{false}}
+    ‣   Except {{null}}, {{undefined}}, {{0}} and empty strings {{""}}, are
+        inherently {{false}}, others are inherently {{true}}.
+        ⮱   [;I tested that]; [\"0" == false == 0]\
+
+  > null and undefined < {{{3
+   |null|
+    ➱   Indicates the [[absence]] of a value
+    ➱   It is a programmer control (value explicitly assigned)
+
+   |undefined|
+    ➱   A value of an [[uninitialized]] variable or [[undefined returned
+        value]] of a function
+    ➱   It is NOT a programmer control. Using an undefined variables indicate
+        a programming mistake.
+
+  > Check type < {{{3
+    ➱   [\typeof :{VAR|VAL}:]\ output the datatype of a value.
+    ➱   To check the type, use [\typeof :{VAR|VAL}: === "string"]\
+        ⮱   Arrays, functions, objects all have the type "object".
+
+  > Type casting < {{{3
+    Explicit ['type conversion]' or implicit ['type coercion]'.
+
+   |explicit type conversion| {{{4
+    ➱   [\Boolean(value)]\ returns false when:
+        ‣   [\false]\, [\0]\, [\""]\, [\null]\, [\undefined]\ and [\NaN]\.
+        ‣   NOTE that [\"0"]\, [\"false"]\, [\[]]\ and [\{}]\ are truthy.
+    ➱   [\Number(value)]\
+        ⮱   ignores leading and trailing whitespaces.
+        ⮱   Empty string is converted to [\0]\.
+            ⮱   So [\: :]\ returns as [\0]\.
+        ⮱   When not a number, returns [\NaN]\.
+    ➱   [\String(value)]\
+        ‣   null => "null", "undefined" => "undefined"
+        ‣   For [\String(array)]\, it is same as [\array.join()]\ which joins
+            each elements as a string with comma as separator. In this case, a
+            null or undefined element becomes an empty string.
+
+   |type coercion| {{{4
+    ➱   Auto coerce to boolean in boolean context
+    ➱   When one of the operand of [\+]\ is a string, the other is coerced
+        into a string.
+    ➱   Many operators coerce the operands into numbers:
+        ‣   Arithmetic operators (except [\+]\ with a string)
+        ‣   Unary plus and unary negation [\+]\ and [\-]\
+        ‣   Relational operators [\<]\, [\>=]\
+        ‣   Bitwise operators [\|]\, [\&]\, [\^]\, [\~~]\
+        ⮱   But it's still a good practice to always call [\Number()]\ before
+            applying these operators.
+
+ == Sets == {{{2
+  > Overview of sets < {{{3
+    Store unique values of any type.
+    ⮱   All values use [\===]\ to check equivalence, except [\NaN]\ is treated
+        the same as [\NaN]\ for set, although [\NaN != NaN]\ for JavaScript
+
+    Specification requires time complexity better than O(n).
+
+  > Create a set < {{{3
+    [\const mySet = new Set(:[iterable]:)]\
+
+  > Methods < {{{3
+   |reading|
+    ➱   [\size]\ returns number of items in set
+    ➱   [\has(:item:)]\ returns true if set contains the item
+    ➱   [\entries()]\ returns a new [[iterator]] object that contains an array
+        of [\[value, value]]\ (since keys and values are the same for a set)
+        in insertion order
+    ➱   [\values()]\ and [\keys()]\ return a new iterator that yields the
+        values of the set in insertion order.
+
+   |writing|
+    ➱   [\add(:item:)]\
+    ➱   [\delete(:item:)]\
+    ➱   [\clear()]\ removes all items in set
+
+  > Iteration order < {{{3
+    It is the [[insertion order]] by [\add()]\
+
+  > Type cast into array < {{{3
+    Use spread operator [\...]\.
+
+ == Arrays == {{{2
+  > arrays < {{{3
+    ➱   JS arrays are [[untyped]], elements may be of different types
+        ➱   Such as arrays of objects and arrays of arrays
+    ➱   Dynamically sized
+    ➱   Index starts from 0, up to a max of 2^32 - 2
+    ➱   Has a length property. [\:ARRAY:.length]\
+
+  > Creating arrays < {{{3
+    ➱   [\new Array(:length:)]\ or [\new Array(:item...:)]\
+    ➱   [\Array.from(:iterable:)]\ creates a new, shallow-copied array.
+    ➱   [\[...:iteratble:]]\ Same. Should be more efficient because it is
+        implemented in native code.
+
+  > declaration < {{{3
+    Two ways:
+    ➱   [\var primes = [2, 3, 5, 7, 11, 13];]\
+        ➱   Using [\[ ]]\
+    ➱   [\var primes = new Array(2, 3, 5, 7, 11, 13);]\
+        ➱   Using builtin constructor [\Array()]\ with a [\new]\ method
+
+  > removing a value < {{{3
+    #beginCode#
+    const myArray = ["eins", "zwei"];
+    delete myArray[0];
+    #endCode#
+
+    Note that after deleting the value, the value actually becomes
+    [\undefined]\, but that element is still there and occupies the same
+    index.
+
+  > builtin methods < {{{3
+    For more see [=https://www.w3schools.com/js/js_array_methods.asp]=
+
+   |search for something| {{{4
+    ➱   [\arr.at(:IDX:)]\ returns the element at IDX. IDX can be negative.
+    ➱   [\arr.includes(:VALUE:)]\ returns true only if array stores the
+        value.
+    ➱   [\arr.indexOf(:VALUE:)]\ returns -1 if the value is not found,
+        otherwise return the index of the [[first]] element having that value.
+
+   |add/remove an element| {{{4
+    ➱   [\arr.push(:item...:)]\ appends one or more items at the end of array.
+        Returns new length.
+    ➱   [\arr.pop()]\ returns the value of the last element, and remove the
+        element from arr.
+    ➱   [\arr.unshift(:item...:)]\ inserts the one or more items at the start
+        of arr. Returns new length.
+    ➱   [\arr.shift()]\ returns the value of the first element, and remove the
+        element from arr.
+        ⮱   This is called shift, because it's like bash's [\shift]\ that is
+            used to shift the argument list
+
+   |deal with strings| {{{4
+    ➱   [\arr.join()]\ concatenates all elements with "," as the separator.
+        ⮱   [\arr.join(:sep:)]\: sep defines the separator (can be an empty
+            string).
+    ➱   [\arr.toString()]\ returns a string representing the array
+        ⮱   The difference between join() and toString() is that in join()
+            elements are separated by a programmer-defined delimiter, where as
+            elements in toString() are separated by commas.
+
+   |modify array| {{{4
+    ➱   [\arr.reverse()]\ modifies arr by flipping the order of the
+        elements.
+    ➱   [\arr1.concat(arr2, arr3)]\ returns a new array by combining the
+        elements of all the arrays (arr1, arr2, arr3).
+    ➱   [\arr.sort(:[comparisonFunc]:)]\ sorts the elements and return the
+        same array.
+        ⮱   By default it sorts by [[alphanumeric order as a string]] (e.g.
+            100 < 11).
+        ⮱   The method can accept as an argument a function that accepts two
+            arguments and returns a [[negative]] number if the first should be
+            sorted before, [[positive]] if after, [[0]] if the order should
+            stay the same. E.g.:
+            ‣   [\numbers.sort((a,b) => a-b)]\: (Number ascending)
+            ‣   [\numbers.sort((a,b) => b-a)]\: (Number descending)
+            ‣   [\objs.sort((a,b) => a.age-b.age)]\: sorts objects (inside the
+                array) by their key [\"age"]\
+    ➱   [\arr.slice(:start`, [end]:)]\ creates a new sub-array from index
+        [start, end). Can take negative indices.
+    ➱   [\arr.splice(:start`, [deleteCount]`, [newItem]...:)]\ mutates arr by
+        removing/replacing elements. Returns an array containing [[deleted]]
+        elements
+        ⮱   [\.splice(start, deleteCount, item0, item1, ...)]\
+            ‣   If without deleteCount, then delete till the end
+            ‣   If deleteCount <= 0, then delete none
+            ‣   item0, item1, ... are items to be added to the array at start
+        ⮱   It is useful to [[insert]] items into an array by setting
+            deleteCount = 0
+    ➱   [\arr.flat(:[depth]:)]\ returns a new flatten array. Default depth is
+        1.
+
+   |assert or find with predicates| {{{4
+    The following methods take a function which we call ['predicate]' as an
+    argument. The predicate is called for each element, and usually return
+    true or false.
+
+    ➱   [\arr.every(:function:)]\ returns true if all elements satisfy the
+        predicate.
+    ➱   [\arr.some(:function:)]\ returns true if at least one element
+        satisfies the predicate.
+    ➱   [\arr.find(:function:)]\ returns the value of the first element that
+        satisfies the predicate. Returns [\undefined]\ if none found.
+    ➱   [\arr.findIndex(:function:)]\ returns the index instead. Returns -1 if
+        none found.
+
+   |create new object/value with helper function| {{{4
+    ➱   [\arr.filter(:function:)]\ returns an array containing all and only
+        elements that satisfy the predicate.
+    ➱   [\arr.map(:function:)]\ returns an array containing each returned
+        values of the predicate.
+    ➱   [\arr.flatMap(:function:)]\ is equivalent to [\arr.map().flat()]\.
+    ➱   [\arr.reduce(:function`(accumulator`, currentValue`)`, initialVal:)]\
+        calls the function for each element (as currentValue) and update the
+        the accumulator along the way, then returns the final value of
+        accumulator. initialVal is the value of accumulator for the first
+        iteration.
+        ⮱   e.g. [\numbers.reduce((x,y) => x+y, 0)]\ returns the sum of all
+            elements.
+        ⮱   e.g. to get an array of all student names from an array of student
+            objects. (actually can use map()).
+
+            #beginJavascript#
+            let studentNames = students.reduce((accu, current) => {
+                accu.push(current.name);
+                return accu;
+            }, []);
+            #endJavascript#
+
+  > destrucutring < {{{3
+    #beginJavascript#
+    const deutschZahln = [];
+    deutschZahln[0] = "eins";
+    deutschZahln[1] = "zwei"
+    const [one, two] = deutschZahln;
+    #endJavascript#
+
+    For destructuring arrays, there is no keys to match, unlike destructuring
+    objects. Useful in using for-of loop to iterate an object:
+
+    #beginJavascript#
+    for (const [key, value] of Object.entries(myObject)) {
+        // body
+    }
+    #endJavascript#
+
+    NOTE that you can skip assigning a value without providing a variable:
+    [\const [, two] = deutschZahln;]\
+
+   |using rest operator|
+    #beginJavascript#
+    const deutschZahln = ["eins", "zwei", "drei", "vier"];
+    const [var1, ...rest] = deutschZahln;
+    // var1 = eins
+    // rest = [zwei", "drei", "vier"]
+    #endJavascript#
+
+ == JavaScript Objects == {{{2
+  > Concepts of objects < {{{3
+    ➱   In JS, most things are objects
+    ➱   An Object is simply a storage space of information, which are a
+        collection of [[properties]], each has a [[name]] and a [[value]]:
+        ⮱   Property names are strings
+        ⮱   Values can be anything: strings, numbers, arrays, functions and
+            objects
+    ➱   We group related data and functions (['methods]') into a single
+        object, which represent information about the thing we are trying to
+        model, and functionality or behaviour we want it to have.
+    ➱   JavaScript use [[prototype]] but not [[class]] for creating an object
+
+  > Creating an object < {{{3
+    In [[declaration]]:
+    [\var person = {                                 ]\░
+    [\  name~: {first~: 'Henry', last~: 'Lee'},         ]\░
+    [\  age~: 32,                                     ]\░
+    [\  gender~: 'male',                              ]\░
+    [\  interests~: ['music', 'skiing'],              ]\░
+    [\  greeting~: function() {                       ]\░
+    [\    alert('Hi! I\'m ' + this.name.first + '.');]\░
+    [\  }                                            ]\░
+    [\};                                             ]\░
+
+    NOTE that we used comma [\,]\ to separate properties. We use colon [\~:]\
+    to separate name from values.
+
+    Change content [[dynamically]]:
+    [\var person = {};                            ]\░
+    [\person.name = {first~: 'Henry', last~: 'Lee'};]\░
+    [\ ...                                        ]\░
+
+    An object like this is referred to as an ['object literal]'.
+
+   |short hand construction|
+    #beginJavascript#
+    let x = 1;
+    let y = 2;
+    let obj = {x, y};
+    console.log(obj);
+    // => {x: 1, y: 2}
+    #endJavascript#
+
+  > Invoking an object property < {{{3
+    Either use ['dot notations]': [\:OBJECT{`.PROPERTY}...:]\. For nested
+    objects you extend the dot notations.
+
+    Or use ['bracket notation]': [\:OBJECT`[KEY`]...:]\. Note that KEY is
+    always a string, so do not omit the [[quotes]].
+    ⮱   This is sometimes called associative array, for it is similar with
+        array using index
+    ⮱   This is useful when key is a [[variable]].
+
+   |optional chaining|
+    If try to retrieve a nested value in an object but the parent key does not
+    exist, JavaScript will throw an error. To avoid this, ['optional
+    chaining]' operator can be used [\?.]\ See [==Operators= >Optional
+    chaining operators<]=.
+
+  > Modifying an object < {{{3
+    ➱   To delete a key: [\delete :OBJ`.KEY:]\
+    ➱   To modify a key: [\:OBJ`.KEY `= NEW_VAL]\
+    ➱   To add a key-value pair: [\:OBJ`.NEW_KEY `= VAL]\
+
+    To expand (and modify at the same time) an object:
+
+    #beginJavascript#
+    let obj = {
+        name: "Eddie",
+        id: 1234,
+        greet: function() {
+            console.log("Hello, I'm ", this.name);
+        }
+    };
+
+    obj = {
+        ...obj,
+        age: 50,
+        name: "Doreen"
+    };
+    #endJavascript#
+
+  > Object methods < {{{3
+   |myObj.method()| {{{4
+    ➱   [\myObj.hasOwnProperty("propertyName")]\ returns true if the property
+        exists, false otherwise.
+    ➱   [\myObj.toString()]\
+
+   |Object.method(myObj)| {{{4
+    ➱   [\Object.keys(myObj)]\ returns a list of keys in myObj.
+    ➱   [\Object.values(myObj)]\ returns a list of values in myObj.
+    ➱   [\Object.entries(myObj)]\ returns an array of arrays each storing a
+        key and its value. Useful for for-of loop:
+
+        #beginJavascript#
+        for (const [key, value] of Object.entries(myObj)) {
+            // some code...
+        }
+        #endJavascript#
+
+        This is using the technique of array destructuring.
+
+    ➱   [\Object.fromEntries(myArray)]\ returns an object using an array of
+        arrays of key-value pair. I.e. it is the anti-function of
+        [\Object.entries()]\:
+
+        #beginJavascript#
+        let entries = Object.entries(myObj);
+        let clonedObj = Object.fromEntries(entries);
+        #endJavascript#
+
+    ➱   [\Object.is(arg1, arg2)]\ returns true only if both arg1 and arg2
+        refer to the [[very same object]].
+        ⮱   Same primitive values are considered as the same object.
+    ➱   [\Object.freeze(myObj)]\ makes the object referred by myObj
+        [[unmodifiable]], that is, you cannot modify the value, delete
+        existing entry nor add new entries.
+    ➱   [\Object.isFrozen(myObj)]\ returns true if myObj is frozen.
+
+  > Cloning objects < {{{3
+   |clone from object|
+    #beginJavascript#
+    const myOldObj = {
+        name = "Tim",
+        age = 14;
+    };
+    const myNewObj = { ...myOldObj };
+    #endJavascript#
+
+   |clone from prototype|
+    [\Object.create(:PROTOTYPE_OBJECT:)]\ is a builtin method to create a new
+    object based on any existing object. This clones all the properties from
+    the prototype.
+    
+    [\var boy = Object.create(man);]\ which is contrasted with:
+    [\var boy = man;]\ which the new variable points to the same reference
+
+  > The window object < {{{3
+    ➱   The window object is the browser's window (e.g. each tab is a window
+        object, also [\<iframe>]\ is also a window object)
+    ➱   Global variables and functions are properties and methods of the
+        window object.
+    ➱   The [[document object]] (HTML DOM) is a property of the window object.
+
+    Some of properties and methods of window object:
+|-------------------+-------------------------------------------------------|
+| Property / Method | Description                                           |
+|-------------------+-------------------------------------------------------|
+| document          | Returns DOM                                           |
+| history           | Returns History object                                |
+| location          | Returns Location object                               |
+| status            | Sets or returns the text in the statusbar             |
+| alert()           | Displays an alert box with a message and an OK button |
+| close()           | Closes the current window                             |
+| focus()           | Sets focus to current window                          |
+| open()            | Opens a new browser window                            |
+| prompt()          | Displays a dialogue box that prompts for input        |
+| resizeTo()        | Resizes the window to specified width and height      |
+|-------------------+-------------------------------------------------------|
+
+  > The "this" keyword < {{{3
+   |function context| {{{4
+    ➱   In a ['regular function]', [\this]\ refers to the object that
+        [[called]] the function.
+        ⮱   In chain bracket/dot notations, it's the object just before the
+            method being called.
+        ⮱   If the function is called without being accessed on anything,
+            [\this]\ refers to the global object (in non-strict mode), or
+            undefined (in strict mode).
+            ⮱   NOTE that this applies even when the function is nested inside
+                an object's method.
+    ➱   In an [[arrow function]], [\this]\ always refers to the enclosing
+        lexical context where the arrow function is defined. That means, when
+        the arrow function is defined/declared/created, it immediately
+        evaluates and bind all [\this]\ in its body to what [\this]\ refers to
+        in the current environment (that is, what [\this]\ would refer to if
+        it appears on a neighbouring expression just before/after the
+        declaration of the arrow function).
+    ➱   When a function is used as a [[constructor]] with the [\new]\ keyword,
+        [\this]\ is bound to the [[new object]] being constructed. Then the
+        value of [\this]\ becomes the value of the [\new]\ expression
+        [[unless]] the constructor returns another [[non-primitive]] value.
+    ➱   When a function is invoked in the [\super.method()]\ form, [\this]\
+        inside the [\method]\ is the same as [\this]\ around the
+        [\this.method()]\ call.
+        ⮱   So calling a parent constructor with [\super()]\, the [\this]\
+            inside the parent constructor is bound to the child constructor,
+            which is the new object being constructed.
+
+   |global context| {{{4
+    ➱   If in [[global]] execution context (outside any function):
+        refers to the global object, i.e. the window object in HTML
+
+   |some examples| {{{4
+    ➱   In the console of the browser, [\this]\ refers to the [\window]\ object.
+    ➱   If you define a function whose body has the keyword [\this]\:
+        ➱   If you call the function in the console, it refers to the window.
+        ➱   If you call the function in a script, and use [\node]\ to run the
+            node, [\this]\ refers to the node object.
+    ➱   If appears inside an object (such as in a regular function inside
+        an object), [\this]\ refers to [[the object]].
+        ⮱   WARN For [[arrow function]] [\this]\ is not scoped inside the
+            object, but to the global scope.
+    ➱   A good example to understand [\this]\ with regular functions and arrow
+        functions, and with classes and methods:
+        [=/media/mikeX/Nextcloud/Notes/Computer/Javascript/this-keyword.md]=
+
+  > Destructuring < {{{3
+    #beginCode#
+    hero = {
+      age: 24,
+      hobbies: ["running", "doing forensic science"],
+      name: "Flash",
+    };
+
+    const { age, hobbies, name } = hero;
+    console.log(age);
+    console.log(hobbies);
+    #endCode#
+
+  > The "in" keyword < {{{3
+    [\for (let key in myObj)]\
+
+  > Prototypes and Object object < {{{3
+   |prototype| {{{4
+    Every object in JavaScript has an internal property [\[[Prototype]]]\ that
+    contains the ['prototype]' of the object
+    ⮱   Except functions are a bit different. It is important to distinguish:
+        ‣   Function objects have both [\[[Prototype]]]\ and [\prototype]\
+            ⮱   [\[[Prototype]]]\ points to the [\Function]\ object
+            ⮱   [\prototype]\ continues the prototype chain
+        ‣   Other objects have only [\[[Prototype]]]\, which continues the
+            prototype chain
+
+    You can access the [\[[Prototype]]]\ with the property name:
+    [\{__proto__~: ...}]\.
+
+    For functions [\prototype]\, it has the same property name:
+    [\{prototype~: ...}]\
+
+   |prototype chain and Object| {{{4
+    A prototype is also an object, so it too has its own [\[[Prototype]]]\,
+    which refers to the original object's [[parent]] or [[the]] [\prototype]\
+    [[of the parent class's constructor]] along the inheritance tree. The
+    parent in turn has its own prototype, and so forth... At the root of the
+    inheritance tree is the [\Object]\ class (i.e. [\Object]\ is a
+    constructor, which is an object called ['Object]'), whose [\prototype]\ is
+    an object with [[null]] [\[[Prototype]]]\, and null as a primitive type
+    has no prototype. This marks the [[end]] of the ['prototype chain]'.
+
+    So every object can access methods of Object like [\toString()]\.
+    ⮱   NOTE that during [[assignment]] statement, the value will always assigned
+        as an [[own property]], instead of going up the prototype chain.
+
+    #beginJavascript#
+    const parent = {b: 9, c: 10};
+    const child = {a:1, b: 2, __proto__: parent};
+    // child.__proto__ --> parent
+    // parent.__proto__ --> Object's prototype
+    #endJavascript#
+
+   |prototype shadowing| {{{4
+    When bracket or dot notation is used to access an object's field or
+    method, JavaScript searches the object's own properties first, then
+    through the prototype chain, and stops at the first match.
+
+    The mechanism of ignoring any further matches is called ['prototype
+    shadowing]'. ['Method overriding]' works on this mechanism.
+
+   |methods| {{{4
+    All methods of an object are actually stored in the prototype chain,
+    rather than as an own property of the object.
+
+   |this| {{{4
+    Remember [\this]\ refers to different things under different context.
+
+    For [\this]\ in the body of a function expression or definition, it refers to
+    the caller of the function. So it won't be the prototype object.
+
+    For [\this]\ in the body of an arrow function, it refers to the context
+    under which the arrow function is defined. It is the global [\window]\
+    object in most cases.
+
+   |default prototype|
+    #beginJavascript#
+    const object = {a: 1}; // __proto__ --> Object.prototype
+    const array = [1, 2, 3]; // __proto__ --> Array.prototype
+    const regexp = /abc/; // __proto__ --> RegExp.prototype
+    #endJavascript#
+
+    Each statement above is just a syntax sugar for using the constructors:
+    [\const regexp = new RegExp("abc");]\
+
+   |builtin functions for prototypes| {{{4
+    ➱   [\Object.getPrototypeOf(obj)]\
+    ➱   [\Object.setPrototypeOf(obj, parent)]\: this function is slow and not
+        supposed to be used
+
+   |reference| {{{4
+    See
+    [=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain]=.
+
+  > Constructors < {{{3
+   |object constructor| {{{4
+    A ['constructor]' function is named in [[PascalCase]].
+    [\function Person (first, last, age) {]\░
+    [\  this.name = {                     ]\░
+    [\    'first'~: first,                 ]\░
+    [\    'last'~: last                    ]\░
+    [\  };                                ]\░
+    [\  this.age = age;                   ]\░
+    [\}                                   ]\░
+
+   |creating new instances| {{{4
+    To create an object with a constructor, we use the keyword [\new]\:
+    [\const man = new Person('Henry', 'Lee', 32);]\
+
+    [\new]\ has a high precedence so you can chain methods immediately on the
+    newly created object: [\new Set([1,2,3]).has(2)]\
+
+   |constructor's prototype| {{{4
+    By default, a constructor has only one own property [\constructor]\ which
+    references the constructor function itself.
+
+   |instance's prototype| {{{4
+    The prototype of any instance created by an object constructor using
+    [\new]\ refers to the [[prototype of the constructor]].
+
+    #beginCode#
+    // --> means refers to. That means the values of the LHS is a reference to
+    // the RHS.
+    child.__proto__ --> childsConstructor.__proto__
+    childsConstructor.__proto__.__proto__ --> parentConstructor.__proto__
+    parentConstructor.__proto__.__proto__ --> ObjectConstructor.__proto__
+    ObjectConstructor.__proto__.__proto__ === null
+    #endCode#
+
+   |defining methods| {{{4
+    Methods are added via the [\prototype]\ property of the constructor
+    function.
+
+    #beginJavascript#
+    function Car() {
+        this.engineRunning = false;
+    }
+    Car.prototype.startEngine = function () {
+        this.engineRunning = true;
+    }
+    #endJavascript#
+
+    NOTE that you have to use [[function expression but not arrow function]].
+    Because we want [\this]\ to refer to the [[caller]] which is the created
+    object, but [\this]\ in an arrow function refers to the context where it
+    is defined, which is the global [\window]\ object.
+
+   |what new does| {{{4
+    The mechanism of a [\new :function(arg...):]\ expression:
+    1.  Create a new empty object [\{}]\
+    2.  Bind the object's [\[[Prototype]]]\ to the function's [\prototype]\
+    3.  Call the function and bind [\this]\ in its body with the new object
+    4.  If the function returns a primitive type (usually undefined), the
+        [\new]\ expression becomes the new object. Otherwise, it is the
+        returned object of the constructor.
+
+  > Defining a child object using prototypes < {{{3
+    Given a any object, whether it's a stand alone object or an instance of a
+    class (i.e. created by a constructor), you can make a child.
+
+    #beginJavascript#
+    const parent = {
+        value: 2,
+        method() { return this.value + 1;},
+    }
+    const child = {
+        __proto__: parent,
+    }
+    #endJavascript#
+
+ == Class == {{{2
+  > Prototype-based language < {{{3
+    JavaScript is a prototype-based language. Meaning behind the scene,
+    classes are still prototypes. See [==JavaScript Objects= >Constructors<]=.
+
+  > Class definition < {{{3
+    Use [\class]\ keyword followed by a block containing constructors, fields
+    and methods. Constructors are defined using the name [\constructor]\ and
+    work the same as prototype constructors.
+
+    #beginJavascript#
+    class Car {
+        constructor(color, weight) {
+            this.color = color;
+            this.weight = weight;
+            this.engineRunning = false;
+        }
+
+        startEngine() {
+            this.engineRunning = true;
+        }
+    }
+    #endJavascript#
+
+  > Creating new instances < {{{3
+    Also use the [\new]\ keyword:
+
+    [\const myCar = new Car()]\
+
+  > Private fields < {{{3
+   |naming convention| {{{4
+    There is a convention that fields and methods whose identifier begins with
+    an underscore should be treated as private.
+
+   |getters and setters| {{{4
+    Private fields are usually accompanied by ['getters]' and ['setters]'. In
+    other language, they are just methods [\getMileage()]\.
+
+    In JavaScript, we can define getters and setters with the keywords [\get]\
+    and [\set]\, and their name should be the same as the variable they
+    correspond to to prevent confusion. Then, we can simply invoke the getters
+    and setters as an attribute (i.e. without the [\()]\).
+
+    #beginJavascript#
+    class Car {
+        constructor(mileage = 0) {
+            this._mileage = mileage;
+        }
+        get mileage() {
+            return this._mileage;
+        }
+        set mileage(value) {
+            throw new Error("Mileage cannot be manipulated.");
+        }
+    }
+    const myCar = new Car(103);
+    console.log(myCar.mileage) // 103
+    #endJavascript#
+
+    NOTE that actually [\_mileage]\ is still a public field in the example.
+
+   |private fields| {{{4
+    To actually make a private field, their identifier must start with [\#]\,
+    and the private field must be declared within the body of the class. The
+    [\#]\ is a [[part of the name]].
+
+    #beginJavascript#
+    class Car {
+        #mileage; // required, otherwise JavaScript throws an error
+        constructor(mileage = 0) {
+            this.#mileage = mileage;
+        }
+        get mileage() {
+            return this.#mileage;
+        }
+        set mileage(value) {
+            throw new Error("Mileage cannot be manipulated.");
+        }
+    }
+    #endJavascript#
+
+    Accessing private fields outside the class is an early syntax error. In
+    fact [\#privateField]\ is a special syntax.
+
+  > Checking if is an instance of a class < {{{3
+    [\(obj instanceof myClass)]\ returns true if obj is an instance of myClass
+
+  > Inheritance < {{{3
+    Use keyword [\extends]\.
+
+    #beginJavascript#
+    class Pet {
+        constructor(name) {
+            this.name = name;
+        }
+        introduce() {
+            console.log(`This is my pet, ${this.name}.`);
+        }
+    }
+    class Dog extends Pet {
+        constructor(name, owner) {
+            super(name);
+            this.owner = owner;
+        }
+    }
+    #endJavascript#
+
+    The subclass instances will inherit all fields and methods of superclass.
+    ➱   Fields are added to the instance objects by constructors.
+    ➱   Methods are inherited through the [[prototype chain]].
+
+   |isPrototypeOf()|
+    You can use [\isPrototypeOf]\ to check the class-instance relationship:
+    [\MyClass.prototype.isPrototypeOf(obj)]\ returns true iff [\MyClass]\'s
+    [\prototype]\ can be found through the prototype chain of [\obj]\.
+
+   |hasOwnProperty()|
+    [\obj.hasOwnProperty("introduce")]\ returns true iff [\obj]\ has an own
+    property called [\"introduce"]\. Here, only [\Pet]\ has.
+
+ == Operators == {{{2
+  > Arithmatic operators < {{{3
+    ➱   [\+]\
+    ➱   [\-]\
+    ➱   [\*]\
+    ➱   [\/]\
+    ➱   [\%]\
+    ➱   [\**]\
+
+    They support shorthand assignment:
+    ➱   [\+=]\
+    ➱   [\-=]\
+    ➱   [\*=]\
+    ➱   [\/=]\
+    ➱   [\%=]\
+    ➱   [\**=]\
+
+  > Logical operators < {{{3
+    ‣   [\&&]\
+    ‣   [\||]\
+    ‣   [\!]\
+
+  > Comparison operators < {{{3
+    ‣   [\==]\ checks value equivalence (after implicit type casting, known as
+        ['type coercion]')
+        •   e.g. [\(9==9)]\ and [\(9=="9")]\ are both true
+    ‣   [\===]\ checks if both value and type are the same
+    ‣   [\<]\ and [\>]\
+    ‣   [\<=]\ and [\>=]\
+    ‣   [\!=]\ returns true when value is not equivalent
+    ‣   [\!==]\ returns true when either value or type is not equivalent
+        •   Not equal in [[either]] type or value
+        •   [\(9!=="9")]\ is true, but [\(9!==9)]\ is false
+
+  > Optional chaining operator < {{{3
+    The ['optional chaining]' operator [\?.]\ prevents JavaScript from
+    throwing an error when the parent key on its left-hand side doesn't exist,
+    but to return [\undefined]\.
+
+    #beginJavascript#
+    const obj = {
+        address: {
+            street: "Trincomalee Highway",
+            city: "Batticaloa",
+        },
+    };
+    obj.address.zipCode; // => undefined
+    obj.residence?.street; // => undefined
+    obj.residence.street; // => TypeError: Cannot read property 'street' of undefined
+    #endJavascript#
+
+  > Spread / rest operator < {{{3
+    The [\...]\ is called ['spread operator]' when on the right-hand side of
+    an assignment. It expands an [[iterable]] (e.g. into all existing values
+    of an array or key-value pairs of an object).
+    ⮱   E.g. [\{...myObject, newKey~: "newValue"}]\, [\[...myArr]]\
+    ⮱   The spread element can appear anywhere
+
+    It is also a ['rest operator]' when appears on the left-hand side of an
+    assignment. It collects zero or more values, and stores them into a single
+    array.
+    ⮱   E.g. [\const [a, b, ...everythingElse] = [0, 1, 1, 2, 3, 5, 8];]\
+    ⮱   NOTE that the rest element must be the [[last]] element in a
+        destructuring assignment.
+
+    See [=>Modifying and object<]= and [=>cloning objects<]= for its usage.
+
+  > Nullish coalescing < {{{3
+    The ['nullish coalescing]' operator [\??]\ returns the right-hand side
+    operand only when the left-hand side operand is [\null]\ or [\undefined]\.
+
+    You might want to use logical or operator [\||]\ instead if you want to
+    include the cases of [\false]\, [\0]\, [\""]\ and [\NaN]\.
+
+  > Bitwise operators < {{{3
+    ➱   [\^]\: XOR operator (returns 0 in each bit position if the bit on
+        both operands at this bit position are the same, returns 1 otherwise)
+
+ == Conditionals and loops == {{{2
+  > if and switch < {{{3
+    [\if]\ and [\switch]\ are almost identical to that of PHP, Java or C
+    family in terms of syntax structures.
+    
+  > tenary operators ? : < {{{3
+    [\(y == 4) ? "y is 4" ~: "y is not 4"]\
+
+  > for and while loops < {{{3
+    Almost identical to C family.
+
+   |do-while|
+    #beginJavascript#
+    do {
+        // body
+    } while (output <= 10)
+    #endJavascript#
+
+  > Special for loops < {{{3
+   |for-of loops| {{{4
+    Iterate over iterable objects:
+    [\var cars = ['BMW', 'Volvo', 'Mini'];]\░
+    [\for (let x of cars) {               ]\░
+    [\  document.write(x + "<br >");      ]\░
+    [\}                                   ]\
+
+   |for-in loops| {{{4
+    Iterates over all enumerable [[properties]] of an object that have [[strings
+    as keys]]:
+    [\var person = {fname~:"John", lname~:"Doe", age~:25};]\
+    [\var text = "";                                   ]\
+    [\for (let x in person) {                          ]\
+    [\  text += person[x] + " ";                       ]\░
+    [\}                                                ]\
+
+    Enumerable properties are seen in [\:PROPERTY`:VALUE]\ pairs.
+
+   |forEach| {{{4
+    [\forEach(:callback`, [thisArg]:)]\
+
+    Callback can have one to three arguments:
+    1.  element
+    2.  index
+    3.  array - the array [\forEach()]\ is called upon
+
+    thisArg is the value for [\this]\ when executing the callback.
+
+    #beginJavascript#
+    document.querySelectorAll(".class").forEach((element) => {
+        element.style.color = "red";
+    });
+    #endJavascript#
+
+ == Functions == {{{2
+  > Concept < {{{3
+    ‣   JS is a kind of functional programming
+
+  > Execution < {{{3
+    When JS is included in a page, the browser executes that JS [[as soon as
+    it is read]] except the code fragment is in a function. It only runs when
+    it is called.
+
+  > Creating functions < {{{3
+   |three methods|
+    ‣   Function declaration
+    ‣   Function expression
+    ‣   Arrows function
+
+   |function declaration| {{{4
+    [\function :NAME`([PARA]...:) {   ]\
+    [\  :code to be executed:        ]\░
+    [\}                            ]\
+
+    ➱   [\return :RETURN_VALUE:]\ to return a value. JS is dynamically typed,
+        so no need to declare the return type.
+        ⮱   If there is no explicit return statement, then by default it
+            returns [\undefine]\
+    ➱   JS supports ['function hoisting]', that means you can declare the
+        function anywhere, even after its calls.
+
+   |function expression| {{{4
+    ➱   Function created with [\function]\ and [[assigned as an expression]]
+        to a variable.
+    ➱   This creates an ['anonymous function]' without a function name.
+    ➱   To call the function we call the variable name with necessary
+        arguments.
+
+    Example:
+    [\var myFunction = function (a, b) { return a*b };]\░
+    [\var x = myFunction(5, 6);                       ]\
+
+    ➱   This allows the same variable assigned to different function
+        expressions at different times.
+    ➱   The anonymous function is an ['event handler]'. It is tied to the
+        variable which is the ['event object]' / ['event property]'. And
+        usually you invoked the event object rather than the event handler
+        itself.
+
+   |arrow function| {{{4
+    ➱   It is like function expression, but use an arrow [\=>]\ instead of
+        [\function]\.
+
+    [\const :VAR_NAME: = (:[PARA]...:) => { :code to be executed: };]\
+
+    ➱   If there is only one parameter, the parentheses is optional. But
+        having them makes it more obvious that this is an arrow function.
+    ➱   If the function has only one line of code which is the return
+        statement, you can omit the [\return]\ but only specify the return
+        expression. E.g.:
+        [\var multiply = (x, y) => x * y;]\
+
+  > Function closure < {{{3
+    A ['functional closure]' is a scope which is a combination of:
+    ‣   The current function scope at the time the function closure was
+        created
+    ‣   The ['lexical environment]' within which that function was declared
+
+    I.e. nested functions have access to variables [[declared]] in outer scope.
+    This is useful so you can associate some data (the lexical environment)
+    with a function that operates on that data.
+
+    [\func_a () {                            ]\░
+    [\  let x = 1;                           ]\░
+    [\    func_b() {                         ]\░
+    [\        let y = x * 2;  // x accessible]\░
+    [\    }                                  ]\░
+    [\  x = y;  // ReferenceError            ]\░
+    [\}                                      ]\
+
+    [\function makeAdder(x) {              ]\░
+    [\  return function(y) {               ]\░
+    [\    return x + y;  // x accessible   ]\░
+    [\  };                                 ]\░
+    [\}                                    ]\░
+    [\                                     ]\░
+    [\var add5 = makeAdder(5);  // x = 5   ]\░
+    [\var add10 = makeAdder(10);  // x = 10]\░
+    [\                                     ]\░
+    [\console.log(add5(2));  // output 7   ]\░
+    [\console.log(add10(2));  // output 10 ]\
+
+    The last example is a classic example of [[functional programming]].
+    [\makeAdder()]\ is called a ['function factory]' which is used to create
+    different functions.
+
+    Function factory and function closure is very useful to create
+    [[memoising]] functions. See [=>memoising functions<]=.
+
+    Also variables local to a function can persists beyond the return of the
+    function they are created. See [=>memoising functions< |persistent local
+    variables|]=.
+
+  > Default value for arguments < {{{3
+    #beginJavascript#
+    function whatsMyName(name = "Sam") {
+        return `My name is ${name}.`;
+    }
+    #endJavascript#
+
+  > Memoising functions < {{{3
+    ['Memoising]' is used in dynamic programming. A memoising function will
+    remember previous arguments and their respective results. So it rids the
+    need of doing costly computation again in the future, but to return the
+    remembered result immediately.
+
+    #beginJavascript#
+    function createMemoisingAdder(value) {
+        let lastNumber, lastSum;
+        return function adder(number) {
+            if (number === lastNumber && !lastSum) return lastSum;
+            return number + value;
+        }
+    }
+    #endJavascript#
+
+    #beginJavascript#
+    function createMemoisingFunction(func) {
+        let lastX, lastY, lastResult;
+        return function memoised(x, y) {
+            if (x === lastX && y === lastY && !lastSum) return lastResult;
+            lastX = x;
+            lastY = y;
+            return lastResult = f(x, y);
+        }
+    }
+    #endJavascript#
+
+   |persistent local variables|
+
+    This is possible because local variables stores outside the stack. The
+    function frame only stores a reference to the arguments and variables, so
+    they can be accessed by any nested functions long after their outer
+    function has returned. For more, check out ['event loop]'.
+
+ == Handling Errors == {{{2
+  > Throw statement < {{{3
+    Can throw a string directly or an [\Error]\ object. It will stop the
+    execution of the whole script if not enclosed in a [\try]\ block.
+
+  > Error object < {{{3
+    The main property of an error object is [\message]\.
+
+   |constructor|
+    [\const error = new Error("error message");]\
+
+   |throw error|
+    ➱   [\throw error]\, or [\throw new Error("msg")]\
+
+   |subclass of error|
+    You can create custom error classes by extending from Error. Later you can
+    check if an Error object is an instance of a particular custom error
+    class: [\if (error instanceof CustomError)]\
+
+  > Try catch finally < {{{3
+    [\try {         ]\░
+    [\  :...:         ]\░
+    [\}             ]\░
+    [\catch(:VAR:) {  ]\░
+    [\ :...:          ]\░
+    [\}             ]\░
+    [\finally {     ]\░
+    [\ :...:          ]\░
+    [\}             ]\░
+
+    ➱   [\try]\ block is the code to be executed and test for errors. Its
+        execution stops and jump to [\catch]\ block upon an error.
+    ➱   The variable [\:VAR:]\ stores the thrown string or error object and is
+        only accessible in [\catch]\ block.
+    ➱   [\finally]\ block will executed at the end no matter there is an error
+        or not
+    ➱   You can [[rethrow]] the error in the catch block.
+
+   |an exampe| {{{4
+    [\try {                                        ]\░
+    [\  if(x == "")   throw "is Empty";            ]\░
+    [\  if(isNan(x))  throw "not a number";        ]\░
+    [\  if(x > 10)    throw "too high";            ]\░
+    [\  if(x < 5)     throw "too low";             ]\░
+    [\}                                            ]\░
+    [\catch(err) {                                 ]\░
+    [\  message.innerHTML = "Input " + err;        ]\░
+    [\}                                            ]\░
+    [\finally {                                    ]\░
+    [\  document.getElementById("demo").value = "";]\░
+    [\}                                            ]\░
+
+
+ == Import and Export Statements == {{{2
+    Using [\<script src=...>]\ includes all codes. [\import]\ and [\export]\
+    allows incorporating only parts of functionality of an external module.
+
+  > Exporting < {{{3
+   |default export|
+    Can have only one default export per module.
+    ➱   [\export default :expression_name:;]\
+    ➱   [\export default function :fname`(...`) `{...:}]\
+    ➱   [\export { :{expression_name|function_name}: as defualt };]\
+
+    You can export multiple named exports
+    ➱   [\export function :fname`(...`) `{...:}]\
+    ➱   [\export var :var_name `= ...:;]\
+    ➱   [\export { :name1[`,...]: };]\
+    ➱   [\export { :{name1: as :imported_name1}[`,...]: };]\
+
+  > Importing < {{{3
+   |import default of the module|
+    [\import nameX from 'ext.js';]\░
+    The imported default object is named as nameX in the current script. It
+    can be different from the name given by the imported module.
+
+   |import all exports of a module|
+    [\import * as extModule from 'ext.js';]\
+    Import all exported objects and packed together as one object
+    invoking by [\extModule.fname();]\
+
+    DUNNO whether you can omit [\as extModule]\.
+
+   |import with alias|
+    [\import { fname as my func } from 'ext.js';]\
+
+   |import some of the exported objects|
+    [\import { nameX, nameY } from 'ext.js';]\
+
+    ----------------------------------------------------------------------
+    NOTE when a module is imported, the variables in the module (e.g. global
+    variables to that module) that are not imported can still store values and
+    change their values when those variables are manipulated by the imported
+    function.
+
+ == Regular Expression == {{{2
+  > RegExp literal < {{{3
+    ➱   Syntax: [\/:pattern:/:modifiers:]\
+    ➱   Enclose regex pattern in a pair of slashes [\/^pattern[0-9]+$/]\.
+    ➱   You can add modifiers behind the regex: [\/regex/g]\. Some flags:
+        ‣   [\g]\ match multiple instances on the single line
+        ‣   [\i]\ ignore case
+        ‣   [\m]\ multiline search
+
+  > Constructor < {{{3
+    Use [\RegExp]\ constructor:
+    ➱   [\const regex = new RegExp('[a-z]', 'gi');]\
+    ➱   [\const regex = new RegExp(/[a-z]/, 'gi');]\
+
+  > Special pattern < {{{3
+   |character| {{{4
+    Capital letter matches the anti-set:
+    ➱   [\\w]\: word character, i.e. [\[A-Za-z0-9_]]\
+    ➱   [\\s]\: white spaces
+    ➱   [\\d]\: digit
+
+    No capital letter variant:
+    ➱   [\\t]\, [\\r]\, [\\n]\, [\\v]\, [\\f]\, [\\0]\
+    ➱   [\.]\: Wildcard
+    ➱   [\|]\: or operator
+    ➱   [\\x:hh:]\: matches character with two hexadecimal digits code
+    ➱   [\\u:hhhh:]\: matches a UTF-16 code-unit.
+
+   |assertion| {{{4
+    ➱   [\^]\: Start of line
+    ➱   [\$]\: End of line
+    ➱   [\\b]\: Boundary of word, i.e. not followed or preceded by another \w
+    ➱   [\\B]\: Non-word boundary
+    ➱   [\x(?=y)]\: match x iff followed by y.
+    ➱   [\x(?!y)]\: match x iff not followed by y.
+    ➱   [\(?<=y)x]\: match x iff preceded by y.
+    ➱   [\?<!y)x]\: match x iff not preceded by y.
+
+   |groups| {{{4
+    ➱   [\(x)]\: Capturing group
+    ➱   [\(?<:name:>x)]\: Named capturing group
+    ➱   [\(?~:x)]\: Non-capturing group
+    ➱   [\\:n:]\: Back reference to the n-th (1-indexed) capturing group in
+        the regex.
+        ⮱   E.g. in [\/apple(,)orange\1/]\, [\\1]\ matches [\,]\.
+    ➱   [\\k<:name:>]\: Back reference to the named capturing group.
+
+   |quantifier| {{{4
+    ➱   [\*]\
+    ➱   [\+]\
+    ➱   [\?]\
+    ➱   [\{:n:}]\
+    ➱   [\{:n:,}]\
+    ➱   [\{:n`,m:}]\
+
+  > Builtin methods using RegExp < {{{3
+    ➱   [\:regex:.test(:string:)]\ returns true if there is a match
+    ➱   [\:string:.match(:regex:)]\ returns [\null]\ or an array containing
+        search results. The format of the returned array depends on the regex
+        modifier.
+        ⮱   Without [\g]\ flag:
+            [\"ABCDE".match(/c./i)]\ returns:
+            [\["substr", index~: 3, input~: "ABCDE", groups~: undefined]]\
+            ⮱   You can then get the useful info with dot/bracket notation
+        ⮱   With [\g]\ flag:
+            [\"abaridora".match(/.a/g)]\ returns:
+            [\["ba", "ra"]]\
+    ➱   [\:string:.replace(:searchValue`, newValue:)]\ returns a new replaced
+        string
+        ⮱   searchValue can be a string or a regex
+        ⮱   newValue can be a [[function]] that takes the match and returns a
+            replacement
+        ⮱   If newValue is a string, there're special [[replacement patterns]]
+            ‣   [\$$]\: inserts a [\$]\
+            ‣   [\$&]\: matched substring
+            ‣   [\$`]\: the portion of the string that precedes the match
+            ‣   [\$']\: the portion of the string that after the match
+            ‣   [\$:n:]\: the n-th (1-indexed) capturing group (n in [1,99])
+                ⮱   Whether this refers and what this refers to can be tricky,
+                    see
+                    [=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#specifying_a_string_as_the_replacement]=
+            ‣   [\$<:name:>]\: the named capturing group
+    ➱   [\:string:.split(:separator:)]\ splits string at separator and returns
+        and array containing the split parts.
+        ⮱   separator can be a string or a regex
+
+ == Other Builtin Library == {{{2
+  > Math < {{{3
+    ➱   [\Math.pow(x, y)]\
+    ➱   [\Math.floor(x)]\
+    ➱   [\Math.ceil(x)]\
+    ➱   [\Math.random()]\ returns a float in range [0, 1).
+        ⮱   To get a random integer (note the +1):
+            #beginJavascript#
+            function randInt(lhs, rhs) {
+                return lhs + Math.floor(Math.random() * (rhs - lhs + 1));
+            }
+            #endJavascript#
+
+  > Date < {{{3
+    ➱   [\Date()]\ returns time, date and timezone
+    ➱   [\Date.now()]\ returns a time stamp (number of milliseconds since Jan
+        1 1940 00:00 UTC)
+    ➱   [\let date = new Date('July 24 1992 12~:35~:10')]\ creates a Date
+        object.
+    ➱   [\date.getDate()]\ returns the date of month (here is 24)
+    ➱   [\date.getMonth()]\ returns the month starting from 0 (here is 6)
+    ➱   [\date.getTime()]\ returns the time stamp
+    ➱   [\date.getFullYear()]\ returns a four digit year.
+
+ == Help == {{{2
+    ➱   Check [{MDN]} for documentation of various methods and properties.
+
+[~{ AJAX }~] {{{1
+    See:
+    [=/media/mikeX/Nextcloud/Notes/Computer/Javascript/promises-and-ajax.md]=
+
+[~{ Node JS }~] {{{1
+ == Intro == {{{2
+  > Features < {{{3
+    ‣   creates all kinds of server-side application
+    ‣   Event-driven architecture
+
+  > Advantages < {{{3
+    ‣   Asynchronous functions, using callbacks to signal completion and
+        failure
+
+  > Drawbacks < {{{3
+    ‣   Lack native useful functions and features for web apps development.
+        Requires external modules and framework for that. Otherwise you need
+        to reinvent the wheel
+
+   |addressing drawbacks|
+    ‣   ['Express]' is the most popular Node [[web framework]].
+    ‣   ['Node package manager]' (['NPM]') is the pre-installed package
+        manager for Node.js server platform
+
+ == Using Express == {{{2
+  > Initialize an web app using Express < {{{3
+    Go to your project folder, then░
+    [\$ npm init]\
+    [\$ npm install express]\ to install package express
+
+    To start the server [\$ node index.js]\ where index.js is the server main
+    file.
+
+  > Files created at init < {{{3
+   |package.json|
+    ‣   List metadata about the project
+    ‣   list the dependencies (packages)
+
+   |package-lock.json|
+    Similar to package.json but also include other modules that ought to be
+    loaded in the application.
+
+   |node_modules|
+    Is a directory storing the installed external libraries
+
+  > Simple Express example < {{{3
+    [\const express = require('express');                  ]\░
+    [\const app = express();                               ]\░
+    [\                                                     ]\░
+    [\app.get('/', (req, res) => {                         ]\░
+    [\  res.send('<h1>Hello World!</h1>');                 ]\░
+    [\});                                                  ]\░
+    [\                                                     ]\░
+    [\app.listen(8000, () => {                             ]\░
+    [\  console.log('Example app listening on port 8000!');]\░
+    [\});                                                  ]\░
+
+  > Routing < {{{3
+    ['Routing]' refers to how the system responds to a client request [[to a
+    specific]] ['endpoint]': a path and a specific HTTP request.
+
+    To handle routing, use [\app.:METHOD`(PATH`, CALLBACK...:);]\.
+
+   |request method| {{{4
+    Method can be either:
+    ‣   get
+    ‣   put
+    ‣   post
+    ‣   delete
+
+   |path| {{{4
+    E.g.
+    ‣   [\'/']\ for root path
+    ‣   [\'/user/~:userid/profile']\ for paths like /user/u1830/profile,
+        /user/tommy/profile, and etc.
+        ⮱   With [\~:]\ it indicates a variable name - ['route parameter]' -
+            to capture the directory name which can be used later in the
+            callback function by addressing it with [\req.params.userid]\
+            where [\req]\ is the request object passed as the first argument
+            for the callback function.
+
+   |callback function| {{{4
+    The callback functions are executed in order to form the whole handling
+    pipeline upon matching HTTP request.
+
+    For the handler, it could be:
+    ‣   A single callback function
+    ‣   More than one call back function, separated by [[commas]]
+    ‣   An [[array]] of callback functions
+
+    For each function, it requires following parameters ([[order matters]]):
+    ‣   request object (e.g. [\req]\) - required
+    ‣   response object (e.g. [\res]\) - required
+    ‣   next object (e.g. [\next]\) - required if the callback function is not
+        the last middleware that produces the final response. In such case the
+        last statement in the function body should be [\next();]\ to pass
+        control to the next function.
+
+   |request object| {{{4
+    [\req.:PROPERTY:]\ where property can be:
+    ‣   [\app]\ returns a reference to the current app instance
+    ‣   [\baseurl]\ specifies the URL path on which a [[router instance]] was
+        [[mounted]].
+    ‣   [\cookies]\ contains cookies sent by the request when we use
+        [[cookie-parser]] middleware
+    ‣   [\hostname]\ contains the hostname from the "host" HTTP header
+    ‣   [\ip]\ specifies the remote IP address of the request
+    ‣   [\method]\ returns the HTTP method of the request
+    ‣   [\originalUrl]\ holds the original request URL, i.e. in the form
+        /path?querystring#fragment, that is the baseurl + path
+    ‣   [\params]\ contains properties mapped to the named route parameters
+    ‣   [\path]\ contains the path part of the request URL. It is the sub-path
+        under the [[mounted base path]] of the [[router instance]]
+    ‣   [\protocol]\ returns the request protocol string: "http" or "https"
+    ‣   [\query]\ contains a property for each query string parameter in the
+        route.
+
+   |response object| {{{4
+    [\res.:PROPERTY:]\ where property can be:
+    ‣   [\app]\ returns a reference to the current app instance.
+    ‣   [\headerSent]\ returns a boolean that indicates if the app has sent
+        the HTTP headers for the response.
+    ‣   [\locals]\ contains response local variables scoped to the request
+    ‣   [\append()]\ appends the specified value to the HTTP response header
+        field.
+    ‣   [\cookie()]\ sets the HTTP Set-Cookie header with the options
+        provided.
+    ‣   [\clearCookie()]\ clears the cookie specified by name and given
+        options.
+
+    The following ends the handling pipeline:
+    ‣   [\end()]\ quickly ends the response without any data.
+    ‣   [\get()]\ provides HTTP response header specified by field.
+    ‣   [\json()]\ returns the response in JSON format.
+    ‣   [\redirect()]\ redirects to the URL derived the specfied path, with
+        specified status.
+    ‣   [\render()]\ renders a ['view]' and sends the rendered HTML string to
+        the client.
+    ‣   [\send()]\ sends the HTTP response body.
+    ‣   [\sendStatus()]\ sets the response HTTP status code to statusCode and
+        send its string representation as the response body.
+    ----------------------------------------------------------------------
+
+    NOTE that like PHP you cannot add more HTTP headers once started composing
+    HTTP body:
+    ‣   [\set()]\ sets the response's HTTP header field to input value.
+    ‣   [\status()]\ sets the HTTP status for the response.
+
+ == Keywords == {{{2
+   |request verbs|
+    GET, POST etc
+
+   |routes|
+    URL paths
+
+  > Express.js pipeline < {{{3
+   |request handling pipeline|
+    A series of functions executed to create a response upon a request.
+
+   |middleware|
+    Functions executed in the middle of the request handling pipeline
+    ‣   Outputs are either (i) final response or (ii) inputs for next
+        middleware
+
+[~{ Vim }~] {{{1
+ == YouCompleteMe == {{{2
+    ➱   [;Remember]; to check
+        [=https://github.com/ycm-core/YouCompleteMe#javascript-and-typescript-semantic-completion]=
+    ➱   Require a [\jsconfig.json]\ file to provide ['IntelliSense]':
+
+		{
+		    "compilerOptions": {
+		        "checkJs": true
+		    }
+		}
+
+[~{ Live-Server }~] {{{1
+ == live-server == {{{2
+    ➱   Use AUR package [\nodejs-live-server]\
+
+   |usage from command line|
+    From [[project's directory]]:
+    ➱   [\live-server :[OPT]...:]\
+
+   |options|
+    ➱   [\--port=:n:]\: Default 8080
+    ➱   [\--host=:addr:]\: Default IP env var or 0.0.0.0
+    ➱   [\--no-browser]\: Suppress automatic web browser launching
+    ➱   [\-q]\ or [\--quiet]\: Suppress logging
+
+[~{ JSDoc }~] {{{1
+    See:
+    [=/media/mikeX/Nextcloud/Notes/Computer/Javascript/jsdoc.md]=
+
+    Writing jsdoc can also allow you to enable type checking with the line
+    ➱   [\// @ts-check]\
+    ➱   [\// @ts-ignore]\ ignores the next line

@@ -1,0 +1,105 @@
+/// Language: DQNote_1.35
+[~{ Syntax }~] {{{1
+    [\tmux :[OPT]... [CMD [CMD-OPT]...]:]\
+
+[~{ Options }~] {{{1
+    ‣   [\-2]\: Force assume the terminal supports 256 colours.
+        ⮱   Equivalent to [\-T 256]\
+    ‣   [\-c :{SHELL-CMD}:]\
+    ‣   [\-f :{FILE}:]\: Specify config file.
+
+[~{ Commands }~] {{{1
+ == Session and Clients == {{{2
+  > new-session < {{{3
+   |use| {{{4
+    Create a new session and attach it.
+
+   |alias| {{{4
+    [\new]\
+
+   |syntax| {{{4
+    [\new-session :[OPTS]... [SHELL-CMD]:]\
+
+   |options| {{{4
+    ‣   [\-d]\: Do not attach session.
+    ‣   [\-s :{SESSION-NAME}:]\
+        ⮱   [\-A]\: Attach session instead if session-name already exists
+    ‣   [\-n :{WINDOW-NAME}:]\
+    ‣   [\-t :{SESSION-GROUP}:]\: Sessions in the same group share the same
+        set of windows.
+    ‣   [\-c :{START-DIR}:]\
+    ‣   [\-P]\: Print info about the new session after it is created.
+    ‣   [\-E]\: The [\update-environment]\ option will not be applied.
+    ‣   [\-e :VAR`=VALUE:]\: Set env var. Can be specified multiple times.
+
+  > list-sessions < {{{3
+   |use| {{{4
+    List all sessions managed by the server.
+
+   |alias| {{{4
+    [\ls]\
+
+   |syntax| {{{4
+    [\list-sessions :[OPT]...:]\
+
+   |options| {{{4
+    ‣   [\-F :FORMAT:]\: Output format of each line
+    ‣   [\-f :FILTER:]\: Only sessions for which FILTER is true are shown
+
+  > attach-session < {{{3
+   |use| {{{4
+    Attach to the target session.
+
+   |alias| {{{4
+    [\attach]\
+
+   |syntax| {{{4
+    [\attach-session :[OPT]...]\
+
+   |options| {{{4
+    ‣   [\-t :{TARGET-SESSION}:]\
+    ‣   [\-d]\: Detech the target session from all other clients.
+
+  > rename-session < {{{3
+   |use| {{{4
+    Rename a session.
+
+   |syntax| {{{4
+    [\rename-session :[OPT] {NEW-NAME}:]\
+
+   |alias| {{{4
+    [\rename]\
+
+   |options| {{{4
+    ‣   [\-t :{TARGET-SESSION}:]\
+
+ == Layout == {{{2
+  > new-window < {{{3
+   |use| {{{4
+    Open a new window.
+
+   |alias| {{{4
+    [\neww]\
+
+   |syntax| {{{4
+    [\new-window :[OPT]... [SHELL-CMD]\
+
+   |options| {{{4
+    ‣   [\-d]\: Do not change to the new window
+    ‣   [\-n :{WINDOW-NAME}:]\
+    ‣   [\-c :{START-DIR}:]\
+    ‣   [\-e :VAR`=VALUE:]\: Set env var. Can be specified multiple times.
+
+ == Script == {{{2
+  > source-file < {{{3
+   |use| {{{4
+    Load a Tmux config file.
+
+[~{ Key bindings }~] {{{1
+  > Prefix key < {{{3
+    ➱   [\<C-b>]\ by default
+        ⮱   I like [\<C-a>]\ for local machine, and [\<C-e>]\ for remote.
+
+  > Resize < {{{3
+    ➱   [\<M-<UP>>]\: Resize upwards by 10 lines
+    ➱   [\<C-<LEFT>>]\: Resize to the left by 1 column

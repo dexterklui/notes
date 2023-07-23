@@ -1,0 +1,137 @@
+[~{ Page }~] {{{1
+    ➱   [=https://github.com/philc/vimium]=
+    ➱   [=https://github.com/philc/vimium/wiki]=
+
+[~{ Key Bindings }~] {{{1
+ == Vimium == {{{2
+  > Escapes < {{{3
+    ➱   [\<Esc>]\
+    ➱   [\<C-[>]\
+    ➱   [\<M-i>]\: Custom mapkey, for quickly get in insert mode and get out
+    ➱   After focusing on something else, like the address bar, you can
+        quickly focus back onto the page so that you can use the vimium
+        keybinds by this:
+        Open and close the history tab by tapping [\<C-h>]\ twice.
+
+  > Hint < {{{3
+    ➱   [\f]\: Open link in current tab
+    ➱   [\F]\: Open link in new tab
+    ➱   [\<Space>]\: Rotate stack order of hint markings
+    ➱   [\yf]\: Copy a link url to clipboard
+
+   |custom|
+    ➱   [\h]\: Hover
+    ➱   [\e]\: Focus
+        ⮱   [\<S-F10>]\ to bring up right-click menu, then [\t]\ new tab or
+            [\w]\ new tab with particular container.
+    ➱   [\c]\: Copy text
+
+  > Navigation < {{{3
+    ➱   [\k]\, [\j]\: Scroll down and up
+    ➱   [\u]\, [\d]\: Scroll up and down half a page
+    ➱   [\h]\, [\l]\: Scroll left and right
+    ➱   [\gg]\, [\G]\: Scroll to top and bottom
+    ➱   [\zH]\, [\zL]\: Scroll to leftmost and rightmost
+    ➱   [\gf]\: Cycle forward to next pane
+    ➱   [\gF]\: Focus main/top frame
+    ➱   [\``]\: Jump to previous jump (like [\<C-o>]\ in Vim)
+    ➱   [\gi]\: Focus the first (or n-th) input area
+        ⮱   [\<tab>]\ cycle through
+    ➱   [\s]\: Focus the search box input area of the page, if any
+
+   |marks|
+    ➱   [\ma]\ (a-z): Set local mark
+    ➱   [\`a]\ (a-z): Jump to local mark
+    ➱   [\mA]\ (A-Z): Set global mark
+    ➱   [\`A]\ (A-Z): Jump to global mark
+
+  > Tabs < {{{3
+    ➱   [\J]\ or  [\gT]\: Previous tab
+    ➱   [\K]\ or [\gt]\: Next tab
+    ➱   [\^]\: Previously visited tab
+    ➱   [\T]\: Create new tab
+    ➱   [\yt]\: Duplicate current tab
+    ➱   [\x]\: Close current tab
+    ➱   [\X]\: Restore closed tab
+    ➱   [\t]\: Search through opened tab
+    ➱   [\W]\: Move current tab to new window
+    ➱   [\<M-p>]\: Pin/unpin current tab
+
+  > Page < {{{3
+    ➱   [\r]\: Reload page
+    ➱   [\gs]\: View source
+    ➱   [\H]\: Previous page
+    ➱   [\L]\: Next page
+    ➱   [\o]\: Open URL, bookmark, or history entry in current tab
+    ➱   [\O]\: Open URL, bookmark, or history entry in new tab
+    ➱   [\b]\: Open bookmark
+    ➱   [\B]\: Open bookmark in new tab
+    ➱   [\ge]\: Edit current URL
+    ➱   [\gE]\: Edit current URL and open in new tab
+    ➱   [\gu]\: Go up one level in URL hierarchy
+    ➱   [\gU]\: Go to the root in URL hierarchy
+
+  > Find < {{{3
+    ➱   [\<Esc>]\ and [\<C-[>]\
+    ➱   [\/]\: Find
+        ⮱   smartcase
+        ⮱   add suffix [\\r]\ to search as JS RegEx
+    ➱   [\n]\ and [\N]\: Next and previous match
+
+  > Modes < {{{3
+    ➱   [\i]\: Insert mode; send keystrokes to webpage directly
+        ⮱   [\<Esc>]\ or [\<C-[>]\ to exit insert mode
+    ➱   [\v]\: Visual mode
+        ⮱   [\y]\: Yank
+        ⮱   [\p]\/[\P]\: Send selected text to default search engine
+        ⮱   [\c]\: Enter caret mode
+        ⮱   [\o]\: Swap selecting anchors
+    ➱   [\V]\: Visual line mode
+
+  > Misc < {{{3
+    ➱   [\?]\: Show help
+    ➱   [\yy]\: Copy current url to the clipboard
+
+ == Firefox Key Bidings == {{{2
+  > Containers < {{{3
+    ➱   [\<M-S-.>]\: Open containers panel
+    ➱   [\<M-S-p>]\: Open container 1 (personal) in new tab
+    ➱   [\<M-S-h>]\: Open container 2 (work) in new tab
+    ➱   [\<M-S-w>]\: Open container 3 (hello) in new tab
+    ➱   [\<M-S-g>]\: Open container 4 (game) in new tab
+    ➱   [\<M-S-s>]\: Open container 5 (shopping) in new tab
+
+ == System == {{{2
+    ➱   [\<S-F10>]\: Bring up right-click menu
+        ⮱   Useful to use with Vimium custom keybind [\e]\ hint hover
+        ⮱   Then in the right click menu:
+            ‣   [\t]\: Open in new tab
+            ‣   [\w]\: Open in new tab in a particular container
+            ‣   [\p]\: Open in new incognito window
+
+[~{ Remapping }~] {{{1
+    ➱   [\map :key command:]\
+    ➱   [\unmap :key:]\
+    ➱   [\mapkey :key1 key2:]\
+    ➱   [\unmapAll]\
+
+ == Specify Keys == {{{2
+    ➱   [\<c-:*:>]\: Ctl
+    ➱   [\<a-:*:>]\: Alt
+    ➱   [\<s-:*:>]\: Shift
+    ➱   [\<m-:*:>]\: Command on Mac
+    ➱   [\<left>]\, [\<right>]\, [\<up>]\, [\<down>]\
+    ➱   [\<f1>]\ to [\<f12>]\
+    ➱   [\<space>]\
+    ➱   [\<tab>]\, [\<enter>]\, [\<delete>]\, [\<backspace>]\, [\<insert>]\,
+        [\<home>]\, [\<end>]\
+
+    Vimium will take <shift> into account for key in [\:*:]\ .
+    ⮱   I.e. [\<c-&>]\ is [\<c-s-7>]\.
+
+    In the options where key mapping is define, [[start a line]] with [\"]\ or
+    [\#]\ for [[comments]]
+
+[~{ Find mode }~] {{{1
+    ➱   Use [[smartcase]]
+    ➱   Suffix [\\r]\ make it treat like JavaScript [[RegEx]].

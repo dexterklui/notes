@@ -1,0 +1,36 @@
+[~{ Key Bindings }~] {{{1
+ == VSCode == {{{2
+    ➱   [\<C-S-p>]\: Open VSCode command prompt
+    ➱   [\<C-\>]\: Split screen
+    ➱   [\<C-p>]\: Quick navigate between files
+    ➱   [\<C-t>]\: To find a symbol, e.g. class and variable (bascially just
+        [\<C-p>]\ and type #)
+    ➱   [\<C-`>]\: Toggle builtin terminal
+    ➱   [\<C-,]\: Setting
+    ➱   [\<C-S-f>]\: Find in files
+    ➱   [\<F5>]\: Start debugging
+
+    ➱   [\<C-o>]\: Open files
+    ➱   [\<C-k> <C-o>]\: Open folder
+
+    ➱   [\<C-k> <C-t>]\: Change themes
+    ➱   [\<C-k> <C-s>]\: Customise shortcuts
+
+  > Navigate Elements < {{{3
+    ➱   [\<C-S-x>]\: Open extension view
+
+ == Vim == {{{2
+  > Vim sneak < {{{3
+    ➱   [\s]\ or [\S]\: Like [\f]\ and [\F]\, but use two characters
+        ⮱   Need to enable Vim Sneak
+
+[~{ Commands }~] {{{1
+ == VSCode == {{{2
+    [\<C-S-p>]\ to open command prompt
+
+  > Config < {{{3
+    ➱   [\settings.json]\: Edit Global, User or Workspace settings.json.
+
+ == Vim == {{{2
+    ➱   From VSCode command palette, [\toggleVim]\ to toggle the extension.
+        ⮱   Can use [\tvim]\ or even [\tv]\ to find the command too

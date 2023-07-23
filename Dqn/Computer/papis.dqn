@@ -1,0 +1,74 @@
+[~{ Warnings and Reminders }~] {{{1
+    ‣   When [[removing]] an entry, remember that any annotated documents
+        (e.g. pdf) associated will also be deleted. Make sure to [[backup]]
+        them.
+
+[~{ Common Commands }~] {{{1
+ == bibtex == {{{2
+  > Examples < {{{3
+    ‣ [\bibtex add :REGEX: save :FILE:]\ selects an entry matching REGEX and
+      saves to file in bibtex format
+        ⮱ Perhaps better to use [\export]\ command (with [\>>]\ or [\-o]\)
+    ‣ [\bibtex read :FILE: add :REGEX: save :FILE:]\ is like above, but also
+      add all the entries in FILE (which is a bibtex)
+    ‣ [\bibtex read :FILE: ref -o :FILE:]\ read a bibtex file and select an
+      entry to output to a file.
+
+ == add == {{{2
+  > Examples < {{{3
+    ‣ [\add :URL: --from doi :DOI:]\
+    ‣ [\add :URL: -s author :AUTHOR: -s title :TITLE: -s year :YEAR:]\
+    ‣ [\add :URL: -s tags ":tag1 tag2:"]\
+
+ == list (and QUERY) == {{{2
+  > Examples < {{{3
+    ‣ [\list 'tags~:metaethics,ethics author~:David' --format '{doc[author]} {doc[year]} {doc[title]}']\
+
+ == export == {{{2
+  > Examples < {{{3
+    ‣ [\export --format bibtex --all 'author~:einstein' >> main.bib]\
+    ‣ [\papis export --folder --out interesting-document krebs]\
+        ⮱ Select one of the entries matching "krebs" to export. This creates
+          the folder "interesting-document" containing the "info.yaml" file,
+          the linked documents and a "bibtex" file for sharing with other
+          people.
+        ⮱ Use [\--all]\ to include all matching entries.
+
+  > Syntax < {{{3
+    [\export :OPT... QUERY:]\
+
+  > Options < {{{3
+    ‣ [\--sort :FIELD:]\ sorts according to FIELD.
+    ‣ [\--reverse]\ reverses sort order.
+    ‣ [\-a]\ or [\--all]\ exports all matching entries.
+    ‣ [\--folder]\ exports a whole folder instead in Papis style. For sharing
+      to others.
+    ‣ [\-o :{FILE|DIR}:]\ or [\--out]\ outputs the result to a file or inside a
+      directory.
+    ‣ [\-f :{:bibtex:|:json:|:yaml:}:]\ or [\--format]\ select the output
+      format.
+
+ == explore == {{{2
+    Add to the library from different sources.
+
+  > Examples < {{{3
+    ‣ [\explore bibtex :BIBTEX_FILE: add]\ adds entries in a bibtex file to
+      the library.
+
+ == merge == {{{2
+    Merge two entries in a library.
+
+  > Usage < {{{3
+    Once in the picker, use <C-t> to select two entries to merge.
+
+ == update == {{{2
+  > Examples < {{{3
+    ‣ [\update --set tags :{TAG} {QUERY}:]\
+        ⮱ Once in the picker, use <C-t> to select entries to which the tags
+          apply to.
+        ⮱ NOTE that this overwrite old tags. To [[add tags instead]] of
+          overwrite, use░
+          [\update --set tags '{doc[tags]} :{NEW_TAG}`' {QUERY}:]\
+    ‣ [\update --from :{:doi:|:isbn:|:bibtex:|...} {ARG} {QUERY}]\░
+      selects an entry and update metadata from given source.
+

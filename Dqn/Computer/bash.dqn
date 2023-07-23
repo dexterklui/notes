@@ -1,0 +1,214 @@
+[~{ Shell Quoting }~] {{{1
+    ‣   Quoted items can be concatenated with nonquoted and other quoted
+        items.
+        ⮱   e.g. [\'This says "Here is a single quote <'"'"'>"']\:
+            {-This says "Here is a single quote <'>"}-
+        ⮱   Can be simplified to:
+            [\'This says "Here is a single quote <'\''>"']\
+    ‣   Single quotes [\']\: Everything inside literally. I.e. impossible to
+        have a literal single quote inside.
+    ‣   [\\]\ quotes the character following (except inside a pair of [\']\)
+    ‣   Double quotes protect most texts inside. Still do variable and command
+        substitution.
+        ⮱   Special characters: [\$`\"]\
+
+    ➱   Quoted items are interpreted and passed by shell as one single
+        argument.
+
+[~{ clear }~] {{{1
+    [\clear -x]\ is equivalent with the key binding [\<C-l>]\.
+
+[~{ pass }~] {{{1
+    Bash equivalent of [\pass]\ in python is [\~:]\. E.g.:
+    [\my_function() { ~:; }]\
+
+    Alternatively, [\true]\ does nothing but have an exit value of 0.
+    [\false]\ also does nothing but have a non-zero exit value.
+
+[~{ calculation }~] {{{1
+    ➱   [\echo "2 * 3" | bc -s]\
+    ➱   [\echo $(( 2 * 3 ))]\
+    ➱   [\expr 2 \* 3]\
+    ➱   [\echo `expr 2 \* 3`]\
+
+[~{ timeout }~] {{{1
+    [\timeout :time cmd [cmd_arg]...:]\
+    ➱   run a command with a time limit
+    ➱   time a number with a suffix, default is [\s]\, others are [\m]\,
+        [\h]\, [\d]\. E.g. [\5s]\ or [\5]\ means 5 seconds
+
+[~{ find }~] {{{1
+    ‣ [\find . -type f -mtime +60 -delete]\ removes all files in this
+      directory (recursively) whose modification time is more than 60 days
+      ago.
+
+[~{ Tools for Data Wrangling }~] {{{1
+ == expand == {{{2
+    Convert tabs in each file to spaces, writing to stdout.
+
+    [\expand :[OPT]... [FILE]...:]\
+    ➱   When no FILE, or when FILE is -, read stdin.
+
+   |options|
+    ‣   [\-i]\ or [\--initial]\: Do not convert tabs after non-blanks.
+    ‣   [\-t]\ or [\--tabs=:N:]\: Have tabs N characters apart ([[default 8]])
+
+[~{ awk }~] {{{1
+ == Basic Idea == {{{2
+    ➱   Awk is a data-driven, interpreted programming language.
+    ➱   Awk search files for lines that contain patterns, then do action on
+        the those lines.
+    ➱   Awk program consists of ['rules]', each specifies one pattern and one
+        action.
+
+ == Syntax == {{{2
+    ➱   A rule: [\:PATTERN `{ ACTION :}]\
+        ⮱   Either the PATTERN or ACTION can be omitted, but not both.
+            ‣   If PATTERN is omitted, ACTION is done on every line.
+            ‣   If ACTION is omitted, the default action is to print the line.
+    ➱   [[Newlines]] usually separate rules
+        ⮱   Newline after the followings is [[ignored]]:
+            ‣   [\,]\
+            ‣   [\{]\
+            ‣   [\?]\
+            ‣   [\~:]\
+            ‣   [\||]\
+            ‣   [\&&]\
+            ‣   [\do]\
+            ‣   [\else]\
+        ⮱   [\\]\ at the end of line also makes awk ignores the newline. This
+            is for statement continuation across lines.
+            ‣   WARN: some versions of awk do not allow backslash continuation
+                inside a regex or string.
+            ‣   WARN: in line comments and backslash continuation do not mix
+    ➱   [\;]\ separates rules on the same line.
+    ➱   In-line comment: The rest of the line after [\#]\
+
+ == Run Awk == {{{2
+    Run directly in command-line environment:
+    ➱   [\awk ':{PROGRAM}`' [INPUT-FILE][ ...]:]\
+
+    Read a program:
+    ➱   [\awk -f :{PROG-FILE} [INPUT-FILE][ ...]:]\
+
+    When there is no INPUT-FILE given, awk reads from the stdin, until the eof
+    character (<C-d>).
+
+    Making an executable script:
+    ➱   Save to a executable file and use hashbang like [\#! /bin/awk -f]\.
+    ➱   Then execute the script. E.g. [\./my_awk_prog inputfile]\
+
+ == Special Directive In Place of Pattern == {{{2
+    E.g. [\awk 'BEGIN { print "Print this sentence before reading input" }']\
+
+    ‣   [\BEGIN]\: Execute before reading any input. Stop if there are no
+        other statements (e.g. rules like [\:PAT `{ ACT :}]\) in the program,
+        instead of trying to read input.
+
+ == Options == {{{2
+    ‣   [\-F :SEP-STRING:]\: Define input field separators ([[default]] is
+        space).
+
+ == Variables == {{{2
+  > Predefined variables < {{{3
+    ‣   [\FILENAME]\: Name of current input file.
+        ⮱   Is [\-]\ for stdin.
+        ⮱   Is a null string inside a BEGIN rule.
+    ‣   [\FNR]\: Current record number in current file.
+    ‣   [\NF]\: Number of fields in current record.
+        ⮱   Set each time a new record is read, new field is created, or when
+            [\$0]\ changes.
+    ‣   [\NR]\: Number of input records awk has processed since the beginning
+        of the program's execution.
+
+  > User-defined variables < {{{3
+    ‣   Automatically initialized to 0.
+
+ == Functions == {{{2
+  > Predefined functions < {{{3
+   |numeric functions| {{{4
+    ‣   [\sqrt(x)]\
+    ‣   [\atan2(y, x)]\: arctangent of y/x in radians.
+        ⮱   Use [\pi = atan2(0, -1)]\ to retrieve the value of pi.
+    ‣   [\sin(x)]\
+    ‣   [\cos(x)]\
+    ‣   [\exp(x)]\
+    ‣   [\int(x)]\
+    ‣   [\log(x)]\: Natural logarithm
+    ‣   [\rand()]\: Return random float in [0,1)
+    ‣   [\srand(:[X]:)]\: Generate a new seed for [\rand()]\. Without X, use
+        current date and time for seed for seed generation. Return value is
+        the previous seed.
+
+ == Some Useful Short Program == {{{2
+    ‣   [\length($0) > 80]\
+    ‣   [\{ if (length($0) > max) max = length($0) }]\░
+        [\END { print max }                         ]\░
+        ⮱   This works the same as the first line:
+            [\length($0) > 80 { max = length($0) }]\
+        ⮱   NOTE that a tab character contributes 1 length only. You can use
+            bash program [\expand]\ to expand tabs into spaces first.
+    ‣   [\NF > 0]\: Print every line that has at least one field.
+    ‣   [\BEGIN { for (i=1; i<=7; i++) print int(101 * rand()) }]\:
+        Print seven random numbers from 0 to 100, inclusive.
+    ‣   [\ls -l :FILE...: | awk '{x += $5} END {print x}']\:
+        Print total number of bytes used by FILEs.
+    ‣   [\awk -F~: '{print $1}' /etc/passwd | sort]\:
+        Print a sorted list of login names of all users.
+    ‣   [\END {print NR}]\: Print number of lines read by awk.
+    ‣   [\NR % 2 == 0]\: Print even-numbered lines.
+
+[~{ archiving }~] {{{1
+ == zip == {{{2
+  > Syntax < {{{3
+    ➱   [\zip :OPTIONS ARCHIVE INPATH...:]\
+        ⮱   If the ARCHIVE does not have [[any]] extension, and Zip will
+            automatically add [\.zip]\.
+        ⮱   For ARCHIVE, [\-]\ means write to standard output.
+        ⮱   For INPATH, [\-]\ means reading the data content from standard
+            input.
+        ⮱   The command [\zip]\ is equivalent with [\zip - -]\, which is
+            useful in acting an intermediate compressing filter in a pipeline.
+            ⮱   Archive created this way can be decompressed with [\funzip]\.
+
+  > Options < {{{3
+   |input| {{{4
+    ‣   [\-@]\: Take the list of input files from standard input instead of
+        command line arguments.
+    ‣   [\-r]\: Recurse into directories.
+
+   |symlinks| {{{4
+    ‣   [\--symlinks]\: Store symbolic links as such, instead of the file
+        referred to by the link.
+
+   |update| {{{4
+    ‣   Without option, Zip add new files and overwrite files with the same
+        name.
+    ‣   [\-u]\: Add new files and overwrite modified files.
+    ‣   [\-FS]\: Like [\-u]\ except it also deletes files in the archive that
+        no longer exists in specified INPATH.
+
+ == unzip == {{{2
+  > Syntax < {{{3
+    ➱   [\unzip :OPTIONS ARCHIVE [FILE]... [XTR_ARG]...:]\
+        ⮱   Globbing pattern specified in FILE is applied recursively to all
+            files in the archive. To prevent that, use [\-x]\ extra argument.
+
+  > Extra Arguments (XTR_ARG) < {{{3
+    ➱   [\-x :FILE...:]\: Exclude files. Accept globbing.
+        ⮱   E.g. [\unzip foo '*.[ch]' -x '*/*']\ only extract C files in the
+            top level directory.
+    ➱   [\-d :DIR:]\: The directory to which files are extracted, instead of
+        the current directory.
+        ⮱   Can be placed in the OPTIONS too.
+
+  > Options < {{{3
+    ‣   [\-d :DIR:]\: See [=>Extra Arguments (XTR_ARG)<]=.
+    ‣   [\-l]\: List content.
+    ‣   
+
+[~{ Environment Variables }~] {{{1
+    To define an environment variable, use [\ENVVAR="Hello World"]\.
+    ⮱   If you want any child processes of this shell inherit the same
+        environment variable, use [\export ENVVAR="Hello World"]\.
+    ⮱   NOTE that there is no space around the [\=]\.

@@ -1,0 +1,577 @@
+/// Language: DQNote_1.35
+[~{ CentOS }~] {{{1
+ == Reference == {{{2
+    [=https://wiki.centos.org/HowTos]=
+
+ == Enterprise Linux == {{{2
+    ➱   Provides a long term [[stable]] robust and reliable platform.
+    ➱   With [[extended support]] (not commercial support). I.e. the vendor
+        maintains a product for an extended period of time.
+    ➱   With low-risk security update
+    ➱   ABI (application binary interface) and API stability. I.e. during the
+        life time of a release, none of the interface will change. So it makes
+        sure the third-party application will continue to work.
+        ⮱   Security fix is backported to current version (no version number
+            update).
+    ➱   Certification: certified to run on certain hardware and certain
+        software are certified to run on the platform.
+        ⮱   CentOS maintains binary compatibility with Red Hat Enterprise
+            Linux.
+
+[~{ Package Managing }~] {{{1
+ == RPM == {{{2
+  > package name < {{{3
+    In the format:
+    [\package_name-version-release.architecture.rpm]\
+
+    ➱   [\package_name]\ is the name of the package
+    ➱   [\version]\ is the version of the software which is usually locked
+    ➱   [\release]\ is the CentOS release number which changes as patches are
+        added.
+    ➱   [\architecture]\ of interest are:
+        ‣   [\i386]\ for 32-bit Pentiums and Athlons
+        ‣   [\x86_64]\ for 64-bit Pentiums and Athlons
+        ‣   [\noarch]\ is compatible with all platforms. This usually implies
+            that there are [[no precompiled files]]. Collections of Python
+            scripts usually come in a such package, for example.
+
+    Generally, Yum choose the correct choices of [\version]\ and
+    [\architecture]\ for you.
+
+ == yum == {{{2
+  > Intro < {{{3
+    Is a package manager for handling RPM packages.
+
+  > Reference < {{{3
+   |Guides - yum - Trac|
+    [=http://yum.baseurl.org/wiki/Guides.html]=
+
+  > Query < {{{3
+    ➱   [\yum list :[OPTION] [PKGSPEC]:]\░
+        ⮱   Where {{OPTION}} is optional and can be one of the followings:
+            ‣   [\all]\ lists all packages in all the repo and all installed
+                packages.
+                ⮱   Equivalent to [\yum list]\.
+            ‣   [\avilable]\ lists all the packages available to be installed
+                in any enabled repository on your system.
+            ‣   [\installed]\ lists all packages installed on your system.
+                ⮱   Equivalent to [\rpm -qa]\.
+            ‣   [\extras]\ lists any installed packages which no longer
+                appears in any of your enabled repo.
+            ‣   [\obsoletes]\ lists any obsoleting relationships between any
+                available package and any installed package.
+            ‣   [\updates]\ lists any package in an enabled repository which
+                is an update for any installed package.
+            ‣   [\recent]\ lists any package added to any enabled repository
+                in the last seven(7) days.
+        ⮱   Where {{PKGSPEC}} is a glob search string, e.g. [\"zsh*"]\. Yum
+            will look into the [[package names]].
+    ➱   [\yum search :{SEARCH_TERM}[ ...]:]\ outputs packages which matches
+        the search terms.
+        ⮱   In the order of highest number of matched terms to lowest.
+        ⮱   Looks for fields: [[names, summary, description, url]].
+    ➱   [\yum :[:what:]:provides :GLOB:]\ searches for packages that provides
+        a certain command (and DUNNO, perhaps files).
+        ⮱   E.g. of GLOB: [\"*bin/ls"]\
+
+    ➱   [\yum check-update]\ is exactly like [\yum list updates]\ but returns
+        an exit code of [\100]\ if there are updates available.
+    ➱   [\yum info :PACKAGE:]\ displays info about a package.
+
+    ➱   [\yum grouplist]\ prints groups of packages available to install and
+        lists what groups are already installed.
+    ➱   [\yum groupinfo :GROUP:]\ displays info about a group.
+
+  > Update < {{{3
+    Run [\yum update]\.
+    ➱   If a software is in use while update, the new version won't be used
+        until the software is restarted.
+    ➱   An update to kernel requires a reboot to be effective.
+        ⮱   You should reboot when you install any [\glibc]\ update.
+
+    Mostly you want to update all. But if you want to be specific,░
+    [\yum update :PACKAGE:]\, or [\yum groupupdate :GROUP:]\
+
+    See [=>Query<]= for [\yum list updates]\ and [\yum check-update]\.
+
+  > Installing packages < {{{3
+    ➱   [\yum install :PACKAGE:]\
+    ➱   [\yum groupinstall :GROUP:]\ installs a group (only those packages
+        that are marked as mandatory)
+
+  > Groups < {{{3
+    ➱   See [=>Query<]= for [\yum grouplist]\.
+    ➱   See [=>Query<]= for [\yum groupinfo :GROUP:]\.
+    ➱   See [=>Installing packages<]= for [\yum groupinstall]\.
+    ➱   See [=>Removing packages<]= for [\yum groupremove]\.
+
+  > Cache < {{{3
+    ➱   [\yum makecache]\ downloads and makes usable all the metadata for the
+        currently enabled yum repos.
+    ➱   [\yum clean :OPTION:]\ cleans the cache.
+        ⮱   Where OPTION is either one of the following:
+            ‣   [\packages]\ cleans up cached packages
+            ‣   [\metadata]\ cleans up any xml metadata
+            ‣   [\dbcache]\ cleans up copy of downloaded sqlite database files
+            ‣   [\all]\
+
+  > Removing packages < {{{3
+    ➱   [\yum remove :PACKAGE:]\ removes a package and all other packages that
+        depend on it, but NOT the packages installed as its dependency.
+    ➱   [\yum groupremove :GROUP:]\ removes all packages within the group.
+
+ == dnf == {{{2
+    The next major upgrade version for [\yum]\. The usage is mostly the same
+    as yum.
+
+ == Manage Repositories == {{{2
+  > List repositories < {{{3
+    ➱   [\yum update]\ can be used to see whether a repository is added.
+    ➱   [\yum repolist]\ lists enabled repositories.
+    ➱   [\yum repolist all]\ lists all repositories on your system, even if
+        they haven't been enabled.
+
+  > Adding repositories < {{{3
+   |set up with RPM|
+    With an RPM file that provides all configuration for a repository, you can
+    install that RPM directly to add a repository with:
+    [\rpm -Uhv :{RPM_FILE}:]\
+    ⮱   RPM_FILE can be a file or any valid URL pointing to an RPM_FILE.
+    ⮱   An RPM file contains public keys for the signers, the repo
+        configuration files, and possibly the documentation among other
+        things.
+
+   |set up manually|
+    You need two files:
+    ‣   A [\.repo]\ file containing the information about the repository
+    ‣   The [[public key]] that was used to sign packages to verify their
+        authenticity.
+
+    First you need to download the [\.repo]\ file into the directory
+    [\/etc/yum.repos.d/]\. You can do this with a simple [\wget]\. Then you
+    need to import the public key with the command:
+    [\rpm --import :{PUBLIC_KEY}:]\.
+    ⮱   Where PUBLIC_KEY can be a file or any valid URL pointing to one.
+
+ == RPM == {{{2
+    ➱   Is a software packaging system. An RPM file contains both software
+        files and metadata.
+    ➱   Every piece of software in CentOS distribution comes in RPM packages.
+
+  > Commands < {{{3
+    ➱   [\rpm -ql :PACKAGE:]\ list the files installed by a package.
+    ➱   [\rpm -qc :PACKAGE:]\ list only config files.
+
+[~{ SELinux }~] {{{1
+    [=https://wiki.centos.org/HowTos/SELinux]=
+
+    ➱   Is a ['Mandatory access control]' (MAC)
+    ➱   ['Discretionary access control]' (DAC) otherwise
+        ‣   file permissions
+        ‣   ['access control list]' (ACLs)
+
+    ➱   Follows the model of [[least-privilege]] and deny everything by
+        default.
+
+ == Modes == {{{2
+  > Modes and qualifier < {{{3
+    Three modes:
+    ➱   Enforcing:
+        Default. Enforce rules to deny access and log actions.
+    ➱   Permissive
+        Only log actions but not deny access. Useful for debugging.
+    ➱   Disabled
+
+    With an additional qualifier (how pervasive SELinux rules are applied):
+    ➱   targeted (less stringent)
+        ⮱   Targets and confines only selected system processes.
+    ➱   mls
+
+  > Setting < {{{3
+    Use [{system-config-selinux]} with the command line [\sestatus]\ to check
+    current status and make [[temporary]] change until next reboot.
+    ⮱   NOTE that it is recommended a reboot to relabel the filesystem when
+        switching from disabled to enforcing/permissive.
+
+    Edit [\/etc/selinux/config]\ for persistent change.
+    ➱   [\SELINUX=:{:enforcing:|:permissive:|:disabled:}:]\
+
+    [\setenforce]\ may be used to switch between enforcing and permissive on
+    the fly but the setting is not permanent.
+
+  > Access control < {{{3
+   |access control| {{{4
+    [[Targeted]] SELinux policy on CentOS ships with 4 forms of access
+    control:
+    ‣   Type enforcement (TE)
+    ‣   Role-based access control (RBAC)
+    ‣   Multi-level security (MLS)
+    ‣   Multi-category security (MCS)
+
+   |Security context| {{{4
+    All process and files have an SELinux security context, which can be seen
+    by passing in the flag [\-Z]\ to [\ls]\, [\ps]\ or many other programs.
+
+    The format of the security context is: [\:user`:role`:type`:mls:]\
+
+   |type enforcement| {{{4
+    Access is only allowed between similar types. E.g. a process of type
+    [\httpd_t]\ is allowed to access a file of type [\httpd_sys_content_t]\
+    but not a file of type [\user_home_t]\.
+
+   |role-based access control| {{{4
+
+[~{ Firewalld }~] {{{1
+ == Firewalld == {{{2
+  > Intro < {{{3
+    ➱   Manage firewall in the kernel by providing an interface and then
+        relying on an back-end firewall service like iptables, nftables.
+    ➱   Many commands here has to be run with root privilege.
+
+  > Reference < {{{3
+   |Documentation | firewalld|
+    [=https://firewalld.org/documentation/]=
+
+  > Getting started < {{{3
+    ➱   Decide to use which back-end program and install it. Default is
+        [\nftables]\.
+    ➱   Stop and disable the back-end program service.
+        ⮱   [\systemctl disable --now :SERVICE:]\
+    ➱   Start and enable [\firewalld]\ service.
+    ➱   Check status with:
+        ‣   [\systemctl status :SERVICE:]\; and
+        ‣   [\firewall-cmd --state]\
+
+  > Configuration files < {{{3
+    ➱   [\/usr/lib/firewalld]\ contains the default and fallback configuration
+        provided by firewalld for icmptypes, services and zones.
+    ➱   The system or user configuration are stored in [\/etc/firewalld]\.
+        ⮱   Either created by firewalld interface or by hand.
+        ⮱   Files here overload the default configuration files.
+        ⮱   The [\firewalld.conf]\ inside this directory provides the base
+            configuration.
+
+  > Runtime vs Permanent < {{{3
+   |runtime config|
+    Is the actual effective configuration and applied to the firewall in the
+    kernel.
+
+    Changes made to runtime config are not automatically saved to the
+    permanent configuration.
+
+   |permanent config|
+    Are config stored in config files. Will be loaded and become new runtime
+    config with every machine boot or service reload/restart.
+
+   |runtime to permanent|
+    [\firewall-cmd --runtime-to-permanent]\
+
+  > Basic Commands < {{{3
+    ➱   NOTE that you can add [\--permanent]\ to make the change permanent.
+    ➱   NOTE that zone-wise command affect the default zone, or you can add
+        the argument [\--zone=:ZONE:]\ to change that.
+
+   |general query| {{{4
+    ➱   [\$ firewall-cmd --version]\
+    ➱   [\$ firewall-cmd --help]\
+    ➱   [\$ firewall-cmd --state]\ gets the firewalld state: running or not.
+    ➱   [\$ firewall-cmd --get-active-zones]\
+    ➱   [\$ firewall-cmd --get-zone-of-interface=:INTERFACE:]\
+    ➱   [\firewall-cmd --get-zones]\ lists all available services
+
+    ➱   [\firewall-cmd --get-services]\ lists all available services
+    ➱   [\firewall-cmd --list-:OPTION:]\ lists all active OPTION:
+        ‣   [\all]\: everything added for or enabled in zone.
+        ‣   [\services]\
+        ‣   [\ports]\
+        ‣   [\source-ports]\
+        ‣   [\forward-ports]\
+        ‣   [\protocols]\
+        ‣   [\icmp-blocks]\
+        ‣   [\forward-ports]\
+        ‣   [\rich-rules]\
+        ‣   [\interface]\: interfaces that are bound to zone
+        ‣   [\sources]\: sources that are bound to zone
+        ‣   and more [\lockdown-whitelist-:...:]\
+
+    ➱   [\firewall-cmd --info-:OPTION:=:ENTITY:]\ prints info about an ENTITY
+        of that OPTION:
+        ‣   [\zone]\
+        ‣   [\service]\
+        ‣   [\ipset]\
+        ‣   [\helper]\
+        ‣   [\icmptype]\
+
+   |reload firewalld| {{{4
+    ➱   [\firewall-cmd --reload]\ or send [\SIGHUP]\ signal to firewalld:
+        [\killall -HUP firewalld]\.
+    ➱   [\firewall-cmd --complete-reload]\:
+        Reload firewall completely, even netfilter kernel modules. This will
+        most likely terminate active connections, because state information is
+        lost. This option should only be used in case of severe firewall
+        problems. For example, if there are state information problems that no
+        connection can be established with correct firewall rules.
+
+   |open ports / services| {{{4
+    ➱   [\firewall-cmd --zone=public --:{:add:|:remove:}:-port=80/tcp]\
+    ➱   [\firewall-cmd --zone=public --:{:add:|:remove:}:-service=http]\
+
+   |forward ports| {{{4
+    ➱   [\firewall-cmd --:{:add:|:remove:}:-forward-port=:PORT[`-PORT]:~:proto=:PROTOCOL[:~:toport=:PORT[`-PORT]][:~:toaddr=:ADDRESS[:/mask:]]:]\
+
+   |add services| {{{4
+    Besides editing the config files, you can use commands:
+    ➱   [\firewall-cmd --permanent --new-service=myservice]\
+    ➱   [\firewall-cmd --permanent --service=:myservice: --set-description=:description:             ]\░
+    ➱   [\firewall-cmd --permanent --service=:myservice: --set-short=:description:                   ]\░
+    ➱   [\firewall-cmd --permanent --service=:myservice: --add-port=:portid[-portid]`/protocol:       ]\░
+    ➱   [\firewall-cmd --permanent --service=:myservice: --add-protocol=:protocol:                   ]\░
+    ➱   [\firewall-cmd --permanent --service=:myservice: --add-source-port=:portid[-portid]/protocol:]\░
+    ➱   [\firewall-cmd --permanent --service=:myservice: --add-module=:module:                       ]\░
+    ➱   [\firewall-cmd --permanent --service=:myservice: --set-destination=ipv:{`4|`6}`:address[/mask]: ]\░
+
+   |debug| {{{4
+    See [=https://firewalld.org/documentation/howto/debug-firewalld.html]=
+
+  > Zones < {{{3
+   |Intro| {{{4
+    A ['zone]' defines the trust level for a connection, interface or source
+    address binding.
+
+   |Predefined zones| {{{4
+       |drop|
+    Any incoming network packets are dropped, there is no reply. Only outgoing
+    network connections are possible.
+
+       |block|
+    Any incoming network connections are rejected with an icmp-host-prohibited
+    message for IPv4 and icmp6-adm-prohibited for IPv6. Only network
+    connections initiated within this system are possible.
+
+       |public|
+    For use in public areas. You do not trust the other computers on networks
+    to not harm your computer. Only selected incoming connections are
+    accepted.
+
+       |external|
+    For use on external networks with masquerading enabled especially for
+    routers. You do not trust the other computers on networks to not harm your
+    computer. Only selected incoming connections are accepted.
+
+       |dmz|
+    For computers in your demilitarized zone that are publicly-accessible with
+    limited access to your internal network. Only selected incoming
+    connections are accepted.
+
+       |work|
+    For use in work areas. You mostly trust the other computers on networks to
+    not harm your computer. Only selected incoming connections are accepted.
+
+       |home|
+    For use in home areas. You mostly trust the other computers on networks to
+    not harm your computer. Only selected incoming connections are accepted.
+
+       |internal|
+    For use on internal networks. You mostly trust the other computers on the
+    networks to not harm your computer. Only selected incoming connections are
+    accepted.
+
+       |trusted|
+    All network connections are accepted.
+
+   |Binding zones| {{{4
+       |targets|
+    ‣   Connections
+    ‣   Interfaces
+    ‣   Source addresses
+
+       |for a connection|
+    On systems supporting ifcfg files for interfaces, the zone could be stored
+    in the ifcfg with the [\ZONE=]\ option. If the option is missing or empty,
+    the default zone set in firewalld is used.
+
+    If the connection is controlled by NetworkManager, you can also use
+    nm-connection-editor to change the zone.
+    ⮱   DUNNO: I guess it means [\nmcli connection :...:]\ in Arch Linux.
+
+  > Service < {{{3
+   |Intro| {{{4
+    A firewalld service can be a list of local ports and destinations and
+    additionally also a list of firewall helper modules automatically loaded
+    if a service is enabled. The use of predefined services makes it easier
+    for the user to enable and disable access to a service.
+
+   |Reference| {{{4
+    See [=fireewalld.service]= man page for further details.
+
+   |Options| {{{4
+    Contains these tags and attributes in xml format:
+    ➱   [\<:tag attr:=":str:">:value:</:tag:>]\░
+    ➱   [\<:tag attr1:=":str`" attr2:=":str:" />]\░
+
+    Valid tags:
+    ➱   [\<service>]\ (mandatory enclosing tag):
+        Is the [[main tag]]. All configuration defining the service are
+        enclosed by the start and end tag of <service>.
+        ⮱   Optional attribute: [\version=":str:"]\
+
+    ➱   [\<short>]\ (optional enclosing tag):
+        Its value gives the more readable name. Otherwise it is the name of
+        the xml file.
+
+    ➱   [\<description>]\ (optional enclosing tag):
+        Its value gives the description for a service.
+
+    ➱   [\<port>]\ (optional empty-element tag):
+        Can be used [[several times]] to have more than one port entry.░
+        Mandatory attributes:
+        ‣   [\port=":str:"]\: str can be:
+            ·   single port number;
+            ·   a port range e.g. [\60000-60100]\; or
+            ·   empty (to match a protocol only)
+        ‣   [\protocol=":str:"]\: str can be [\tcp]\ or [\udp]\
+
+    ➱   [\<protocol>]\ (optional empty-element tag):
+        Can be used [[several times]] to have more than one protocol entry.░
+        One mandatory attribute:
+        ‣   [\value=":str:"]\: str can be any protocol supported by the
+            system. See [\/etc/protocols]\
+
+    ➱   [\<source-port>]\ (optional empty-element tag)
+        Like [\<port>]\ but for source port rather than destination port.
+
+    ➱   [\<module>]\ (optional empty-element tag):
+        Can be used [[several times]] to enable more than one netfilter kernel
+        helper for the service.░
+        One mandatory attribute:
+        ‣   [\name=":str:"]\
+
+    ➱   [\<destination>]\ (optional empty-element tag):
+        Can be used [[only once]]. Specify the destination IP address
+        (optionally with /mask).░
+        Attributes:
+        ‣   [\ipv4=":str:"]\
+        ‣   [\ipv6=":str:"]\
+
+   |example| {{{4
+    <?xml version="1.0" encoding="utf-8"?>
+    <service>
+      <short>FTP</short>
+      <description>
+        FTP is a protocol used for remote file transfer. If you plan to make
+        your FTP server publicly available, enable this option. You
+        need the vsftpd package installed for this option to be
+        useful.
+      </description>
+      <port protocol="tcp" port="21"/>
+      <module name="nf_conntrack_ftp"/>
+    </service>
+
+[~{ Web Server }~] {{{1
+ == Apache == {{{2
+  > Reference < {{{3
+    [=https://httpd.apache.org/docs/2.4/]=
+
+  > Useful Commands < {{{3
+    ➱   [\service httpd configtest]\ test if the config files are correctly
+        set with good syntax. Try start the service to see if there is problem
+        without actually (re)starting it.
+    ➱   [\apachectl :...:]\
+
+  > Config Files < {{{3
+    Config files usually at [\/etc/httpd/]\.
+
+ == certbot == {{{2
+  > Intro < {{{3
+    Create CA certifacte for SSL/TLS with [{Let's Encrypt]}.
+
+  > Reference < {{{3
+    [=https://certbot.eff.org/docs/using.html]= (how to use)
+    [=https://certbot.eff.org/]= (how to install)
+
+[~{ System }~] {{{1
+ == service == {{{2
+    [\service :SCRIPT COMMAND [OPTIONS]:]\
+    ➱   What command is available is entirely dependent on the script.
+    ➱   The usual commands like [\start]\ can usually be run with:
+        [\systemctl start :SERVICE:]\ as well.
+
+[~{ MariaDB }~] {{{1
+ == Reference == {{{2
+    [=https://mariadb.com/kb/en/documentation/]=
+    [=https://mariadb.com/resources/blog/how-to-install-mariadb-on-rhel8-centos8/]=
+
+   |SELinux|
+    [=https://mariadb.com/kb/en/selinux/]=
+
+ == SELinux == {{{2
+    ➱   [\sudo semanage permissive -a mysqld_t]\ to temporary put that type to
+        permissive mode.
+
+[~{ Nextcloud }~] {{{1
+ == Maintenance == {{{2
+    ➱   First switch to maintenance mode:
+        [\sudo -u apache php /path/to/nextcloud/occ maintenance~:mode --on]\
+
+ == SELinux == {{{2
+    ➱   I followed closely
+        [=https://docs.nextcloud.com/server/latest/admin_manual/installation/example_centos.html]=
+        (or replace "latest" to "22" because it is for version 22.)
+    ➱   When doing upgrade through web interface, you need to handle SELinux
+        security policy. See
+        [=https://docs.nextcloud.com/server/latest/admin_manual/installation/selinux_configuration.html#enable-updates-via-the-web-interface]=.
+    ➱   Remove these selinux policy when remove nextcloud (have a script at
+        home dir)
+
+    ➱   Because of these two denial
+        ‣   type=AVC msg=audit(1629970799.140:3767): avc:  denied  { name_connect } for  pid=28872 comm="php-fpm" dest=6379 scontext=system_u:system_r:httpd_t:s0 tcontext=system_u:object_r:redis_port_t:s0 tclass=tcp_socket permissive=1
+        ‣   type=AVC msg=audit(1629970799.388:3768): avc:  denied  { name_connect } for  pid=28872 comm="php-fpm" dest=443 scontext=system_u:system_r:httpd_t:s0 tcontext=system_u:object_r:http_port_t:s0 tclass=tcp_socket permissive=1
+        ⮱   I set [\setsebool -P httpd_can_network_connect on]\ as suggested
+            by [\audit2allow]\
+        ⮱   Oh, actually it is recommended by the installation guideline for
+            CentOS/8.
+
+ == Security and Optimization == {{{2
+    ➱   Followed closely the issue at the overview analysis in NextCloud.
+    ➱   Edited [\/etc/php.ini]\: [\memory_limit = 512M]\ default 128M,
+        [\upload_max_filesize = 512M]\ default 2M, [\post_max_size = 512M]\
+        default 8M.
+        ⮱   Follow recommendation in
+            [=https://www.youtube.com/watch?v=QXfsi0pwgYw&t=629s]=
+    ➱   Move the data folder to [\/var/nextcloud-data]\ (updated the config at
+        [\/var/www/nextcloud/config/config.php]\ as well)
+
+
+ == Background Jobs == {{{2
+    ➱   From "Basic setting" from the admin setting on the web interface, I
+        chose [\Cron]\ (default was AJAX). But as explained it is better to
+        use Cron.
+        ⮱   To make it work, I added the line░
+            [\*/5  *  *  *  * php -f /var/www/nextcloud/cron.php]\ from░
+            [\sudo crontab -u apache -e]\
+
+ == Migrating Data Directory == {{{2
+    1.  Put Nextcloud into maintenance mode.
+    2.  [\cp -a :OLD_DATADIR_PATH NEW_DATADIR_PATH:]\
+    3.  Check if the user:group and the SEContext are the same.
+    4.  Update [\'datadirectory']\ in [\/path/to/nextcloud/config/config.php]\
+    5.  Backup SQL with [\mysqldump -u:{ROOT_USER}: -p > :{BACKUP_FILE}:.sql]\
+    6.  Go to Nextcloud SQL database:
+        ➱   [\mysql -u:{NEXTCLOUD_USER}: -p]\░
+        Select Nextcloud database:
+        ➱   [\USE :{NEXTCLOUD_DB}:]\░
+        Update table:
+        ➱   [\UPDATE oc_storages SET id='local~:~::{/new/path/to/datadir/}:' WHERE id='local~:~::{/old/path/to/datadir/}:';]\
+            ⮱   NOTE the last slash [\/]\ for the path.
+        Quit [\mysql]\.
+    7.  Turn off maintenance mode.
+
+    If The "overview" in Web interface complains that cron.php cannot be run,
+    try setting Cronjob for background jobs at "basic setting" (at least for a
+    while).
+
+ == Share through WebDAV == {{{2
+    ➱   See
+        [=https://docs.nextcloud.com/server/22/user_manual/en/files/access_webdav.html]=
+    ➱   In most case through the url (sometimes isn't, see documentation):
+        [\https~://:{url_to_nextcloud}:/remote.php/dav/files/:{username}`/[specific_path]:]\

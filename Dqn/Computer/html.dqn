@@ -1,0 +1,477 @@
+/// Language: DQNote_1.35
+[~{ Overview }~] {{{1
+ == Overview == {{{2
+    ➱   ['HyperText Markup Language]'
+    ➱   A markup language is a way of annotating a document:
+        ‣   To distinguish annotations from content
+        ‣   To indicate information about the content
+    ➱   The information about content is implemented via ['tags]' in HTML.
+    ➱   Nowadays, the general consensus is that HTML should focus on the
+        [[structure]] of the document.
+    ➱   Information about how the content should look (i.e. presentation)
+        should left to ['CSS]'.
+
+ == History == {{{2
+    ➱   1991 - First public specification of HTML by Tim Berners-Lee
+    ➱   1995 - HTML 2.0 by HTML Working Group under IETF
+    ➱   Jan 1997 - HTML 3.2 by W3C
+    ➱   Dec 1997 - HTML 4.0
+    ➱   Dec 1999 - HTML 4.01
+    ➱   Jan 2000 - XHTML 1.0 (using XML)
+    ➱   Oct 2014 - HTML 5
+    ➱   Dec 2017 - HTML 5.2
+
+[~{ Basic Syntax }~] {{{1
+ == HTML Elements and Attributes == {{{2
+   |HTML documents|
+    Composed of:
+    ‣   Web content
+    ‣   HTML elements
+
+   |HTML elements|
+    Are represented by HTML tags:
+    ➱   Most are in pairs, opening tag and closing tag
+        ⮱   Enclose the content
+        ⮱   e.g. [\<p>]\ and [\</p>]\
+    ➱   Few are empty elements that aren't in pairs
+        ⮱   [\<br>]\ or [\<br />]\ or [\<br/>]\
+    ➱   They can contain
+        ‣   Text
+        ‣   Other HTML elements
+        ‣   Nothing (being empty)
+    ➱   A child element's ending tag must occur before its parent's.
+
+   |HTML attributes|
+    An HTML element can also have ['attributes]':
+    ➱   Appear on the opening tag
+    ➱   Some attributes are required for some elements
+    ⮱   Multiple attributes are [[separated by spaces]]
+    ⮱   Order not important
+    ⮱   Most attributes take values ([\:name`=value:]\), some just have
+        the name without a value
+    ⮱   In XHTML, attribute values must be enclosed in quotes, in HTML5,
+        quotes are optional
+
+ == Basic Document Structure == {{{2
+  > Examples < {{{3
+   |simple example| {{{4
+    #beginHTML#
+    <!DOCTYPE html>                           
+    <html>                                    
+        <head>                                
+            <meta charset="utf-8" />            
+            <title>My Sample HTML Page</title>
+        </head>                               
+        <body>                                
+            <h1>This is an HTML Page</h1>     
+        </body>                               
+    </html>                                   
+    #endHTML#
+
+   |another example| {{{4
+    #beginHTML#
+    <!DOCTYPE html>                           
+    <html>                                    
+        <head lang="en">                                
+            <meta charset="utf-8" />            
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>My Sample HTML Page</title>
+        </head>                               
+        <body>                                
+            <h1>This is an HTML Page</h1>     
+        </body>                               
+    </html>                                   
+    #endHTML#
+
+  > DOCTYPE < {{{3
+    ➱   [\<!DOCTYPE html>]\ is not an HTML element.
+    ➱   Imposed by HTML5 standard.
+    ➱   Defines the HTML version.
+        ⮱   In some case (older versions), includes the ['Document Type
+            Definition]' (['DTD]')
+
+  > html, head and body < {{{3
+    ➱   HTML5 does not require the use of [\<html>]\, [\<head>]\ and
+        [\<body>]\.
+    ➱   [\<html>]\ is the ['root element]' that contains all other HTML
+        elements.
+    ➱   [\<head>]\ contains descriptive elements [[about the document]].
+    ➱   [\<body>]\ contains content.
+    
+  > head < {{{3
+    Some common elements in [\<head>]\ are:
+    ➱   [\<title>]\: [[Mandatory]]
+    ➱   [\<link>]\: Specifies and external CSS style sheet file
+    ➱   [\<style>]\: Defines internal style information
+    ➱   [\<script>]\: Defines JavaScript script or specifies an external
+        JavaScript file
+    ➱   [\<base>]\: Specifies base URL and base target attribute for all
+        relative URLs in the document.
+    ➱   [\<meta>]\: Provides metadata about the document
+
+ == Comments == {{{2
+    ➱   [\<!-- :some comments: -->]\
+
+ == Block Level Elements and Inline Elements == {{{2
+  > Block level < {{{3
+    ➱   Content contained inside ['block level elements]' will start on a
+        [[new line]].
+    ➱   E.g. [\<h1>]\, [\<p>]\, [\<div>]\, [\<ul>]\, [\<li>]\,
+        [\<blockquote>]\.
+    ➱   By default, [[as wide as the parent container]].
+        ⮱   But can modify their height and width using CSS.
+
+  > Inline level < {{{3
+    ➱   Do not disrupt the flow of text (i.e. continue on the same line)
+    ➱   E.g. [\<img>]\, [\<a>]\, [\<b>]\, [\<i>]\, [\<em>]\, [\<strong>]\.
+    ➱   Only [[as wide as]] they need to display their [[content]].
+
+[~{ Tags }~] {{{1
+ == Document Structure == {{{2
+  > Headings < {{{3
+    ➱   Six levels of heading, 1-6, [\<h1>]\...
+    ➱   Block level
+    ➱   ['Semantic]' element
+        ⮱   Elements with meaning - coveys about certain meanings of the
+            content
+        ⮱   [;I guess]; it's contrast to styling like [\<b>]\ or [\<br/>]\
+
+  > Paragraphs < {{{3
+    ➱   [\<p>]\
+    ➱   Block element
+
+  > Divisions < {{{3
+    ➱   [\<div>]\
+    ➱   Block element
+    ➱   No semantic meaning
+    ➱   Create a [[logical grouping]] of content
+    ➱   Frequently used to mark out sections
+        ⮱   But HTML5 provides a variety of semantic elements, which should be
+            prioritised first.
+
+  > Span < {{{3
+    ➱   [\<span>]\
+    ➱   Inline element
+    ➱   No semantic meaning
+    ➱   Usually group elements for [[styling]] purposes, or for sharing
+        attribute values such as [\lang="fr"]\.
+
+  > Lists < {{{3
+   |3 types of lists| {{{4
+    ‣   Unordered lists
+    ‣   Ordered lists
+    ‣   Description lists
+
+   |unordered lists| {{{4
+    ➱   Bulleted lists by default
+
+    #beginHTML#
+    <ul>                 
+        <li>Home</li>    
+        <li>About Us</li>
+    </ul>                
+    #endHTML#
+
+   |ordered lists| {{{4
+    ➱   numbered lists by default
+
+    #beginHTML#
+    <ol>                     
+        <li>Introduction</li>
+        <li>Background</li>  
+        <li>Methodology</li> 
+        <li>Result</li>      
+        <li>Conclusion</li>  
+    </ol>                    
+    #endHTML#
+
+   |description lists| {{{4
+    ➱   Collection of items and their associated descriptions, e.g.
+        ‣   terms and definitions
+        ‣   questions and answers (FAQ list)
+
+    #beginHtml#
+    <dl>
+        <dt>Coffee</dt>
+        <dd>- black hot drink</dd>
+        <dd>- has caffine</dd>
+        <dt>Milk</dt>
+        <dd>- white cold drink</dd>
+    </dl>
+    #endHtml#
+
+   |nested list example| {{{4
+    #beginHTML#
+    <ul>                        
+        <li>fruits</li>         
+        <li>                    
+            <ul>                
+                <li>apple</li>  
+                <li>orange</li> 
+            </ul>               
+        </li>                   
+        <li>meat</li>           
+        <li>                    
+            <ul>                
+                <li>beef</li>   
+                <li>chicken</li>
+            </ul>               
+        </li>                   
+    </ul>                       
+    #endHTML#
+
+  > Tables < {{{3
+   |basic elements| {{{4
+    ➱   A [\<table>]\ contains any number of rows [\<tr>]\.
+    ➱   Each row contains any number of data cells [\<td>]\.
+    ➱   Content goes inside [\<td>]\.
+
+   |semantic elements| {{{4
+    ➱   Table headings [\<th>]\ replace [\<td>]\ to [[semantically]] indicate
+        that this cell is the header of a group of table cells.
+        ⮱   Related to row or column as indicated by [\scope]\ attribute.
+        ⮱   Browsers tend to make the content bold
+    ➱   [\<caption>]\ contains the title of the table.
+        ⮱   Must be the first descendent tag in a table.
+    ➱   Table header [\<thead>]\ contains one or more rows.
+        ⮱   Shown at the top of table.
+        ⮱   Only one header per table.
+        ⮱   When scrolling body, header can potentially fixed in place.
+    ➱   Table footer [\<tfoot>]\ contains one or more rows.
+        ⮱   Shown at the bottom of table.
+        ⮱   Only one header per table.
+        ⮱   Can specify before the table body.
+        ⮱   When scrolling body, header can potentially fixed in place.
+    ➱   Table body [\<tbody>]\ contains one or more rows.
+        ⮱   Shown after header and before footer.
+
+   |formatting elements| {{{4
+    ➱   [\<col/>]\ is used to apply attributes to a whole column:
+        ⮱   Attribute [\span=":n:"]\ specifies how many columns to span.
+        ⮱   Frequently used to apply [\class]\ or [\id]\ for easy styling for
+            the whole column
+        ⮱   Must specified be before table content.
+    ➱   [\<colgroup>]\ is used to apply attributes to groups of [\<col/>]\.
+        ⮱   Must specified be before table content.
+
+   |spanning rows and columns| {{{4
+    ➱   Each row must have the same number of cells.
+    ➱   Attribute [\colspan=:n:]\: span n columns.
+    ➱   Attribute [\rowspan=:n:]\: span n rows.
+        ⮱   You need to declare less cells accordingly in the following rows
+            within the span range
+
+   |example| {{{4
+    #beginHTML#
+    <table>
+        <col class="artistName" />
+        <colgroup style="background-color:yellow">
+            <col class="artistTitle"/>
+            <col />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Artist</th>
+                <th>Title</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr style="background-color:green">
+                <td colspan="2">Total number of Paintings:</td>
+                <td>2</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr>
+                <td rowspan="2">Jacques-Louis David</td>
+                <td>The Death of Marat</td>
+                <td>1793</td>
+            </tr>
+            <tr>
+                <!-- first cell is spanned -->
+                <td>Napoleon Crossing the Alps</td>
+                <td>1800</td>
+            </tr>
+        </tbody>
+    </table>
+    #endHTML#
+
+  > Forms < {{{3
+   |overview on form controls| {{{4
+    Adding text:
+    ‣   Text input (single-line) [\<input type="text"/>]\
+    ‣   Password input [\<input type="password"/>]\
+    ‣   Text area (multi-line)
+
+    Making choices:
+    ‣   Radio buttons (select only one) [\<input type="radio"/>]\
+    ‣   Checkboxes (select any number) [\<input type="checkbox"/>]\
+    ‣   Drop-down boxes
+
+    Submitting Forms:
+    ‣   Submit buttons [\<input type="submit"/>]\
+    ‣   Image buttons [\<input type="button"/>]\
+
+    Uploading Files:
+    ‣   File upload [\<input type="file"/>]\
+
+   |form|
+    The [\<form>]\ element:
+    ➱   Contains ['Form controls]', such as [\<input>]\.
+    ➱   Two essential attributes:
+        ‣   [\action=":URL:"]\: the server-side resource that will process the
+            form data when submitted
+        ‣   [\method="get"]\: specifies how query string data with be transmitted,
+            either GET or POST.
+
+ == Semantic Elements == {{{2
+  > Why semantic elements? < {{{3
+    Instead of meaningless [\<div>]\, builtin semantic elements [[describe the
+    structure]] of the page and the content meaning. It also help developers
+    to navigate the HTML code and improve [[accessibility]].
+
+  > List of HTML5 semantic elements < {{{3
+    ➱   [\<footer>]\
+    ➱   [\<header>]\
+    ➱   [\<main>]\
+    ➱   [\<nav>]\
+    ➱   [\<article>]\
+    ➱   [\<section>]\
+    ➱   [\<aside>]\
+    ➱   [\<figcaption>]\
+    ➱   [\<figure>]\
+    ➱   [\<details>]\
+    ➱   [\<summary>]\
+    ➱   [\<mark>]\
+    ➱   [\<time>]\
+
+  > Header < {{{3
+    [\<header>]\ is a group of introductory content. Typically contains:
+    ➱   Site logo
+    ➱   Title
+    ➱   Horizontal navigation links
+    ➱   One or two horizontal banners
+
+    Can also be used [[inside other HTML containers]], such as [\<article>]\
+    and [\<section>]\.
+
+  > Footer < {{{3
+    [\<footer>]\ is a group of end content for a page. Typically contains
+    [[less important]] materials:
+    ➱   Small text versions of the navigation
+    ➱   Copyright notices
+    ➱   Privacy policy
+    ➱   Twitter feeds and other external links
+
+    Can also be used [[inside other HTML containers]], such as [\<article>]\
+    and [\<section>]\.
+
+  > Main < {{{3
+    [\<main>]\ contains the [[main content]] of the document.
+    ➱   Appears only [[once]] per page.
+    ➱   Should not include non-content, such as navigation links and side
+        bars.
+    ➱   May contain subsections containing content.
+
+  > Nav < {{{3
+    [\<nav>]\ represents a section that contains links to other pages or other
+    parts within the same page.
+    ➱   Used for [[major navigation blocks]].
+    ➱   Secondary links, etc., would not go in the navigation.
+    ➱   Usually in [\<header>]\
+
+  > Article < {{{3
+    [\<article>]\ represents a section of [[semantically related content]]:
+    ➱   Should also have a [[heading]] and should be able to be isolated from
+        the rest of the page and still be meaningful.
+        ⮱   E.g. a newspaper article, or a blog entry.
+
+  > Section < {{{3
+    [\<section>]\ represents a generic section of content that:
+    ➱   Can grouped together in a [[semantically meaningful way]].
+    ➱   Should have a [[theme]]
+        ⮱   E.g. defined by a heading element.
+            
+            #beginCode#
+            <section>
+                <h1>Technology</h1>
+                <article><h2>...
+                <article><h2>...
+            </section>
+            #endCode#
+
+    ➱   Examples are chapters, numbered sections of a document, news sections,
+        etc.
+    ➱   According to the [{W3C]}, a section is a much [[broader element]],
+        while [\<article>]\ is to be used for blocks of content that could
+        potentially be read or consumed independently.
+    ➱   If it is appropriate to list the element's contents in the document's
+        outline, use [\<section>]\, otherwise use a [\<div>]\.
+
+  > Figure < {{{3
+    [\<figure>]\ is only used to wrap [\<img>]\ that convey [[content]].
+    ⮱   Almost always a good idea to have a [\<figcaption>]\ inside
+
+  > Aside < {{{3
+    [\<aside>]\ contains elements that are not part of the flow of the text in
+    which it appears, but still related to the main content in some way.
+    ⮱   To provide [[additional information indirectly related]] to the main
+        content.
+
+  > Details and summary < {{{3
+    [\<details>]\ is used to create an interactive widget that user can [[open
+    and close]].
+
+    [\<summary>]\ defines a visible heading for its parent [\<summary>]\. The
+    heading can be clicked to open and close the details.
+
+  > time < {{{3
+    [\<time>]\ defines a [[human-readable]] date/time.
+    ⮱   May include the datetime attribute:
+        [\<time datetime="2020-02-14 20~:00">Valentines day</time>]\
+
+  > mark < {{{3
+    To mark or highlight text for reference or notation purposes.
+
+ == Text Styling == {{{2
+  > Coding styles < {{{3
+    ➱   [\<pre>]\ for pre-formatted monospace text
+    ➱   [\<code>]\ for codes
+    ➱   [\<samp>]\ for sample program output
+    ➱   [\<var>]\ for variables
+    ➱   [\<kbd>]\ for keyboard inputs
+
+ == Inline elements == {{{2
+  > Links < {{{3
+    ➱   [\<a href=":URL:">:label:</a>]\
+        ⮱   "a" stands for anchor.
+    ➱   The label can be an image, or some other element.
+
+   |types of links|
+    ➱   Link to external site: https://google.com
+    ➱   Link to resource on external site: http://www.centralpark.com/logo.gif
+    ➱   Link to another page on the same site: index.html
+    ➱   Link to another fragment on the same page: #top
+    ➱   Link to email: mailto://person@somewhere.com
+    ➱   Link to JavaScript function: javascript://OpenAnnoyingPopup();
+    ➱   Link to telephone: tel:+18009220579
+
+  > Images < {{{3
+    ➱   [\<img src=":URL:" alt=":alternative description:" />]\
+    ➱   Semantic element used to include images [[for content]], but [[not for
+        decorative]] purposes.
+        ⮱   E.g. for background image, logos, etc., use CSS
+
+   |attributes|
+    ➱   [\title=":title:"]\
+    ➱   [\width=":value:"]\, default in pixels
+    ➱   [\height=":value:"]\, default in pixels
+
+[~{ References and Resources }~] {{{1
+    ➱   Lecture slides: COMP3322 03-HTML.pdf
+    ➱   Introduction to HTML:
+        [=https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML]=
+    ➱   Semantic HTML, No. 12 of HTML & CSS is Hard
+        [=https://internetingishard.com/html-and-css/semantic-html/]=
+

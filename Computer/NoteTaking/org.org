@@ -1,0 +1,142 @@
+#+title: nvim-orgmode
+#+author: DexQ
+#+email: dexq@pm.me
+
+* Text Markup
+
+  * *bold*
+  * /italic/
+  * _underline_
+  * +strikethrough+
+  * _/*combine*/_
+  * ~code~
+  * =verbatim=
+  * *_~code marker and verbatim has to be inner-most~_*
+
+* Lists
+
+  To buy:
+  1.  Milk
+  2.  Eggs
+      - Organic
+  3.  Cheese
+      + Parmesan
+      + Mozzarella
+
+  List with checkboxes ~[ ]~, ~[-]~, ~[X]~.
+  - [ ] Not started
+  - [-] In progress
+  - [X] Completed
+  - [ ] Checkbox :: with tags
+
+* Links
+
+** Syntax
+
+   - ~[[target]]~
+   - ~[[target][desc]]~
+   - ~[[type:target]]~
+
+   To descript the type of targets:
+   - URL: ~http://~, ~https://~
+   - File: ~file:~
+     - With line number: ~file:path/to/file +24~
+     - At a headline: ~file:path/to/file::*Specific Headline~
+   - Headline in same file: ~*headline~
+   - Headline with CUSTOM_ID in same file: ~#id~
+
+** Examples
+
+   - [[https://orgmode.org][Org-mode website]]
+   - [[file:~/Links/Notes/eq.md][Emotional Intelligence]]
+   - [[*Links][An earlier heading: Links]]
+
+* Images
+
+  [[https://upload.wikimedia.org/wikipedia/commons/5/5d/Konigsberg_bridges.png]]
+
+* Blocks
+
+  #+begin_example
+  monospace block
+  #+end_example
+
+  #+begin_src javascript
+  // A javascript code snippet
+  function(name) {
+    console.log(`Hello, ${name}.`)
+  }
+  #+end_src
+
+* Tables
+
+  You can type the following then use ~gqq~ to format a table.
+
+  #+begin_example
+  |Header 1|Header 2
+  |-
+  |col 1| col2
+  #+end_example
+
+  | header 1 | header 2 |
+  |----------+----------|
+  | col 1    | col 2    |
+
+* Comments
+
+** Syntax
+
+  - Line comments start with ~#~
+  - Inline comments wrap ~@@comment: like so@@~
+  - Block comments are wrapped with ~#+begin_comment~ and ~#+END_COMMENT~
+  - Section comments are created by adding the ~COMMENT~ keyword to a heading ~* COMMENT like so~.
+
+** Examples
+
+   This is an @@comment:inline@@ comment.
+
+   #+begin_comment
+   This is a block comment
+   #+end_comment
+
+** COMMENT this section and subsections are commented out
+
+   A commented section
+
+* Todo
+
+** Test todo
+
+   - ~* TODO~ at top level?
+   - ~SCHEDULED: [2023-07-19 Wed]~
+   - ~DEADLINE: [2023-07-20 Thu]~
+ 
+** TODO Learn Org mode
+   DEADLINE: <2023-07-24 Mon> SCHEDULED: <2023-07-21 Fri>
+
+* Tags                                                            :headline:tag:
+
+  Use ~<Leader>ot~
+
+* Mappings (nvim-orgmode)
+
+* Playground
+
+** title
+
+** Testing sdkjf
+
+  - This is a list
+    - This is something new
+    - This
+ 
+
+** LaTeX Math
+
+   #+begin_src latex
+   $$
+   \begin{equation}
+   \alpha + a = y \times x \dot g
+   \end{equation}
+   $$
+   #+end_src

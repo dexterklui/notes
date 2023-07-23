@@ -1,0 +1,1571 @@
+/// Language: DQNote_1.35
+[~{ About Java }~] {{{1
+ == Bytecode == {{{2
+    Is a highly optimized set of instructions designed to be executed by the
+    ['Java Virtual Machine]' (['JVM]'), which is a part of the ['Java Runtime
+    Environment]' (['JRE]')
+
+    ➱   The original JVM was designed to be the interpreter for bytecode.
+
+   |JIT|
+    The [{HotSpot JVM]} includes ['just-in-time]' (['JIT]') compiler for
+    bytecode that allows [[on-the-fly]] compilation of [[bytecode into native
+    code]] in order to boost performance. This is possible because Java was
+    designed to be a interpreted language.
+
+    JIT compiler compiles in real time on a piece-by-piece demand basis (i.e.
+    during execution). It compiles the selected portion of the bytecode where
+    performance can be boosted.
+
+ == Advantages == {{{2
+    ➱   Better portability:
+        ⮱   Each Java program has only one version of bytecode
+    ➱   Better security
+        ⮱   Java program is run in a sandbox confined by the JVM.
+
+[~{ Coding Java }~] {{{1
+ == Basic Rules & Conventions == {{{2
+  > general rules < {{{3
+    ➱   All code must reside inside a class.
+    ➱   By convention, the name (case sensitive) of the main class should
+        match the name of the file.
+    ➱   Because after compilation to bytecode, each class is compiled into its
+        own bytecode file with the name [\:{CLASS_NAME}:.class]\.
+    ➱   The [\main()]\ method provides an entry point in a program.
+
+  > Basic Syntax < {{{3
+    ➱   Multi-line comments enclosed by [\/*]\ and [\*/]\.
+    ➱   Single-line comment after an inline [\//]\.
+    ➱   Statements end with [\;]\.
+
+ == Main() == {{{2
+  > Accept Command Line Arguments < {{{3
+    With the line:
+    [\public static void main (string args[]) {]\
+
+    In most application, the [\main()]\ only does [[2 and only 2]] things:
+    ‣   create an object
+    ‣   call a method of the object
+
+    Unlike C++,
+    ‣   The return type is [[void]]
+    ‣   [[the name of the program is not included in the argument list]].
+        (Because it is conventionally exactly the name of the class that
+        contains the [\main()]\ method.)
+    ‣   the number of arguments needs not be included. For there is an
+        built-in data [\length]\ for arrays.
+
+ == Data Types == {{{2
+  > Two categories < {{{3
+    ‣   Primitive
+    ‣   Object reference
+
+  > Primitive data types < {{{3
+    The 8 primitive data types are the only types that are not classes and
+    upon which all classes build:
+    ‣   ['boolean]' ([\true]\ / [\false]\)
+        ⮱   bit depth is JVM-specific
+
+    ‣   ['byte]' (8-bit integer)
+
+    ‣   ['char]' (unsigned 16-bit for characters in [[unicode]])
+        ⮱   8-bit ASCII is a subset
+        ⮱   Literals are represented within [[single quotes]]
+        ⮱   0 to 65535
+
+    ‣   ['double]' (64-bit) [[default]]
+        ⮱   range varies
+        ⮱   You can use suffix for literal: [\D]\ / [\d]\ though not necessary
+            for it is already the default
+
+    ‣   ['float]' (32-bit)
+        ⮱   Suffix for literal: [\F]\ / [\f]\
+        ⮱   range varies
+
+    ‣   ['int]' (32-bit) [[default]]
+        ⮱   -2147483648 to 2147483647
+
+    ‣   ['long]' (64-bit)
+        ⮱   Suffix for literal: [\L]\ / [\l]\
+
+    ‣   ['short]' (16-bit)
+        ⮱   -32768 to 32768
+
+    ➱   Java does not support unsigned type.
+
+  > Boolean < {{{3
+    WARN: unlike other language, boolean is not compatible with any other
+    types. So for example [\1]\ isn't evaluated to be true automatically in a
+    condition. You must use [\1==1]\, or [\true]\.
+
+  > Numbers < {{{3
+    ➱   You can embed [[underscores in integer / floating-point]] literals.
+        Doing this is for readability with no effect on the program.
+    ➱   A hexadecimal literal begins with [\0x]\ or [\0X]\.
+    ➱   An octal literal begins with [\0]\.
+    ➱   A binary [[integer]] begins with [\0b]\ or [\0B]\.
+
+  > Character escape sequence < {{{3
+    ➱   [\\']\: single quote
+    ➱   [\\"]\: double quote
+    ➱   [\\\]\: backslash
+    ➱   [\\r]\: carriage return
+    ➱   [\\n]\: newline
+    ➱   [\\f]\: form feed
+    ➱   [\\t]\: horizontal tab
+    ➱   [\\b]\: backspace
+    ➱   [\\ddd]\: octal constant
+    ➱   [\\uxxxx]\: hexadecimal constant
+
+    I think same as C. So I guess there [\\v]\ for vertical tab for example.
+
+  > String literals < {{{3
+    ➱   Enclosed by [[double quotes]].
+
+  > Type casting < {{{3
+   |auto type conversion| {{{4
+    [[Automatic]] ['widening conversion]' can occur during assignment only on
+    2 conditions:
+    ‣   Two types are compatible
+    ‣   The destination type is larger than the source type (use more bytes to
+        store the type) (thus the name [[widening]] conversion)
+        ⮱   WARN: even if the value stored in the larger type is small enough
+            to be stored in the smaller type, the compiler doesn't care about
+            that and will complain anyway.
+
+    E.g. byte to int, long to double, but [[NOT]]:
+    ‣   double to long
+    ‣   numeric to char or boolean
+        ⮱   except integer literal can be assigned to char
+    ‣   char and boolean
+
+   |explicit type cast| {{{4
+    [\(:TYPE`) EXPR:]\ explicitly cast the value of an expression EXPR to a
+    compatible TYPE.
+
+    E.g. [\(int) (x / y)]\ where x and y are of type double. NOTE that the
+    parentheses around [\x / y]\ are necessary, otherwise the type cast only
+    applies to x.
+
+    When a cast involves ['narrowing conversion]', information may be lost.
+
+   |auto type promotion| {{{4
+    When different data types are mixed within an expression, then the value
+    of lower level types will promote to the highest level type in the
+    expression such that it involves [[no loss of information]].
+
+    WARN: Counter-intuitively, when using binary operators on two bytes, the
+    result is an int. When using binary operators on two char, the result is
+    also an int. In these case you need an explicit cast back to byte or char
+    again if you so desire.
+
+ == String == {{{2
+  > Convert String to Primitive < {{{3
+    By using wrapper class, [\:WRAPPER`.PARSEMETHOD`(STRING:)]\.
+    ⮱   E.g. [\int x = Integer.parseInt("2");]\
+    ⮱   NOTE that [\NumberFormatException]\ when [\Integer.parseInt("two")]\
+
+  > Convert Primtive to String < {{{3
+    Simply use [[concatenation]].
+    ⮱   E.g. [\double d = 42.5; String str = "" + d;]\
+
+    Alternatively, you can use wrapper class. [\:WRAPPER`.TOMETHOD`(VALUE:)]\.
+    ⮱   E.g. [\String doubleString = Double.toString(d);]\
+
+  > Number formatting < {{{3
+    Use static method [\format()]\ of String class, with ['format specifier]'
+    that begin with [\%]\.
+    ➱   [\"%:[`,]:d"]\ for decimal integer. With [\,]\ inserts commas (1,000).
+    ➱   [\"%:[`,][`.n]:f"]\ for floating point numbers. n for decimal point
+        precision.
+    ➱   [\"%h"]\ formats the number as hexadecimal number.
+    ➱   [\"%c"]\ formats the number as character. (Using ASCII code e.g.)
+
+    ⮱   E.g. [\String.format("%.2f", myDouble)]\.
+
+ == Variables == {{{2
+  > Reference vs primitive < {{{3
+    Variables come in two flavours:
+    ‣   ['Primitive]' e.g. [\int]\
+    ‣   ['Object reference]' e.g. String, arrays, programmer-created objects
+
+  > Declaration < {{{3
+    Like C.
+
+  > Initialization < {{{3
+    Like C. For a local variable (not instance variable), using an
+    uninitialized variable results in compile-time error.
+
+  > Assignment < {{{3
+    Like C.
+
+  > Scopes < {{{3
+    Like C, code blocks define scopes. Two common scopes are [[class]] and
+    [[method]] scopes.
+
+    One special rule though: inner blocks cannot declare a variable with the
+    same name as a variable at the outer block.
+
+    Variables can only be used when it is [[in scope]] (when the stack frame
+    of its method call is on top of the stack).
+
+  > Naming < {{{3
+    ➱   The first character: letters, underscore [\_]\ or dollar sign [\$]\
+    ➱   Afterwards: letters, digits, underscore or dollar sign.
+    ➱   No keyword is allowed. No reserved word, builtin types or literals are
+        allowed.
+    ➱   Name of builtin methods should not be used.
+
+  > Object reference variables < {{{3
+    There is actually no object variable, but only object [[reference]]
+    variable which holds whatever it is that let JVM to get to the object.
+
+    You can think of it as a remote control of that object. Once it is
+    declared, it can only be reprogrammed to point to other objects that are
+    of that class.
+
+    [\final]\ reference object cannot change what it is referring to.
+
+    Its value is [\null]\ when it isn't referring to any object. You can
+    assign it to an object reference variable.
+
+  > Static variables < {{{3
+    ➱   A ['static variables]' is [[shared]] by all instances of a class. Also
+        called the ['class variables]'. DUNNO if it includes subclass, I guess
+        yes.
+    ➱   Is initialized only once when the [[class]] (not object) is first
+        loaded.
+        ⮱   Before any object of that class can be created
+        ⮱   Before any static method of the class runs
+    ➱   Use keyword [\static]\ after the access control keyword.
+    ➱   Can be accessed using [[class name]].
+    ➱   Can be used in static methods.
+
+  > Final variables < {{{3
+    ➱   Can be applied to static variables, instance variables, local
+        variables, and parameters.
+    ➱   A ['final variable]', once initialized, its [[value cannot be
+        changed]].
+        ⮱   Attempts to change it result to compile-time error.
+    ➱   Must be initialized either:
+        ‣   At the time it is declared; or
+        ‣   In the constructor. (A final variable does [[not get a default
+            value]]!)
+
+  > Constant < {{{3
+    ➱   To define a ['constant]', mark a variable both as [\static]\ and
+        [\final]\.
+    ➱   Must be initialized either:
+        ‣   At the time it is declared; or
+        ‣   In a static initializer. E.g. inside a class:
+            [\static { FOO_X = 25; }]\
+
+  > Transient variables < {{{3
+    A ['transient variable]' is a variable marked as not be serialized by the
+    serialization process.
+    ⮱   Usually they store runtime-specific information
+    ⮱   They are given [[default value]] during deserialization.
+
+ == Expressions == {{{2
+    Consists of following:
+    ‣   Operators
+    ‣   Variables
+    ‣   Literals
+
+ == Arrays == {{{2
+  > Arrays < {{{3
+    ➱   Indices start at 0.
+    ➱   Can be of primitive type or of object references.
+    ➱   An array is not a primitive, but an [[object]].
+    ➱   The array variable is a [[reference variable]] referring to an array
+        object.
+    ➱   So declaring an array object is different from creating an array
+        object.
+    ➱   Size must be determined at creation, and cannot be changed later.
+
+  > As an object: data and methods < {{{3
+    ➱   Does not have any methods.
+    ➱   Only one [[final]] instance variable: [\length]\
+    ➱   Use special array syntax.
+
+  > Declaration < {{{3
+    ➱   [\:TYPE:[]: IDENTIFIER:;]\░
+
+  > Creating an array < {{{3
+    Use [\new :TYPE`[SiZE:]]\. NOTE that the [[size]] cannot be change later.
+
+   |initialization at declaration|
+    ➱   [\:TYPE:[]: IDENTIFIER: = {:[ELEMENT[`,...]]:};]\░
+        ⮱   NOTE that the array constant can only be used as an initializer
+            list during the declaration
+
+  > Arrays of object references < {{{3
+    1.  Declare the array. [\MyClass[] my_arr;]\
+    2.  Create a new array with a given name and assign it.░
+        [\my_arr = new MyClass[7];]\
+        ⮱   NOTE that like C++, the (maximum) [[size]] of an array must be
+            determined at the time of creation, and cannot be changed
+            afterwards.
+    3.  Initialise the elements with with objects (references).
+        [\for (int i = 0; i < my_arr.length; ++i) my_arr[i] = new MyClass();]\
+
+    ➱   (1.) and (2.) can be combined: [\MyClass[] my_arr = new MyClass[7];]\
+    ➱   When declaring a new arrays of object references, each element has the
+        value [\NULL]\ before it is initialised.
+
+  > Multidimensional arrays < {{{3
+   |declaration|
+    ➱   [\:TYPE:[][] :IDENTIFIER:;]\
+    ➱   [\:TYPE:[][] :IDENTIFIERS: = {{:...:}, {:...`}...:};]\
+
+   |creation|
+    ➱   [\new :TYPE:[:x:][:[y]:]:]\
+        ⮱   You can omit the second dimension, so that each row can contains
+            different sizes of arrays.
+        ⮱   So an array of arrays is not necessarily a matrix.
+
+  > Removing an item < {{{3
+    You cannot remove an item in array. For an array of reference, you achieve
+    similar thing by assigning the value [\null]\.
+
+ == ArrayList == {{{2
+  > Package < {{{3
+    [\import java.util.ArrayList;]\
+
+  > ArrayList < {{{3
+    ➱   Like arrays but have more methods and cannot use brackets indexing
+        syntax.
+
+  > Not supporting primitive types < {{{3
+    ➱   It only supports [[classes only]] and not primitive types.
+    ➱   There is a ['wrapper class]' for every primitive type.
+
+  > Wrapper class < {{{3
+   |wrapper classes| {{{4
+    |----------------+---------------|
+    | Primitive Type | Wrapper Class |
+    |----------------+---------------|
+    | boolean        | Boolean       |
+    | char           | Character     |
+    | byte           | Byte          |
+    | short          | Short         |
+    | int            | Integer       |
+    | long           | Long          |
+    | float          | Float         |
+    | double         | Double        |
+    |----------------+---------------|
+    ⮱   These wrapper classes are in [\java.lang]\.
+
+   |wrap a value| {{{4
+    E.g.:
+    [\boolean b = true;              ]\░
+    [\Boolean bWrap = new Boolean(b);]\░
+    [\Integer iWrap = new Integer(3);]\░
+
+   |unwrap a value| {{{4
+    Use methods, e.g.:
+    ➱   [\.booleanValue();]\
+    ➱   [\.charValue();]\
+    ➱   [\.intValue();]\
+    ➱   [\.doubleValue();]\
+
+   |autoboxing| {{{4
+    The ['autoboxing]' in Java performs the [[automatic conversion]] between
+    primitives and wrapper objects.
+
+    E.g.:
+    [\ArrayList<Integer> listOfNumbers = new ArrayList<Integer>();]\░
+    [\listOfNumbers.add(3); // auto wrapping                      ]\░
+    [\int intNum = listOfNumbers.get(0); // auto unwrapping       ]\░
+
+    Autoboxing works almost everywhere:
+    ➱   [[Assignment]].
+    ➱   In [[expressions]]:
+        ‣   Boolean expression, e.g. if condition
+        ‣   With arithmetic operations, e.g. + - * / ++ --
+    ➱   In method [[arguments]] and [[return]] value:
+        No matter if a method takes/returns a primitive or a wrapper, you can supply either.
+
+   |default value as instance variable|
+    NOTE that it is still a class, so an instance variable of its type get the
+    default value [\null]\ (pointing to no object, so cannot be unboxed),
+    unlike an instance variable of primitive type.
+    ⮱   [\NullPointerException]\ arises when they wrapper cannot be unboxed
+        when necessary.
+
+  > Methods < {{{3
+    ➱   [\add(Object elem)]\
+        ⮱   You can [\add(new :OBJECT:())]\
+    ➱   [\remove(int index)]\
+    ➱   [\remove(Object elem)]\
+    ➱   [\boolean contains(Object elem)]\
+    ➱   [\boolean isEmpty()]\
+    ➱   [\int indexOf(Object elem)]\: -1 if the object not found
+    ➱   [\size()]\
+    ➱   [\get(int index)]\: accessing list[i]
+    ➱   [\set(int index, Object elem)]\: assigning to list[i]
+
+  > Declaration < {{{3
+    ➱   [\ArrayList<:TYPE`> IDENTIFIER:;]\
+
+  > Creation < {{{3
+    ➱   Use [\new ArrayList<:[TYPE]:>(:[INIT]:)]\ at the RHS of an assignment
+        statement.
+        ⮱   You may omit the TYPE when the type you want to create is already
+            specified in the reference variable. E.g.:
+            [\ArrayList<Integer> lst = new ArrayList<>();]\
+        ⮱   INIT can be [\List.of(1, 2, 3, 4, 5)]\ for example.
+
+  > Loop through ArrayList < {{{3
+    Use [\for (:TYPE IDENTIFIER `: ARRAYLIST:)]\
+
+ == Operators == {{{2
+  > Arithmetic operators < {{{3
+    ‣   +
+    ‣   -
+    ‣   *
+    ‣   /
+    ‣   %
+
+  > Relational operators < {{{3
+    ‣   <
+    ‣   <=
+    ‣   >
+    ‣   >=
+    ‣   ==
+        ⮱   Checks if [[bit pattern]] is the same. [[Ignore leading 0's]] if
+            two variables to be compared have different sizes.
+        ⮱   For primitive data type, it checks if the [[values]] are the same.
+            ⮱   Boolean can only be compared with boolean. But any other two
+                primitive variables of any kind can be compared.
+        ⮱   For reference variables, it checks if the refer to the same
+            [[object]] instead of the actual content (i.e. the data/state of
+            the object)
+        ⮱   NOTE for detail see tutorial 3 slide.
+        ⮱   [\String s1 = "Justin";                        ]\░
+            [\String s2 = "Justin";                        ]\░
+            [\String s3 = new String("Justin");            ]\░
+            [\String s4 = new String("Justin");            ]\░
+            [\System.outprintln(s1 == s2); // output true  ]\░
+            [\System.outprintln(s1 == s3); // output false ]\░
+            [\System.outprintln(s3 == s4); // output false ]\░
+
+            When assigning object to [\s2]\, Java checks that it can reuse the
+            object of [\s1]\, so it just assign the same object.
+
+            Use [\:STRING:.equals(:STRING:)]\ to check if two strings are the
+            same.
+
+    ‣   !=
+
+  > Increment/decrement operator < {{{3
+    ‣   ++
+    ‣   --
+
+  > Logical operator < {{{3
+    ‣   & (AND) (always evaluates all operands)
+    ‣   | (OR) (always evaluates all operands)
+    ‣   ^ (XOR - exclusive OR)
+    ‣   || (short-circuit/conditional OR)
+        ⮱   (Only evaluates until the result can be sure)
+    ‣   && (short-circuit/conditional AND)
+        ⮱   (Only evaluates until the result can be sure)
+    ‣   !
+
+    * The short-circuit version can prevent evaluation of expression that
+      leads to exception. E.g. [\(x != 0 && y%x == 0)]\ prevents
+      divide-by-zero exception.
+    * Sometimes the normal AND / OR is useful when you expect both the
+      operands to be evaluated:
+      In [\if (false & (++i < 100))]\, you may want the i to be incremented no
+      matter the first operand is true or not.
+
+  > Assignment operator < {{{3
+    ‣   =
+
+    It returns the value of right hand expression, so you can do a chain of
+    assignment, in the order from right to left. E.g. x = y = z = 10.
+
+   |compound assignment operators|
+    Works for all binary operators in Java, e.g.:
+    ‣   +=
+    ‣   -=
+    ‣   *=
+    ‣   /=
+    ‣   %=
+    ‣   &=
+    ‣   |=
+    ‣   ^=
+
+    Sometimes they are more efficient than the normal binary operator
+    counterpart.
+
+  > Operator precedence < {{{3
+    [\[]]\, [\()]\ and [\.]\, when act like operators, have the highest
+    precedence. Operator precedence, from highest to lowest, are:
+    ‣   [\++]\, [\--]\ (postfix) (DUNNO why these are highest)
+    ‣   [\++]\, [\--]\, [\~~]\, [\!]\, [\+]\ (unary), [\-]\ (unary),
+        [\(:TYPE_CAST:)]\
+    ‣   [\*]\, [\/]\, [\%]\
+    ‣   [\+]\, [\-]\
+    ‣   [\>>]\, [\>>>]\, [\<<]\
+    ‣   [\>]\, [\>=]\, [\<]\, [\<=]\, [\instanceof]\
+    ‣   [\==]\, [\!=]\
+    ‣   [\&]\
+    ‣   [\^]\
+    ‣   [\|]\
+    ‣   [\&&]\
+    ‣   [\||]\
+    ‣   [\?~:]\
+    ‣   [\->]\
+    ‣   [\=]\, [\op=]\
+
+ == I/O == {{{2
+  > Console < {{{3
+   |output| {{{4
+    ➱   [\System.out]\ is the console output stream object.
+    ➱   [\System.out.println(:[VAL[`+...]:);]\ is the print statement.
+        ⮱   A newline character is printed at the end.
+        ⮱   E.g. [\System.out.println("10 > 9 is " + (10 > 9));]\ prints:
+            {-10 > 9 is true}-.
+    ➱   [\System.out.print(:[VAL[`+...]:);]\ is like [\println()]\ except no
+        newline character is printed at the end.
+
+   |input| {{{4
+    ➱   [\System.in]\ is the console input stream object.
+    ➱   [\System.in.read()]\ waits until the user press a key and return the
+        result. NOTE the character is returned as an [[integer]], so a cast is
+        needed if desired, e.g.:
+        [\my_char = (char) Systen.in.read();]\
+    ➱   Since console input is ['line buffered]', the whole line is stored in
+        the buffer when <Enter> is pressed before the input is sent to the
+        Java program.
+        ⮱   To discard the remaining content in the buffer, you may use:
+            [\do {                                ]\░
+            [\   ignore = (char) System.in.read();]\░
+            [\} while (ignore != '\n');           ]\░
+    ➱   This [\read()]\ method should be used inside the block:
+        [\throws java.io.IOException {]\░
+        in order to handle input errors.
+
+ == Serialization [EMPTY] == {{{2
+
+ == Compound Statements == {{{2
+  > If statements < {{{3
+    Like C.
+
+  > Switch statments < {{{3
+    Like C.
+
+    From JDK7, the expression in switch can also be string, unlike C.
+
+  > For statements < {{{3
+   |C like for-loop| {{{4
+    Like C.
+
+    It is possible for any or all of the initialization, condition, or
+    iteration portion of the loop head to be blank (but the [\;]\ are still
+    needed). Then you need to handle the mechanism in the loop body by
+    yourself.
+    ⮱   So to create an infinite loop: [\for(;;)]\
+
+    It is also possible to have a void loop body:
+    [\int i, sum = 0; for (i = 1; i <= 5; sum += i++);]\ for instance calcuate
+    the sum of adding integers 1 to 5.
+
+   |for each element in array| {{{4
+    Use the header:
+    [\for (:TYPE VAR `: ARRAY:)]\.
+
+  > While loop < {{{3
+    Like C.
+
+  > Do-while loop < {{{3
+    Like C.
+
+  > Break and GOTO-like break statement < {{{3
+    [\break;]\ works like C.
+
+    [\break :LABEL:;]\ gives you the functionality of [\GOTO]\ statement. It
+    transfer the flow of execution [[out of]] the block LABEL, which must
+    enclosed this [\break]\ statement.
+    ➱   To name a block, put a label (a valid Java identifier) at the start of
+        it with a colon [\~:]\:
+        [\my_block~: { ]\░
+        [\  :...:       ]\░
+        [\}           ]\░
+
+        [\done~:                            ]\░
+        [\for (int i = 0; i < 10; ++i) {   ]\░
+        [\  for (int j = 0; j < 10; ++j) { ]\░
+        [\    for (int z = 0; z < 5; ++z) {]\░
+        [\      :...:                        ]\░
+        [\      break done;                ]\░
+        [\      :...:                        ]\░
+        [\    }                            ]\░
+        [\  }                              ]\░
+        [\}                                ]\░
+
+        NOTE that where to place the label name is important. The above is
+        different from the following:
+        [\for (int i = 0; i < 10; ++i)      ]\░
+        [\done~: {                           ]\░
+        [\  for (int j = 0; j < 10; ++j) {  ]\░
+        [\    for (int z = 0; z < 10; ++z) {]\░
+        [\      :...:                         ]\░
+        [\      break done;                 ]\░
+        [\      :...:                         ]\░
+        [\    }                             ]\░
+        [\  }                               ]\░
+        [\}                                 ]\░
+
+        This one, the other most for loop will still iterate to the next
+        iteration after the statement [\break done;]\ because the label is
+        placed behind the [\for]\ heading before the enclosing body block.
+
+  > Continue statement < {{{3
+    [\continue;]\ works like C.
+
+    [\continue :LABEL:;]\ describe which enclosing loop to continue.
+
+ == Methods (Functions) == {{{2
+  > Terminology < {{{3
+    While in C++ methods refer specifically to member functions of a class, in
+    Java since every bit of code must be inside a class, so they are all
+    called methods.
+
+  > Parameters vs arguments < {{{3
+    ➱   A method uses parameters.
+        ⮱   A local variable within a method.
+    ➱   A caller passes arguments.
+        ⮱   A value or reference to an object, which is landed to the
+            parameters of a function.
+
+    Java is [[pass-by-value]].
+    ⮱   Of course, if you pass a variable that stores the reference to an
+        object, the value is this reference. So it is the reference to the
+        object that is passed (but not the reference to the original
+        variable). I.e. you are passing a copy of the remote control.
+
+  > Return value < {{{3
+    Any return value must be:
+    ‣   the same type as the declared return type; or
+    ‣   able to implicitly promoted to the declared type.
+
+    It is [[not necessary]] to assign or use the return value.
+
+  > Special types of methods < {{{3
+   |accessors| {{{4
+    In Java they are called ['getters]'. It returns the value of an instance
+    variable.
+
+   |mutators| {{{4
+    In Java they are called ['setters]'. It takes in arguments and set the
+    value of an instance variable to the equivalent value of the argument.
+
+  > Constructor < {{{3
+    ➱   Same name with the class
+    ➱   No return type, not even void
+    ➱   Can be overloaded
+    ➱   Are [[not inherited]].
+        ⮱   When an object of a subclass is created, the [[default]]
+            constructor of the subclass will [[immediately]] call its
+            superclass's [[no-argument]] constructor, and so forth until the
+            highest level superclass. Therefore try always provide a
+            no-argument constructor.
+        ⮱   This process is called ['constructor chaining]'.
+    ➱   Use [\super()]\ with arguments in the [[first statement]] of the
+        subclass constructor to call a superclass constructor.
+        ⮱   Also WARN: if you do not invoke superclass constructor in your
+            programmer-defined subclass constructor, then Java will implicitly
+            call [\super()]\ (superclass's no-argument constructor) as the
+            first statement in your programmer-defined subclass constructor.
+
+    ➱   When you overload constructor, you can call the most general version
+        from more specific version with [\this(:ARG...:)]\.
+
+   |default constructor| {{{4
+    Is an [[empty]] method. Remember the data will get a default values if not
+    initialized.
+
+    NOTE that once any constructor is defined explicitly, Java will not assume
+    any empty constructor and you must define it explicitly if you need one.
+
+  > Destructor < {{{3
+    Because you cannot predict when the object is deleted by the garbage
+    collector, there is no direct equivalence to destructor in Java. For other
+    similar methods, see:
+    [=https://stackoverflow.com/questions/171952/is-there-a-destructor-for-java]=
+
+  > Static methods < {{{3
+    ➱   ['Static methods]' also called ['class methods]'.
+    ➱   Are methods whose behaviour does [[not]] depend on the value of any
+        instance variable. I.e. without using any instance variable.
+        ⮱   Using any instance variable or any non-static methods will result
+            to compile-time error.
+    ➱   Use keyword [\static]\ after access control keyword.
+    ➱   Can be called [[without any objects]] created. You can only call it
+        using [[class name]] directly: [\:{CLASS}`.{STATIC_METHOD}:]\.
+    ➱   E.g. [\Math.round()]\, [\main()]\.
+
+  > Static initializer < {{{3
+    [\static { :...: }]\ runs when a class is loaded, before:
+    ‣   Any object is created;
+    ‣   Any static variables is used;
+    ‣   Any static method is called.
+
+  > Final method < {{{3
+    ['Final methods]' cannot be overridden in a subclass. Put [\final]\ after
+    the access control keyword.
+
+  > Abstract method < {{{3
+    ['Abstract methods]' must be [[overridden]]. It has no method body, just
+    ends with [\;]\.
+
+    Any class with an abstract method must be an [[abstract class]]. Otherwise
+    compile-time error.
+
+    Any concrete class must implement any inherited abstract classes that have
+    not been implemented yet.
+
+ == Class == {{{2
+  > Terminology < {{{3
+    ‣   Data members are also called ['instance variables]'.
+
+  > Declare an object & new operator < {{{3
+    [\MyClass my_obj = new MyClass(:[...]:);]\
+
+    In Java, all objects are dynamically created and assigned to a variable.
+    So essentially the above statement is identical to the two statements:
+    [\MyClass my_obj;             ]\░
+    [\my_obj = new MyClass(:[...]:);]\
+
+    NOTE that the [\new]\ operator here works [[differently]] than C++, where
+    it returns a reference to an object, rather than the memory address (i.e.
+    the pointer) of the object. Therefore afterwards you use dot notations to
+    refer to the members as in [\my_obj.data]\.
+
+    DUNNO in [=lecture slide 2, p.24]=, it initialize an object of a
+    superclass by assigning it to the constructor of the subclass. Is this
+    possible and exactly the same in behaviour?
+    ⮱   This is okay, because the RHS is a LHS. The reverse is not okay.
+
+  > Passing a reference of object in assignment < {{{3
+    When putting an object at the RHS of an assignment, by default the
+    [[reference]] of the object is assigned to the LHS, rather than the values
+    (as determined by the member data).
+
+  > Constructors < {{{3
+   |default constructors| {{{4
+    The data receives default values of their type, which are [\0]\, [\null]\
+    and [\false]\ for numeric types, reference types, and booleans.
+
+   |defining constructors| {{{4
+    Mostly like C++. DUNNO if initializing list is available for Java.
+
+   |calling other constructors and implicit calling super()| {{{4
+    ➱   [\this(:...:)]\ calls other overloaded constructor of the same class.
+    ➱   [\super(:...:)]\ calls a constructor of the direct parent.
+
+    ➱   Either [\this()]\ or [\super()]\ can be called as the first statement,
+        but not both.
+    ➱   If [[neither]] is called explicitly, Java will implicitly call the
+        no-argument constructor of the super class ([\super()]\) as the first
+        statement.
+
+  > this keyword and super keyword < {{{3
+    When a method is called, Java implicitly pass the reference of the
+    invoking object to the variable [\this]\.
+
+    This is especially useful when the method's parameter names are the same
+    as the instance variable names. In this case the parameter names hide the
+    instance variable names, and to refer to the instance variables you need
+    the keyword [\this]\.
+
+    [\super]\ refers to the direct parent class. To call a method of the
+    parent class, you this keyword with dot notation.
+
+  > Inheritance < {{{3
+   |inherit superclass| {{{4
+    To inherit from a superclass uses [\extends :SUPERCLASS:]\ at the header:
+    [\class Cat extends Animal]\
+
+   |access control| {{{4
+    Only [[public]] members are inherited, but not private members. So a
+    superclass can choose whether it wants a subclass to inherit a particular
+    member.
+
+    Still, a [[private instance variable]] of the superclass can still be
+    accessed by inherited public getters and setters. (It exists, but you
+    cannot access it directly)
+
+    More see [=>Access Control of Members<]=
+
+   |override parent's method| {{{4
+    Inside the body of the class, you can overrides a parent's method by
+    redefining it.
+
+    Make sure the overriding method:
+    ➱   Has same method name
+    ➱   Has same [[argument list]]
+    ➱   Has compatible [[return type]] (['covariant return type]'), i.e. a
+        [[subtype]]
+    ➱   Is not less [[accessible]]
+
+    Because we need to fulfil is-a relatoinship, and a subclass can be used in
+    place of superclass.
+
+   |calling the right method| {{{4
+    By default, JVM will call the [[most specific]] version, i.e. the
+    [[lowest]] one in the inheritance tree.
+
+    To call an [[overridden method]] of the superclass, call
+    [\super.:METHOD():]\. This is useful to extend the functionality of the
+    overriden method. (Call super class method in the definition in the more
+    specific version of the method)
+
+  > Access Control of Members < {{{3
+    ➱   [\private]\: only code within the same class
+
+    ➱   [[Default]]: (no need access modifier keyword) code within the same
+        package as the class can access it
+
+    ➱   [\protected]\: Like default except it also allows [[subclasses outside
+        the package]] to inherit the protected member
+
+    ➱   [\public]\: code anywhere can access it
+
+  > Data < {{{3
+   |uninitialized data| {{{4
+    They take up a default value:
+    ‣   integers: 0
+    ‣   floating points: 0.0
+    ‣   booleans: false
+    ‣   references: null
+        ⮱   Printing value null gives null.
+
+  > Final class < {{{3
+    Cannot be extended. Put [\final]\ after the access control keyword.
+
+  > Abstract class < {{{3
+    ['Abstract classes]' cannot be instantiated (with [\new]\) and must be
+    [[extended]].
+
+    Put [\abstract]\ after the access control keyword. ['Concrete classes]'
+    are classes that are not abstract.
+
+    They are classes that are not supposed to be instantiated but is needed
+    for inheritance and polymorphism.
+
+  > Interface < {{{3
+    ➱   Solves the problem of multiple inheritance.
+    ➱   [[All]] methods are [[abstract]], and by default the methods are
+        public. (so you can omit these keywords)
+    ➱   It can be used as a [[polymorphic type]], like a regular superclass.
+
+   |definition| {{{4
+    Use keyword [\interface]\, e.g.:
+    [\public interface Pet {]\
+
+   |using interfaces| {{{4
+    To use interface(s), use keyword [\implements]\, e.g.:
+    [\public class Dog extends Canine implements Pet, Serializable {]\
+
+    Remember to implement all methods (∵ abstract) inherited from the
+    interface.
+
+    Classes from different inheritance tree can use the same interface. (If
+    they are public)
+
+  > Object Class < {{{3
+   |The ultimate class| {{{4
+    ➱   The superclass of everything.
+    ➱   Every class that does not explicitly extend another class, implicitly
+        extends the ['Object class]'.
+    ➱   Every classes inherit all methods of the Object class:
+
+   |equals()| {{{4
+    ➱   By [[default]], [\boolean equals(Object)]\ returns true when they
+        reference to the same object in the heap.
+    ➱   Can [[override]] to test whether 2 objects are equal in a sense you
+        wish.
+        ⮱   NOTE that when you override this method, you have to override the
+            [\hashCode()]\ method as well.
+
+   |hashCode()| {{{4
+    ➱   [\int hashCode()]\ returns a hash code value for the current object
+        (e.g. to be used with hash tables).
+    ➱   By [[default]] it is usually the internal address.
+    ➱   By definition, 2 objects that are [\equal()]\ must produce the same
+        hash.
+        ⮱   So you must override this method if you wish to override
+            [\equals()]\
+
+   |getClass()| {{{4
+    ➱   [\final Class getClass()]\ returns a reference to a Class object that
+        represents the runtime class of the current object.
+    ➱   Cannot be overridden.
+
+   |toString()| {{{4
+    ➱   [\String toString()]\ returns a string that textually represents the
+        current object.
+    ➱   It is recommended that all subclasses [[override]] this method.
+    ➱   By [[default]] the output is something like Dog@7852e922 ([\:CLASS`@HASH:]\)
+        ⮱   But you can override to provide more textual information.
+
+   |constructor|
+    The default no-argument constructor is called when its direct descendent
+    has no explicit constructor. The final constructor in the constructor
+    chaining.
+
+   |use Object as a polymorphic type| {{{4
+    ➱   An object [[loses their essence]] when treated polymorphically as an
+        Object.
+        ⮱   Goes in an array as a specific type, comes out as a generic
+            Object.
+        ⮱   Cannot assign to a reference variable of its original class.
+        ⮱   So cannot use some methods specific to that particular type.
+
+  > Casting < {{{3
+    ['Downcasting]':
+    ➱   Assign an object reference of one type to a reference variable of a
+        [[subtype]].
+    ➱   [\:SUBCLASS_VAR := (:SUBCLASS`) SUPERCLASS_VAR:]\, e.g.
+        [\SportCar sCar = (SportCar) myCar;]\
+    ➱   NOTE that even if the underlying object referenced by the
+        SUPERCLASS_VAR is really not of a SUBCLASS type, there downcasting
+        is [[still successful]]. But it may result to runtime error at later
+        time.
+
+    So it is a good idea to check if the classes are compatible with the cast:
+    ➱   [\:OBJ1: instanceof :CLASS:]\ returns true if OBJ1 is an instance of
+        the CLASS, e.g.:
+        ⮱   [\if (myCar instanceof SportCar)]\
+
+  > Inner class < {{{3
+    ➱   An inner class is defined within the definition of an outer class.
+    ➱   The outer class and inner class [[shares everything]]: even private
+        instance variables and methods.
+    ➱   An inner class object must be [[tied to an outer class object]]. An
+        inner class object must be instantiated without an outer class.
+
+ == Dynamic memory == {{{2
+  > New operator < {{{3
+    The [\new]\ operator creates a new dynamic object in the ['heap]' memory
+    and return the reference (rather than the address) to the object.
+
+    A runtime exception is resulted if the program runs out of its allocated
+    memory.
+
+  > Garbage collection < {{{3
+    Java has ['garbage collection]' which reclaims objects automatically. When
+    [[no reference]] to an object exists, the object is assumed to be no
+    longed needed, and the memory occupied is released.
+
+    But the garbage collector will only occur sporadically, which usually only
+    when two conditions are met:
+    ‣   There are objects to recycle
+    ‣   There is a reason to recycle them.
+
+    The Java heap is called ['garbage-collectible heap]'.
+
+ == Packages == {{{2
+  > Reasons of using packages < {{{3
+    ➱   Help overall [[organization]].
+    ➱   Provide ['name-scoping]' to prevent collisions of names.
+    ➱   Provide another level of [[security]] (E.g. only other classes in the
+        same package can access it)
+
+  > Full name of a class < {{{3
+    E.g. in [\java.util.ArrayList]\, [\java.util]\ is the package name.
+    [\ArrayList]\ is the class name.
+
+  > Using/importing packages < {{{3
+    ➱   All classes in [\java.lang]\ are already imported by [[default]], can
+        thus can be used directly by their class name.
+    ➱   To use other classes that have not imported, you must address their
+        [[full name]].
+
+   |import|
+    ➱   To import [[a class]]: [\import :FULL_NAME:;]\.
+    ➱   To import [[a package]]: [\import :PACKAGE:.*;]\.
+
+   |performance|
+    Import statement has no effect on performance. It only provide convenience
+    in typing class names.
+
+  > API and Docs < {{{3
+    E.g. for Java 8 documentations,
+    [=http://docs.oracle.com/javase/8/docs/api/index.html]=.
+
+ == Multi-threading == {{{2
+  > Benefits < {{{3
+    ➱   Parallel execution
+    ➱   Increase the efficiency depending on how many threads (cores) a
+        computer has.
+
+  > Runnable < {{{3
+    ➱   A ['runnable]' object is a [[job]].
+    ➱   You create a new job by defining a class that [[implements]]
+        [\Runnable]\.
+    ➱   Then you create a new instance of your defined job:
+        [\Runnable myJob = new MyRunnable();]\
+    ➱   The interface class [\Runnable]\ has only one method [\run();]\. You
+        need to implement this method - this is the starting point of your
+        job.
+
+  > Thread < {{{3
+    ➱   A ['thread]' object is a [[worker]] that performs jobs (runnable).
+    ➱   You create a new instance of a worker:
+        [\Thread myThread = new Thread(myJob);]\
+        ⮱   Where [\myJob]\ is an instance of your self-defined runnable
+            object.
+    ➱   To start a thread of execution: [\myThread.start();]\. This creates a
+        new call stack for that thread of execution.
+    ➱   NOTE that you can assign the same instance of the job multiple times
+        to different worker (Runnable objects).
+
+  > States of thread < {{{3
+              ┌──────────┐
+    NEW → RUNNABLE → RUNNING
+              └ BLOCKED ←┘
+
+  > Sleep < {{{3
+    [\Thread.sleep(:MILISECOND:);]\ is a static method. Put the method in
+    [\try]\ block because it may fail.
+
+    One of the best way to help your threads take turns is to put them to
+    [[sleep]] periodically:
+    [\try {                                           ]\░
+    [\  Thread.sleep(2000);                           ]\░
+    [\} catch (Exception ex) { ex.printStackTrace(); }]\░
+
+    NOTE that sleep only guarantees the thread sleeps for that period of time,
+    it doesn't guarantee the thread will wake up after that exact duration.
+    ⮱   Consequently, even if a thread is put to sleep before another and the
+        duration of sleep for both threads is the same, we can not guarantee
+        the former thread will wake up first.
+
+  > Concurrency problem < {{{3
+    ['Concurrency problem]' (or ['data race]') may occur when 2 or more
+    threads access the same object on the heap at approximately the same time.
+    When one thread doesn't finish the whole job before the other thread start
+    the job, there may be [[data corruption]].
+
+  > Synchronization < {{{3
+    ➱   Aims to solve concurrency problem, by making a method ['atomic]' (i.e.
+        indivisible/basic unit)
+        ⮱   That is, only one thread can access the method at a time.
+    ➱   To make a method atomic, add the keyword modifier [\synchronized]\ to
+        the method definition.
+
+   |lock-key mechanism|
+    ➱   NOTE in fact, if one (Thread) object is accessing any one of the
+        synchronized method of a target object, then no other object can
+        access [[any]] of the synchronized method of the target object,
+        ⮱   The idea is each object has a [[lock]]. In order to access to any
+            of the object's synchronized method, a [[key]] is required. But
+            there is only one key so only one other object can have the key at
+            a tie.
+        ⮱   When other (Thread) objects want a key that is occupied currently,
+            it goes into [[blocked state]] (i.e. wait) until the key becomes
+            available again.
+
+   |deadlock problem|
+    Occurs when each of the two threads get hold of a key that is required by
+    the other thread, then both threads become blocked indefinitely.
+
+    WARN Java has no mechanism to handle deadlock nor even know a deadlock
+    occurred.
+
+  > Multi-threading and printing < {{{3
+    ➱   [\System.out.print()]\ prints one character at a time. So the whole
+        print statement may suspend and then the other thread runs before
+        coming back.
+    ➱   So if there is a bug due to multi-threading, it is extremely hard to
+        debug.
+
+ == Exception Handling == {{{2
+  > Exception type < {{{3
+    An exception is an object of type [\Exception]\ or any of its subclasses.
+    It gives information about what goes wrong.
+
+  > Declaring an exception-throwing method < {{{3
+    ➱   Use the keyword [\throws]\ in the header of a function definition to
+        indicate that this method can throw an exception.
+        ⮱   [\public void takeRisk() throws BadException, WorseException]\
+
+  > Throwing an exception < {{{3
+    ➱   To throw an exception, use the keyword [\throw]\ (no s):
+        ⮱   [\throw new BadException();]\
+
+  > Exception class hierarchy < {{{3
+                Throwable
+                    │
+                Exception
+          ┌─────────┴─────────┬─────────────────────┐
+    IOException     InterruptedException    RuntimeException
+                                         ┌──────────┴─────────────┐
+                                ClassCastException      NullPointerException
+
+   |Throwable's methods| {{{4
+    Methods:
+    ➱   [\getMessage()]\
+    ➱   [\printStackTrace()]\
+
+   |RuntimeException| {{{4
+    ➱   Call a method from a null reference
+    ➱   Divide by ero
+
+  > Try-catch-finally block < {{{3
+    ➱   Use a try/catch block:
+        [\try {                                  ]\░
+        [\  :...:                                  ]\░
+        [\} catch (:EXCEPTION_TYPE_1 IDENTIFIER:) {]\░
+        [\  :...:                                  ]\░
+        [\} catch (:EXCEPTION_TYPE_2 IDENTIFIER:) {]\░
+        [\  :...:                                  ]\░
+        [\} finally {                            ]\░
+        [\  :...:                                  ]\░
+        [\}                                      ]\░
+
+    ➱   Usually, if you can't handle the exception, you at least call the
+        method [\printStackTrace();]\ to print out info for debugging.
+    ➱   A catch block can be empty.
+    ➱   There must be at least one of catch or finally block.
+
+   |flow of control| {{{4
+    Two possible cases:
+    ➱   Try blocks completes without exception. Then catch block will be
+        skipped.
+    ➱   Execute try blocks until there is an exception thrown. Then the
+        execution with try block stops and jumps directly to [[first]] catch
+        block whose declared type is compatible with the actual exception
+        thrown.
+
+   |finally block| {{{4
+    ➱   Finally block runs after try or catch block completes. It ensures some
+        code is executed.
+    ➱   Even if the [\try]\ or [\catch]\ block has a [[return statement]], the
+        [\finally]\ block will still run [[just before]] the return statement.
+
+  > Unchecked vs checked exception < {{{3
+   |unchecked exception| {{{4
+    ➱   RuntimeExceptions are not checked by the compiler.
+    ➱   Most of them come from a problem in [[code logic]], thus it is the
+        programmer's responsibility.
+    ➱   Therefore, these are [[unchecked exceptions]] that should not be put
+        in try-catch block but should be fixed.
+        ⮱   Nor should you declare a RuntimeException-throwing method.
+
+   |checked exception| {{{4
+    ➱   All exceptions that are not a subclass of RuntimeException are
+        checked.
+    ➱   You [[must declare]] those methods as [[exception-throwing]] methods.
+    ➱   If your code calls a checked-exception-throwing method, you must
+        reassure compiler that [[all]] types of exceptions that might be
+        thrown are [[addressed]] by either one of the ways:
+        ‣   Wrap the call in [[try-catch block]] (catch block is required)
+        ‣   ['Ducking]' the caller: declare that the caller method will throw
+            the same kind of exception. This [[delays]] exception handling:
+            ⮱   When a method throws an exception, that method is [[popped]]
+                off the stack, and the exception is thrown to the next method
+                down the call stack.
+            ⮱   If a caller is a ['ducker]' it does the same immediately.
+            ⮱   Until the exception is handled by some caller, or at the end
+                JVM shuts down.
+
+  > Exception rules < {{{3
+    ➱   Cannot have catch or finally block without try block.
+    ➱   Cannot put code between the try block.
+    ➱   Try block must be followed by either a catch or a finally block or
+        both.
+    ➱   With only a finally block (without catch block), the method is still a
+        ducker.
+    ➱   When handling multiple exceptions, you can handle it using
+        [[polymorphic type]]:
+        ⮱   Multiple catch blocks must therefore be ordered from [[specific to
+            generic]] exception.
+
+[~{ GUI (Swing) and Event-handling }~] {{{1
+ == Swing == {{{2
+    Swing only has one thread to handle listeners, so if one of your listener
+    never ends, then no other listeners can run.
+
+ == JFrame == {{{2
+    ➱   A ['JFrame]' is an object that represents a window on the screen.
+    ➱   Where you puts all ['widgets]' (interface), which is technically a
+        ['swing component]'.
+
+   |innate components|
+    The following components come with JFrame automatically:
+    ➱   Menu bar with menu items
+    ➱   Windowing icons, e.g. minimizing, maximizing and closing.
+
+  > Create a JFrame < {{{3
+    [\JFrame frame = new JFrame();]\
+
+  > Displaying < {{{3
+    ➱   [\frame.setSize(:WIDTH`, HEIGHT:);]\
+    ➱   [\frame.pack();]\ automatically resize window to fit all components
+    ➱   [\frame.setVisible(true);]\
+
+  > Essential methods < {{{3
+    ➱   [\frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);]\
+        ⮱   Makes the program [[quit]] as soon as the window is closed.
+
+ == Swing component == {{{2
+  > Packages < {{{3
+    ➱   From package [\javax.swing]\
+    ➱   Each class represent one kind of components. Almost all Swing
+        components [[extends]] [\javax.swing.JComponent]\
+
+  > examples of swing component < {{{3
+    ‣   JButton
+    ‣   JRadioButton
+    ‣   JCheckBox
+    ‣   JLabel
+    ‣   JTextArea
+    ‣   JTextField
+    ‣   JList
+    ‣   JScrollPane
+    ‣   JSlider
+    ‣   JMenuBar
+    ‣   JMenu
+    ‣   JMenuItem
+
+  > Some common methods < {{{3
+    ‣   [\setText(:STRING:)]\;
+    ‣   [\setFont(:FONT_OBJ:);]\
+    ‣   [\setBackground(:COLOR_OBJ:);]\
+    ‣   [\setLayout(:LAYOUT_OBJ:);]\
+
+  > Holding other components < {{{3
+    ➱   Virtually all components are capable of holding other components.
+    ➱   Most of the time, however, you add [[user-interactive]] components
+        into [[background]] components.
+        ⮱   But there is no exact nor well-defined distinction between two.
+
+  > Creating a JComponent < {{{3
+    ➱   [\JButton button = new JButton("Click me");]\
+
+  > Adding component < {{{3
+    ➱   [\:JCOMPONENT:.add(:JCOMPONENT [`, REGION]:);]\
+        ⮱   E.g. [\frame.add(button, BorderLayout.SOUTH);]\
+
+ == Event Handling == {{{2
+  > Packages < {{{3
+    ➱   [\java.awt.event]\
+    ➱   An event is represented as an [[object]] of some [[event class]].
+
+   |example event class| {{{4
+    ➱   [\ActionEvent]\ (A button being pressed)
+    ➱   [\MouseEvent]\
+    ➱   [\WindowEvent]\
+    ➱   [\KeyEvent]\
+
+  > Event source < {{{3
+    ➱   Swing GUI components are ['event sources]'.
+    ➱   A source create an event object.
+
+  > Handling event: listeners < {{{3
+    ➱   To handle an event, [[implement]] a ['listener interface]'.
+    ➱   The programmer-defined class that implements a listener interface is
+        called a ['listener]'.
+    ➱   Before a listener can receive events from an event source, it must
+        first [[register]] itself with the event source:
+        [\:JCOMPONENT:.add:{EVENTTYPE}:Listener(:LISTENER:);]\
+        ⮱   LISTENER can be [\this]\ for example.
+    ➱   Every event type has a matching listener interface:
+        ‣   e.g. [\ActionListener]\ handles [\ActionEvent]\
+    ➱   We usually define listeners as [[inner classes]] to make it more
+        convenient to access instance variables referencing JComponents.
+
+    The listener has to implement the method to handle the events:
+   |ActionListener| {{{4
+    ➱   [\actionPerformed(ActionEvent e)]\
+
+   |MouseListener| {{{4
+    ➱   [\mouseClicked()]\
+    ➱   [\mousePressed()]\
+    ➱   [\mouseReleased()]\
+    ➱   [\mouseEntered()]\
+    ➱   [\mouseExited()]\
+
+   |WindowListener| {{{4
+    ➱   [\windowActivated()]\
+    ➱   [\windowDeactivated()]\
+    ➱   [\windowOpened()]\
+    ➱   [\windowClosing()]\
+    ➱   [\windowClosed()]\
+    ➱   [\windowIconified()]\
+    ➱   [\windowDeiconified()]\
+
+ == JPanel and Refreshing Screen == {{{2
+  > Steps to use JPanel < {{{3
+    ‣   Make a [[subclass]] of JPanel
+    ‣   Override [\void paintComponent(Graphics g)]\ and put all graphic code
+        inside this method
+    ‣   Create an instance of your drawing panel and add it to the JFrame.
+
+  > Refreshing screen < {{{3
+    Whenever the frame holding your panel is [[displayed]] or [[refreshed]],
+    the [\paintComponent(Graphics g)]\ will be called. You never call this
+    method by yourself.
+
+    ➱   To refresh, call [\repaint()]\ method from the [[JFrame]] or
+        [[JPanel]] (DUNNO if other JComponents work too).
+    ➱   Java also refreshes whenever there is an event (DUNNO if this is
+        always).
+
+  > Animation < {{{3
+    The most straight forward is to use a loop with
+    [\Thread.sleep(:MILISECOND:);]\.
+    ⮱   See [={Coding Java} =Multi-threading= >Sleep<]=
+
+  > Graphics methods < {{{3
+   |setting color| {{{4
+    ‣   [\setColor(:COLOR_OBJECT:)]\
+        ⮱   See [\java.awt.Color]\
+
+    Setting random colour:
+    [\int red = (int) (Math.random() * 256);  ]\░
+    [\int green = (int) (Math.random() * 256);]\░
+    [\int blue = (int) (Math.random() * 256); ]\░
+    [\g.setColor(new Color(red, green, blue));]\░
+
+   |draw shapes| {{{4
+    For most shape types, there are two variant: [\draw:SHAPE:()]\ and
+    [\fill:SHAPE:()]\. In the following, only the former variant is shown.
+    ‣   [\drawRect(:X`, Y`, WIDTH`, HEIGHT:)]\
+    ‣   [\drawOval(:X`, Y`, WIDTH`, HEIGHT:)]\ (Bounding rectangular box)
+    ‣   [\drawPolygon(:{VERTIC_COORDINATE}...:)]\
+    ‣   [\drawLine()]\
+
+   |display a JPEG| {{{4
+    [\Image image = new ImageIcon("batman.jpg").getImage();]\░
+    [\g.drawImage(image, :X`, Y`, JPANEL:);                    ]\░
+    ⮱   JPANEL can be [\this]\ if the code is written inside a JPanel subclass.
+
+  > Using Graphics2D < {{{3
+   |cast to Graphics2D|
+    [\Graphics2D]\ is a subclass of [\Graphics]\ and provides more methods. To
+    use those methods, you need to cast the [\Graphics]\ object in
+    [\paintComponent(Graphics g)]\ to [\Graphics2D]\:
+    ⮱   [\Graphics2D g2D = (Graphics2D) g;]\
+
+   |methods| {{{4
+    ‣   [\rotate()]\
+    ‣   [\scale()]\
+    ‣   [\shear()]\
+    ‣   [\transform()]\
+    ‣   [\setPaint()]\
+    ‣   [\setRenderingHints()]\
+    ‣   [\hit()]\
+    ‣   [\fill()]\
+
+   |GradiantPaint| {{{4
+    [\GradiantPaint paint = new GradiantPaint(:FROM_X`, FROM_Y`, FROM_COLOR:,]\░
+    [\                                        :TO_X`, TO_Y`, TO_COLOR:);     ]\░
+    [\g2D.setPaint(paint);                                               ]\░
+
+ == Layout Manager == {{{2
+  > BorderLayout < {{{3
+    ➱   It is the default layout for a [[frame]].
+    ➱   Each region can has at most one component.
+    ➱   Components' size is adapt to the layout.
+    ➱   5 regions:
+        ‣   [\BorderLayout.CENTER]\
+        ‣   [\BorderLayout.WEST]\
+        ‣   [\BorderLayout.EAST]\
+        ‣   [\BorderLayout.NORTH]\
+        ‣   [\BorderLayout.SOUTH]\
+
+        ┌───────────────────┐
+        ├─┬───────────────┬─┤
+        │ │               │ │
+        │ │               │ │
+        ├─┴───────────────┴─┤
+        └───────────────────┘
+
+  > FlowLayout < {{{3
+    ➱   Default layout for [[panel]]
+    ➱   Components flow from left to right like a word processor.
+    ➱   Each component gets to have its own size.
+
+  > BoxLayout < {{{3
+    ➱   Each component gets to have its own size.
+    ➱   Can stack components either vertically or horizontally:
+        ‣   [\panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));]\
+        ‣   [\panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));]\
+
+  > GridBagLayout < {{{3
+    ➱   Components are placed in a grid of rows and columns
+        ⮱   Which can be different heights and widths.
+    ➱   Components can span multiple rows and columns
+    ➱   Size and placement of a component in a grid is specified by a
+        [\GridBagConstraints]\ object:
+        ⮱   [\public GridBagConstraints(int gridx, int gridy, int gridwidth, int gridheight, ]\░
+            [\                          double weightx, double weighty, int anchor, int fill,]\░
+            [\                          Insets insets, int ipadx, int ipady);                ]\░
+    ➱   To use this layout:
+        [\panel.setLayout(new GridBagLayout());]\
+
+    ➱   E.g. [\panel.add(button, :GridBagConstrains_OBJ:);]\
+
+ == Misc Objects (Color, Font, ...) == {{{2
+  > Image < {{{3
+    [\Image image = new ImageIcon("batman.jpg").getImage();]\░
+
+  > color < {{{3
+    [\Color color = new Color(red, green, blue);]\░
+    ⮱   red, green, blue are int, whose value is 0-255.
+
+  > Font < {{{3
+    [\Font font = new Font("serif", Font.BOLD, 28);]\
+
+[~{ Java's Standard Libraries }~] {{{1
+ == Math == {{{2
+    ➱   [\double sqrt(:VAL:)]\
+    ➱   [\double random()]\ returns [0,1).
+
+ == System == {{{2
+  > out < {{{3
+    [\System.out]\ object.
+
+  > in < {{{3
+    [\System.in]\ object.
+
+[~{ Doing OOP }~] {{{1
+ == Characteristics == {{{2
+  > Encapsulation < {{{3
+    Using assessors and mutators as proxies not only
+    ➱   allow you check for valid values before assigning to the private data,
+    ➱   it also gives you flexibility when you later changes your mind. I.e.
+        Changing implementation without changing the interface.
+
+ == Advantage == {{{2
+    ➱   Better extendability:
+        ⮱   Less need to touch previously tested, working code when new
+            features are added.
+    ➱   Better code reusability:
+        ⮱   Because of inheritance and polymorphism
+
+ == Class Design == {{{2
+  > Questions to think about < {{{3
+    ➱   Think about the objects that a class will create:
+        ‣   Things the object knows:
+            ['Instance variables]', ['data]' that represent the ['state]' of
+            an object
+        ‣   Things the object does:
+            ['Methods]' that describe the behaviour of an object
+
+  > Class development steps < {{{3
+    ➱   Figure out what the class is supposed to do.
+    ➱   List the instance variables and methods.
+    ➱   Write ['prepcode]' (a form of [[pseudocode]]) for the methods.
+    ➱   Write [[test code]] for the methods.
+    ➱   Implement the class (with real code).
+    ➱   Test the methods.
+    ➱   Debug and reimplement as needed.
+
+ == Inheritance == {{{2
+  > is-a relationship < {{{3
+    Do not overuse inheritance. One important test is to check if it makes to
+    say that a subclass object [[is a]] superclass object. Only then we can
+    say the subclass [[extends]] its superclass.
+
+    This is not to be confused with ['has-a]' relationship. Use [[instance
+    variables]] to capture this relationship.
+
+  > When to make subclass < {{{3
+    ➱   When subclass is a more [[specific]] type of a superclass
+    ➱   When common behaviour should be shared among multiple classes of the
+        same general type.
+
+    Do NOT use when:
+    ➱   Just to reuse code
+    ➱   No pass the is-a relationship test.
+
+  > Benefits < {{{3
+    ➱   Reduce code duplication
+    ➱   Define common protocol & contract. Guarantee all subclass objects have
+        certain methods, such that any subclass object can be used where
+        superclass object is expected (polymorphism)
+
+  > Multiple inheritance < {{{3
+    It has a problem known as the ['Deadly Diamond of Death (DDD)]'.
+    ➱   Each parent override the same method differently.
+    ➱   Also same instance variable
+
+    Use interface to solve this problem.
+
+  > When to make interface < {{{3
+    ➱   When we want to define a [[role]] that other classes can play,
+        regardless of where these classes are in the inheritance trees.
+
+ == Polymorphism == {{{2
+  > Definition < {{{3
+    The ability to have more than one form.
+
+  > Benefits < {{{3
+    ➱   Make possible polymorphic arrays, argument and return types.
+
+[~{ Style & Convention }~] {{{1
+ == Naming == {{{2
+    ➱   [[Class]] name start with capital letter
+    ➱   [[Variables]] or [[methods]] begins with lowercase letter
+        ⮱   E.g. makeNoise(), size
+    ➱   [[Symbolic constant]] consists of only capital letters.
+    ➱   For names consisting of multiple words, subsequent words begins with a
+        capital letter.
+
+[~{ API Documentations }~] {{{1
+
+[~{ Tags }~] {{{1
+ == ctags == {{{2
+    See [=cpp.dqn]= for more general info about [\ctags]\.
+
+  > Tags file < {{{3
+   |kinds of tags|
+    #LETTER NAME         ENABLED REFONLY NROLES MASTER DESCRIPTION
+    a       annotation   yes     no      0      NONE   annotation declarations
+    c       class        yes     no      0      NONE   classes
+    e       enumConstant yes     no      0      NONE   enum constants
+    f       field        yes     no      0      NONE   fields
+    g       enum         yes     no      0      NONE   enum types
+    i       interface    yes     no      0      NONE   interfaces
+    l       local        no      no      0      NONE   local variables
+    m       method       yes     no      0      NONE   methods
+    p       package      yes     no      1      NONE   packages
+
+[~{ Programming in General }~] {{{1
+ == Extreme Programming (XP) == {{{2
+    See [=Head First Java, p. 101]=.
+
+    ➱   Write test code before real code.
+        ⮱   It helps clarify your thoughts about what the methods need to do.
+        ⮱   Ideally write a little test code, then write only the
+            implementation code that are needed to pass the test. Then repeat.
+
+[~{ Misc. Knowledge }~] {{{1
+ == Code Knowledge == {{{2
+    ➱   If a class has a public method [\compareTo(:{SAME_CLASS_OBJECT}:)]\,
+        then an ArrayList of this class can use the method [\sort()]\.
+    ➱   [\getClass()]\ can use to determine the class (such that in
+        polymorphism you can know which exact class the object is)
+    ➱   [\.equal(:OBJECT:)]\ checks if two object has the same [[state]].
+
+[~{ Question }~] {{{1
+    ‣   If you declare a superclass object, will it be insufficient storage in
+        heap for subclass object.
+        ⮱   The variable is a (4?) bytes container only containing the
+            reference to the object.
+    ‣   What is the little triangle at the .java file logo in eclipse?
+        ⮱   Not much meaning
+
+    ‣   Doctor : Surgeon & Family Doctor (play both roles, how should it be
+        arranged? Multiple interface means no subclass) (Like CD/DVD recorder)
+
+    ‣   What if CellPhone stores an Antenna object reference, and an Antenna
+        object stores a CellPhone object.

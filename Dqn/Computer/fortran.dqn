@@ -1,0 +1,653 @@
+/// Language: DQNote_1.35
+
+[~{ Concept }~] {{{1
+ == Standard == {{{2
+  > Fixed and free source < {{{3
+    Fortran has two flavours:
+    ‣   [[fixed source]]
+    ‣   [[free source]]
+
+    ➱   For fixed source, main program only beings at column 6 / 8.
+    ➱   For free source, there is no column format and you are free to begin
+        the program anywhere.
+    ➱   NOTE that for Vim, when you first edit a newly created Fortran file,
+        Vim assumes it is fixed source and uses corresponding syntax
+        highlighting. To disable this behaviour, see [\~:help fortran.vim]\
+
+ == Files == {{{2
+  > File extension < {{{3
+    ‣   [\.f]\
+    ‣   [\.f90]\
+    ‣   [\.f95]\
+
+[~{ Syntax }~] {{{1
+ == Basic Syntax == {{{2
+  > Begin program < {{{3
+    [\PROGRAM :[prog_name]:       ]\░
+    [\   IMPLICIT NONE          ]\░
+    [\                          ]\
+    [\   ! type declarations    ]\░
+    [\   ! executable statements]\░
+    [\                          ]\
+    [\END PROGRAN :[prog_name]:   ]\░
+
+  > Comment < {{{3
+    When Fortran encounters a [\!]\, it ignores the rest of current line.
+
+  > Basic character set < {{{3
+    ➱   A-Z, a-z
+    ➱   0-9
+    ➱   Underscore (_)
+    ➱   Special characters: = : - * / ( ) [ ] , . $ ' ! " % & ; < > ? blank
+
+  > Identifiers < {{{3
+    For variables, procedures or any other user-defined item:
+    ➱   Cannot be longer than [[31]] characters
+    ➱   Composed of [[alphanumeric]] characters and [[underscore]]
+    ➱   First character of a name must be [[letter]]
+    ➱   Case-[[insensitive]]
+
+  > Line continuation < {{{3
+    Using [\&]\ at the end of line indicates line continuation at [[another]]
+    following [\&]\ on another line.
+    [\:...: (/1, 2, 3, 4, &]\░
+    [\   & 5, 6, 7, 8/)  ]\░
+
+ == Data Types == {{{2
+  > Intrinsic data types < {{{3
+    ➱   Integer
+    ➱   Real
+    ➱   Complex
+    ➱   Logical
+    ➱   Character
+
+  > Integer type < {{{3
+   |sizes|
+    In bytes:
+    ‣   2
+    ‣   4 (default)
+    ‣   8
+    ‣   16
+
+   |literal|
+    ‣   2
+    ‣   -2499
+
+  > Real type < {{{3
+   |two types|
+    ➱   real (or single precision)
+    ➱   double precision
+
+   |literal|
+    ‣   5.0
+    ‣   28.392003
+    ‣   2.28E-20
+    ‣   3.74e+20
+
+  > Complex type < {{{3
+   |literal|
+    ➱   (3, -4)
+        ⮱   Represents 3 - 4i
+    ➱   (3.0, -5.0)
+
+   |create a complex number|
+    ➱   [\cmplx(:a`, b:)]\ creates a complex number whose real and imaginary
+        parts [[single precision]] disregarding the type of arguments.
+
+  > Logical type < {{{3
+   |literal|
+    Only two different literals:
+    ‣   [\.TRUE.]\
+    ‣   [\.FALSE.]\
+
+  > Character type < {{{3
+   |delimiter|
+    ➱   Use single or double quote
+
+   |literal|
+    ‣   [\"PQR"]\
+    ‣   [\"a"]\
+    ‣   [\'123"abc$%#@!']\
+    ‣   [\"'"]\
+    ‣   [\" a quote "" "]\
+    ‣   [\""]\ (zero-length string)
+
+   |character set|
+    The basic character set of Fortran
+
+   |substring|
+    ➱   Each character in a string has a position, [[starting at 1]]
+    ➱   [\:string`(start`, end:)]\ gives you a substring ([[inclusive]])
+
+   |string concatenation|
+    ‣   [\//]\ is the concatenation operator
+
+   |useful functions|
+    ‣   [\trim(:str:)]\ returns the string with trailing spaces truncated
+    ‣   [\adjustl(:str:)]\ returns the string with leading spaces removed and
+        appended back as trailing spaces. (left justify)
+    ‣   [\adjustr(:str:)]\ returns the string with trailing spaces removed and
+        inserted back as leading spaces. (right justify)
+    ‣   [\index(:str`, substr:)]\ returns the index of the first character of
+        the substring inside string when the substring is found. Returns 0
+        otherwise.
+
+  > Overflow and underflow < {{{3
+    Compiler produces a warning when there is overflow and underflow detected
+    at compile time.
+
+    At run time when there is overflow and underflow, the literal will be
+    represented by [\Infinity]\ and [\0]\ or [\0.00000000E+00]\
+
+  > Useful functions < {{{3
+    ➱   [\huge(:variable:)]\ prints out the maximum value that can be hold be
+        the data type of a variable.
+        ⮱   DUNNO if the variable must be uninitialized
+    ➱   [\kind(:variable:)]\ queries the details of hardware's data
+        representation. It prints out the kind of the data type
+
+ == Variables == {{{2
+  > General syntax of declaration < {{{3
+    [\:type `(kind/len `= val:), :attribute...: ~:~: :name:]\
+
+  > Integer type < {{{3
+   |declaration|
+    ➱   Default 4-byte:
+        [\INTEGER ~:~: :name[`, ...]:]\
+    ➱   Different sizes:
+        [\INTEGER (KIND = :bytes:) ~:~: :name:]\
+
+  > Real type < {{{3
+   |declaration|
+    ➱   Default real type
+        [\REAL ~:~: :name[`, ...]:]\
+    ➱   Double precision type
+        [\DOUBLE PRECISION ~:~: :name:]\
+
+  > Complex type < {{{3
+   |declaration|
+    [\COMPLEX ~:~: :name[`, ...]:]\
+
+  > Characters < {{{3
+   |declaration|
+    [\CHARACTER :[:(LEN = :n`)]: ~:~: :name:]\
+
+    ➱   The default length is 1
+    ➱   You can assign string to a declared character variable that has enough
+        space.
+        ⮱   Compiler will [[truncate]] away any excessive characters.
+        ⮱   Each vacant position in the variable are represented by a space
+            character. When outputting, you can use [\trim(:str:)]\ to truncate
+            trailing spaces
+    ➱   The length can be [\*]\ when it is a [[constant]] , in which case
+        Fortran set the length to be the length of the initialized value (i.e.
+        you must initialize the variable immediately at declaration)
+
+  > Constant < {{{3
+    Use the keyword [\PARAMETER]\ in the attribute.
+    ➱   [\:type [:(KIND = :n`)]:, PARAMETER ~:~: :name: = :value:]\
+    ➱   [\CHARACTER :[:(LEN = :n`)]:, PARAMETER ~:~: :name: = :value:]\
+
+ == Operators == {{{2
+  > Arithmetic operators < {{{3
+    ‣   [\+]\   addition
+    ‣   [\-]\   subtraction
+    ‣   [\*]\   multiplication
+    ‣   [\/]\   division
+    ‣   [\**]\  exponentiation
+
+  > Relational operators < {{{3
+    ‣   [\==]\ or [\.EQ.]\  equal
+    ‣   [\/=]\ or [\.NE.]\  not equal
+    ‣   [\>]\ or [\.GT.]\   greater than
+    ‣   [\<]\ or [\.LT.]\   less than
+    ‣   [\>=]\ or [\.GE.]\  greater than or equal
+    ‣   [\<=]\ or [\.LE.]\  less than or equal
+
+  > Logical operators < {{{3
+    ‣   [\.AND.]\   and operator
+    ‣   [\.OR.]\    or operator
+    ‣   [\.NOT.]\   not operator
+    ‣   [\.EQV.]\   equivalent (same truth value)
+    ‣   [\.NEQV.]\  not equivalent (different truth values)
+
+  > Operators precedence < {{{3
+    Higher to lower precedence (Associativity left to right unless specified):
+    ‣   Not, -ve:       [\.NOT.]\, [\-]\
+    ‣   Exponentiation: [\**]\
+    ‣   Multiplicative: [\*]\, [\/]\
+    ‣   Additive:       [\+]\, [\-]\
+    ‣   Relational:     [\<]\, [\>]\, [\<=]\, [\>=]\
+    ‣   Equality:       [\==]\, [\/=]\
+    ‣   And:            [\.AND.]\
+    ‣   Or:             [\.OR.]\
+    ‣   Assignment:     [\=]\   ([[associativity right to left]])
+
+  > Unavailable operators in Fortran < {{{3
+    Some common operators not available in Fortran
+    ‣   [\++]\
+    ‣   [\+=]\
+
+ == Compound statements == {{{2
+  > if conditional < {{{3
+    [\IF (:condition:) THEN     ]\░
+    [\   :...:                  ]\░
+    [\ELSE IF (:condition:) THEN]\░
+    [\   :...:                  ]\░
+    [\ELSE                    ]\░
+    [\   :...:                  ]\░
+    [\END IF                  ]\░
+
+  > select conditional < {{{3
+    [\:[name`:]: SELECT CASE (:expression:)]\░
+    [\   CASE (:selector1:)             ]\░
+    [\      :...:                       ]\░
+    [\   :[:CASE (:selector2`)]...:        ]\░
+    [\      :...:                       ]\░
+    [\   :[:CASE DEFAULT:]:               ]\░
+    [\      :...:                       ]\░
+    [\END SELECT :[name]:               ]\░
+
+    ➱   Expression can be logical, character, or integer, but [[not real]]
+    ➱   Expression and selectors are evaluated and compared
+    ➱   Expression and selectors must be of the same type
+    ➱   A selector must be a constant or a literal
+    ➱   When a case is selected, its body is executed till the next case.
+    ➱   Default case is selected when all previous cases were not selected
+    ➱   You can specify a [[range]] for selector:
+        [\CASE (:low`:high:)]\ specifies a range inclusively
+
+  > Loop flow control keyword < {{{3
+    ➱   [\exit]\ exits a loop
+    ➱   [\cycle]\ skips current and jump to the next iteration of the loop
+    ➱   [\stop]\ stops the execution of the entire program
+
+  > do loop < {{{3
+    [\DO :var `= start`, final [`, step]:]\░
+    [\   :...:                        ]\░
+    [\END DO                        ]\░
+
+    ➱   The loop variable should be an [[integer]]
+    ➱   Loop the body from start to final ([[inclusively]]).
+    ➱   At the end of each iteration, the loop variable is changed by a step
+        ⮱   Default is an increment of one unit
+        ⮱   Step can be negative
+        ⮱   If the sign of step makes final unreachable, do loop won't start
+    ➱   NOTE that you must declare loop variable at the start of program
+
+  > do while loop < {{{3
+    [\DO WHILE (:logical_expr:)]\░
+    [\   :...:                 ]\░
+    [\END DO                 ]\░
+
+    ➱   Repeat the loop body while the logical expression is evaluated true
+
+ == Expression expansion == {{{2
+  > Loop and create multiple expressions < {{{3
+    [\( b(i), i = :start`, final[`, step]: )]\ creates multiple expression by
+    iterating through the values of i.
+    ➱   Expressions are separated by comma
+
+ == Array == {{{2
+  > General concept < {{{3
+    ➱   Sequential collection of same type elements
+    ➱   Store in contiguous memory locations
+    ➱   First element at the beginning of memory location
+    ➱   Up to 7-dimensional array
+
+   |terminology|
+    ‣   [[rank]]:   The number of dimensions
+    ‣   [[Extent]]: The number of elements along a dimension
+    ‣   [[Shape]]:  (3) for 1D array with 3 elements; (3, 4) for 3x4 matrix
+    ‣   [[Size]]:   The number of elements
+
+  > Fixed array declaration < {{{3
+    Use [\dimension]\ keyword:
+    ➱   One dimensional array of 5 elements:
+        [\REAL, DIMENSION (5) ~:~: numbers]\
+    ➱   A 5x7 two dimensional array:
+        [\REAL, DIMENSION (5, 5) ~:~: matrix]\
+
+    Add a bracket after the name to specify the size
+    ➱   One dimensional array of 5 elements:
+        [\REAL ~:~: numbers(5)]\
+    ➱   A 5x7 two dimensional array:
+        [\REAL ~:~: matrix(5, 7)]\
+
+   |lower and upper bound limit for a dimension|
+    Declare an array with [[explicit lower bound]] (default is 1)
+    [\INTEGER, DIMENSION (-3~:2, 0~:4) ~:~: matrix]\
+    ➱   This means the array is a 6x5 matrix
+    ➱   6 rows, with subscripts: -3, -2, -1, 0, 1, 2
+    ➱   5 columns, with subscripts: 0, 1, 2, 3, 4
+
+  > Accessing element and assigning values < {{{3
+    By using their subscript (i.e. index but starting from 1):
+    ➱   [\my_array(1)]\ gets the first element of 1-D array.
+    ➱   [\my_matrix(3, 5)]\ gets the element at row 3 column 5 in 2-D array.
+
+  > Value assignment < {{{3
+    ➱   [\my_array(2) = 15]\ assigns value 15 to the second element.
+    ➱   For [[one dimensional]] array, you can assign the whole array:
+        [\my_array = (/ 1.5, 3.2, 4.5, 0.9, 7.2 /)]\
+        ⮱   NOTE that there is no space between [\(]\ and [\/]\
+        ⮱   [\(/:...:/)]\ is called the ['array constructor]'
+    ➱   [\my_matrix(3, 5) = 24]\
+
+  > Passing array to subroutines < {{{3
+   |array with predefined size|
+    Just declare the array parameter at the beginning of the subroutine body
+    as an array of a particular shape.
+
+   |array with flexible size|
+    You need to declare the subroutine at the beginning of main program body
+    within [\INTERFACE]\ block.
+    ➱   Within the [[declaration body]], you need to declare the subroutine
+        parameters with [\DIMENSION(~:)]\, e.g.:
+        [\INTEGER, DIMENSION(~:) ~:~: :parameter_name:]\
+    ➱   Note that you also need to declare the parameters again within the
+        definition body later.
+    ➱   It is handy to use [\size(:array:)]\ to get the size of an array in
+        the function.
+
+  > Selecting sets of elements < {{{3
+    We use the notation called ['subscript triplet]' to access an array
+    section:
+    [\:array `({[lower]`:[upper][`:stride]}[`, ...]:)]\░
+    ➱   Each triplet selects a subset of subscripts along one dimension
+    ➱   Lower and upper bound are inclusive
+    ➱   When no lower or upper bound are mentioned, it defaults to the extents
+        of that dimension.
+    ➱   Stride (increment) defaults to 1.
+
+  > Dynamic Array < {{{3
+   |Dynamic array declaration|
+    Declared with the attribute [\allocatable]\:
+    [\REAL, DIMENSION (~:,~:), ALLOCATABLE ~:~: dynm_array]\
+
+   |Allocating memory|
+    To allocate memory
+    [\READ(*,*) s1, s2             ]\░
+    [\ALLOCATE ( my_array(s1, s2) )]\░
+    ➱   You must provide the rank (in the above the rank is 2; 2 dimensional)
+
+    To [[free up memory]], [\DEALLOCATE (my_array)]\
+
+  > Data statement < {{{3
+    For initialising more than one array, or for array section initialisation:
+    [\DATA :variable `/ list `/ ...:]\
+
+    NOTE that it is use for initialisation, but not for re-assignment.
+    Using it for re-assignment seems to have no effect.
+
+   |examples|
+    ➱   [\DATA a /7, 8, 9, 10, 11/]\ initialises first 5 elements of a.
+    ➱   [\DATA b(1,~:) /1, 1, 1/]\ initialises all elements in first row
+    ➱   [\DATA (c(i), i = 1, 10, 2) /1, 2, 3, 4, 5/]\ initialises the elements
+        with subscript 1, 3, 5, 7, 9 to be 1, 2, 3, 4, 5 respectively.
+    ➱   [\DATA (c(i), i = 2, 10, 2) /5*2/]\ initialises the elements with
+        subscript 2, 4, 6, 8, 10 to take the value [[2]].
+
+  > WHERE statement < {{{3
+    This provides a way to manipulate all elements in an array at once.
+
+    [\WHERE (my_array <= 0)     ]\░
+    [\   a = 0                  ]\░
+    [\ELSEWHERE (my_array > 100)]\░
+    [\   a = -1                 ]\░
+    [\ELSEWHERE                 ]\░
+    [\   a = 1                  ]\░
+    [\END WHERE                 ]\░
+
+    Every element in my_array that is less than or equal to 0 is set to 0,
+    elements that are greater than 100 is set to -1, and all other elements
+    are set to 1.
+
+  > Useful functions < {{{3
+    See
+    [=https://www.tutorialspoint.com/fortran/fortran_arrays.htm#bottom_navigation]=
+
+   |vector and matrix multiplication| {{{4
+    ➱   [\dot_product(:vector_a`, vector_b:)]\ does dot product of two vectors
+    ➱   [\matmul(:matrix_a`, matrix_b:)]\ does matrix multiplication
+
+   |inquiry functions| {{{4
+    ➱   [\allocated(:array:)]\ checks if an array is allocated
+    ➱   [\lbound(:array[`, dimension]:)]\ returns the lower [[dimension
+        limit]] for the array. (See [=>Fixed array declaration< |lower and
+        upper bound limit for a dimension|]= for detail about bound limit)
+        ⮱   Without dimension, it returns an integer vector
+        ⮱   With dimension, it returns the integer
+    ➱   [\ubound(:array[`, dimension]:)]\
+    ➱   [\shape(:source:)]\ returns the shape of an array source as an integer
+        vector
+    ➱   [\size(:array[`, dimension]:)]\ returns the number of elements of an
+        array or a given dimension in an array.
+
+   |reshape| {{{4
+    [\reshape(:source`, shape[`, pad][`, order]:)]\
+    ➱   It reshapes a source array into a given shape
+    ➱   It reads values from source by iterating along the first subscript
+        first then the next until the final subscript.
+        ⮱   E.g. for a 3x3 matrix the order is:
+            1  4  7░
+            2  5  8░
+            3  6  9░
+    ➱   Similarly, by default it assigns values by iterating along the first
+        subscript first then the next subscripts. This behaviour can be
+        overridden by the order option.
+        ⮱   i.e. the default order is [\(/1, 2, 3, :...:/)]\
+    ➱   Without pad, the source's size must be bigger or equal to the size of
+        new shape.
+    ➱   The size of pad must be able to cover the remaining unfilled cells.
+    ➱   The order specify which subscripts (i.e. along which dimension) should
+        reshape iterate on first.
+
+   |manipulation array| {{{4
+    ➱   [\transpose(:matrix:)]\
+
+   |location| {{{4
+    ➱   [\maxloc(:array[`, mask]:)]\ returns the location of the greatest
+        element in the array.
+        ⮱   If mask is given, then only consider those fulfilling the
+            condition in mask
+        ⮱   NOTE that it doesn't give you the correct subscript location of
+            that particular array, for position returned always count from 1
+            for first position
+    ➱   [\minloc(:array[`, mask]:)]\
+
+ == Derived Data Type == {{{2
+  > Derived data type < {{{3
+    Also called a structure.
+
+  > Definition < {{{3
+    To define a derived data type:
+    [\TYPE :type_name:               ]\░
+    [\   ! data member declarations]\░
+    [\END TYPE                     ]\░
+
+  > Declaring a structure object < {{{3
+    [\TYPE (:type_name:) ~:~: :obj_name:]\
+
+  > Accessing structure members < {{{3
+    For accessing data members and assigning values to them:
+    [\:{obj_name}`%{data}:]\
+    ⮱   NOTE that there are no space before and after [\%]\
+
+  > Array of derived data type < {{{3
+    You can just declare an array of a derived data type like normal, e.g.:
+    [\TYPE (:type:), DIMENSION(:shape:) ~:~: :array_name:]\
+
+    Then you can access a data of an element:
+    [\:array`(position:)%:data:]\
+
+ == Pointers == {{{2
+  > Pointers in Fortran < {{{3
+    A pointer is a data object that contains information about a particular
+    object, like:
+    ‣   type
+    ‣   rank
+    ‣   extents
+    ‣   memory address
+
+  > Pointers declaration < {{{3
+    Use [\POINTER]\ attribute:
+
+    [\INTEGER, POINTER ~:~: ptr_i ! pointer to an int                       ]\░
+    [\INTEGER, POINTER, DIMENSION (~:) ~:~: ptr_a1 ! pointer to a 1D array   ]\░
+    [\INTEGER, POINTER, DIMENSION (~:, ~:) ~:~: ptr_a2 ! pointer to a 2D array]\░
+
+  > Allocating space < {{{3
+    ➱   [\ALLOCATE (:pointer:)]\ allocates space
+    ➱   [\DEALLOCATE (:pointer:)]\ frees up occupied space
+    ➱   NOTE that the parentheses are necessary, the space before is not
+        though.
+
+    You can only assign values to a pointer after it is allocated with memory
+    space.
+
+  > Target declaration and association < {{{3
+    Use [\TARGET]\ attribute. It is a target a pointer variable is associated
+    with.
+
+    [\INTEGER, TARGET ~:~: target_1]\
+
+  > Associating a target to a pointer < {{{3
+    To associate a pointer to a target, use [\=>]\, the association operator:
+    [\ptr_1 => target_1]\
+
+    Any change of value in either the pointer or the target will reflect to
+    both the pointer and the target.
+
+    [\associated(:pointer[`, target]:)]\ tests whether a pointer is
+    associated, or is associated to a particular target. ({".TRUE.}" or
+    {".FALSE.}"). Actually a pointer can be:
+    ‣   Undefined
+    ‣   Associated
+    ‣   Disassociated
+
+    [\nullify(:pointer:)]\ disassociate a pointer from a target.
+
+ == Basic I/O == {{{2
+  > Read from stdin and write to stdout < {{{3
+    ➱   [\READ(*,*) :var_list:]\ reads input from stdin
+    ➱   [\WRITE(*,*) :item_list:]\ writes output to stdout
+    ➱   [\PRINT *, :item_list:]\ prints output to stdout
+    
+    ➱   Comma [\,]\ is used as delimiter for the list
+
+  > Formatted input output < {{{3
+    [\:{:READ:|:PRINT:|:WRITE:} fmt`, variable_list:]\
+    ➱   fmt is the format specification
+
+    It is a string which contains a list of ['edit descriptors]' in
+    parentheses, e.g.:
+    [\PRINT "(f6.3)", pi]\
+
+    Inside the parentheses of the format specification, you can provide
+    strings:
+    [\PRINT "('ID~:', i8)", id]\
+
+  > Format descriptors < {{{3
+    See
+    [=https://www.tutorialspoint.com/fortran/fortran_basic_input_output.htm]=
+
+   |general rules| {{{4
+    ➱   [[Right justified]]
+    ➱   If the field width is not large enough to accommodate the output, then
+        the field is filled with [[asterisks]].
+        ⮱   Exception is outputting character string
+    ➱   Format descriptors can be in upper or lower case
+
+   |format descriptors| {{{4
+    Most takes the form [\:[r]D[w][`.y]:]\ where
+    ‣   D is the format descriptors
+    ‣   r specifies the repeat count of using this format descriptor
+    ‣   w specifies the width to print the output
+    ‣   y depends on what format descriptors it is, and can be:
+        ‣   m: the minimum number of digits to be displayed.
+        ‣   d: the number of digits after the decimal point.
+
+    D can be:
+    ‣   [\:r`Iw`.m:]\: for integer
+    ‣   [\:r`Fw`.d]\: for real number
+    ‣   [\:r`Ew`.d:]\ for real output in exponential notation (not scientific)
+        E.g.: 0.123e+06
+        ⮱   NOTE that the case of exponential notation "e" depends on whether
+            you use [[upper or lower case]] for the format descriptor
+        ⮱   To give enough width to print out the value, generally w ≥ d+7
+        ⮱   Unlike scientific notation, the mantissa before "e" is in the
+            range of 0.1 to 1.0.
+    ‣   [\:r:ES:w`.d]\ like above but in scientific notation. I.e. the
+        mantissa is in the range of 1.0 to 10.0.
+    ‣   [\:r`Aw:]\: for character string. If the field width is not enough,
+        then the string is truncated.
+        ⮱   If no w is given, then it uses just enough width for the string
+    ‣   [\:r:X]\: for r number of spaces.
+    ‣   [\/]\: output a new line character
+
+  > Format statement < {{{3
+    Format statement are labelled with an integer, and input/output statement
+    can use those defined format statement by invoking that integer in the
+    place of format descriptors.
+    ⮱   The format statement can be defined anywhere of the program and still
+        be able to be used by input/output statement that come before or after
+
+    [\PRINT 100, name(1), id(1), weight(1)]\░
+    [\100 FORMAT (a10, 2x, i3, 2x, f5.2)  ]\░
+    [\PRINT 100, name(2), id(2), weight(2)]\░
+
+ == File I/O == {{{2
+  > Open file < {{{3
+    The basic file opening statement:
+    [\OPEN (unit = :number:, file = ":name:")]\
+
+    The generic syntax:
+    [\OPEN (:list_of_specifiers:)]\
+
+   |specifiers| {{{4
+    ➱   [\UNIT = :u:]\: u is any number in the range 9-99 and is a unique
+        identifier for the file
+    ➱   [\IOSTAT = :ios:]\: ios should be an integer variable. It will store
+        the I/O status. If the open statement is successful then return 0,
+        else non-zero.
+    ➱   [\ERR = :err:]\: err is the label to which the control jumps in case
+        of any error
+    ➱   [\FILE = :filename:]\: filename is a character string
+    ➱   [\STATUS = :sta:]\: sta should be a character variable. It shows the
+        prior status of the file: [\NEW]\, [\OLD]\, [\SCRATCH]\
+        ⮱   A scratch file is created and deleted when closed or the program
+            ends.
+    ➱   [\ACCESS = :acc:]\: indicates the file access mode. Either
+        [\SEQUENTIAL]\ or [\DIRECT]\
+    ➱   [\FORM = :form:]\: indicates the formatting status of the file. Either
+        [\FORMATTED]\ or [\UNFORMATTED]\ (default)
+    ➱   [\RECL = :rl]\: specifies the length of each record in a direct access
+        mode
+
+  > Closing files < {{{3
+    [\CLOSE (:[:unit = :]unit[:, iostat = :ios:, err = :err:, status = :sta]:)]\
+
+ == Subroutine == {{{2
+  > Definition < {{{3
+    Use keyword [\SUBROUTINE]\ to define a subroutine:
+    [\SUBROUTINE :name `(parameters...:) ]\░
+    [\   IMPLICIT NONE                ]\░
+    [\                                ]\░
+    [\   ! local variables declaration]\░
+    [\   ! executable statements      ]\░
+    [\                                ]\░
+    [\END SUBROUTINE :name:             ]\░
+
+    ➱   NOTE that you need to declare your parameters in the beginning of the
+        body
+
+  > Calling a subroutine < {{{3
+    Use keyword [\CALL]\:
+    [\CALL :subroutine`(arguments...:)]\
+
+  > Pass by reference < {{{3
+    NOTE that I DUNNO and only guess:
+    Add the [\INTENT (OUT)]\ attribute in the parameter declaration, e.g.:
+    [\INTEGER, DIMENSION (5, 6), INTENT (OUT) ~:~: my_param]\
+    ⮱   There is also [\INTENT (INOUT)]\ which I don't understand

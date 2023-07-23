@@ -1,0 +1,23 @@
+[~{ Key bindings }~] {{{1
+ == Hints == {{{2
+    Kitty's hints mode selects and acts on aribitrary text snippets currently
+    visible on the screen.
+
+    ➱   [\<C-S-e>]\: open an URL.
+
+ == Visual == {{{2
+  > Background Opacity < {{{3
+    All follow key bindings must start with [\<C-S-a>]\ first:
+    ➱   [\m]\: "more"; +0.1 opacity
+    ➱   [\l]\: "less"; -0.1 opacity
+    ➱   [\k]\: "up"; +0.05 opacity
+    ➱   [\j]\: "down"; -0.05 opacity
+    ➱   [\1]\: full opacity (1.0)
+    ➱   [\d]\: default opacity
+
+ == Input == {{{2
+    ➱   [\<C-S-u>]\: Input Unicode characters by hex code.
+    ➱   [\<C-S-/>]\: Input Unicode characters and [[emoji]] 😄 by various
+        methods
+        ⮱   For the system, [\<Win-.>]\ open emoji selector window
+        ⮱   Or [\<win-~:>]\ to quick input emoji

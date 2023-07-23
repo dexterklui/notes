@@ -1,0 +1,25 @@
+/// Language: DQNote_1.35
+[~{ Keybindings }~] {{{1
+ == Navigation == {{{2
+    ‣ [\<C-a>]\ moves cursor to the beginning.
+    ‣ [\<C-e>]\ moves cursor to the end.
+    ‣ [\<C-f>]\ moves curosr one character forward.
+    ‣ [\<C-b>]\ moves curosr one character backward.
+    ‣ [\<M-f>]\ moves curosr one word forward.
+    ‣ [\<M-b>]\ moves curosr one word backward.
+
+ == Editting == {{{2
+   |deletion|
+    ‣ [\<C-u>]\ deletes current line.
+    ‣ [\<C-k>]\ deletes from cursor to the end of line.
+    ‣ [\<C-w>]\ deletes a word backward.
+    ‣ [\<C-d>]\ deletes a word forward.
+
+   |undo|
+    ‣ [\<C-_>]\ undos.
+
+ == History == {{{2
+    ‣ [\<C-r>]\ brings up history query, or moves to next older result inside a history query.
+    ‣ [\<C-g>]\ exits history query.
+    ‣ [\<C-o>]\ executes current queried result.
+

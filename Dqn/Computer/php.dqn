@@ -1,0 +1,301 @@
+[~{ PHP }~] {{{1
+ == Syntax == {{{2
+  > File < {{{3
+    Embedded within html document, but the file with embedded PHP has an
+    extension [\.php]\.
+    ➱   It was developed with C, so it has some resemblance with C.
+
+  > Code placement < {{{3
+    ➱   PHP codes must be enclosed by [\<?php]\ and [\?>]\ tag. If the server
+        supports shorthand, by [\<?]\ and [\?>]\ tag.
+
+  > Comments < {{{3
+    ➱   [\# single-line comment]\
+
+    ➱   [\$my_var = 1;  // end-of-line comment]\
+
+    ➱   [\/*                  ]\░
+        [\  Multi-line comment]\░
+        [\*/                  ]\░
+
+  > Similarities with other languages < {{{3
+    ➱   Uses classes and functions in a way consistent with other OO languages
+        such as C++, C# and Java.
+    ➱   For loops, conditionals, and assignment, is identical to JavaScript.
+        Different from JavaScript when you get to functions, classes and
+        variables definition.
+
+ == Case sensitivity == {{{2
+   |sensitive|
+    ➱   variables
+    ➱   constants
+    ➱   array keys
+    ➱   class properties
+
+   |case insensitive|
+    ➱   functions
+    ➱   class constructors / methods
+    ➱   keywords and constructs (e.g. if, else, echo, etc.)
+
+ == Data Types == {{{2
+  > boolean < {{{3
+    true or false
+
+  > integer < {{{3
+    Maximum size is platform-dee=pendent, but at least 4-bytes
+
+  > float < {{{3
+    Maximun size is platform-dependent; usually in 64 bit IEEE format
+
+  > string < {{{3
+    ➱   A sequence of 8-bit characters
+    ➱   Single quote are used to denote [[literal string]].
+    ➱   In double quote string can use special characters, e.g. [\\n]\,
+        [\$my_var]\.
+        ⮱   NOTE that outputing [\\n]\ to the browser has no visual effect for
+            in HTML consecutive whitespaces are treated as one.
+    ➱   [[Concatenate]] operator is a period [\.]\
+
+  > Array < {{{3
+   |declaration| {{{4
+    ➱   [\$days = array();]\ declares an empty array.
+    
+
+   |initialize an array| {{{4
+    ➱   [\$days = array("mon", "tue", "wed");]\
+
+    ➱   [\$days = ["mon", "tue", "wed"];]\
+
+    ➱   [\$course = array(                                             ]\░
+        [\  "code" => "COMP3322",                                      ]\░
+        [\  "title" => "Modern Tech on WWW"                            ]\░
+        [\  "teacher" => array("last" => "Tam", "first" => "Anthony"));]\░
+        ⮱   In this method, if you only specify one value for a key-value
+            pair, PHP will regard it as value, and automatically assigned a
+            key (the first vacant integral index)
+
+   |append elements| {{{4
+    ➱   [\$days = array();]\
+    ➱   [\$days[0] = "mon";]\
+    ➱   [\$days[1] = "tue";]\
+    ➱   [\$days[] = "wed";]\
+        ⮱   NOTE that here you can omit the key, and PHP will figure out the
+            smallest unassigned index to append the element
+
+   |key-value| {{{4
+    Actually array in PHP is an ['associative array]' with key-value pairs.
+    ➱   The key can be [[integers]] or [[strings]]
+    ➱   You can assign elements to an array with random order of keys
+    [\$menu = array();    ]\░
+    [\$menu[0] = "first"; ]\░
+    [\$menu[2] = "second";]\░
+    [\$menu[6] = "third"; ]\░
+
+   |loop through elements| {{{4
+    ➱   Use keyword [\foreach]\:
+        [\foreach ($:array: as $:key: => $:value:) {       ]\░
+        [\  echo "Key=" . $:key: . ", Value=" . $:value:;]\░
+        [\}                                          ]\░
+    ➱   Use [\count()]\:
+        [\for ($i=0; $i < count($my_array); $i++)]\
+
+   |access an element|
+    Use [\my_array["key1"]["subkey"]]\
+
+  > Object < {{{3
+    ➱   Instances of programmer-defined classes
+    ➱   To access an element, use [\->]\ like a pointer:
+        [\echo $an_object->library->DVD[1]->title;]\
+
+  > Null < {{{3
+    {{NULL}} is the only possible value of type [\null]\
+
+  > Type casting < {{{3
+    ➱   [\intval(:str:)]\ casts strings to integer.
+
+ == Constant == {{{2
+    ➱   Once a constant is defined, it can be referenced [[without]] [\$]\.
+    ➱   Useful for accessing database:
+        [\define("DB_HOST", "localhost");]\░
+        [\define("PASSWORD", "ew#@rtycd");]\░
+        also DB_NAME, USERNAME
+
+ == Variables == {{{2
+  > Name < {{{3
+    ➱   Case senstitive
+    ➱   Start with a leter or underscore. Can contain alpha-numeric and
+        underscores.
+
+  > Declaration < {{{3
+    [\$:var_name: = :value:;]\
+
+  > Scope < {{{3
+   |local scope|
+    ➱   Local to a function
+
+   |global scope|
+    ➱   Declared outside a function
+    ➱   Normally they can [[only]] be accessed [[outside]] the function
+    ➱   Unless within a function you inform that a variable represent the
+        global variable [\global $:var1:, $:var2:;]\
+
+   |static scope|
+    ➱   Like static variables in C
+    ➱   Exists only in a function but its value remains even after the
+        function call returned
+    ➱   Is initialized once only in the first call of the function
+    ➱   To declare, [\static $:var: = :val:]\
+
+  > Superglobal variables < {{{3
+    They are [[pre-defined]] and can be accessed in any place.
+    ➱   [\$_GET]\ is an associative array containing all name/value pairs in
+        the query string (from the client with the GET method)
+    ➱   [\$_POST]\ is an associative array containing name/value pairs sent
+        from the client with the POST method
+    ➱   [\$_COOKIE]\ is an associative array containing cookie variables and
+        values.
+    ➱   [\$_SESSION]\ is an associative array containing session variables and
+        values. E.g. the website asks the user to authenticate their identity,
+        and $_SESSION maintain this state information.
+        It is a local storage in server side, and this variable retrieves the
+        data from it.
+    ➱   [\$_REQUEST]\ is an association array contains the contents of
+        [\$_GET]\, [\$_POST]\ and [\$_COOKIE]\ depending on the method
+    ➱   [\$_SERVER]\ is an associative array contains information about
+        request headers, paths, and script locations.
+
+ == Functions == {{{2
+  > Definition < {{{3
+    Use the keyword [\function]\:
+    [\function :func_name:($:arg1[`, ...]:) {]\░
+    [\  :...:                             ]\░
+    [\}                                 ]\░
+
+  > Hoisting < {{{3
+    Like javascript, the function definition need not be before its first call
+
+  > Function name < {{{3
+    Must start with a letter or underscore. [[Not case sensitive]]
+
+  > Scope < {{{3
+    All function in PHP have [[global scope]], even if a function is defined
+    in another function.
+
+    But the inner function doesn't exist until the outer function is called
+    for the first time.
+
+  > Parameters < {{{3
+    ➱   They are by default dynamic type. Since PHP 7, it is possible to
+        declare types.
+    ➱   The default is pass by value.
+    ➱   To pass by reference: [\function MyFunc(&$arg) { :...: }]\
+    ➱   To set a default argument value: [\function MyFunc($arg = :val:)]\
+        DUNNO if this is true
+
+ == Writing Output == {{{2
+  > Output to browser < {{{3
+    To output something that will be seen by the [[browser]] (not terminal or
+    console)
+    ➱   [\echo("hello");]\ or [\echo "hello";]\
+    ➱   [\print("hello");]\ or [\print "hello";]\
+    ➱   [\echo $name;]\
+    ➱   [\echo "<h1>" . $title . "</h1>";]\
+    ➱   [\pritnf();]\, [\sprintf();]\ and [\fprintf();]\ behave like C and
+        support string formatting.
+
+  > Output for debugging < {{{3
+    These commands output the value of an object to the [[browser]] but not
+    terminal.
+
+   |var_dump()|
+    [\var_dump(:object:)]\, e.g. [\var_dump($course)]\, shows the value and
+    their types of a variable
+
+   |print_r()|
+    Like var_dump(), [\print_r(:object:)]\ shows the value but not their type.
+
+   |var_export|
+    Returns the information like the above two, but in a [[parsable string]]
+    representation (each element is separated by comma [\,]\)
+    ➱   i.e. can be used to declared an array/object in PHP code.
+
+   |php debug|
+    In terminal you can run [\php :php_file:]\ to parse the file and print out
+    the output.
+
+ == Errors == {{{2
+    NOTE that when errors, PHP interpreter usually output the error message to
+    the terminal, which usually you cannot see the error message because it is
+    to the terminal of the [[web server]].
+
+    Common errors:
+    ➱   Syntax error in PHP code
+    ➱   Especially in the PHP code that deal with database
+    
+ == Include Files == {{{2
+  > Include statements < {{{3
+    Four different keywords to include other files:
+    ➱   [\include "somefile.php";]\
+    ➱   [\include_once "somefile.php";]\
+    ➱   [\require "somefile.php";]\
+    ➱   [\require_once "somefile.php";]\
+
+    Include and require statments are [[identical except upon failure]]
+    ➱   With include, a warning is displayed and the execution [[continues]]
+    ➱   With require, error is displayed and execution [[stops]]
+
+  > Scope < {{{3
+    Including files are equivalent of [[copying and pasting]] statements from
+    included file to current file.
+
+    So the scope of the variables defined in an included file depend on the
+    line on which the include occurs.
+
+    Also any variables available at that line in the calling file will be
+    [[available within the called file]].
+
+ == Using JSON == {{{2
+  > to json str < {{{3
+    Objects and arrays in PHP can be converted into JSON string:
+    ➱   [\$json_str = json_encode($:php_obj:);]\
+    ➱   [\$json_str = json_encode(%:php_arr:);]\
+
+    Usually to create a json string, using json_encode is an easier method.
+
+  > to php array/object < {{{3
+    To convert a JSON string back into PHP object or array by using:
+    ➱   [\$my_array = json_decode($json_str, true);]\
+        ⮱   The default value of last argument is false, and so that the
+            returned object is an [[php object]].
+        ⮱   When [[true]], returned object is an [[associative arrays]].
+    ➱   [\$my_obj = json_decode($:json_str:);]\
+
+  > error < {{{3
+    [\json_last_error()]\ can be used to determine the exact nature of the
+    error. E.g. a json string has syntax error.
+
+    ➱   [\if (json_last_error() == JSON_ERROR_NONE)]\ to check if there is no
+        error.
+
+ == Misc == {{{2
+  > Functions < {{{3
+    ➱   [\rand($lower, $upper)]\
+    ➱   [\phpversion()]\
+    ➱   [\function_exists('function_name')]\ returns true if function exists
+    ➱   [\date("H~:i~:s");]\
+    ➱   [\count($my_array);]\ returns the number of entries in an array
+
+   |set cookie| {{{4
+    [\setcookie()]\, parameters:
+| name     | The cookie name. Neccessary                               |
+| value    | Specifies the value                                       |
+| expire   | Specifies the time the cookie expires                     |
+| path     | Specifies the directories for which the cookie is valid   |
+| domain   | Specifies the domain name for which the cookie is valid   |
+| secure   | Specifies whether carried by HTTPS or HTTP                |
+| httponly | Limits only to HTTP protocol; JavaScript cannot access it |
+
+  > Web servers packages < {{{3
+    XAMPP - a php development environment
+    ampps
+    expressjs

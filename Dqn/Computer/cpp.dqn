@@ -1,0 +1,4435 @@
+/// Language: DQNote_1.35
+[~{ C++ Basics }~] {{{1
+ == Basic syntax == {{{2
+    ➱   All statements ends with [\;]\
+
+    ➱   Comments:
+        ‣   [\//]\ for one-line comment
+        ‣   [\/*: COMENT :*/]\ for multi-line comment.
+
+    ➱   Line continuation with [\\]\ at the end, so the newline char is like
+        non-existent.
+
+  > Preprocessor definitions < {{{3
+    ➱   [\#define :IDENTIFIER REPLACEMENT:]\
+        ⮱   The REPLACEMENT is any sequence of characters till the end of line
+    ➱   NOTE that as a preprocessor directives, there is no need [\;]\ at the end.
+        Any [\;]\ at the end would be considered as a part of replacement.
+    ➱   The replacement happens [[before compilation]].
+
+ == Libraries & Namespaces == {{{2
+  > Include libraries < {{{3
+    At the start of the code:
+    ➱   [\#include <:LIBRARY:>]\ NOTE that don't need [\;]\ at the end.
+
+  > iostream < {{{3
+    Also see {==Input & Output= >Necessary libraries< }=.
+    ➱   Contains [\std~:~:cin]\, [\std~:~:cout]\, [\std~:~:endl]\ declarations.
+
+  > Namespaces < {{{3
+   |namespace| {{{4
+    ➱   Is a container of names
+
+   |use a namespace: using directive| {{{4
+    ➱   To use a namespace include the [\using]\ directive:
+        [\using namespace :NAMESPACE:;]\
+    ➱   You can use multiple namespace simultaneously. If a name is defined in
+        two namespaces and you are using both namespaces, there will be a
+        compilation/runtime error [[only when]] you use the name shared by
+        both namespace
+
+   |global namespace| {{{4
+    The default namespace is the ['global namespace]', which does not have a
+    [\using]\ directive, because you are [[always using]] the global
+    namespace.
+
+   |std namespace| {{{4
+    [\std]\ namespace contains all names defined in the standard library
+    files, such as [\<iostream>]\ and [\<cstdlib>]\
+
+   |scope| {{{4
+    A [\using]\ directive inside a block will have its scope from the
+    directive up till the end of the block.
+
+    A [\using]\ directive outside any scope will have its scope from the
+    directive up to the end of file.
+
+   |create namespace| {{{4
+    [\namespace :NAMESPACE_NAME: {]\░
+    [\  :some code...:            ]\░
+    [\}                         ]\░
+
+    You can have any number of these namespace groupings for a single
+    namespace.
+
+   |use a particular name: using declaration| {{{4
+    To say you are using a particular name in a particular namespace, use
+    ['using declaration]':
+    [\using ns1~:~:fun1;]\
+    [\using ns2~:~:fun2;]\
+    ⮱   The first line means we are using [\fun1]\ as defined in the namespace
+        [\ns1]\ as opposed to any other definition of [\fun1]\ in any other
+        namespace.
+
+    This way, even if [\ns1]\ and [\ns2]\ both contain, say a function with
+    the same name without overloading, you can still use part of both
+    namespaces at the same time.
+
+   |name a namespace| {{{4
+    To prevent conflicting name in naming namespaces, usually programmer will
+    add their own surname as a suffix. E.g. [\mynsjackson]\
+
+  > Unnamed namespace < {{{3
+   |information hiding|
+    The name in the global namespace cannot be reused (e.g. in application
+    file that includes the interface file) even if the name is placed in a
+    separate implementation file. DUNNO if this is due to name collision
+    during runtime.
+
+    This infringes the principle of information hiding. To resolve this, we
+    need the unnamed namespace.
+
+   |when to use|
+    Usually it is used for the declaration and definition of the helper
+    functions that appear only in the implementation file.
+
+   |compilation unit|
+    ➱   A compilation unit is a file together with all the files included by
+        [\#include]\ directive.
+    ➱   Each compilation unit has an [[unnamed namespace]]
+    ➱   A single file, mostly a header file (interface file), can have
+        multiple compilation unit. I.e. different compilation units may
+        overlap.
+        ⮱   But this usually cause no problem or difficulty, as long as the
+            names defined in the unnamed namespace are well designed.
+
+   |unnamed namespace|
+    The name defined in an unnamed namespace is only accessible to that
+    compilation unit. So the same name can be reused outside.
+
+   |use an unnamed namespace|
+    [\namespace             ]\░
+    [\{                     ]\░
+    [\  :...:                 ]\░
+    [\} // unnamed namespace]\░
+
+ == Data Types == {{{2
+  > Standard types < {{{3
+    ‣   [[bool]]:   [\true]\ or [\false]\
+        ➱   Numeric values are [\1]\ for true and [\0]\ for false.
+            ⮱   Comparison operators works accordingly.
+        ➱   When outputting bool, numeric values are output.
+        ➱   C++ treats all [[non-zero]] values as [\true]\
+    ‣   [[short]]:  integer (often 16 bits)
+    ‣   [[int]]:    integer (often 32 bits)
+    ‣   [[long]]:   integer (often 32 or 64 bits)
+    ‣   [[float]]:  floating-point (often 32 bits)
+    ‣   [[double]]: floating-point (often 64 bits)
+    ‣   [[char]]:   single character
+    ‣   [[string]]: character sequence
+        ⮱   Not technically a built-in type, included from standard libraries.
+            As a good practice, include [\<string>]\ library in the header.
+        ⮱   Use [[double quotes]]
+        ⮱   [[Mutable]]
+        ⮱   [\+]\ concatenate strings, [\s.append(t)]\ mutates instance [\s]\.
+
+   |unsigned varient|
+    [\unsigned :{:short:|:int:|:long:|:char:}:]\ represents non-negative numbers
+
+  > Literal constant < {{{3
+    A literal constant is just an expression representing a constant value.
+    Such as [\2]\ represent an integer of 2.
+
+  > Immutability < {{{3
+    Adding [\const]\ before declaration make a data type immutable, e.g.
+    [\const int age(38);]\. Any subsequent change will cause a compile-time
+    error.
+
+    Convenient to set a const:
+    [\#include <iostream>       ]\
+    [\using namespace std;      ]\
+    [\                          ]\
+    [\const double pi = 3.14159;]\
+    [\const char newline = '\n';]\
+    [\                          ]\
+    [\int main ()               ]\
+    [\{                         ]\
+    [\  double r=5.0;  // radius]\
+    [\  double circle;          ]\
+    [\                          ]\
+    [\  circle = 2 * pi * r;    ]\
+    [\  cout << circle;         ]\
+    [\  cout << newline;        ]\
+    [\}                         ]\
+
+    ➱   [\#define]\ is another method
+
+  > Type casting < {{{3
+   |implicit cast| {{{4
+    It is when C++ automatically do type casting. It is called ['coercion]'.
+
+    ‣   [\int a(5); double b; b = a;]\ set b to 5.0.
+    ‣   [\int a; double b(2.67); a = b;]\ set a to 2.
+
+    Rules:
+    1)  Lower type promoted to higher type
+        ➱    [\3.0 / 2]\ the int 2 is promoted to double 2.0.
+        ➱    [\1LL * 3]\ the int 3 is promoted to long long.
+    2)  In assignments, values on the right is converted to the type on the
+        left
+        ⮱   [\double x = 5;]\ x stores 5.0
+        ⮱   [\int x = 2.8;]\ truncates 2.8 and x stores 2░
+            The compiler may issue a warning for information loss
+        ⮱   To prevent a warning, use explicit type casting:
+            [\int x = (int) 2.8;]\
+    3)  Type conversions that don't make sense are not allowed.
+
+   |explicit cast| {{{4
+    ‣   [\:TYPE`(VALUE:)]\ (functional notation)
+    ‣   [\(:TYPE`) VALUE:]\ (C-like cast notation)
+
+    ⮱   NOTE that they cannot be used to converting between numeric and string
+        types. To see how to convert, see > String streams <.
+
+   |specific casting operators| {{{4
+    ‣   dynamic cast
+    ‣   reinterpret cast
+    ‣   static cast
+    ‣   const cast
+
+    See [=https://www.cplusplus.com/doc/tutorial/typecasting/]=
+
+  > Characters < {{{3
+    ➱   Can be used as an 8-bit (1-byte) numeric type with all operation as
+        integers
+    ➱   Use [[single quotes]]
+
+    ‣   'A'
+    ‣   '\101' (A - octal ASCII code)
+    ‣   '\x41' (A - hex ASCII code)
+    ‣   [\char c = 65; cout << c;]\:
+        (output A - ASCII code 65)
+    ‣   [\int n = 'A'; cout << n;]\:
+        (output 65 - ASCII code of 'A')
+
+   |escape sequence|
+    ‣   '\t' (tab) [[a whitespace char]]
+    ‣   '\v' (vertical tab) prompt go to next line at the same column
+        [[a whitespace char]]
+    ‣   '\n' (newline) [[a whitespace char]]
+    ‣   '\r' (carriage return) prompt go to the start of the line░
+        [[a whitespace char]]░
+        NOTE that when prompt writes from the start, it overwrites existing
+        char
+    ‣   '\b' (backspace) delete one char before
+    ‣   '\f' (form feed, page feed) [[a whitespace char]]
+    ‣   '\a' (alert)
+    ‣   '\'' (')
+    ‣   '\"' (double quote), actually '"' also works.
+    ‣   '\\' (\)
+    ‣   '\?' (?)
+
+   |ASCII|
+    ['American Standard Code for Information Interchange]', which uses 0-127
+    to represent characters.
+
+    NOTE that there is no empty character, unlike an empty string.
+
+    NOTE that uppercase letters come first, [[then a couple non-letters
+    punctuation in between]], then lowercase letters.
+
+   |prefix|
+    ‣   [\u]\: char16_t
+    ‣   [\U]\: char32_t
+    ‣   [\L]\: wchar_t
+
+   |library|
+    [\<cctype>]\
+
+  > C-string < {{{3
+    ['C-string]' or ['null-terminated string]' is the lower-level internal
+    representation in C/C++ of a string.
+
+    It is an array of characters ended by a null character '\0'.
+
+    So the minimum size of an array for holding a string of n characters is
+    n+1.
+
+    "A" is represented by ~['A', '\0']
+
+   |declaration|
+    ➱   [\char name[16] = {'J', 'o', 'h', 'n', '\0'};]\
+    ➱   [\char name[16] = "John";]\ : The size is 16.
+    ➱   [\char name[] = "John";]\ : The size is 5.
+
+   |reassignment|
+    Like regular arrays, you cannot reassign the whole c-string using [\=]\.
+    You can only access each character with its index one at a time, to
+    reassign its value.
+
+   |output a c-string|
+    [\char name[16] = {'J', 'o', 'h', 'n', '\0'};]\░
+    [\cout << name << endl;                      ]\░
+    Prints {{John}}.
+
+   |index-out-of-bound error|
+    If you replaces all the null characters in a c-string, and continue to
+    treat it as a c-string, then an index-out-of-bound error results.
+
+   |accept input as c-string|
+    [\cin >> :cstr_array:;]\ will store the inputs into the c-string array and
+    automatically add a null character after the last input character.
+
+    Just be careful the c-string array has enough size for that.
+
+  > Strings < {{{3
+   |library| {{{4
+    It is better to [\#include <string>]\ to use this data type.
+
+   |initialize|
+    Note that you cannot initialize a string with integers or characters.
+    Constructors for class string do not exist for integer and character
+    arguments.
+
+    So [\string s(5);]\ and [\string s = 'c';]\ are all invalid statements.
+
+    However after declaration, you can reassign characters and integers:
+    ➱   [\s = 'c';]\ is a valid statement.
+    ➱   If you assign a string to an integer, like [\s = 117;]\, C++ assigns a
+        character with the corresponding [[ASCII code]] to the string.
+
+   |operators| {{{4
+    For all the following operators, NOTE that at least one operand has to be
+    a string [[object]]. If both are string literals, there will be an error:
+    [\string msg = "I love " + "dinosaurs";]\
+
+    ➱   [\s + t]\ returns a concatenation of s and t.
+
+    Comparison are carried out in a character by character manner.
+    ➱   [\s == t]\ returns {-true}- if same content.
+    ➱   [\s != t]\ returns {-true}- if different content.
+    ➱   [\s < t]\ returns {-true}- if s is lexicographical less than t.
+    ➱   [\s > t]\ returns {-true}- if s is lexicographical greater than t.
+    ➱   [\s <= t]\
+    ➱   [\s >= t]\
+
+    NOTE that [\!]\ cannot be used with string. [\!""]\ isn't {-false}-.
+
+   |type casting| {{{4
+    ➱   For casting into C-string, use [\s.c_str()]\ in [\<string>]\.
+    ➱   For casting from C-string, use [\string s = c_str;]\ where c_str is a
+        C-string.
+    ➱   For others, see {=>String streams<}=.
+
+   |non-mutating methods| {{{4
+    NOTE that [\s]\ must be a string object, cannot be a string literal.
+    ‣   [\s.size()]\ or [\s.length()]\ returns the number of char
+    ‣   [\s.empty()]\ returns non-zero if empty string.
+    ‣   [\s[:IDX:]]\ returns the char at given index. Unpredictable when index
+        is out of range.
+    ‣   [\s.at(:IDX:)]\ returns the char at given index. Throw exception when
+        index is out of range.
+    ‣   [\s.compare(t)]\ returns a negative value if s is lexicographical less
+        than string, zero if equal, and a positive value if s is greater than
+        t.
+    ‣   [\s.find(:PAT[`, START]:)]\ returns the least index, greater than or
+        equal to START at which the pattern PAT begins. Returns
+        {-string::npos}- when not found.
+    ‣   [\s.rfind(:PAT[`, START]:)]\ returns the greatest index, less than or
+        equal to START at which pattern begins. Returns {-string::npos}- when
+        not found. I.e. reverse find (the PAT still has to match forward).
+    ‣   [\s.find_first_of(:CHARSET[`, START]:)]\ returns the least index,
+        greater than or equal to START, at which a char of the indicated
+        string CHARSET is found. Returns {-string::npos}- when not found.
+        ⮱   e.g. [\s.find_first_of("aeiou")]\ find first vowel.
+    ‣   [\s.find_last_of(:CHARSET[`, START]:)]\ returns the greatest index,
+        less than or equal to START, at which a char of the indicated string
+        CHARSET is found. Returns {-string::npos}- when not found.
+    ‣   [\s.find_first_not_of(:CHARSET[`, START]:)]\
+    ‣   [\s.find_last_not_of(:CHARSET[`, START]:)]\
+    ‣   [\s.substr(:START[`, NUM]:)]\ returns the substring from START to the
+        end. If NUM is given, the substring contains only that number of
+        characters.
+
+    {-string::npos}- is -1.
+
+   |mutating methods| {{{4
+    NOTE that [\s]\ must be a string object, cannot be a string literal.
+    ‣   [\s[:IDX:] = :CHAR:]\ mutate the character at given index.
+    ‣   [\s.append(t)]\ mutates string s by appending t.
+    ‣   [\s.insert(:IDX`, STR[`, NUM]:)]\ insert a copy of string to s at given
+        index. If NUM is given, insert at most only that NUM of characters.
+    ‣   [\s.erase(:START[`, NUM]:)]\ removes all characters from START. If NUM is
+        given, remove only that number of characters.
+    ‣   [\s.replace(:IDX, NUM, STR:)]\ replace NUM characters of current string at
+        given index, with the whole STR.
+        ⮱   [\string s("abcdefg"); cout << s.replace(2, 3, "12345");]\ outputs
+            {{ab12345fg}}.
+
+    Although they are mutating, but they also return the resultant string, so
+    you can use them as an expression.
+
+   |string literal|
+    Consecutive string literals are concatenated:
+    [\"this form" "a single"   " string "]\
+    [\"of characters"                    ]\
+
+   |prefix| {{{4
+    ‣   [\u8]\: the string is encoded in the executable using UTF-8
+    ‣   [\R]\: raw string
+        ⮱   [\R":SEQ`(STR`)SEQ:"]\
+        ⮱   Can combine with other prefixes: [\u]\, [\L]\ or [\u8]\.
+
+   |variable declaration and initialization| {{{4
+    Use [\string]\ keyword to declare a string variable.
+
+    You can use a C-string, string literal or string object to initialize a
+    string variable.
+
+   |reassignment| {{{4
+    Unlike C-string, we can use [\=]\ to reassign a whole string object.
+
+   |I/O & peek mechanism| {{{4
+    Both [\cout]\ and [\cin]\ supports string.
+
+    The extraction operator [\>>]\ still takes whitespace as delimiter for
+    each input, and ignores leading and trailing whitespaces of input.
+
+    To read a line, use [\getline(:stream`, string[`, delim]:);]\:
+    ➱   The default delimiter is newline character, so read a line by default.
+    ➱   E.g. [\getline(cin, my_str);]\ gets a line from stdin to my_str.
+    ➱   It is declared in [\<string>]\.
+    ➱   It can also be used to read a line from an file input stream too, but
+        NOTE that since the delimiter is newline, the string extracted
+        contains no newline at the end.
+
+    WARN: For the following code:
+    [\cin >> numStudents;     ]\░
+    [\getline(cin, classCode);]\░
+
+    If the input is:
+    ➱   [\80 ENGG1111]\░
+        Then numStudents = 80, classCode = " ENGG1111". NOTE that space before
+        ENGG1111.
+    ➱   [\80      ]\░
+        [\ENGG1111]\░
+        Then numStudents = 80, classCode = "".
+
+    To understand this behaviour, you need to know the [[peek]] mechanism of
+    [\cin]\.
+
+    When cin reads a value, it will stop at the moment the next character
+    doesn't fit with the required data type. So in this example, when we use
+    cin to read an integer, it stops right before the space. To determine when
+    to stop reading, cin will "peek" for the next available byte, but not
+    reading it.
+
+    As the space is not being read by cin, getline() will start reading from
+    the white space. This also applies to the second case, where the first
+    reading stops right before the newline.
+
+  > Integers < {{{3
+    ➱   65 (decimal)
+    ➱   0101 (octal - preceded with a 0)
+    ➱   0x41 (hexadecimal - preceded with 0x)
+
+   |suffixes|
+    ‣   [\u]\ or [\U]\: unsigned
+    ‣   [\l]\ or [\L]\: long
+    ‣   [\ll]\ or [\LL]\: long long
+
+    Examples:
+    ‣   [\75]\: int
+    ‣   [\75u]\: unsigned int
+    ‣   [\75l]\: long
+    ‣   [\75ul]\ and [\75lu]\: unsigned long
+
+  > floating points < {{{3
+    ➱   Includes float and double.
+    ➱   You can use scientific notation for floating points: [\1.5e3]\ or
+    [\1.5E3]\.
+
+   |suffixes|
+    ‣   [\f]\ or [\F]\: float
+    ‣   [\l]\ or [\L]\: long double
+
+  > Explicit type casting < {{{3
+    Usually type casting is done automatically when needed. You can, however,
+    explicitly specify a type casting. This is usually done for the purpose
+    of:
+    ➱   Making sure the data types are used correctly (especially with
+        overloaded functions)
+    ➱   Making sure that data types of two values being compared matched
+        (unmatched data types may result to compilation warnings) e.g.
+        [\for (int i = 0; i < (int) sizeof(array) / sizeof(array[0]); ++i)]\
+    ➱   Easier reading of the codes
+
+    To specify an explicit type casting:
+    ➱   [\(int) my_float]\
+    ➱   [\int (my_float)]\
+
+  > Size of datatype < {{{3
+    [\sizeof(:{datatype|object})]\ returns the size in bytes of a data type or
+    an object.
+
+  > Auto type < {{{3
+    You can let compiler to figure out the data type in an declaration
+    statement which also initializes a variable.
+    [\int foo = 3; auto bar = foo + 1;  // same as int bar = foo + 1;]\
+
+    NOTE that this doesn't mean dynamic type, because the type still has to be
+    fixed at compile time.
+
+ == Arrays == {{{2
+  > Arrays < {{{3
+    An array is a sequence of data of the [[same type]]: a consecutive group
+    of memory locations.
+
+  > array index out of bound error < {{{3
+    Compiler will [[not]] report error when an array index that is out of
+    range is used.
+    ‣   less than 0
+    ‣   larger than N = (size - 1)
+
+    This is called ['array index out of bound error]':
+    ➱   On most systems, the program will proceed as if the index is legal
+    ➱   Memory cells corresponding to the non-existent indexed variable will
+        be accessed
+    ➱   may cause [[unintentional change]] to values of other variables
+
+  > Declaration < {{{3
+    Syntax: [\:BASE_TYPE ARRAY_NAME`[SIZE:];]\
+
+    Arrays are [[static]] entities: their size cannot be changed throughout
+    program execution.
+
+  > Initialization < {{{3
+    You can use an initializer list during declaration, with or without [\=]\:
+    ➱   [\int score[5] = {80, 100, 63, 84, 52};]\
+    ➱   [\int score[5]{80, 100, 64, 84, 52};]\
+
+    If the initializer list contains less items than the size, remaining
+    elements will take the value of [[0]].
+    ➱   [\int score[5]{}]\: all elements are initialized with [[0]].
+
+    If the initializer list contains more items than the size, there will be a
+    compile-time error.
+
+    You can omit the size in the initialized declaration, then the size of the
+    array becomes the [[size of initializer list]]:
+    ➱   [\int score[]{80, 100, 52};]\: the arrays will have a size of 3.
+
+    NOTE that the use of a braced list is only legal for initializer list
+    during [[declaration]]. Using in later assignment statement would result
+    in compile-time error.
+
+    It is useful to use a [[loop]] to initialize and access elements.
+
+  > Setting constant array size < {{{3
+    It may be useful and convenient to specify an array's size with a
+    [[constant variable]], especially when the values of the elements is a
+    function of its index.
+    ⮱   This allows scalable program: only need to change the size constant
+
+    [\const int kArraySize(10);           ]\
+    [\int s[kArraySize];                  ]\
+    [\for (int i = 0; i < kArraySize; i++)]\
+    [\  s[i] = 2 + 2*i;                   ]\
+
+  > Passing arrays to functions < {{{3
+    A whole array can only be [[pass-by-reference]]. The parameter is called
+    ['array parameter]'.
+    ➱   Therefore, any change to the array in a function will affect the array
+        passed by the caller.
+
+   |array parameters|
+    To do this you need to indicate array parameters in function declaration
+    and function header by putting [\[]]\ after the identifier:
+    ➱   [\int MyFunc(int array_para[], int array_size);]\
+
+   |passing arrays|
+    To pass a whole array during function calls, you [[don't need]] [\[]]\:
+    ➱   [\MyFunc(my_array);]\
+
+   |passing array size|
+    Since C++ doesn't check on array bound, it is a usual practice to pass
+    also the array size to a function.
+
+  > Invoking an element < {{{3
+    ➱   Element of an array is invoked by ['subscript operator]':
+        [\:ARRAY`[INDEX:]]\
+    ➱   Index starts from 0 up to N where N = size of ARRAY - 1.
+
+  > Searching for an element < {{{3
+   |return value|
+    Should return the index where the element is found. If not found, should
+    return -1.
+
+   |linear search|
+    ['Linear search]' examines elements sequentially.
+    ➱   Average no. of search: half the size
+    ➱   Max no. of search: the whole size
+
+   |search for multiple occurrences|
+    One way to do this is to add a parameter {{start_pos}} for the
+    LinearSearch(). Then call the function repeatedly with start_pos
+    continuing from the previous found position until no more occurrence.
+
+  > Sorting an array < {{{3
+   |selection sort|
+    For i from 0 to size - 1, select the max/min number and swap it with
+    element at index i.
+
+   |bubble sort|
+    From Wikipedia:
+    An example of bubble sort. Starting from the beginning of the list,
+    compare every adjacent pair, swap their position if they are not in the
+    right order (the latter one is smaller than the former one). After each
+    iteration, one less element (the last one) is needed to be compared until
+    there are no more elements left to be compared.
+
+  > 2D arrays < {{{3
+   |declaration|
+    [\int 2d_array[:no_of_rows:][:no_of_cols:];]\
+
+   |initialization|
+    [\int 2d_array[2][3] = {1, 2, 3};]\ fills up the values of the first row
+    first, then the second and so on. Left over take the value 0.
+
+    You can also use nested braces:
+    [\int 2d_array[2][3] = {{1, 2, 3}, {4, 5, 6}};]\
+
+   |invoke element|
+    [\:array`[row_idx:][:col_idx:]]\
+
+   |2D-array parameters|
+    The size of first dimension need not be given, but for remaining
+    dimensions the size must be given. E.g.
+
+    [\const int kNumCols = 5;                                ]\
+    [\void Print2dArray(int array[][kNumCols], int num_rows);]\
+
+    NOTE that the size given during function declaration must be a constant.
+    The following will result to an error:
+
+    [\int num_cols = 5;                                      ]\
+    [\void Print2dArray(int array[][num_cols], int num_rows);]\
+
+ == Structures == {{{2
+  > Concept < {{{3
+    A ['structure]':
+    ➱   Is a collection of one or more variables
+    ➱   Its data elements in a structure are its ['member variables]' or
+        simply ['members]'.
+    ➱   Its members can be of different types.
+    ➱   Acts like any basic data type
+        ‣   can be copied and assigned to variables
+        ‣   can be passed to and returned by functions
+
+  > Definition < {{{3
+    Use [\struct]\.
+
+    [\struct Student {]\
+    [\  int id;       ]\
+    [\  string name;  ]\
+    [\  char sex;     ]\
+    [\  int d, m, y;  ]\
+    [\};              ]\
+
+    ➱   NOTE that there is a [\;]\ after the closing brace.
+    ➱   Members of different structures can have the same name.
+
+   |terminology|
+    ➱   The identifier [\Student]\ is called the ['structure tag]'.
+    ➱   A ['structure value]' is a collection of smaller values called
+        ['member values]'.
+
+   |declare immediately|
+    [\struct Student {       ]\░
+    [\  int id;              ]\░
+    [\  char sex;            ]\░
+    [\} student_a, student_b;]\░
+
+    Declares two Student variables immediately after the definition. That's
+    why we need a semi-colon for struct definition.
+
+  > Declaration < {{{3
+    After definition, you can declare a structure variable like normal:
+    [\Student s1, s2;]\
+
+  > Initialization < {{{3
+    Use [[braces]] to initialize in declaration (order must match definition):
+    [\Student s1 = {301323549, "Amy Siu", 'F', 13, 3, 1999};]\░
+    ⮱   If fewer values than number of members, remaining members are set to
+        zero of their data type.
+
+    You can initialized with another variable of the same structure data type:
+    [\Student s2 = s1;]\
+
+  > Assignment < {{{3
+    After declaration, [\=]\ can be used for copying a struct to another.
+
+    [\s2 = s1;]\
+    [\s2.sex = s1.sex;]\
+
+  > Access members < {{{3
+    Use dot notation, [\s1.sex]\.
+
+  > Operators < {{{3
+    Structs is user-defined, so they do not work with arithmetic, relational,
+    equality, and logical operators by default.
+
+  > Nested structures < {{{3
+    [\struct Point {     ]\
+    [\  int x, y;        ]\
+    [\};                 ]\
+    [\                   ]\
+    [\struct Triangle {  ]\
+    [\  Point p1, p2, p3;]\
+    [\};                 ]\
+
+    [\Triangle tr1 = {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}};]\
+
+  > Size of structure < {{{3
+    The memory size needed for a structure may not necessarily be the total
+    memory sizes of its members. The memory size may differ depending on the
+    order of the member variables.
+
+    Use [\sizeof(struct MyStruc)]\ to return the memory size.
+
+    The difference is due to how data is aligned and padded in the memory. See
+    [=https://www.geeksforgeeks.org/data-structure-alignment/]=.
+
+  > Arrays of structures < {{{3
+   |parallel arrays|
+    Are sets of arrays whose elements of the same index store the info for one
+    abstract entity.
+
+    [\const int MAX = 200;]\░
+    [\                    ]\░
+    [\int id[MAX] = {0};  ]\░
+    [\string name[MAX];   ]\░
+    [\char sex[MAX];      ]\░
+    [\int d[MAX];         ]\░
+    [\int m[MAX];         ]\░
+    [\int y[max];         ]\░
+
+   |array of structures|
+    [\const int MAX = 200;  ]\░
+    [\Student students[MAX];]\░
+
+  > Passing to function < {{{3
+    ➱   Can pass by value or reference to a function like regular data type.
+    ➱   Can return by a function like regular data type.
+
+  > Member functions < {{{3
+    Only in C++, but not in C, can you define member functions for struct.
+
+   |use member variables|
+    In the function body you can use the member variables of the struct. You
+    can also update their values directly.
+
+   |define outside struct definition|
+    You can define a function directly within a struct definition,
+
+    Alternatively, you can declare a member function only within a struct
+    definition. You can then define the member function [[outside]] by
+    referring to the function using ['scope resolution operator]' [\~:~:]\.
+
+    [\struct Circle {                           ]\░
+    [\  double x, y;                            ]\░
+    [\  double r;                               ]\░
+    [\  double Area();                          ]\░
+    [\};                                        ]\░
+    [\                                          ]\░
+    [\double Circle~:~:Area() {                   ]\░
+    [\  const double PI(3.14159265358979323846);]\░
+    [\  return PI * r * r;                      ]\░
+    [\}                                         ]\░
+
+   |constant member functions|
+    You can declare or define a constant member functions. [[Both]]
+    declaration and definition require the keyword [\const]\.
+    ➱   [\int get_data() const;]\
+    ➱   [\int get_data() const { return data_; }]\
+
+    This tells the program that this is a read-only function. Constant member
+    function:
+    ➱   Cannot modify any non-static data members
+    ➱   Cannot call any member functions that aren't constant.
+
+    This works well with constant struct declaration. When a constant struct
+    is created, only constant member functions can be called.
+
+  > Constructor and destructor < {{{3
+    See [==Classes=]=.
+
+ == Variables == {{{2
+  > Type declaration and initialisation < {{{3
+   |declaration|
+    ‣   [\:TYPE {VAR_NAME}[`,...]:]\, e.g. [\int r;]\
+
+   |identifiers|
+    ➱   An identifier is the variable names.
+    ➱   Must start with either a letter or underscore. The rest can be letters,
+        underscore, or digits.
+    ➱   Is case sensitive
+    ➱   Cannot be keywords
+        ⮱   [\cout]\, [\string]\ and [\cos]\ are not builtin keywords, but are
+            required by standard libraries.
+
+   |initialise during declaration|
+    ‣   [\:TYPE {VAR`(VAL`)}[`,...]]\, e.g. [\int age(38);]\. This is
+        [[preferred]] for C++
+
+    ‣   [\:TYPE {VAR`=VAL}[`,...]:]\, e.g. [\int age=38;]\
+
+    If an uninitialized variable is used, the behaviour is [[unpredictable]]
+    due to its garbage value.
+
+  > Global variables < {{{3
+    Variables declared outside all functions are global.
+
+    Should be avoided for communicate data between functions, because:
+    ➱   Can be changed globally make it hard to trace if anything goes wrong
+
+    So usually used as declared constant.
+
+  > Scopes of variables < {{{3
+    Scope of a variable is the portion where it is well-defined and can be
+    used.
+
+   |local variables|
+    ➱   Scope starts from declaration to the end of its block.
+    ➱   Inner block can refer to the variables declared in the outer block
+
+   |global variables|
+    Scope starts from declaration to the end of its file.
+
+   |same identifier|
+    ➱   Variables can be declared with the same identifier as long as they have
+        different scope
+    ➱   Variables in inner block will hide any identical named variables in
+        outer block
+
+  > Static keyword < {{{3
+   |declaration|
+    [\static :TYPE VAR_NAME:;]\
+    ➱   You can initialize it with initial value in the declaration like other
+        variables.
+
+   |static|
+    ➱   Variables that are declaraed with the keyword [\static]\ have a space
+        allocated through out the program , even after the execution leaving
+        its scope (block).
+    ➱   Initialization is [[only done once]] for the entire program.
+    ➱   Therefore, value of static variables which is updated carried to the
+        next execution of of its scope (block).
+
+ == Operators == {{{2
+  > Logical operators < {{{3
+    ‣   [\&&]\: and operator
+    ‣   [\||]\: or operator
+    ‣   [\!]\: not operator
+
+   |short-circut evaluation|
+    C++ evaluates logical expression from left to right. As soon as the value
+    can be sure, it stop further evaluation.
+    ➱   [\x != 0 && i/x >= 2]\ won't have a runtime error even x is 0.
+
+  > Arithmetic operators < {{{3
+    ‣   [\+ - * %]\ works like that in Python. [\%]\ cannot work on floating
+        points.
+    ‣   [\/]\: floor division if both operands are int. Division if either
+        operand is other numeric type.
+        ⮱   Division by zero will generate [[runtime]] error
+    ‣   [\i++]\ and [\++i]\ are post-increment and pre-increment.
+        ⮱   [\myList[i++]]\ increment after accessing the entry.
+            [\myList[++i]]\ increment before. Adding parentheses doesn't
+            affect the precedence.
+    ‣   [\i--]\ and [\--i]\ are post-decrement and pre-decrement.
+
+   |with characters|
+    ➱   When performing arithmetic operation with characters, the numerical
+        representation as in the [[ASCII]] code will be used.
+    ➱   This provides a common techniques in converting letter case.
+
+  > Relational operators < {{{3
+    Same higher precedence:
+    ‣   >
+    ‣   >=
+    ‣   <
+    ‣   <=
+
+    Lower precedence:
+    ‣   ==
+    ‣   !=
+
+  > Precedence & Associativity < {{{3
+| unary             | + - ++ -- !      | -             |
+| binary arithmetic | * / %            | left to right |
+| binary arithmetic | + -              | left to right |
+| relational        | < <= > >=        | left to right |
+| relational        | == !=            | left to right |
+| logical           | &&               | left to right |
+| logical           | ||               | left to right |
+| assignment        | = += -= *= /= %= | RIGHT TO LEFT |
+
+ == Input & Output & streams == {{{2
+  > Streams < {{{3
+    ➱   A stream is an object where a program can either insert or extract
+        characters to/from it.
+
+    ‣   ['istream]', ['ostream]' and ['iostream]' are stream that can extract data
+        from, send data to and both respectively.
+    ‣   ['fstream]' is used for managing a file.
+
+    ➱   Stream objects can be passed to a function only [[by reference]] (i.e.
+        you need [\&]\). They can be returned by a function as well.
+
+  > operators < {{{3
+    ‣   [\<<]\ insertion operator
+    ‣   [\>>]\ extraction operator
+
+  > iostream < {{{3
+   |iostream| {{{4
+    ‣   [\#include <iostream> ]\░
+        [\using namespace std;]\░
+        The first imports a library, the second brings those definitions in to
+        the default namespace.
+
+    ‣   [\cin]\ is console input, is an object to get input typed by user.
+        ⮱   [\cin :{:>> :VAR}...:]\
+
+    ‣   [\cout]\ is console output, is an object to print messages to user.
+        ⮱   [\cout :{:<< :VAR}...:]\
+
+   |cout| {{{4
+    ‣   Whitespace and newline must be explicitly specify. [\"\n"]\ and [\endl]\
+        represent a newline character.
+
+    ‣   C++ will attempt to create a text representation for any non-string
+        data.
+
+    ‣   For floating points, default precision is 3 decimal points.
+
+   |cin| {{{4
+    ‣   C++ automatically convert the input to appropriate type.
+
+    ‣   cin can only process the input from keyboard once RETURN is pressed.
+
+    ‣   Delimiter of input stream is whitespace. C++ only uses up as many
+        characters. Remaining content stay in the input stream waiting for
+        next extraction.
+        ⮱   Even if you input a string (without whitespace), and only a char
+            is extracted, the remaining substring still remains in the input
+            stream.
+
+  > Formatting < {{{3
+   |library| {{{4
+    [\<iostream>]\ contains stream manipulators [[without parameter]].
+
+   |default| {{{4
+    ➱   6 significant digits for floating points.
+    ➱   Lengthy numbers are written in scientific notation.
+    ➱   No decimal point (digits after the [\.]\) if decimal value is 0.
+
+   |formatting| {{{4
+    ➱   [\showpoint]\: display decimal point with padding zeros even if the
+        decimal value is 0.
+        ⮱   [\noshowpoint]\ unset [\showpoint]\.
+
+    ➱   [\fixed]\: set fixed precision for all floating-points after.
+        ⮱   e.g. [\cout << fixed;]\
+
+    ➱   [\scientific]\: use scientific notation for all floating-points after.
+        ⮱   e.g. [\cout << scientific;]\
+        ⮱   i.e. 4.2e-2
+
+    ➱   [\left]\: justify text to the left (default is right).
+    ➱   [\right]\: justify text to the right (is the default).
+
+
+   |reset formatting options| {{{4
+    ➱   [\cout.unsetf(ios_base~:~:floatfield);]\ to make the output format for
+        floating-points back to default.
+
+
+  > iomanip < {{{3
+   |library| {{{4
+    [\<iomanip>]\ contains stream manipulators [[with parameter]].
+
+   |formatting| {{{4
+    ➱   [\setw(:WIDTH:)]\: set width for the [[next output]], justify it to
+        the right by default.
+        ⮱   e.g. [\cout << setw(10) << 123 << endl;]\
+
+    ➱   [\setprecision(:N:)]\
+        ⮱   With the [[default floating-point notation]] specifies the
+            [[maximum]] significant figure (i.e. the maximum number of
+            meaningful digits). NOTE the program will round the numbers
+        ⮱   With [[fixed or scientific notation]] specifies the [[exact]]
+            number of digits after the decimal point.
+        ⮱   e.g. [\cout << fixed << setprecision(2);]\
+
+    ➱   [\setfill(:c:)]\ to set the filling characters. Default is space.
+
+   |further format| {{{4
+    There are other manipulations to change justification, set fill
+    characters, change the base numbers are displayed in, and control how
+    bool's are displayed. It is done by turning on ['iosflags]'.
+
+    ➱   [\cout << setiosflags(:iosflags[ `| iosflags]...:);]\ turns on
+        iosflags.
+    ➱   Use [\resetiosflags()]\ to turn off turned-on iosflags.
+
+   |iosflags| {{{4
+    ➱   std::ios::left justifies text to the left (default is right)
+    ➱   std::ios::right justifies text to the right (default is right)
+
+  > printf < {{{3
+    It is not usually recommended to use [\printf()]\ to format strings and
+    output them, for it does not work consistently with the C++ string class.
+
+    Source COMP2113'21 - Module 3 - A Transition Guide - Python to C++ - §3.2
+
+  > Peek mechanism < {{{3
+    WARN: For the following code:
+    [\cin >> numStudents;     ]\░
+    [\getline(cin, classCode);]\░
+
+    If the input is:
+    ➱   [\80 ENGG1111]\░
+        Then numStudents = 80, classCode = " ENGG1111". NOTE that space before
+        ENGG1111.
+    ➱   [\80      ]\░
+        [\ENGG1111]\░
+        Then numStudents = 80, classCode = "".
+
+    To understand this behaviour, you need to know the [[peek]] mechanism of
+    [\cin]\.
+
+    When cin reads a value, it will stop at the moment the next character
+    doesn't fit with the required data type. So in this example, when we use
+    cin to read an integer, it stops right before the space. To determine when
+    to stop reading, cin will "peek" for the next available byte, but not
+    reading it.
+
+    As the space is not being read by [\cin]\, [\getline()]\ will start
+    reading from the white space. This also applies to the second case, where
+    the first reading stops right before the newline.
+
+    To have [\getline()]\ to read second line in the second case, use
+    [\getline(cin, dummy);]\ to get rid of the first newline character.
+
+  > Methods < {{{3
+    ➱   [\istream.ignore(:n`, delim:);]\ discards the stream until either
+        n characters has been discarded or encounter a delimiter
+        ‣   default n is 1. If n is [\numeric_limits<streamsize>~:~:max()]\
+            then there is no limit. [\numeric_limits]\ is a template defined
+            in library [\<limits>]\
+        ‣   default delim is EOF
+        ‣   NOTE that you should clear the istream to good bit first
+    ➱   [\istream.get()]\ extracts a character from stream and return it.
+    ➱   [\istream.get(:char:);]\ extracts a character to the char variable.
+    ➱   [\istream.get(:char_ptr`, streamsize:);]\ extracts characters to
+        C-string until:
+        ‣   no more characters in istream, or
+        ‣   extracted (streamsize - 1) characters, leaving last one for '\0'
+    ➱   [\istream.get(:char_ptr`, streamsize`, delim:);]\ is like above, but
+        will also terminate extraction when encounter a delimiter. The
+        delimiter given is of character type. And the delimiter encountered is
+        [[not extracted]].
+
+  > Bits of an istream < {{{3
+    ➱   [\!istream]\ returns true if either [[failbit]] or [[badbit]] is set.
+    ➱   [\istream.clear();]\ turn off all non-good bits and turn on good bits
+        for the istream.
+    ➱   [\istream.fail();]\ returns true if [[either]] fail or bad bit is on.
+        ⮱   Set when file open is failed
+        ⮱   Set when extraction error (e.g. unmatched type or continue to read
+            after encountering eof, i.e. reading a stream with no content)
+    ➱   [\istream.bad();]\ returns true if bad bit is on.
+    ➱   [\istream.eof();]\ returns true if eof bit is on.
+        ⮱   Set when an eof is encountered. (You can think of it is the last
+            delimiter? I guess. So reading the last content will set eof flag
+            on)
+    ➱   [\istream.good();]\ returns true if good bit is on.
+        ⮱   Turned off in any event (perhaps expect explicit manipulation)
+            that turns on other bits.
+
+  > An example: extracting a correct type < {{{3
+	[\ins >> my_int;   ]\░
+	[\while (!ins) {   ]\░
+	[\  ins.clear();   ]\░
+	[\  ins.get(dummy);]\░
+	[\  ins >> my_int; ]\░
+	[\}                ]\░
+
+  > stderror < {{{3
+    Use [\cerr]\ in place of [\cout]\
+
+ == String streams == {{{2
+  > Library < {{{3
+    [\<sstream>]\ provides the class [\istringstream]\.
+
+  > Declaration < {{{3
+    To declare an ['input string stream object]', use the class
+    [\istringstream]\:
+
+    [\string str;            ]\
+    [\istringstream iss(str);]\
+
+  > Extracting data < {{{3
+    [\int age;               ]\
+    [\iss >> age;            ]\
+
+   |return value|
+    The extraction statement returns:
+    ‣   Non-zero (true) value when a datum has been read successfully.
+    ‣   Zero (false) when the end of string has been reached and no datum has
+        been read.
+
+  > Misc < {{{3
+    The string stream act as a buffer for storing string representation of other
+    data types. The [\<sstream>]\ library includes a class [\stringstream]\:
+    ⮱   [\stringstream temp; temp << myInt; temp >> myStr;]\ convert an integer to
+        a string.
+
+ == File Streams == {{{2
+  > File < {{{3
+    C++ simply views a file as a sequence of bytes.
+
+  > fstream library < {{{3
+    The library [\<fstream>]\ provides three types of file streams:
+    ‣   ['ifstream]': used for input only
+    ‣   ['ofstream]': used for output only
+    ‣   ['fstream]': used for both input and output
+
+  > Creating and writing to a file < {{{3
+   |ofstream|
+    Two ways to setup an ofstream:
+
+    [\ofstream :stream_name:;         ]\
+    [\:stream_name:.open(:file_name[`, mode]:);]\
+
+    [\ofstream :stream_name`(file_name[`, mode]:);]\
+
+    ➱   Remember to quote the file_name when specifying it in place.
+    ➱   Need to covert a string into a [[C-string]] before using it as
+        file_name. Use [\:string:.c_str()]\ for that.
+        ⮱   for std=c++11, it accepts a [[string]] as well.
+    ➱   Convention stream_name is [[fout]].
+    ➱   For mode, see stream method [\.open()]\
+    ➱   DUNNO why, but it seems like if you use [\ios~:~:in]\ you are put into
+        like [[insert mode]] in Microsoft word (or [[replace mode]] in Vim) at
+        the beginning of the file. When you write the file, the new characters
+        replace the old characters character-by-character (including newline
+        etc.).
+
+   |writing content|
+    ➱   [\:ofstream: << :content:;]\ writes to the file opened with ofstream.
+    ➱   When finish writing, remember to [\:ofstream:.close();]\.
+
+  > Reading a file < {{{3
+   |ifstream|
+    Two ways to setup an ifstream:
+
+    [\ifstream :stream_name:;         ]\
+    [\:stream_name:.open(:file_name[`, mode]:);]\
+
+    [\ifstream :stream_name`(file_name[`, mode]:);]\
+
+    ➱   Remember to quote the file_name when specifying it in place.
+    ➱   Need to covert a string into a [[C-string]] before using it as
+        file_name. Use [\:string:.c_str()]\ for that.
+        ⮱   for std=c++11, it accepts a [[string]] as well.
+    ➱   Convention stream_name is [[fin]].
+    ➱   For mode, see stream method [\.open()]\
+    ➱   DUNNO why, but it seems like you can still read with [\ios~:~:out]\
+        mode with no side effect.
+
+   |reading content|
+    ➱   [\:ifstream: >> :variable:;]\ writes to the file opened with ofstream.
+    ➱   The return value of the statement is:
+        ‣   nonezero (true) when a datum has been read succesfully
+        ‣   zero (false) when eof has been reached and no datum has been read
+
+    To read until ['EOF]' (end of file):
+    [\while (fin >> x) {]\
+    [\  :...:             ]\
+    [\}                 ]\
+
+    [\while (getline(fin, s) {]\
+    [\  :...:                   ]\
+    [\}                       ]\
+
+    ➱   When finish reading, remember to [\:ifstream:.close();]\.
+    ➱   NOTE that getline will get rid of the last newline character.
+
+  > Stream method < {{{3
+   |.open()| {{{4
+    [\:fstream:.open(:file_name[`, mode]:)]\ opens a file with the fstream.
+
+    file_name should be a [[C-string]], so you should use [\string.c_str()]\
+    when needed.
+    ⮱   for standard std=c++11, it accepts a [[string]] as well.
+
+    Mode can be:
+    ‣   [\ios~:~:in]\: for reading a file
+    ‣   [\ios~:~:out]\: for overwriting a file
+    ‣   [\ios~:~:app]\: for appending a file
+    ⮱   E.g. after [\fstream datastream("data.txt", ios~:~:out);]\ you can use
+        [\cin >> var1 >> var2;]\ to read the file.
+
+    The default mode depends on the type of filestream object:
+    | ofstream | ios::out           |
+    | ifstream | ios::in            |
+    | fstream  | ios::in | ios::out |
+
+    ➱   For ofstream, and ifstream, the default mode is used no matter what.
+        Even if you specify another mode with the second argument, the
+        specified mode is added by a bitwise operator OR [\|]\.
+    ➱   For fstream, the default value is only applied without specifying the
+        mode.
+
+   |.close()| {{{4
+    [\.close()]\ disconnects the file stream from the opened file.
+
+   |exit()| {{{4
+    First [\#include <cstdlib>]\. (In C it is [\<stdlib.h>]\)
+
+    [\:fstream:.fail()]\ returns {{true}} if the program fails to open. You
+    can [\exit(:N:)]\ to terminate the program in such scenario with an exit
+    value.
+
+  > fstream < {{{3
+    ➱   [\fstream :STREAM_NAME`(FILE[`, MODE]:)]\ set a stream. Mode can be:
+        ‣   [\ios~:~:in]\: for overwriting a file (input file), is the [[default]]
+        ‣   [\ios~:~:out]\: for reading a file (output file)
+        ‣   [\ios~:~:app]\: for appending a file
+        ⮱   E.g. after [\fstream datastream("data.txt", ios~:~:out);]\ you can use
+            [\cin >> var1 >> var2;]\ to read the file.
+
+ == Compound Statements == {{{2
+  > Syntax < {{{3
+    ➱   All boolean expression at the header must be in [[parentheses]].
+        ➱   Don't put a [\;]\ after the expression, otherwise it is deemed as the
+            body - a ['null statement]'.
+    ➱   The body is enclosed by [[braces]].
+    ➱   If without braces, the next statement is considered as the single-line
+        body.
+
+  > Conditionals < {{{3
+    ➱   [\if]\
+    ➱   [\else if]\
+    ➱   [\else]\
+
+    NOTE that [\else]\ always pair with the nearest previous [\if]\ that is not
+    already paired with some [\else]\, disregarding indentation.
+
+  > switch statement < {{{3
+    [\switch (:CONTROL_EXPR:) {    ]\
+    [\    case :CONST_1:~:          ]\
+    [\        :STATEMENT_1:;       ]\
+    [\        break;             ]\
+    [\    case :CONST_2:~:          ]\
+    [\        :STATEMENT_2:;       ]\
+    [\        break;             ]\
+    [\    :...:                    ]\
+    [\    :[:default~:              ]\
+    [\        :DEFAULT_STATEMENT`;]:]\
+    [\:}                          ]\
+
+    ➱   CONTRL_EXPR must return either a:
+        ‣   boolean
+        ‣   integer
+        ‣   character
+    ➱   As soon as the evaluated value matches one CONST_N, [[all
+        STATEMENT_N]] following will run, [[including]] the DEFAULT_STATEMENT,
+        until exiting the loop by [\break]\ or arriving the end of body.
+        ⮱   The idea is: once match, switch in!
+
+  > one-line if-else < {{{3
+    ➱   [\:CONDITION `? EXPR_1 `: EXPR_2:]\ is an [[expression]] evaluated as:
+        ➱   EXPR_1 if CONDITION is true
+        ➱   EXPR_2 if CONDITION is false
+
+    DUNNO but seems like EXPR_1 and EXPR_2 must be in the same data type.
+
+  > Loops in general < {{{3
+    ➱   [\break]\ exits a loop immediately
+        ➱   Avoid using a break statement to end a loop unless absolutely
+            necessary because it might make it hard to understand your loop
+    ➱   [\continue]\ terminate current iteration
+
+  > while loop < {{{3
+    ➱   [\while]\
+
+    Different typical types of while loops:
+    ‣   [[Sentinel]]-controlled while loops:
+        using a special value to indicate end of loop
+    ‣   [[Counter]]-controlled while loops (decrementing/incrementing counter)
+    ‣   [[Flag]]-controlled while loops
+
+   |do-while|
+    [\do {                ]\
+    [\    :BODY...:         ]\
+    [\} while (:CONDITION:);]\
+
+  > for loop < {{{3
+    ➱   [\for (:INIT[`,...]`; CONDITION`; UPDATE[`,...]:)]\:
+        ‣   INIT is the initialisation step performed once before loop begins
+        ‣   CONDITION is the condition for the loop to run
+        ‣   UPDATE is a statement which performs at the end of each iteration
+
+    An Example:
+    [\int count, total;                          ]\
+    [\for(count=1, total=0; count <= 10; count++)]\
+    [\    total += count;                        ]\
+
+ == Function == {{{2
+  > Declaration < {{{3
+    ➱   [\:SIGN FUNC`([P_TYPE [PARAM[`=VAL]]]...:);]\
+        ⮱   SIGN is the [[return type]] of the function, indicating the type
+            of its return value. If a function has no return value, use
+            [\void]\. It's called a ['void function]'.
+        ⮱   Multiple parameters are separated by [[comma]]
+        ⮱   A declaration is a statement, thus needs a trailing [\;]\
+        ⮱   You can omit the identifier for the parameters (PARAM). In such
+            case, the declaration declares the function ['prototype]'.
+        ⮱   The parameter names can be different from that in function
+            definition
+        ⮱   if =VAR is used, it is the default value of the argument. NOTE
+            that you [[only]] need to include =VAR [[in the declaration]] if
+            you separate function declaration and function definition.
+
+    A declaration provide all information needed for a function call.
+
+  > Definition < {{{3
+    Consists of header and body.
+    ➱   [\:SIGN FUNC`([P_TYPE PARAM[`=VAL]]...:) {:BODY:}]\
+        ⮱   See [==Function= >Declaration<]= for more details
+        ⮱   if =VAR is used, it is the default value of the argument. NOTE
+            that you [[only]] need to include =VAR [[in the declaration]] if
+            you separate function declaration and function definition.
+        ⮱   The parameter names can be different from that in function
+            declaration
+
+    NOTE that for the default value, you cannot use previous parameters
+    directly, to achieve such behaviour you must use [[overloading]]:
+    [\void f(int a, int b, int c);             ]\
+    [\inline void f(int a, int b) { f(a,b,b); }]\
+    [\inline void f(int a)        { f(a,a,a); }]\
+
+    [\inline]\ is optional here. It is used to reduce the execution time by
+    recommending the compiler to replace the function call with the
+    definition, instead of referencing to the function definition at function
+    call. Compiler will comply when the function body is not too big.
+
+  > Parameters vs arguments < {{{3
+    ➱   Parameters used in [[function definition]] are called ['formal
+        parameters]' or simply ['parameters]'
+    ➱   Actual values passed to a function in a [[function call]] are called
+        ['actual parameters]' or ['arguments]'.
+
+  > Function call < {{{3
+    ➱   When expression is used as arguments, it is evaluated before the
+        function call
+    ➱   A function's declaration or definition is needed before it can be
+        called
+
+  > Stack & activation frame < {{{3
+    One portion of the memory is called an ['activation frame]' and is handled
+    as a [[stack]] data structure. Each activation frame traces one function
+    call in the stack.
+
+    Each frame references a single copy of the function definition rather than
+    containing a complete copy of it.
+
+    ['Stack overflow]' happens
+
+  > Variables < {{{3
+    ➱   Variables declared within a function is local to that function, i.e.
+        [[no other function]] can access it directly
+    ➱   Local variables only exists as long as the duration of function call.
+
+  > Pass-by-value vs pass-by-reference < {{{3
+   |pass-by-value|
+    The values of the arguments are copied to the formal parameters of the
+    function. The formal parameters are local variables, so their changes
+    won't passed back.
+
+   |pass-by-reference|
+    The formal parameters will refer to the same memory cells of the
+    arguments, so the [[arguments must be variables]].
+
+    Any changes made to the values of the formal parameters will be reflected
+    in the arguments.
+
+    To do this, an ampersand sign [\&]\ is placed in front of its identifier
+    in the function header and function declaration, or just after the
+    parameters type.
+    ➱   header: [\:TYPE_RET FUNC_NAME`([TYPE1 `&PAR1][`,...]:)]\
+    ➱   declaration: [\:TYPE_RET FUNC_NAME`([TYPE1`&][`,...]:);]\
+
+    So this distinguishes [[call by reference]] and [[value-returning
+    function]].
+
+   |good programming style|
+    If a function needs to return more than one values, use a [[void
+    function]] with [[reference parameters]] to return the values.
+
+  > Predefined functions < {{{3
+    Libraries of pre-defined functions contains:
+    ‣   Function definitions:
+        that are stored in separate files and have been [[pre-compiled]] into
+        object codes for further linking
+    ‣   Function declarations:
+        •   that declares what the inputs and output are
+        ‣   that are stored in header files
+
+  > Common pre-defined functions < {{{3
+|--------------------------------+-------------------------+----------------|
+| Function Declarations          | Description             | Library Header |
+|--------------------------------+-------------------------+----------------|
+| double sqrt(double x)          | Square root of x        | cmath          |
+| double pow(double x, double y) | x to the power of y     | cmath          |
+| double fabs(double x)          | Absolute value of x     | cmath          |
+| double ceil(double x)          | Round up the value of x | cmath          |
+| double floor(double x)         | Round down value of x   | cmath          |
+| int abs(int x)                 | Absolute value of x     | cstdlib        |
+| int rand()                     | A random integer        | cstdlib        |
+|--------------------------------+-------------------------+----------------|
+
+  > Using pre-defined functions < {{{3
+    Always consult the C++ manuals, e.g. [=www.cplusplus.com]= for details of
+    individual functions:
+    ‣   input parameters (preconditions)
+    ‣   return type (postconditions)
+
+    To use a predefined function:
+    ➱   Include corresponding header file [\#include <:...:>]\
+
+  > Signature & overloading < {{{3
+    A function's signature is the function's:
+    ‣   Name
+    ‣   Sequence of [[types]] in the parameter list
+    ‣   Return type
+
+    This doesn't NOT include:
+    ‣   the [\const]\ keyword (except for some compiler)
+    ‣   the ampersand [\&]\
+
+    Function ['overloading]' is using the same [[name]] for multiple functions
+    but with different signature. This is useful and compiler knows which to
+    call only when:
+    ➱   Function accepting multiple data types and return different data types
+    ➱   Function using different number of parameters
+
+    This concept is also called ['polymorphism]'.
+
+   |overload <<| {{{4
+    Consider [\cout << "My name is " << username;]\. Like how you consider an
+    expression with a series of [\+]\ operators, the order should be like
+    [\(cout << "My name is ") << username;]\. So the operator [\<<]\  should
+    really return a reference to the stream operand, such that after the first
+    operation it becomes [\cout << username;]\.
+
+    An example:
+    [\ostream& operator <<(ostream& outs, const MyClass& my_class) {]\░
+    [\  outs << my_class.get_data();                                 ]\░
+    [\  return outs;                                                 ]\░
+    [\}                                                              ]\░
+
+    NOTE the [\&]\ after the return type, indicating that it is returning a
+    [[reference]] to the ostream rather than the value. This is required for a
+    stream does not have a value.
+
+   |overload >>| {{{4
+    It is similar to overloading [\<<]\. But note that the extraction operator
+    [\>>]\ assigns new values to the second operand, so the second operand
+    should be passed by reference.
+
+    An example:
+    [\istream& operator >>(istream& ins, MyClass& my_class) {]\░
+    [\  int data;                                            ]\░
+    [\  ins >> data;                                         ]\░
+    [\  my_class.set_data(data);                             ]\░
+    [\  return ins;                                          ]\░
+    [\}                                                      ]\░
+    ⮱   Or you can make it a friend function to make the body definition more
+        efficient (without using an temporary variable for being able to
+        access the member variable directly).
+
+  > Recursion < {{{3
+    A recursive function is one that calls itself in the function body.
+    Eventually it reaches the base case where no recursive call is made.
+
+    Each function call entails additional memory space (['function call
+    stack]'). Excessively long chain of recursive call that goes beyond the
+    memory limit results to ['stack overflow error]'.
+
+    Mathematical induction is the recursive way of thinking.
+
+   |vs iteration|
+    A recursive function usually runs slower and uses more storage than an
+    equivalent iterative version.
+
+    The good side is recursive function is sometimes make the programming
+    easier and produce code that is easier to understand.
+
+ == Template == {{{2
+  > Algorithm abstraction < {{{3
+    ['Algorithm abstraction]' is to express an algorithm in a very general way
+    rid of situational details.
+
+    Writing template is one way of doing algorithm abstraction.
+
+  > Function template < {{{3
+   |syntax|
+    [\template<class T>]\ is the ['template prefix]', telling that the
+    function declaration or definition that follow immediately is a
+    ['template]'. [\T]\ here is the ['type parameter]'.
+    ⮱   You can use the keyword [\typename]\ in place of [\class]\.
+    ⮱   [\template<class T1, class T2:...:>]\ for more than one types.
+
+   |concept|
+    A function template definition is, in effect, a large collection of
+    function definitions, each definition is obtained by substituting a
+    specific class/type for [\T]\.
+
+    Compiler will however, only really make a definition for a particular type
+    if it is used for that type for at least once.
+
+   |function declaration|
+    DUNNO if this is still true:
+    Not all compilers support function template declaration and even less
+    support putting function template declaration and definition in separate
+    files. So a safest bet is to only use template function definition and use
+    them within the same file.
+    ⮱   NOTE that I tested that C++11 using g++ allows function template
+        declaration.
+    ⮱   NOTE that I tested that while using g++ for std=c++11 allows compiling
+        file-separated function template declaration and definition into
+        objects, linking the object with the main.o causes reference error.
+        Use the following method mentioned below.
+
+    [\#include]\ a template definition from a header/implementation file also
+    works most of the times.
+
+  > Class template < {{{3
+   |syntax|
+    Just as the syntax of writing a function template. You use [[template
+    prefix]] immediately before a template class definition.
+
+    To define a member function, first you need the template prefix, then:
+    [\:{RETURN_TYPE} CLASS`<{TYPE_PARAM}[`,...]`>`:`:FUNC`(ARG[`,...]:) {]\░
+    E.g. [\void Pair<T>~:~:set_element(int position, T value) {]\
+    ⮱   You can use the type parameter in place for RETURN_TYPE and ARG... as
+        you wish.
+    ⮱   NOTE that the [[class name]] (called ['specialized class name]')
+        before the scope resolution operator is [\Pair<T>]\. In fact, when you
+        wish to mention a template class in place for a typename, you should
+        type the class name this way including the list of type parameters.
+    ⮱   You can even use a class template within a function template.
+
+   |declare an object of a template class|
+    After a template class is defined, you can declare a class by giving the
+    type: [\MyTemplateClass<int, char> my_obj;]\
+
+   |define new class type name|
+    [\typedef :{CLASS_NAME}`<{TYPE_PARAM}[`,...]`> {NEW_TYPE_NAME}:;]\
+
+   |friend functions|
+    It is a common practice to place the implementation of the overloaded
+    friend functions (e.g. operator functions) of a template class in the
+    header file.
+
+   |using template class|
+    The safest way to use a template class is to include both the interface .h
+    and implementation file .cpp into the program file. Then we only need to
+    compile to program file.
+
+ == Running a Program == {{{2
+  > Flow of Program < {{{3
+    Unlike Python as an interpretor language, the flow doesn't start at the
+    first line. For C++ it starts with a [[special function]] [\main()]\.
+    ➱   The signature of main() must be [\int]\.
+    ➱   A return value is passed back to the operating system
+    ➱   A return value of {{0}} historically indicates a successful execution.
+    ➱   Other values are used as error codes.
+
+  > Compiling < {{{3
+    The most widely used compiler is from [{GNU]} which is [\g++]\. The simplest
+    way to compile:
+    ➱   [\g++ -o :EXECUTIBLE CPP_FILE:]\
+
+    For the course COMP2113, use options [\g++ -pedantic-errors -std=c++11]\.
+    ➱   The first option makes sure the code conforms to [{ISO C/C++]} standard
+    ➱   The second option uses C++ 11 standard.
+
+ == Make Program Accept Arguments == {{{2
+    To make a program accept arguments from command line, use:
+    [\int main(int argc, char* argv[])]\
+    ➱   argc is the number of arguments from the command line
+    ➱   argv[0] == program name
+    ➱   argv[1..argc-1] are the arguments
+    ➱   e.g., if this program's name is "prog" and the following command is
+        run at the command prompt:
+        [\> ./prog word file1 file2]\░
+        then in the main function, argc == 4, and argv[0] == "./prog", argv[1]
+        == "word", argv[2] == "file1", argv[3] == "file2"
+
+ == Classes == {{{2
+  > Similarity with struct < {{{3
+    Many concepts that apply to struct apply to class as well. Like constant
+    member function...
+
+  > Abstract data type < {{{3
+   |ADT|
+    ['Abstract data type]' (['ADT]') encapsulates both the data and the
+    methods into a package, so that users are restricted to perform only
+    certain operations against the data inside. This achieves
+    ['encapsulation]' or ['information hiding]'.
+
+    It is an ADT for we don't (need to) know how the operations are
+    implemented.
+
+   |interface and implementation|
+    When using a ADT, we only need to care about [[what]] can be done with
+    them, i.e. the ['interface]', but not [[how]] they are done, i.e. the
+    ['implementation]'.
+
+   |changes not required|
+    ADT designers can change the implementation while keeping the interface
+    unchanged. This way, the changes in the implementation do not require a
+    change in the programs that uses the ADT.
+
+    For structs, you need to know the internal data structure and
+    implementation in order to work with it.
+
+  > Classes < {{{3
+    Classes in [[C++]] implement ADTs. It contains:
+    ‣   Data (member variables)
+    ‣   Methods (member functions)
+
+  > Class definition < {{{3
+    A definition of a class is divided into two sections:
+    ‣   ['public]' section defines the interface. [[Accessible]] from outside.
+    ‣   ['private]' section defines the implementation. [[Not accessible]]
+        from outside, but only accessible by members of the class. (This is
+        the [[default]])
+    ‣   Actually you can have any number of occurrences of public and private
+        section
+
+    [\class Point {                 ]\░
+    [\public~:                       ]\░
+    [\  double GetX();              ]\░
+    [\  double GetY();              ]\░
+    [\  double Distance(Point& p);  ]\░
+    [\  void translate(Point& p);   ]\░
+    [\  void SetCoord(int x, int y);]\░
+    [\                              ]\░
+    [\private~:                      ]\░
+    [\  double x;                   ]\░
+    [\  double y;                   ]\░
+    [\};                            ]\░
+
+    Like structs, NOTE that there is a [\;]\ after the closing brace.
+
+    You can define member variables in the public section, but the normal
+    practice is to avoid that and use a public method to access the internal
+    data. This allows changing the internal data structure while having the
+    interface unchanged.
+    ⮱   Instead, you define public [[accessor functions]] and [[mutator
+        functions]] to change the private data values.
+        ·   Accessor functions normally have their names start with the word
+            get
+        ·   Mutator functions normally have their names start with the word
+            set
+
+    You can decide whether to include the definition or just the prototype for
+    a member function inside a class definition.
+
+  > Define member functions outside < {{{3
+    You can define member functions outside. You need to use the scope
+    resolution operator [\~:~:]\ to indicates the variable/function
+    membership of a class:
+    [\double Point~:~:distance(Point& p) {]\░
+    [\  double dx = p.x - x;            ]\░
+    [\  double dy = p.y - y;            ]\░
+    [\  return sqrt(dx * dx + dy * dy); ]\░
+    [\}                                 ]\░
+
+  > Class declaration < {{{3
+    To declare an [[object]] for a class:
+    [\:{CLASS} {OBJECT_NAME}...:;]\░
+
+    ➱   Multiple objects are separated by comma [\,]\
+    ➱   E.g. [\Point p1, p2;]\
+
+  > Separate files < {{{3
+    It is a common practice to put codes for a class in a separate file, so it
+    can be reused by another file or program:
+    ➱   A header file [\.h]\ for class definition
+    ➱   A source file [\.cpp]\ for class implementation, where some of the
+        methods are defined.
+    ➱   Other files and programs include the class header file.
+
+    It is also a common practice to add guardians in the header file to
+    prevent multiple loading:
+    [\#ifndef _POINT_H_                    ]\░
+    [\#define _POINT_H_                    ]\░
+    [\                                     ]\░
+    [\// declarations and class definitions]\░
+    [\                                     ]\░
+    [\#endif                               ]\░
+
+  > Member initializers < {{{3
+    A feature to set default values for data (unless overridden by
+    constructor).
+
+    [\class Coordinate {]\░
+    [\ private~:         ]\░
+    [\  int x = 1;      ]\░
+    [\  int y = 2;      ]\░
+
+  > Constructors and destructors < {{{3
+    They are special member functions to a class, that are called
+    automatically on specific occasion.
+
+   |constructor| {{{4
+    A constructor function (['ctor]') is called automatically at the
+    declaration (creation) of the class object. It is identified by its having
+    the same name with its class:
+    [\class MyClass {               ]\░
+    [\ public~:                      ]\░
+    [\  MyClass();  // a constructor]\░
+    [\};                            ]\░
+
+    NOTE that there is no return type. It can accept no or any number of
+    arguments. When declaring a new class object, you pass the arguments to
+    the constructor.
+
+    You can [[overload]] constructors, and it is a common practice too.
+
+   |using constructor| {{{4
+    Three ways:
+    ➱   [\Student s("Tim", "3035123456", 20);]\, which is equivalent to:
+        ‣   [\Student s;]\
+        ‣   [\s.name = "Tim";]\
+        ‣   [\s.id = "3035123456";]\
+        ‣   [\s.age = 20;]\
+
+    ➱   [\Student s = Student("Tim", "3035123456", 20);]\ which is equivalent
+        to the above method.
+        ⮱   Actually this is not as efficient for this creates two objects.
+            This method is more close to:
+            [\Student s;                           ]\░
+            [\s = Student("Tim", "3035123456", 20);]\░
+        •   This is an occasion of invoking constructor function not when
+            declaring a new object, but re-initializing an already existing
+            object.
+        •   Within a member function:
+            [\*this = Student("Tim", "3035123456", 20);]\
+
+    ➱   [\Student* s = new Student("Tim", "3035123456", 20);]\ which creates a
+        dynamic variable pointing to the newly created object.
+
+    NOTE that when using a constructor with no arguments, you should NOT
+    include any parentheses:
+    [\MyClass new_obj(); // Wrong! Should have no parentheses.]\
+
+   |destructor| {{{4
+    A destructor function (['dtor]') is called automatically at the
+    destruction of the class object (e.g. execution of its scope ends). It is
+    identified by a tilde [\~~]\ followed by the same name as its class:
+    [\class MyClass {               ]\░
+    [\ public~:                      ]\░
+    [\  ~~MyClass();  // a destructor]\░
+    [\};                            ]\░
+
+    NOTE that there is no return type. It must accept no argument.
+
+    It is said that it is is a good idea to always make destructor
+    [[virtual]]. See [=>Virtual function< |virtual function|]=.
+
+   |constructor initializer list| {{{4
+    Also called ['initialization section]'.
+
+    A special syntax allows you to initialize data members easily with a
+    constructor. Some of the different styles of formatting:
+    [\MyClass~:~:MyClass(int var) ~: data1_(var), data2_(var * 2) {]\░
+    [\  :[function body]:                                         ]\░
+    [\}                                                         ]\░
+
+    [\MyClass~:~:MyClass(int var1, int var2)]\░
+    [\    ~: data1_(var1),                 ]\░
+    [\      data2_(var2) {                ]\░
+    [\  :[function body]:                   ]\░
+    [\}                                   ]\░
+
+    [\MyClass~:~:MyClass(int var1, int var2)]\░
+    [\    ~: data1_(var1), data2_(var2) {} ]\░
+
+    There is a [[4-space]] indentation for the initializer list, if you
+    conform to Google C++ style reference.
+
+   |constructor delegation| {{{4
+    Allows one constructor to call another constructor:
+    [\MyClass~:~:MyClass() ~: MyClass(10, 100) {}]\
+
+   |copy constructor| {{{4
+    A constructor that has one (constant, normally,) call-by-reference
+    parameter that is of the same type as the class.
+
+    An example:
+    [\struct A                                                 ]\░
+    [\{                                                        ]\░
+    [\    int n;                                               ]\░
+    [\    A(int n = 1) ~: n(n) { }                              ]\░
+    [\    A(const A& a) ~: n(a.n) { }  // user-defined copy ctor]\░
+    [\};                                                       ]\░
+
+    NOTE that a copy constructor can be [[very important when some data are
+    pointers to dynamic variables]]. Without a copy constructor, when a class
+    object is injected to another function through pass-by-value, a new object
+    will be created as the local variable with the copied pointer data.
+    However, as the local variable leaves its scope when the function call
+    returns, a destructor will delete the original dynamic variable shared by
+    the original object.
+
+    To prevent this, you should define your own copy constructor, such that
+    when a new object is created a new independent dynamic variable is created
+    instead of just copying the pointer data pointing to the same dynamic
+    variable.
+
+    The copy constructor is [[called automatically]] when:
+    ‣   A function returns a value of a class type
+    ‣   A value of a class type is passed as pass-by-value argument to a
+        function
+
+    NOTE that [[assignment operator]] only takes an existing object and modify it
+    so that it is an [[identical copy]] so that the copy constructor is NOT
+    called automatically
+
+   |default constructor| {{{4
+    A ['default constructor]' is one with [[no arguments]].
+
+    If you don't define [[any]] constructor, the compiler will implicitly
+    define a default constructor that [[does nothing]] and a default copy
+    constructor for you.
+
+    NOTE that if a class is created as a [[dynamic variable]] using [\new]\
+    then the default constructor is invoked.
+
+    Alternatively, you can define a default copy constructor explicitly:
+    [\class MyClass {                                                  ]\░
+    [\ public~:                                                         ]\░
+    [\  MyClass(int x, int y) ~: a_(x), b_(y) {}  // self-defined       ]\░
+    [\  MyClass(const MyClass&) = default;  // explcitly define default]\░
+    [\ private~:                                                        ]\░
+    [\  int a_, b_;                                                    ]\░
+    [\};                                                               ]\░
+
+   |auto type casting| {{{4
+    With suitable constructor, C++ knows how to do type casting when necessary
+    automatically.
+
+    [\Money saving(30, 20);]\░
+    [\saving += 22;        ]\░
+
+  > Operator functions < {{{3
+    For user-defined classes, C++ doesn't know how operators such as [\+]\ and
+    [\<]\ should work on the classes. So to use them, the programmer need to
+    define overloading operator functions.
+
+    You can do this inside the class definition, and for some other operators
+    you can also do this outside. (But my experience is that in order to use,
+    e.g. [\sort()]\ in STL algorithm, you should define required operator
+    functions outside the class definition, otherwise there will be an
+    compiler error.
+
+   |define inside class definition| {{{4
+    [\class CVector                        ]\░
+    [\{                                    ]\░
+    [\  int x;                             ]\░
+    [\  int y;                             ]\░
+    [\  CVector operator+(const CVector& c)]\░
+    [\  {                                  ]\░
+    [\    CVector temp;                    ]\░
+    [\    temp.x = x + c.x;                ]\░
+    [\    temp.y = y + c.y;                ]\░
+    [\    return temp;                     ]\░
+    [\  }                                  ]\░
+    [\};                                   ]\░
+
+    Then, you can use this operator to operate on the user-defined class:
+    ➱   [\CVector resultant_vec = c_vector_1 + c_vector_2;]\, or
+    ➱   [\CVector resultant_vec = c_vector_1.operator+(c_vector_2);]\
+
+   |define outside class definition| {{{4
+    [\CVector operator+(const CVector& a, const CVector& b)]\░
+    [\  {                                                  ]\░
+    [\    CVector temp;                                    ]\░
+    [\    temp.x = a.x + b.x;                              ]\░
+    [\    temp.y = a.y + b.y;                              ]\░
+    [\    return temp;                                     ]\░
+    [\  }                                                  ]\░
+    [\};                                                   ]\░
+
+    Then you can do [\CVector resultant_vec = c_vector_1 + c_vector_2;]\
+
+    It may be convenient to declare these these non-member operator functions
+    as a friend function to a class.
+
+   |overload = operator| {{{4
+    You can only overload = operator function as a member function of a class.
+    Normally you want the return type to be the reference of the current
+    object (i.e. the object whose value is assigned).
+
+    NOTE this is not what is suggested by the book. EDIT: Well at [=p.890]= it
+    suggests the same heading as here:
+    [\:CLASS:& :CLASS`:`::operator =(const :TYPE VALUE:) {]\░
+    [\  :...:                                       ]\░
+    [\  return *this;                             ]\░
+    [\}                                           ]\░
+
+    Now the book [=Problem solving with C++, §11.4 p.711]= says it should be:
+    [\void MyClass~:~:operator =(const MyClass& right_side) { :...: }]\
+
+    WARN for many classes, the obvious definition for overloading = operator
+    does not work correctly when the [[same object is on both sides]] of the
+    assignment operator. Be aware of this special case when defining your
+    operator function.
+
+  > The big three < {{{3
+    The [[copy constructor]], [[=operator]] and [[destructor]] are called the
+    big three because if you need to define any of them you need to define all
+    of them.
+
+    Basically if all member variables are simple pre-defined type (e.g. int,
+    double) then the default one generated by the compiler will be fine. But
+    if any member variables are pointer (e.g. array) or self-defined class,
+    then you should define your own.
+
+  > this operator < {{{3
+    The [\this]\ operator represents a pointer to the object whose member
+    function is being executed.
+
+  > Static members < {{{3
+    A static member of a class is also known as ['class variable]', because
+    there is only one common variable for all the objects of the same class,
+    sharing the same value.
+
+    It is just like a non-member variables but enjoys a class scope.
+
+   |invoke|
+    To invoke it, use either way:
+    ➱   [\:class_obj`.static_var:]\ where class_obj can be any of the existing
+        object of the class.
+    ➱   [\:ClassName`:`:static_var:]\.
+
+   |initialize|
+    Since a static member shares its value among all objects in the same
+    class, initializing a static member must be done outside the class
+    definition. Perhaps outside and before [\main()]\.
+
+   |static member function|
+    They can only gain access to static variables.
+
+  > Constant member < {{{3
+   |constant object|
+    When a class object is declared as constant, all access of the data
+    members from outside is restricted to read-only.
+
+    However, the constructor will still be called and initialize and change
+    the data members' value.
+
+    [[Only constant member functions]] can be called for a constant object,
+    but not a function that is not declared as a constant member function even
+    though it may not altering the data members actually.
+
+   |constant member function|
+    To declare a constant member function inside a class definition:
+    [\int get() const {return x;}]\
+
+    Constant member function cannot alter the value of data members, and can
+    call other constant member functions only.
+
+   |overloading constant member functions|
+    Two member functions can be having the same name, type and signature but
+    only differ in that one is constant where as another is not.
+
+    The constant version is called when the object is constant, and the
+    non-constant version is called when the object is not constant.
+
+  > Class templates < {{{3
+    Like template functions, use keyword [\template]\ to create a class whose
+    members use template parameters as types.
+
+   |class template definition|
+    [\template <class T>          ]\░
+    [\class mypair {              ]\░
+    [\  T values [2];             ]\░
+    [\ public~:                     ]\░
+    [\  mypair (T first, T second)]\░
+    [\  {                         ]\░
+    [\    values[0] = first;      ]\░
+    [\    values[1] = second;     ]\░
+    [\  }                         ]\░
+    [\};                          ]\░
+
+    ➱   The first [\T]\ in [\<class T>]\ is the template parameter. If your
+        templates require more than one template parameter, you should add
+        more here.
+    ➱   Then we can declare a class object of a particular type using the
+        template: [\mypair<int> myobject(115, 36);]\
+
+   |member function definition|
+    To define a member function of a class template outside the class
+    definition:
+    [\template <class T>     ]\░
+    [\T mypair<T>~:~:getmax()  ]\░
+    [\{                      ]\░
+    [\  :...:                  ]\░
+    [\}                      ]\░
+
+    The [\T]\ in [\mypair<T>]\ specifies that the template parameter of this
+    function is also the class template parameter.
+
+  > Inheritance < {{{3
+   |derived classes| {{{4
+    A ['derived classes]' is a class obtained from the other class by [[adding
+    features]]. This is used to define a general class and then later define
+    more [[specialized]] classes based off the general class through a
+    mechanism called ['inheritance]'.
+
+    Keywords: child / derived and parent / base class
+
+   |define a derived class| {{{4
+    [\class :CHILD_CLASS: ~: public :PARENT_CLASS: {]\░
+    [\  :{additional members and methods...}:    ]\░
+    [\};                                       ]\░
+
+   |access control| {{{4
+    NOTE that [\public]\ means gaining access to all public members. In this
+    way, a derived class object cannot access the private member of the base
+    class directly, but can only through the public methods.
+
+    Also NOTE that a derived class can only gain access to the [[constructor]]
+    of the [[direct]] parent class, but not further e.g. grand-parents. In
+    other words, you can call the constructor of the direct parent class in
+    the initializer section (possibly in the derived constructor function).
+    (I.e. when defining constructors for the derived class).
+
+   |inheritance| {{{4
+    Most features are inherited, but some are not and require the derived
+    class to define their own version. It should be straight forward to see
+    why this is the case.
+    ‣   Constructors
+    ‣   Destructors
+    ‣   Private methods (i.e. cannot be called directly)
+    ‣   Assignment operator =
+
+    NOTE that the constructors, destructors and assignment operators of the
+    base class can still be called when defining functions for derived class.
+
+   |constructor| {{{4
+    To invoke the constructor of the base class to initializes member
+    variables inherited from the base class, call the constructor of the base
+    class in the [[initializer section]] (i.e. the initializing list after the
+    colon).
+
+   |destructor| {{{4
+    When calling the destructor of the derived class, the destructor of the
+    base class is called automatically. So there is no need to explicitly call
+    the destructor of the base class in the body of the destructor of the
+    derived class.
+
+    If class C inherits class B which inherits class A. Then class C
+    destructor is called before class B which is before class A (i.e. in
+    reverse order).
+
+
+   |redefine a member function| {{{4
+    You only need to restate the declaration and rewrite a new definition of a
+    function if you want to redefine the member function for a derived class.
+    NOTE the difference between overloading a function name and redefining the
+    same function.
+
+    When redefining, you can drop keywords like [\const]\.
+
+   |using redefined base function| {{{4
+    To use a redefined base function for a derived class object, i.e. using
+    the version in the base class when that function is redefined in the
+    derived class, use the [[scope resolution operator]]:
+    [\:DERIVED_CLASS_OBJ`.BASE_CLASS`:`:FUNCTION`(...:);]\
+
+  > Friend < {{{3
+   |friend functions| {{{4
+    A ['friend function]' of a class is not a member function but still has
+    [[access to private members]] to the class.
+
+    You must declare a friend function in class definition with keyword
+    [\friend]\:
+    [\friend :RETURN_TYPE FUNCTION`([PARAMETERS]...:);]\
+
+    You can declare a friend function in either public or private section, but
+    it will be a public function anyway, so better put it in public section.
+
+    In most case, the only reason to make a function friend is to make the
+    definition simpler and more efficient. Generally, make a member function
+    if it deals with one object intimately, and make a non-member function if
+    it deal with more than one object and symmetrically.
+
+   |friend class|
+    My trial-and-error suggests you can just [\friend class :CLASS:;]\, then
+    all member functions of target CLASS can access private members of current
+    class.
+
+  > Array < {{{3
+    When declaring an array of class, each indexed object is initialized with
+    the [[default constructor]]. So it is important to have one default
+    constructor for that class.
+
+  > Polymorphism < {{{3
+    ['Polymorphism]' refers to the ability to associate multiple meanings to
+    one function name by means of a special mechanism known as [[late
+    binding]].
+
+    ['Late binding]', also called ['dynamic binding]', is a technique of
+    waiting until [[runtime]] to determine the implementation of a procedure.
+
+    In C++, you can use [[virtual functions]] to achieve polymorphism.
+
+  > Virtual function < {{{3
+   |virtual function|
+    ['Virtual function]' is a function that [[calls a method of a
+    descendent]]. This way, the function implementation is not yet known
+    during compile time, but will only be determined during runtime depending
+    on the object - under the mechanism of late binding.
+
+    It is said that it is a good idea to always make a destructor virtual.
+    Otherwise, if you assign a base pointer to a derived class and delete the
+    derived class by referencing the base pointer, then the destructor of the
+    derived class will not be called but only that of the base class. Any
+    dynamic variables pointed by the data of derived class will become the
+    source of memory leak.
+
+   |declaration|
+    When a function is [[declared]][=[*]]= virtual, e.g. [\virtual int
+    MyFunc();]\, in a base class definition, then even if it is the member
+    functions of the base class who calls [\MyFunc()]\, the program will
+    automatically use the version defined in the class definition of the
+    calling object rather than the version defined in the base class
+    definition.
+    ⮱   [=[*]]= you only need to add the keyword [\virtual]\ in function
+        declaration, but NOT in function definition
+
+    It is a good practice to include the keyword [\virtual]\ in the function
+    declaration within the derived class definition, although this is not
+    required because if a function is virtual in the base class, it is
+    automatically virtual in the derived class.
+
+   |efficiency|
+    The only reason to not make all member functions virtual is for
+    efficiency. The compiler and runtime environment need to do much more work
+    for virtual functions.
+
+   |overriding|
+    When a virtual function definition is changed in the derived class, it is
+    said that the function definition is ['overridden]'. There is a subtle
+    difference from [[redefinition]] functions, which involve non-virtual
+    functions.
+
+   |extended type compatibility|
+    By default, while it is illegal to assign a base class object to a derived
+    class object, it is legal to assign a [[derived class to a base class]]
+    objects, although this will result to the ['slicing problem]' where
+    information is lost in the assignment process. In particular, the values
+    of the additional member variables are not carried over.
+
+    Pointers and dynamic variables can be used to circumvent the slicing
+    problem. You can assign the memory location of a derived class object to a
+    base class object pointer. Now you can even gain access to the derived
+    class version of [[virtual]] methods even you are using the base class
+    object pointer (when it points to a derived class object). At the same
+    time, this base class object pointer can also be used in place where it
+    expects a base class object.
+
+    For example, we have base class [\Pet]\ and derived class [\Dog]\. There
+    is a virtual function [\Print()]\. [\Pet]\ has a data [\name]\ and [\Dog]\
+    has an additional data [\breed]\. Now we have a object [\Dog my_dog;]\ and
+    a pointer [\Pet pet_ptr;]\. Now after the legal assignment░
+    [\pet_ptr = &my_dog;]\, [\pet_ptr->Print();]\ will call the Print of class
+    Dog because [\Print()]\ is a virtual function, and therefore the function
+    tries to figure out the object pointed to be [\pet_ptr]\ is a [\Dog]\ and
+    calls the appropriate version. However NOTE that [\pet_ptr->breed]\ is
+    illegal for it is a data but [[not]] a [[virtual]] function, so the
+    program will go straight and see that [\pet_ptr]\ is a pointer of class
+    [\Pet]\ which has no data [\breed]\.
+
+
+ == Pointers == {{{2
+  > Operators < {{{3
+   |address-of operator| {{{4
+    When used in expression [\&:var:]\ gets the memory address of a variable.
+    ➱   When used in function declaration, it serves as a reference operator.
+
+   |dereference operator| {{{4
+    The memory location that a pointer points to can be accessed or modified
+    using [\*]\. (dereference means turns a reference to a value)
+
+    [\int x = 10;                                                         ]\░
+    [\int y;                                                              ]\░
+    [\int* ptr = &x;  // *ptr points to x                                 ]\░
+    [\y = *ptr;  // y gets stored value at memory location pointed by *ptr]\░
+    [\*ptr = 20;  // value in memory location pointed by *ptr becomes 20  ]\░
+
+    After the above statements, the value of x is 20, and y is 10.
+
+    [\ptr = &y;  // *ptr points to y (NOTE there is no * in assignment    ]\░
+    [\(*ptr)++  // y's value increments by 1                              ]\░
+
+   |* vs &| {{{4
+    So address-of operator [\&]\ and dereference operator [\*]\ are inverse of
+    each other.
+
+  > precedence of operators < {{{3
+   |dot operator|
+    In dot notation, [\.]\ takes higher precedence over [\*]\, so remember to
+    use parentheses. [\(*today_ptr).year = 2021;]\
+
+   |increment operator|
+    [\++]\ and [\--]\ takes higher precedence over [\*]\
+
+    ➱   [\(*p)++;]\ ok
+        ⮱   [\*p++;]\ not okay
+    ➱   [\++(*p);]\ ok
+        ⮱   [\++*p;]\ also okay because there is no ambiguity
+
+  > member of pointer < {{{3
+    All of the following three statements are the same.
+    ➱   [\today.year = 2021;]\
+    ➱   [\(*dPtr).year = 2021;]\
+    ➱   [\dPtr->year = 2021;]\
+
+    The last one uses [\->]\ which means member of pointer.
+
+  > Pointer variable < {{{3
+    A pointer variable stores the address of a variable (i.e. pointing to that
+    variable).
+
+    [\int i;         ]\░
+    [\int * iPtr = &i;]\░
+
+    NOTE that the pointer type must match the corresponding type of the
+    variable it is pointing to. E.g. a [\char*]\ must point to a [\char]\
+    variable but not an [\int]\.
+
+  > Declaration < {{{3
+    We may declare pointer and regular variables in the same declaration
+    statement:
+    [\int i, *iPtr;]\
+
+    We may declare multiple pointers of the same type in the same declaration
+    statement:
+    [\int *iPtr1, *iPtr2;]\
+
+    But according to Google styling reference, you should almost always
+    declare one variable only in one statement. And for pointers declaration,
+    the statement must declare only one pointer at one time.
+
+    Be WARN that [\int* int_ptr1, int_ptr2;]\ only declare one pointer. So it
+    is a best practice that pointer declaring statement only declare one
+    pointer.
+
+  > Special pointers < {{{3
+   |dangling pointer|
+    Is a pointer that does [[not]] point to a [[valid]] object. (e.g. not
+    initialized)
+    ➱   Dereferencing it leads to unpredictable result, or even crash the
+        program
+
+   |null pointer|
+    A null pointer (or ['zero pointer]') is a pointer that are [[told]]
+    explicitly to point to nothing. To do this you use [\nullptr]\ keyword:
+    [\int *ptr = nullptr;]\
+
+    Dereferencing a null pointer will crash the program:
+    [\cout << *ptr << endl;]\
+
+    You can check if a pointer is a null pointer:
+    [\if (ptr != nullptr) :...:;  // no * before ptr]\
+
+    Before [[C++11]], [\nullptr]\ is a constant equal to {-NULL}-. Starting
+    from C++11, it is a constant equal to {-0}-, so you can also:
+    Check if it is a null pointer:
+    ➱   [\if (ptr != 0)]\
+    ➱   [\if (ptr)]\
+
+    Declare/assign a null pointer:
+    ➱   [\int *ptr = 0;]\
+    ➱   [\ptr = 0;]\
+
+    But [=problem solving with C++ §13.1 p.773]= says [\NULL]\ is actually 0.
+    It needs library [\<iostream>]\ or [\<cstddef>]\ or some other suitable
+    libraries. It also says [\nullptr]\ only comes after [[C++11]], which is
+    not equivalent to [\NULL]\ nor [\0]\ but a literal constant.
+
+   |array name|
+    In [\int a[10];]\, a is the name of the array, which is a [[constant]]
+    pointer that points to the [[first element]] of the array.
+
+    So you can assign an array name to a pointer:
+    ➱   [\int *p = x;]\
+    ➱   [\int *p; p = x;]\
+    so that [\p]\ also points to the first element of the array. And it can be
+    used like x in the same way: [\p[3] = 4;]\
+
+    But since x is a constant pointer, you can not do the other way around:
+    [\int a[3] = {1, 3, 5};                    ]\░
+    [\int b[3] = {2, 4, 6};                    ]\░
+    [\int *p;                                  ]\░
+    [\p = a;  // p points to first element of a]\░
+    [\b = p;  // error, b is unmutable         ]\░
+
+  > Pass-by-reference with pointers < {{{3
+   |pointer arguments|
+    ➱   [\void swap(int* x, int* y);]\ uses pointer arguments
+    ➱   [\swap(&a, &b);]\ passes the memory addresses to swap pointer
+        arguments.
+
+    Alternatively:
+    ➱   [\void swap(int* &x, int* &y);]\
+    ➱   [\swap(a_ptr, b_ptr);]\ This directly [[pass a pointer by reference]]
+        to the function. So any change to the pointer in the function body
+        will be reflected in the original pointer passed.
+    ➱   This is useful for dealing with growing or shrinking dynamic arrays.
+        As you need to change the memory location stored by an existing
+        pointer to the new array which has a different size.
+
+   |reference argument|
+    ➱   [\void swap(int& x, int& y);]\ uses reference arguments
+    ➱   [\swap(a, b);]\
+    Within the body of [\swap()]\, x and y are just aliases for a and b
+    respectively: they share the same memory locations.
+
+  > Constant pointer < {{{3
+    A constant pointer cannot have its stored memory location address changed.
+    But the value in the location pointed by it can still be changed:
+    [\int i = 1, j = 2;      ]\░
+    [\int* const i_ptr = &i; ]\░
+    [\*i_ptr *= 100;  // fine]\░
+    [\i_ptr = &j;  // error  ]\░
+
+    NOTE that the difference:
+    ➱   [\int* const i_ptr = &i;]\ declares a constant pointer.
+    ➱   [\const int* i_ptr = &i;]\ declares a pointer whose value to which it
+        points to cannot be change [[through]] [\*i_ptr]\ (but can be changed
+        through other variables):
+        [\int i = 1, j = 2;       ]\░
+        [\const int* i_ptr = &i;  ]\░
+        [\i *= 100;  // fine      ]\░
+        [\i_ptr = &j;  // fine    ]\░
+        [\*i_ptr *= 100;  // error]\░
+        ⮱   You can think that [\*i_ptr]\ becomes a constant variable.
+
+  > Pointer operations < {{{3
+   |addition and subtraction|
+    The unit of [[addition]] and [[subtraction]] on pointers depend on the
+    size of the data type to which they point to. Adding an integer n change
+    the memory location of the pointer by the size of n numbers of that data
+    type.
+
+    [\int a[5];                                              ]\░
+    [\:...:                                                    ]\░
+    [\int* p = a;                                            ]\░
+    [\cout << *(p+1) << endl;  // output the 2nd element of a]\░
+
+   |comparison operator|
+    [\==]\ and [\!=]\ checks if two pointers are the same, i.e. pointing to
+    the same memory location.
+
+ == Dynamic Variables == {{{2
+  > Ordinary vs dynamic variable < {{{3
+   |Ordinary variable|
+    Also called ['automatic variables]' for the dynamic properties of them are
+    controlled automatically.
+    ➱   Number of variables is fixed
+    ➱   Life span of variable is determined by its scope
+    ➱   Each variable is given a name in its declaration
+
+    NOTE this is not to be confused with variables that are declared with the
+    keyword [\static]\.
+
+   |dynamic variable|
+    ➱   Number of variable are not fixed
+    ➱   Has no name but accessed with [[pointers]].
+
+  > Creating and destroying dynamic variables < {{{3
+   |create|
+    We use [\new]\ operator to create a dynamic variable (there can be a space
+    before open parenthesis):
+    ➱   [\string* s = new string("Hello!");]\
+    ➱   [\int* i; i = new int(10);]\
+
+    If you don't assign the right hand side to a pointer, you cannot access
+    theme because dynamic variables have no name.
+
+    C++ standard specifies that if there is [[insufficient memory]] to create
+    the new variable, then the [\new]\ operator throws an exception.
+
+    ['Freestore]' or the ['heap]' is the area in the memory that is reserved
+    for storing dynamic variables.
+
+   |destroy|
+    [\delete s;]\ destroy the dynamic variable s pointing to.
+
+    It is a good practice to reset a pointer to zero after the memory location
+    that it points to is freed. I.e. back into null pointer.
+    [\s = 0;]\
+
+    It is the programmer's responsibility to free up dynamic variables that
+    are no longer in use. Failing to do so will lead to [[memory leak]], i.e.
+    having memory space that the system cannot reclaim, and the system may
+    gradually [[run out of memory]].
+
+   |use typedef|
+    [\typedef int* intPtr;                           ]\░
+    [\intPtr p1, p2; // declare two pointer variables]\░
+
+  > Common mistakes with pointers pointing dynamic variables < {{{3
+    See powerpoint 8.2.
+    ➱   Dereferencing a pointer before it is initialized.
+    ➱   deleting a pointer that does not point to a valid memory location
+        ⮱   Especially one two pointers point to the same dynamic variable,
+            and mistakenly doubly deleting the same dynamic variable twice
+            through the two pointers.
+        ⮱   My experience: a runtime error occurs with a message that is
+            something like [\434085 segmentation fault (core dumped)]\
+    ➱   Dereferencing a dangling pointer.
+    ➱   Memory leak
+        ⮱   losing track of some dynamic variables: they can no longer be
+            accessed.
+
+  > Dynamic arrays < {{{3
+    [\int n;                     ]\
+    [\cin >> n;                  ]\
+    [\int* a = new int[n];       ]\
+    [\for (int i = 0; i < n; ++i)]\
+    [\  a[i] = i;                ]\
+    [\:...:                        ]\
+    [\delete [] a;               ]\
+
+    ➱   Use [\new int[n];]\ to create a dynamic array.
+        ⮱   A space before [\[]\ is okay.
+    ➱   Use [\delete[] :pointer:]\ to free the dynamic array pointed to by a.
+        ⮱   A space before [\[]\ is okay.
+
+   |growing a dynamic array|
+    Growing an array by too small a size each time will result to too frequent
+    array copying, thus low time efficiency. Growing an array by too large a
+    size each time will waste too much space.
+
+    Generally we double the array size each time it needs to enlarge its size.
+
+ == Linked List and Tree == {{{2
+  > Concept < {{{3
+    An ['linked list]' allows efficient element insertion and deletion while
+    retaining the orders of the list.
+
+    This is done by storing each item as a [[node]], each stores a piece of
+    data and the address of the next node.
+
+    Besides each nodes, a linked list starts with a [[head]], which is a
+    variable storing the location of the first node. The last nodes stores a
+    [[null address]].
+
+   |access mode|
+    Linked list is a ['sequential access]' data structure, whereas regular
+    list is a ['random access]' data structure.
+
+  > Implementation < {{{3
+    With a struct:
+    [\struct Node {]\░
+    [\  int data;  ]\░
+    [\  Node* next;]\░
+    [\};           ]\░
+    [\             ]\░
+    [\Node* head;  ]\░
+
+   |trasversing|
+    To go through the nodes one-by-one from the first node.
+
+    [\Node* current = head  // curent points to 1st node]\░
+    [\current = head->next  // curent points to 2nd node]\░
+
+    [\while (current) {         ]\░
+    [\  :...:                     ]\░
+    [\  current = current->next;]\░
+    [\}                         ]\░
+
+  > Building a linked list < {{{3
+   |backward| {{{4
+    New elements are added to the beginning of the linked list:
+    [\void head_insert(Node* &head, int new_data)]\░
+    [\{                                          ]\░
+    [\  Node* p = new Node;                      ]\░
+    [\  p->data = new_data;                      ]\░
+    [\  p->next = head;                          ]\░
+    [\  head= p;                                 ]\░
+    [\}                                          ]\░
+
+   |forward| {{{4
+    New elements are added to the end of the linked list:
+    [\void tail_insert(Node* head, int new_data)]\░
+    [\{                                         ]\░
+    [\  Node* p = new Node;                     ]\░
+    [\  p->data = new_data;                     ]\░
+    [\  p->next = nullptr;                      ]\░
+    [\  Node* current = head;                   ]\░
+    [\  while(current) {                        ]\░
+    [\    if (! (current->next)) {              ]\░
+    [\      current->next = p;                  ]\░
+    [\      break;                              ]\░
+    [\    }                                     ]\░
+    [\  }                                       ]\░
+    [\}                                         ]\░
+
+    But usually for forward-building linked list, we also keep the [\tail]\
+    which points to the address of the last node.
+    [\void tail_insert(Node* &head, Node* &tail, int new_data)]\░
+    [\{                                                       ]\░
+    [\  Node* p = new Node;                                   ]\░
+    [\  p->data = new_data;                                   ]\░
+    [\  p->next = nullptr;                                    ]\░
+    [\  if (! (head->next)) {                                 ]\░
+    [\    head = tail = p;                                    ]\░
+    [\  }                                                     ]\░
+    [\  else {                                                ]\░
+    [\    tail->next = p;                                     ]\░
+    [\    tail = p;                                           ]\░
+    [\  }                                                     ]\░
+    [\}                                                       ]\░
+
+   |insert a node| {{{4
+    [\void insert_after(Node* &after, int new_data)]\░
+    [\{                                            ]\░
+    [\  Node* p = new Node;                        ]\░
+    [\  p->data = new_data;                        ]\░
+    [\  p->next = after->next;                     ]\░
+    [\  after->next = p;                           ]\░
+    [\}                                            ]\░
+
+  > Deleting a node < {{{3
+   |delete first node|
+    [\void delete_head(Node* &head)                               ]\░
+    [\{                                                           ]\░
+    [\  if (head != nullptr) {  // make sure the list is not empty]\░
+    [\    Node* p = head;                                         ]\░
+    [\    head = head->next;                                      ]\░
+    [\    delete p;                                               ]\░
+    [\  }                                                         ]\░
+    [\}                                                           ]\░
+
+   |delete after|
+    [\void delete_after(Node* &after)                    ]\░
+    [\{                                                  ]\░
+    [\  if (after != nullptr && after->next != nullptr) {]\░
+    [\    Node* p = after->next;                         ]\░
+    [\    after->next = p->next;                         ]\░
+    [\    delete p;                                      ]\░
+    [\  }                                                ]\░
+    [\}                                                  ]\░
+
+  > Building a sorted linked list < {{{3
+    You need to search for the node that is the last one in the list that is
+    smaller than the new data, then do an insert after the searched node is
+    not a zero node (i.e. the linked list was NOT empty). Otherwise do a
+    insert head.
+
+    [\Node* find_prev(Node* &head, int new_data)      ]\░
+    [\{                                               ]\░
+    [\  if (head == nullptr || head->data >= new_data)]\░
+    [\    return nullptr;                             ]\░
+    [\                                                ]\░
+    [\  Node* current = head;                         ]\░
+    [\  while (current->next != nullptr) {            ]\░
+    [\    if (current->next->data >= new_data)        ]\░
+    [\      return current;                           ]\░
+    [\    current = current->next;                    ]\░
+    [\  }                                             ]\░
+    [\  return current;                               ]\░
+    [\}                                               ]\░
+
+  > Variations of linked lists < {{{3
+    ➱   Doubly linked (each node is linked to its previous and next node)
+    ➱   Circularly-linked
+
+  > Printing a linked list in reverse < {{{3
+    Use recursion:
+    1.  If linked list is empty, print nothing
+    2.  Otherwise
+        a)  Print the linked list pointed to by [\head->next]\ in reverse
+        b)  print the node pointed by head
+
+  > Pointers as iterators < {{{3
+    A pointer can be an iterator for a linked list going through the linked
+    list, using a [\for]\ loop.
+
+    [\Node* itr;                                       ]\░
+    [\for (itr = head; itr != nullptr; itr = itr->next)]\░
+
+  > Binary tree < {{{3
+    ➱   Any node can be reached from the top (root) node by some path
+        following the link.
+    ➱   There is no cycle, but eventually leads to an end.
+    ➱   [[Binary]] means each node has two links.
+    ➱   The two links are usually named left and right.
+    ➱   The starting node is the ['root node]' and the end node with both
+        links pointing to NULL is the ['leaf node]'.
+
+  > Application: stack < {{{3
+   |stack|
+    A ['stack]' is a data structure that retrieves data in [[reverse order]]
+    of data storage. It is a [[last-in/first-out]] (['LIFO]') data structure.
+
+    Analogy: placing plates in a stack and taking them one by one.
+
+   |application|
+    This is used in, for instance, keeping track of function calls in C++.
+
+   |operations|
+    ➱   ['Push]': add an item to the stack.
+        ⮱   Essentially the [\InsertHead()]\ for linked list. But it is
+            conventional to call the head as [[top]] in a stack.
+    ➱   ['Pop]': remove an item from the stack and [[return]] that item.
+        ⮱   Essentially the [\RemoveHead()]\ for linked list. But it also
+            returns the removed item.
+
+  > Application: queue < {{{3
+   |queue|
+    A ['queue]' is a data structure that handles data in
+    [[first-in/first-out]] (['FIFO]').
+
+    Analogy: people lining up as a queue.
+
+   |operations|
+    ➱   Add an item at the ['back]' of the queue.
+    ➱   Remove an item at the ['front]' of the queue. (Easier to remove an
+        item at the head of a linked list than to remove at the end.)
+
+    So the list needs two pointers, one at the front (like "head" in linked
+    lists) and one at the back.
+
+ == Exceptions == {{{2
+  > Try & throw & catch < {{{3
+   |syntax|
+    [\try {                   ]\░
+    [\  :...:                   ]\░
+    [\  if (:CONDITION:)        ]\░
+    [\    throw :VALUE:;        ]\░
+    [\  :...:                   ]\░
+    [\  if (:CONDITION_2:)      ]\░
+    [\    throw :VALUE_2:;      ]\░
+    [\  :...:                   ]\░
+    [\}                       ]\░
+    [\catch (:TYPE PARAM:) {    ]\░
+    [\  :{handle exception}    :]\░
+    [\}                       ]\░
+    [\catch (:TYPE_2 PARAM_2:) {]\░
+    [\  :{handle exception}:    ]\░
+    [\}                       ]\░
+    [\catch (...) {           ]\░
+    [\  :{handle exception}:    ]\░
+    [\}                       ]\░
+
+    ➱   The entirety of [\try]\ block handles normal situations
+    ➱   CONDITION tests for exceptional situations, during which a VALUE
+        called ['exception]' is ['thrown]'
+    ➱   When there is no exception, the catch blocks are ignored.
+    ➱   When an exception is thrown, the [[first]] immediately following
+        [\catch]\ block with the [[correct parameter type]] will capture the
+        exception and flow of execution will continues there.
+        ⮱   It is for this reason that if you have multiple catch block, it is
+            better to catch the more specific exception first.
+    ➱   [\catch (...)]\ is the [[default]] catch block which catches all not
+        caught yet exceptions.
+    ➱   Without a catch block, the flow of execution will jump to the
+        statement immediately follows the try block.
+    ➱   The conventional identifier for VAR is [\e]\ if there is only one
+        throw/catch statement.
+    ➱   The TYPE can be a [[self-defined class]] to hold information you need.
+        E.g. [\throw MyClass(data);]\ or [\throw MyClass();]\. Here we make
+        use of [[constructors]].
+    ➱   If you don't need ['catch block parameters]', you can simply list the
+        type without parameters. Sometimes you may want to define an [[trivial
+        class]] (i.e. empty definition) with the name describing the exception
+        for this purpose.
+        ⮱   Defining trivial class is helpful to activate appropriate catch
+            block.
+
+  > Throwing exceptions in functions < {{{3
+   |delay handling exception| {{{4
+    A function can throw an exception that is [[not caught within it]] (delay
+    handling an exception). To catch this exception that goes outside of a
+    function, we place the function call in a [\try]\ block so that a
+    [\catch]\ block following can catch the exception.
+
+    It does not matter where the origin of the exception is, it can be inside
+    another function that is called by the function placed in a try block, as
+    long as the exception is thrown while still inside a try block.
+
+   |exception specification| {{{4
+    WARN: this usage is deprecated since C++11, and removed C++17 - C++20.
+    Either don't use it, and in case for empty list or no list use new syntax.
+    According to
+    [=https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md]=,
+    ➱   "Exception specifications make error handling brittle, impose a
+        run-time cost, and have been removed from the C++ standard."
+    ➱   "The policy of letting exceptions propagate until they reach a
+        function that potentially can handle it has proven itself over the
+        years."
+
+    If a function can throw exceptions that is not caught within itself, it is
+    a good practice to include an ['exception specification]', also called
+    ['throw list]', in both declaration and definition:
+    [\void myFunc() throw (DividByZero, OtherException);]\
+    ⮱   WARN: don't use this. Deprecated or removed. See above warning.
+
+    ➱   Any exception listed in the exception specification is treated
+        [[normally]], meaning that it will [[not end the program]].
+    ➱   If no exception specification is provided, all exceptions goes outside
+        the function are also treated [[normally]].
+        ⮱   Alternatively, you can explicitly state this with [\throw (...)]\
+        ⮱   WARN: since C++11, use [\noexcept(false)]\ instead of
+            [\throw(...)]\ for explicit stating.
+    ➱   If an exception specification is [[present]], then exceptions that are
+        NOT listed will end the program
+        ⮱   Therefore, if an [[empty]] list is given, all exceptions that are
+            not caught within the function will end the program:
+            [\void myFunc() throw (); // empty exception specification]\
+        ⮱   WARN: since C++11, use [\noexcept]\ or [\noexcept(true)]\ instead
+            of [\throw();]\.
+    ➱   Again, it does not matter where the origin of the exception comes
+        from, even if it is originated from another function called within the
+        function body, the outside function, as well as the inside function,
+        needs the exception specification.
+    ➱   Since an object of a derived class is also an object of the base
+        class, an object of a [[derived class is deemed listed]] if its base
+        class is listed in the exception specification.
+
+   |exception specification in derived class| {{{4
+    When redefining or overriding a function definition in a derived class, it
+    should have [[the same or fewer exception specification]]. This is to
+    allow an object of the derived class to be used any where an object of the
+    based class can be used.
+
+  > Recommendations of using exceptions < {{{3
+   |when to throw| {{{4
+    From the book [=p.946]=,
+
+    "For the most part, [\throw]\ statements should be used within functions
+    and listed in a nexception specification for the function. Moreover, they
+    should be reserved for situations in which the way the exceptional
+    condition is handled depends on how and where the function is used. If the
+    way that the exceptional condition is handled depends on how and where the
+    function is invoked, then the best thing to do is to let the programmer
+    who invokes the function handle the exception. In all other situations, it
+    is almost always preferable to avoid throwing an exception."
+
+   |uncaught exceptions| {{{4
+    Every exception that is thrown should be caught some place. If an
+    exception is not caught, the program will end.
+
+   |nested try-catch blocks| {{{4
+    This is allowed, but is rarely useful. If you really need to do this, it
+    is better to put the inner try-catch block in a function, and call this
+    function in the outer try-catch block.
+
+    If an exception thrown from inner try-catch block is not handled within
+    itself, then it is propagated to the outer try-catch block.
+
+   |overuse of exceptions| {{{4
+    Exceptions allows unlimited flow of execution like the old-days [\goto]\
+    statements, which is agreed to be a bad style that can make the code
+    impossible to understand.
+
+   |exception class hierarchies| {{{4
+    It can be useful to use derived and base classes to establish a hierarchy
+    of exception classes. E.g. DividByZeroError deriving from ArithmeticError.
+
+   |re-throw exceptions| {{{4
+    It is legal to throw an exception in [\catch]\ block. In rare occasion you
+    may want to catch an exception, and then decide to throw the same or
+    different exception depending on the situation for handling farther up the
+    chain of exception-handling blocks.
+
+   |Exception-free design pattern| {{{4
+    From
+    [=https://stackoverflow.com/questions/47727108/are-dynamic-exception-specifications-invalid-in-c17]=
+
+    This is yet another reason to use the so-called [[Exception-free]] design
+    pattern (for example [{Qt]} framework uses that) which means:
+    1. there is not a single [\try]\, [\catch]\ or [\throw]\ anywhere in the
+       source-codes.
+    2. there is not any log about any error because there are none.
+    3. there is only [\invalid-pointer]\ crash (which could be caused by [\out
+       of memory]\ or using [\null]\ as pointer). Note that I refer to above
+       as [\invalid-pointer crash]\ not [\invalid-pointer exception]\ since in
+       C++ that will always result in a crash (and we can only attach to
+       [\Unhandled Exception]\ and dump it)
+
+  > Testing for available memory < {{{3
+    When creating new dynamic variables using [\new]\, [\bad_alloc]\ exception
+    is thrown if there is not enough memory. So the following can be useful
+    sometimes:
+    [\try {                        ]\░
+    [\  MyClass *ptr = new MyClass;]\░
+    [\}                            ]\░
+    [\catch (bad_alloc) {          ]\░
+    [\  :...:                        ]\░
+    [\}                            ]\░
+
+[~{ Libraries }~] {{{1
+ == cctype == {{{2
+  > Include < {{{3
+    [\#include <cctype>]\
+
+  > Functions < {{{3
+    The following although the parameter type is integer. The functions treat
+    it as an ASCII code and check the character represented by the code. You
+    can pass a char type value to the function.
+
+|--------------------+-------------------------------------------------------|
+| Function           | return value                                          |
+|--------------------+-------------------------------------------------------|
+| int isdigit(int c) | non-zero for digit (0-9), else zero                   |
+| int isalpha(int c) | non-zero for letter, else zero                        |
+| int isalnum(int c) | non-zero for digit or letter, else zero               |
+| int islower(int c) | non-zero for lowercase letter, else zero              |
+| int isupper(int c) | non-zero for uppercase letter, else zero              |
+| int ispunct(int c) | non-zero for punctuation, else zero                   |
+| int tolower(int c) | lowercase letter for uppercase letter, else unchanged |
+| int toupper(int c) | uppercase letter for lowercase letter, else unchanged |
+|--------------------+-------------------------------------------------------|
+
+ == cstring == {{{2
+  > Include < {{{3
+    [\#include <cstring>]\
+
+  > Functions < {{{3
+|-----------------------------------------------------+--------------------|
+| Function                                            | Description        |
+|-----------------------------------------------------+--------------------|
+| char* strcpy(char* destination, const char* source) | copy string        |
+| int strcmp(const char* str1, const char* str2)      | compare string     |
+| size_t strlen(const char* str)                      | string length      |
+| char* strcat(char* destination, const char* source) | string concatenate |
+|-----------------------------------------------------+--------------------|
+
+    See [=http://cplusplus.com/reference/cstring/]=.
+
+ == cstdlib == {{{2
+  > Include < {{{3
+    [\#include <cstdlib>]\
+
+  > Functions < {{{3
+|---------------------------+----------------------------------|
+| Function                  | Description                      |
+|---------------------------+----------------------------------|
+| int atoi(const char* str) | Convert a C-string to an integer |
+|---------------------------+----------------------------------|
+
+[~{ Standard Template Library (STL) }~] {{{1
+ == STL == {{{2
+    ['STL]' stands for ['standard template libary]'. The provide:
+    ‣   Containers for storage
+    ‣   Iterators for accessing information
+    ‣   Algorithms for manipulating information
+
+    There are three basic STLs:
+    ‣   Vector
+    ‣   List
+    ‣   Map
+
+ == Containers == {{{2
+  > STL Containers < {{{3
+    It is designed to get optimal [[efficiency]]. Each member function has a
+    guaranteed maximum running time, expressed in big-O notation.
+
+  > Vector < {{{3
+   |vector|
+    Is a template class to store an linear array of items of any given type,
+    self-defined or not
+
+   |library|
+    [\#include <vector>]\
+
+   |declaration|
+    [\vector<:type`> identifier:;]\
+
+   |main functions|
+    ➱   [\void push_back(:item:);]\
+        ⮱   Add an item at to the [[end]]
+        ⮱   A copy of item is created to add that copy to the vector. So the
+            object passed as an argument won't be affected by vector
+            operations nor affect the vector.
+        ⮱   O(1) time
+    ➱   [\int size()]\
+        ⮱   return the number of items (type [\unsigned int]\)
+        ⮱   O(1) time
+    ➱   [\void resize(size_type n:[:, const value_type& val:]:);]\
+        ⮱   Changes the size of the vector, and remove excess elements beyond
+            if needed.
+        ⮱   If [\val]\ is given, initialize new added elements to that value.
+    ➱   [\:item: operator[int :index:];]\
+        ⮱   access the item at the given index
+        ⮱   Call it with [\my_vec[i]]\ or [\my_vec.operator[i]]\
+        ⮱   O(1) time
+    ➱   [\void pop_back();]\
+        ⮱   remove the last item
+        ⮱   O(1) time
+    ➱   [\iterator erase(iterator first:[:, iterator last:]:);]\
+        ⮱   Delete items in range [first, last).
+        ⮱   Return iterator pointing to new location of the element that
+            followed the last erased element
+        ⮱   O(n) time
+
+    ➱   [\v1 = v2]\
+        1.  Sets [\v1.size() = v2.size()]\
+        2.  Performs [\v1[i] = v2[i]]\ for i = 0 ... v2.size() - 1
+        ⮱   WARN: If the [\=]\ operator for the base type does not creates an
+            independent copy, then both vectors still reference to the same
+            set of elements.
+
+    ➱   [\size_type capacity() const noexcept;]\
+        ⮱   Returns size of allocated storage capacity, expressed in terms of
+            elements.
+
+    ➱   [\void reserve(size_type n);]\
+        ⮱   Changes capacity if [\n]\ is larger than the current capacity.
+
+   |initialize vector|
+    Like array, you can create and initialize a vector with:
+    [\vector<int> v = {0, 1, 3, 5};]\
+
+    To initialize a vector with a certain size with all values to 0 (or the
+    value set by the default constructor if it is a class):
+    [\vector<int> v(10);]\
+
+   |auto range for loop|
+    TODO: read about this
+    Besides conventional for-loop, You can loop through the vector with:
+    [\for (auto i ~: my_vector)]\░
+    [\  cout << i << endl;    ]\░
+
+   |performance guarantees|
+    [\push_back()]\, [\operator[]]\, [\size()]\ and [\pop_back()]\ take
+    [[O(1)]] time.
+
+    Other operations like inserting to or deleting from a position takes
+    [[O(n)]] on average.
+
+  > List < {{{3
+   |list|
+    Stores items in [[doubly linked-list]] format.
+
+   |declaration|
+    [\list<:type`> identifier:;]\
+
+   |main functions|
+    ➱   [\void push_back(:item:)]\: insert an item to the back
+    ➱   [\void pop_back()]\: remove the item at the back
+    ➱   [\void push_front(:item:)]\: insert an item to the front
+    ➱   [\void pop_front()]\: remove the item at the front
+    ➱   [\front()]\: access the first item
+    ➱   [\back()]\: access the last item
+    ➱   [\int size()]\: return the number of items
+    ➱   [\=]\: assign one list to another
+
+   |loop through the list|
+    [\for (int i = 0; i < lst.size(); ++i) {]\░
+    [\  :...:                                 ]\░
+    [\  lst.push_back(lst.fron);            ]\░
+    [\  lst.pop_front();                    ]\░
+    [\}                                     ]\░
+
+   |performance guarantees|
+    ➱   The first 7 functions (i.e. except [\=]\) take [[O(1)]] time.
+    ➱   Accessing item that is not the first nor the last takes [[O(i)]] time.
+    ➱   Searching for an item takes same time as accessing an item, taking
+        [[O(n)]] time
+
+  > Deque < {{{3
+    Pronounced "d-queue" or "deck", stands for [[doubly-ended queue]].
+
+    Deque is like a queue that adds data at one end and remove at another end.
+    For ['deque]', it allows adding and removing item at [[both ends]].
+
+    It is a sequential containers defined in STL with [[random access
+    iterators]].
+
+   |main functions|
+    ➱   [\size()]\
+    ➱   [\begin()]\
+    ➱   [\end()]\
+    ➱   [\rbegin()]\
+    ➱   [\rend()]\
+    ➱   [\push_back(:ELEMENT:)]\
+    ➱   [\push_front(:ELEMENT:)]\
+    ➱   [\insert(:ITERATOR`, ELEMENT:)]\: insert before pointed location
+    ➱   [\erase(:ITERATOR:)]\
+    ➱   [\clear()]\ removes all elements
+    ➱   [\front()]\ returns [\*(c.begin())]\
+    ➱   [\c1 == c2]\
+    ➱   [\c1 != c2]\
+
+  > Set < {{{3
+   |set|
+    Stores items without repetition (i.e. no items appear more than once). For
+    [[efficiency]], a [\set]\ object stores items in [[sorted order]].
+
+   |declaration|
+    [\set<T:[`, ORDERING]:> my_set;]\
+    ⮱   ORDERING is a function that takes in two arguments of type T and
+        return true if the first argument ranks before the second.
+    ⮱   If no ORDERING is provided, then it assumes [\T1 < T2]\.
+    ⮱   NOTE that the ORDERING must be a ['strict weak ordering]':
+        ‣   Irreflexive: ! (x < x)
+        ‣   Antisymmetric: x < y = !(y < x)
+        ‣   Transitive: ( (x<y) & (y<z) ) ⇒ (x<z)
+        ‣   Transitivity of equivalence: ( (x=y) & (y=z) ) ⇒ (x=z)
+
+   |initialization|
+    E.g.:
+    [\set<string> colours = {"red", "green", "blue"};]\
+
+   |specification|
+    See [=>map<]= for some more explanations.
+    ➱   Bidirectional iterators
+    ➱   begin(), end(), rbegin(), rend()
+    ➱   Adding and deleting elements does not affect iterators, except if it
+        points to the removed element
+    ➱   [\insert(:ELEMENT:)]\
+    ➱   [\erase(:ELEMENT:)]\
+    ➱   [\find(:ELEMENT:)]\
+    ➱   [\erase(:ITERATOR:)]\
+    ➱   [\size()]\
+    ➱   [\empty()]\
+    ➱   [\s1 == s2]\
+
+   |easy iteration|
+    [\for (auto p ~: my_set)]\
+
+  > Map < {{{3
+   |balanced binary search tree| {{{4
+    Map stores key-value pairs in a ['balanced binary search tree]'
+    ➱   Binary tree: each node in the tree has [[at most two child nodes]]
+    ➱   Search tree: keys on the left sub-tree must be [[smaller]] than the
+        keys on the right sub-tree
+    ➱   Balanced tree: the tree is kept [[balanced]] to avoid a tall tree with
+        nodes skewed to one side
+
+    No two elements can have the same key.
+
+   |associative array| {{{4
+    Or you can think [\map]\ as an associative array. Traditionally an array
+    map indices to value. [\map]\ is just an array with self-defined type and
+    values for indices.
+    ⮱   We say [\my_map["apple"] = 5;]\ associates integer 5 with string
+        "apple".
+
+   |declaration| {{{4
+    [\map<:key_type`, value_type`> identifier:;]\
+    ➱   You can use user-defined type, but the [\<]\ operator for that type
+        must be well defined and return a bool.░
+        See [={C++ Basics}=Classes=>Operator functions<]=
+
+    Alternatively, if you want to use other relations:
+    [\map<:key_type`, value_type`, relation`> identifier:;]\
+
+   |initialization| {{{4
+    E.g.:
+    [\map<int, string> person_id = {              ]\░
+    [\                              {1, "Walt"},  ]\░
+    [\                              {2, "Kenrick"}]\░
+    [\                             };             ]\░
+
+   |easy iteration|
+    [\for (auto p ~: my_map)]\
+
+   |specification| {{{4
+    ➱   bidirectional iterator
+        ⮱   Iterators with no "const_" are neither constant nor mutable: DUNNO
+            not sure about this, but am told that you can change the key value
+            but not the value value.
+        ⮱   Adding or removing elements does not affect iterators
+    ➱   begin(), end(), rbegin(), rend()
+    ➱   [\:value: operator[:key:];]\:
+        access the value with given key. If key does not exists, create a new
+        key-value pair using the key given and a default value.
+    ➱   [\int count(:key:)]\: returns the number of pairs given the key, i.e.
+        either 1 or 0.
+    ➱   [\int size()]\: return the number of pairs
+
+    ➱   [\pair<iterator, bool> insert(const value_type& val);]\
+        ⮱   Inserts a key-value pair if the key is unique.
+        ⮱   Returns a [\pair]\ containing (see [=>pair<]=):
+            (1) [\pair~:~:first]\ - an iterator either pointing to the newly
+                added pair or the already existing pair with that key, and
+            (2) [\pair~:~:second]\ - a bool which is true if a new pair is
+                inserted.
+        ⮱   NOTE that the [\val]\ is given with type [\std~:~:pair]\. E.g.:
+            [\my_map.insert( std~:~:pair<char, int>('a', 100) );]\
+
+    ➱   [\iterator find(const key_type& k);]\ or░
+        [\const_iterator find(const key_type& k) const;]\
+        ⮱   Search for a key in map and returns the iterator pointing to it.
+            Return [\map~:~:end]\ if key not found.
+
+    ➱   [\erase(:KEY:)]\
+    ➱   [\empty()]\
+    ➱   [\m1 == m2]\
+
+   |performance guarantees| {{{4
+    ➱   [\operator[]]\ (accessing and adding an item) takes [[O(log n)]] time
+    ➱   [\count()]\ also takes [[O(log n)]] time
+    ➱   [\size()]\ takes [[O(1)]] time
+
+  > Containers categories < {{{3
+   |sequential containers|
+    Arranges its data items into a sequential list. Examples are [\list]\,
+    [\vectpr]\, and [\deque]\.
+
+   |associative containers|
+    Are simple databases. Each item has a [[unique]] associated value known as
+    its ['key]'.
+
+    For template classes:
+    ➱   [\set]\: every element is its own key.
+    ➱   [\map]\: storing key-value pairs.
+    ➱   [\multiset]\: like set but allows repetition of elements
+    ➱   [\multimap]\: like map but allows multiple values for each key
+
+  > Container adapters < {{{3
+   |container adapters| {{{4
+    ['Container adapters]' are template class that are implemented on top of
+    other classes.
+
+    E.g.:
+    ➱   [\stack]\ (default on top of [\deque]\)
+    ➱   [\queue]\ (default on top of [\deque]\)
+    ➱   [\priority_queue]\ (default on top of [\vector]\)
+        ⮱   Like queue but every entry has an additional property of priority.
+            Items with higher priorities are removed from the queue before the
+            lower ones.
+
+   |using container adapters| {{{4
+    If you use the default underlying container, then it is used like other
+    STL templates, e.g. [\stack<int>]\.
+
+    But if you want to use different underlying container for reasons such as
+    efficiency and memory, then you use the syntax:
+    [\:{CONTAINER_ADAPTERS}`<{BASE_TYPE}`, {UNDERLYING_CONTAINER}:>]\ as the
+    type name. E.g. [\stack<int, vector<int>>]\.
+    ⮱   WARN prior to C++11, compiler can't process two consecutive [\>]\
+        without a [[space]] between them for this type name specification.
+
+   |stack| {{{4
+    ➱   No iterators
+    ➱   [\size()]\
+    ➱   [\empty()]\ returns true if the stack is empty.
+    ➱   [\top()]\ returns a mutable reference to the top member.
+    ➱   [\push(:ELEMENT:)]\ inserts a copy of ELEMENT at the top.
+    ➱   [\pop()]\ removes the top element. NOTE that it has no returned value.
+    ➱   [\s1 == s2]\ returns true if sizes the same and every pair of
+        corresponding elements satisfies [\==]\.
+    ➱   A default constructor
+    ➱   A copy constructor
+    ➱   A constructor that takes any [[sequential container class]] and
+        initializes the stack to the elements in the sequence.
+    ➱   A destructor
+    ➱   A well-behaved assignment operator.
+
+   |queue| {{{4
+    Like stack, except the following differences:
+    ➱   No [\top()]\ but [\front()]\ and [\back()]\ which return mutable
+        references to the front and last members respectively.
+
+  > Pair < {{{3
+    ➱   [\#include <utility>]\ adds [\std~:~:pair]\
+    ➱   [\pair<:TYPE_1`, TYPE_2:>]\ is the type name.
+    ➱   [\pair~:~:first]\ and [\pair~:~:second]\ are the public data which
+        gives the first and second value of the pair.
+    ➱   You can create a new copy (as literal) of pair in a statement with its
+        constructor just by typing, say, [\pair~:~:<char, int>('V', 330)]\
+
+  > Type definitions < {{{3
+    STL container contains type definitions that can be handy when programming
+    with these classes. Besides type names like [\iterators]\:
+    ➱   [\:{STL_CONTAINER}`<TYPE_NAME:>~:~:value_type]\ is another name for
+        the type/class TYPE_NAME.
+        ⮱   E.g. [\list<int>~:~:value_type]\ is another name for [\int]\.
+    ➱   [\:{STL_CONTAINER}`<TYPE_NAME:>~:~:size_type]\ for vector template
+        class is [\unsigned int]\.
+
+ == Iterators == {{{2
+  > Declaration < {{{3
+    ➱   [\vector<:type:>~:~:iterator :identifier:;]\
+    ➱   [\list<:type:>~:~:iterator :identifier:;]\
+    ➱   [\map<:key_type`, val_type:>~:~:iterator :identifier:;]\
+    ➱   A common name for iterator is [\itr]\.
+
+   |constant vs mutable iterator|
+    NOTE that to iterate a constant container, you must use a special kind of
+    iterator, which must be declared with another keyword [\const_iterator]\.
+    This is a ['constant iterator]' that can only read the value but not
+    change the value it points to.
+
+    Constant iterator is different from iterators with [\const]\ like:
+    [\const vector<int>~:~:iterator itr = my_vec.begin();]\
+    This iterator cannot be moved around using operators like [\++]\.
+
+   |using declaration|
+    To use [\iterator]\ directly you can add [\using]\ declaration, e.g.:
+    [\using std~:~:vector<int>~:~:iterator;]\
+
+   |using auto|
+    If you initialize an iterator at the declaration, you can write the line
+    more compact with [\auto]\.
+
+    Assume [\v]\ is a vector of int, [\auto v_itr = v.begin();]\ is equivalent
+    to [\std~:~:vector<int>~:~:iterator v_itr = v.begin();]\.
+
+  > Assignment < {{{3
+    You can use the following methods for iterator assignment:
+    ➱   [\:container:.begin()]\ returns an iterator pointing to the first item
+    ➱   [\:container:.end()]\ returns an iterator pointing to item [[after]]
+        the last item (i.e. an invalid item)
+        ⮱   This is useful to test an iterator has gone through the container
+            by checking equality ([\==]\)
+
+  > Dereferencing < {{{3
+    You can dereference an iterator like like pointer to get / modify a value:
+    [\vector<int>~:~:iterator itr = my_vec.begin();]\░
+    [\*itr = 100;                                ]\░
+
+  > Operations on iterators < {{{3
+    Different types of iterators have different operations
+
+   |forward iterator|
+    ➱   Assignment   : a = b;
+    ➱   Increment    : a++;
+    ➱   Dereference  : *a;
+    ➱   Equality test: a == b;
+
+   |bidirectional iterator|
+    Iterators for [[list]] and [[map]] are bidirectional
+    ➱   Bidirectional iterators are also forward iterators
+    ➱   Decrement: a--;
+
+   |random access iterator|
+    Iterators for [[vector]] are random access iterators
+    ➱   Random access iterators are also bidirectional iterators
+    ➱   Arithmetic +/-    : a+5; a-5; a-b;
+    ➱   Inequality test   : a<b; a>b; a<=b; a>=b;
+    ➱   Compound          : a+=5; a-=5;
+    ➱   Offset dereference: a[5]; // i.e. *(a+5)
+
+  > Reverse iterators < {{{3
+    For [[bidirectional iterators]] there is a special kind of iterators
+    called ['reverse iterators]'. You use keyword [\reverse_iterator]\ in
+    stead of [\iterator]\ to declare it.
+
+    You can loop through a container in reverse order using [\rbegin()]\
+    (pointing to the last element) and [\rend()]\ (pointing to one position
+    before the first element).
+
+    NOTE that the [\++]\ operator moves reverse iterator backward through the
+    container, and [\--]\ forward.
+
+    For the constant version use [\const_reverse_iterator]\.
+
+  > Iterators vs pointers < {{{3
+    There are two main difference
+    ➱   Pointers store memory address, but iterators do not. Iterators store
+        information about the item it points to, and what information is that
+        depends on the container definition.
+    ➱   If we perform an increment operator [\++]\ to a pointer, it increases
+        the memory address. This is not the same to iterators. The next item
+        in the container can be stored anywhere in the memory, especially for
+        the case of list or map.
+
+  > Iterators and removing elements < {{{3
+    Some STL doesn't guarantee that adding or removing an element would leave
+    iterators pointing to the same element. E.g. Vector and deque.
+
+ == Algorithm == {{{2
+  > Generic algorithms < {{{3
+    ['STL function template]', ['generic functions]', and ['generic
+    algorithms]' refer to the same thing here.
+
+  > Big-O notation < {{{3
+    ➱   T(N) gives the [[worst-case running time]] of a algorithm with N units
+        of input.
+    ➱   P(N) gives the [[worst-case number of operations]] of a algorithm with
+        N units of input
+    ➱   c * P(N) =~ T(N) given a constant c which depends on the computer,
+        CPU, running environment, etc...
+    ➱   If P(N) = 6N + 5, we say the algorithm runs in time O(6N+5) - "Big-O
+        of 6N+5".
+    ➱   By convention, we only consider the most significant term with the
+        highest order, and also omit the coefficient in the term.
+        ⮱   So O(6N+5) ~ O(N)
+
+  > Libary < {{{3
+    [\#include <algorithm>]\
+
+  > Non-modifying algorithms < {{{3
+   |find| {{{4
+    [\InputIterator find(InputIterator first, InputIterator last, const T& val);]\
+    ➱   Return the pointer pointing to the first element from range [first,
+        last) matching the value given. If no matching element found, return
+        last.
+    ➱   It uses the operator [\==]\
+    ➱   It works on sequential container with [[forward iterators]] or simpler
+        iterators such as input or output iterators
+
+   |count| {{{4
+
+   |equal| {{{4
+
+   |search| {{{4
+    Searches for subsequence.
+
+   |binary_search| {{{4
+    Like find but uses binary search algorithm which has time complexity
+    [[O(log n)]] and it only returns a boolean value instead of an iterator.
+
+    Only works on range where elements are sorted.
+
+  > Modifying algorithms < {{{3
+   |swap| {{{4
+    [\template <class T>    ]\░
+    [\void swap (T& a, T& b)]\░
+    ➱   Swaps values of a and b.
+    ➱   WARN: since C++11, it is defined in <utility> rather than <algorithm>.
+
+   |copy| {{{4
+    [\template <class InputIterator, class OutputIterator>                                 ]\░
+    [\OutputIterator copy (InputIterator first, InputIterator last, OutputIterator result);]\░
+    ➱   Copies elements in [first, last) into the range beginning at result.
+    ➱   Time complexity: linear to size of the range [first, last).
+
+   |remove| {{{4
+    [\template <class ForwardIterator, class T>                                          ]\░
+    [\ForwardIterator remove (ForwardIterator first, ForwardIterator last, const T& val);]\░
+    ➱   Transform the range [first, last) by placing the elements with target
+        value to the end of the range while preserving the relative order of
+        others.
+    ➱   Returns the iterator pointing to one position after the last elements
+        that are not removed. I.e. the iterator serves as the new end(), and
+        you can, e.g., [\itr_end = std~:~:remove(itr_begin, itr_end, 20);]\
+    ➱   The function uses [\==]\ operator to compare elements with val.
+    ➱   Time complexity: linear to size of the range [first, last).
+
+   |reverse| {{{4
+    [\template <class BidirectionalIterator>                                 ]\░
+    [\void reverse (BidirectionalIterator first, BidirectionalIterator last);]\░
+    ➱   Reverse the order of elements in the range [first, last).
+    ➱   The function uses [\iter_swap()]\ in <algorithm>.
+    ➱   Time complexity: linear to size of the range [first, last).
+
+   |random_shuffle| {{{4
+    [\template <class RandomAccessIterator>                                       ]\░
+    [\void random_shuffle (RandomAccessIterator first, RandomAccessIterator last);]\░
+    ➱   Rearranges elements in range [first, last) randomly.
+    ➱   Has another overloaded version where you can specify your RNG.
+    ➱   Time complexity: linear to size of the range [first, last).
+
+  > Set algorithm < {{{3
+    These functions assumes the range is in sorted order.
+   |includes| {{{4
+    [\template <class InputIterator1, class InputIterator2          ]\░
+    [\bool includes ( InputIterator1 first1, InputIterator1 last1,  ]\░
+    [\                InputIterator2 first2, InputIterator2 last2 );]\░
+    ➱   Test whether sorted range [first1, last1) contains all elements in
+        sorted range [first2, last2).
+    ➱   The function uses operator [\<]\. There is another overloaded version
+        where you can specify your ordering function.
+    ➱   Time complexity: O(n)
+
+   |set_union| {{{4
+    [\template <class InputIterator1, class InputIterator2, class OutputIterator>]\░
+    [\OutputIterator set_union (InputIterator1 first1, InputIterator1 last1,     ]\░
+    [\                          InputIterator2 first2, InputIterator2 last2,     ]\░
+    [\                          OutputIterator result);                          ]\░
+    ➱   Construct a sorted range beginning at the location pointed by
+        [\result]\ with the set union of two given ranges [first, last).
+    ➱   The elements in the resulting set are unique, i.e. no duplicate
+        elements are copied more than once.
+    ➱   Return an iterator to the end of constructed range (i.e. one position
+        behind the last element).
+    ➱   The function uses operator [\<]\. There is another overloaded version
+        where you can specify your ordering function.
+        ⮱   Elements are considered equivalent if [\!(a<b) && !(b<a)]\
+    ➱   Time complexity: O(n)
+
+   |set_intersection| {{{4
+    [\template <class InputIterator1, class InputIterator2, class OutputIterator>  ]\░
+    [\OutputIterator set_intersection (InputIterator1 first1, InputIterator1 last1,]\░
+    [\                                 InputIterator2 first2, InputIterator2 last2,]\░
+    [\                                 OutputIterator result);                     ]\░
+    ➱   Like [\set_union()]\ but creates an intersection.
+
+   |set_difference| {{{4
+	[\template <class InputIterator1, class InputIterator2, class OutputIterator>]\░
+  	[\OutputIterator set_difference (InputIterator1 first1, InputIterator1 last1,]\░
+  	[\                               InputIterator2 first2, InputIterator2 last2,]\░
+  	[\                               OutputIterator result);                     ]\░
+    ➱   Like [\set_union()]\ but creates a sorted set difference that contains
+        elements that are in [first1, last1) but not in [first2, last2).
+
+  > Sorting algorithms < {{{3
+   |sort| {{{4
+    [\void sort(RandomAccessIterator first, RandomAccessIterator last);]\
+    ➱   It sorts the items starting from first to the items one item
+        [[before]] last ( i.e. [first, last) ) into [[ascending]] order.
+    ➱   Only random access iterators are allowed
+    ➱   You can also sort an array by passing pointers:
+        [\int input[5] = {7, 3, 2, 6, 5};]\░
+        [\sort(input, input + 5);        ]\░
+        NOTE that [\input]\ is a pointer pointing to the first element, and
+        [\input + 5]\ points to the memory location after the last element.
+    ➱   sort() takes [[O(n log n)]] time on average
+    ➱   To sort user-defined classes, you need to make sure [\operator<]\,
+        [[less-than-relationship]] is well-defined for that class
+
+   |merge| {{{4
+	[\template <class InputIterator1, class InputIterator2, class OutputIterator>]\░
+    [\OutputIterator merge (InputIterator1 first1, InputIterator1 last1,         ]\░
+    [\                      InputIterator2 first2, InputIterator2 last2,         ]\░
+    [\                      OutputIterator result);                              ]\░
+    ➱   Construct a new sorted range at [\result]\ by combining the two sorted
+        ranges.
+    ➱   The function uses operator [\<]\. There is another overloaded version
+        where you can specify your ordering function.
+
+[~{ C++ Makefile }~] {{{1
+ == Multiple Source Files == {{{2
+  > Defining functions in separate files < {{{3
+   |benefits|
+    ‣   Separate features from main program for:
+        •   better code organization
+        •   improve readability
+    ‣   Allow other programs to reuse the function
+
+   |include functions|
+    1)  In the file where the supplementary functions are defined, you need to
+        include its ['header file]' in the header:░
+        [\#include "altfunc.h"]\.
+
+        DUNNO it seems this step is not needed, when I tried. I believe this
+        is not absolutely necessary, but it is a good practice to include it.
+        ➱   It makes clear which header files it belongs to?
+        ➱   The #include line just means declaration before definition.
+
+    2)  The header file must declare the existing of the function.
+        ➱   It is a common practice to includes, in the header file, a set of
+            include guard to avoid the same file being included multiple times:
+            [\#ifndef ALTFUNC_H]\░
+            [\#define ALTFUNC_H]\░
+            [\:DECLARATION...]\░
+            [\#endif]\
+        ➱   NOTE that all preprocessing lines with [\#]\ needs no [\;]\ at the
+            end
+
+    3)  In the main program file, include this header file:
+        [\#include "altfunc.h"]\.
+
+   |files terminology|
+    ‣   interface file
+    ‣   implementation file
+    ‣   header file (usually the interface file)
+    ‣   application file (the program file using the interface)
+    ‣   driver file (synonym for application file)
+
+  > Compiler finding header files < {{{3
+    For [\gcc]\, use [\-I:dir:]\ to specify an additional directory to find
+    header files. You can use this argument multiple times to add multiple
+    additional directories.
+
+ == Compilation Process == {{{2
+  > 4 stages < {{{3
+   |pre-processing|
+    Process pre-processing headers (lines starting with #) to generate an
+    expanded source code.
+
+    prog.cpp → prog.i
+    dep.cpp  → dep.i
+
+   |compilation|
+    Compile expanded source code to assembly code that depends on the machine
+    it is executed.
+
+    prog.i → prog.s
+    dep.i  → dep.s
+
+   |assembly|
+    Converts assembly code into machine code, in the form of an object code
+    file.
+
+    prog.s → prog.o
+    dep.s  → dep.o
+
+   |linker|
+    Link object codes with libraries to create an executable file.
+
+    prog.o ┬→ prog
+    dep.o  ┘
+
+  > Separate compilation < {{{3
+    When multiple files are involved, stage 1 to 3 will be applied to each of
+    the files. The final stage will be applied to all files to generate a
+    single executable.
+
+    So you can individually compile each source to object code (with [[.o]]
+    extension): [\g++ -c :CPP_FILE:]\ will create its corresponding object
+    code.
+
+    Later you can link those object code and create one executable:
+    [\g++ :OBJ_CODE...: -o :EXECUTABLE:]\
+
+ == Makefile == {{{2
+  > Online resource < {{{3
+    [=https://www.jfranken.de/homepages/johannes/vortraege/make.en.html]=
+
+  > How make read Makefiles < {{{3
+    In two distinct phases.
+
+   |first phrase|
+    ‣   Read all makefiles (also included ones)
+    ‣   Internalize all variables and their values
+    ‣   Internalize all implicit and explicit rules
+    ‣   Builds a dependency graph of all targets and their prerequisites
+
+   |second phrase|
+    [\make]\ uses internalized data to determine which targets need to be
+    updated and run the necessary recipes
+
+  > File name < {{{3
+    The file name must be Makefile or makefile.
+
+  > Comments < {{{3
+    [\#]\ for inline comment
+
+  > Basic struccture: setting targets < {{{3
+    In the makefile, it consists of blocks of:
+    [\:TARGET[ ...]`:[`:] DEPENDENCY[ ...] [; [FLAG...]CMD]:]\
+    [\:  <TAB> [FLAG...]CMD                                ]\
+
+    ➱   DEPENDENCY is also called the prerequisite, CMD is also called recipes
+
+    ➱   TARGET is the file you wish to generate through the CMD. DEPENDENCY
+        are what is needed for the generation.
+
+    ➱   CMD is just what is executed in shell, so you can have compound
+        commands and even chaining multiple commands using [\;]\
+
+    ➱   The <TAB> must be a tab character and cannot be replaced by
+        whitespaces.
+
+    ➱   In CMD, a trailing [\\]\ is used for line continuation
+        announcing the CMD on this line just before running it.
+
+    ➱   If there are multiple definition of the same TARGET with CMD, [\make]\
+        will only run the CMD in the last definition, and throw a warning
+        ⮱   If you want to run all CMD, use double colon [\~:~:]\ in
+            definition
+
+  > FLAG before CMD < {{{3
+    One or more FLAG can be added before CMD (no whitespace among FLAG or
+    before CMD):
+    ‣   [\@]\ stops [\make]\ from announcing the CMD on this line
+    ‣   [\-]\ causes [\make]\ ignore any error and continues
+
+  > Generating targets < {{{3
+    With the makefile in the current directory, typing [\make :[TARGET]...:]\
+    in terminal will run corresponding {{CMD}} if:
+    ➱   The TARGET doesn't exist in the current directory; [[or]]
+    ➱   If the TARGET is not up to date.
+
+    If you doesn't provide TARGET, [\make]\ will just generate the first
+    TARGET in the Makefile.
+
+  > Outdated target < {{{3
+    [\make]\ checks if the TARGET is up to date in procedure:
+    1)  Check if all the TARGET's DEPENDENCY exist and are up to date,
+        ➱   If not, generate those DEPENDENCY recursively.
+    2)  A DEPENDENCY is outdated if its modification time is older than
+        its own dependency (as listed on other target block in the makefile).
+    3)  Check if the TARGET is up to date (i.e. its modification time is
+        not older than any of its DEPENDENCY).
+
+  > User-defined variables < {{{3
+    Assignment statement: [\:IDENTIFIER `= STRING:]\ (can be no space)
+    ➱   After the [\ = ]\ everything after in the same line is regarded as the
+        STRING, including white space.
+        ➱   [\FLAGS = -pedantic-errors -std=c++11]\
+
+    Invoking variables: [\${:VAR:}]\
+
+   |deferred vs immediate|
+    Using [\=]\ is deferred, using [\~:=]\ is immediate.
+
+  > Automatic variables < {{{3
+    They cannot be used in target list. They also cannot be used in
+    prerequisite list directly (but only in secondary expansion).
+
+    Some common automatic variables:
+    ‣   [\$@]\: when used in CMD, is substituted with the [[TARGET]]
+        ⮱   only subsituted with one TARGET, since a definition with multiple
+            TARGET's is interpreted as multiple definitions each with a single
+            TARGET with the same rules)
+
+    ‣   [\$^]\ and [\$+]\: when used in CMD, is substituted with [[all
+        DEPENDENCY]] (with space between them)
+        ⮱   [\$^]\ omits duplicate DEPENDENCY
+        ⮱   [\$+]\ retains them and preserve their order
+
+    ‣   [\$<]\: when used in CMD, is substituted with the [[first DEPENDENCY]]
+
+  > Phony targets < {{{3
+    Phony targets are not supposed to be generated, but only provide a
+    convenient way to run some CMD using [\make :PHONY_TARGET:]\ in terminal
+
+   |setting phony targets|
+    An example:
+    [\clean~:                                ]\
+    [\      rm -f prog prog.o dep.o prog.tgz]\
+    [\tar~:                                  ]\
+    [\      tar czvf prog.tgz *.cpp *.h     ]\
+    [\.PHONY~: clean tar                     ]\
+
+    To make sure CMD is run using the phony targets, even a file with the same
+    name just happens to exists, we use [\.PHONY~: :PHONY_TARGET...:]\. If
+    there are many PHONY_TARGET, you can use [\\]\ for line continuation.
+
+  > Implicit & explicit rules < {{{3
+   |separate implicit and explicit rules| {{{4
+    Separating implicit and explicit rules can make the Makefile shorter:
+
+    [\# An explicit rule assigns the commands for several targets]\
+    [\coat shoes mobile sweater socks trousers\                  ]\
+    [\shirt pants undershirt~: ;  @echo put on $@; touch $@       ]\
+    [\                                                           ]\
+    [\# Implicit rules state the prerequisites                   ]\
+    [\coat~:      shoes mobile sweater                            ]\
+    [\shoes~:     socks trousers                                  ]\
+    [\mobile~:    trousers                                        ]\
+    [\sweater~:   shirt                                           ]\
+    [\trousers~:  pants shirt                                     ]\
+    [\shirt~:     undershirt                                      ]\
+
+   |multiple implicit rules for single target| {{{4
+    All implicit rules for a single target is combined into one list of
+    pre-requisites.
+
+   |an implicit rule for multiple targets| {{{4
+    An extra rule with just pre-requisites can give an additional implicit
+    rules for multiple targets at once.
+    ⮱   An exception is that make will ignore implicit rules whose targets are
+        specified by wildcard [\%]\ for extra implicit rules.
+
+   |multiple explicit rules for single target| {{{4
+    Last explicit rule will be used, but make will throw an error.
+
+   |order-only pre-requisites|
+    For normal pre-requisites, their modified time is checked to determine if
+    the target needs to be rebuilt.
+
+    However, order-only pre-requisites are only required to exist for the
+    target, but their modification time isn't check. This is handy if you want
+    to build a directory to store the targets, as the directory's time stamp
+    changes every time its content is changed.
+
+  > Include other Makefiles < {{{3
+    [\:[`-]:include :MAKEFILE...:]\ causes [\make]\ to read MAKEFILE before
+    continuing
+    ➱   With a leading [\-]\, [\make]\ doesn't abort if MAKEFILE isn't found
+    ➱   DUNNO whether multiple MAKEFILE are separated by whitespace
+    ➱   DUNNO if it is the naming convention: Makefile.tie
+
+  > Pattern and wildcards < {{{3
+   |pattern character %|
+    The pattern character [\%]\ can be used in TARGET and DEPENDENCY
+    indicating any matching pattern. E.g.:
+    ➱   [\%.pdf~: %.ps; -ps2pdf $<]\ convert any postscript file to pdf with a
+        terminal command [\make file.pdf]\.
+    ➱   NOTE that when using pattern in implicit rules, you cannot separate
+        explicit and implicit rules while using a pattern character in the
+        implicit rules. I DUNNO why, but that how I tested it.
+
+    But this since there is no definite target, [\make]\ alone won't work. You
+    can add a definite target before this to solve the problem.
+
+   |wildcards|
+    The built-in function [\$(wildcard :FILE_PAT:)]\ returns a list of all
+    files matching with FILE_PAT, e.g. [\*.ps]\.
+
+    With [\$(patsubst :PAT`,REPL`,TEXT:)]\ you can form useful statements.
+
+    Here is an useful example:
+    [\all~: $(patsubst %.ps,%.pdf,$(wildcard *.ps))]\
+    [\%.pdf~: %.ps; -ps2pdf $<                     ]\
+
+  > Secondary expansion < {{{3
+    A line of [\.SECONDEXPANSION~:]\ must be placed before the first case for
+    secondary expansion
+
+    Put an extra [\$]\ before [\$]\ to escape the phrase you want to expand in
+    secondary expansion. E.g.:
+    ‣   [\$$(myVar)]\
+    ‣   [\$$@]\
+    ‣   [\$$(subst %.ps,%.pdf,$$@)]\
+
+    See
+    [=https://www.gnu.org/software/make/manual/html_node/Secondary-Expansion.html#Secondary-Expansion]=
+
+  > Intermediate files & chains of rules < {{{3
+    When a target file is made by a sequence of implicit rules:
+    a.source → b.intermediate → c.target
+
+    The sequence forms a ['chain]'. In the chain any [[intermediate files]]
+    that is not defined as [[target]] explicitly, but only known through
+    pattern using [\%]\ (e.g. [\%.intermediate]\) are [[removed
+    automatically]] after the ultimate target file is made.
+
+  > Useful functions < {{{3
+    [\:...:]\ are separated by whitespace.
+
+   |file names|
+    ➱   [\$(dir :name...:)]\ gets the directory part of the names
+    ➱   [\$(notdir :name...:)]\ discards the directory part.
+    ➱   [\$(basename :name...:)]\ discards the extension part.
+    ➱   [\$(addsuffix :suffix`, name...:)]\ add a suffix to the name.
+    ➱   [\$(addprefix :prefix`, name...:)]\ add a prefix to the name.
+
+[~{ CMake }~] {{{1
+ == Misc == {{{2
+    ➱   Requires [\CMakeLists.txt]\ like [\make]\ requires [\Makefile]\
+    ➱   run with [\cmake]\ in terminal
+
+[~{ Programming Style }~] {{{1
+ == Google C++ Style == {{{2
+    [=https://google.github.io/styleguide/cppguide.html]=
+
+ == Alignment and spacing == {{{2
+  > Tab < {{{3
+    ➱   Use space rather than tab for alignment
+    ➱   Tab, if be used for alignment, should only be used for logical
+        alignment
+
+  > Vertical alignment < {{{3
+    Argument against vertical alignment (basically about [[difficult
+    maintenance]]):
+    ➱   Inter-line false dependencies:
+        tabular formatting creates dependencies across lines. For example, if
+        an identifier with a long name is added to a tabular layout, the
+        column width may have to be increased to accommodate it. This forces a
+        bigger change to the source code than necessary, and the essential
+        change may be lost in the noise. This is detrimental to Revision
+        control where inspecting differences between versions is essential.
+
+    ➱   Brittleness:
+        if a programmer does not neatly format the table when making a change,
+        maybe legitimately with the previous point in mind, the result becomes
+        a mess that deteriorates with further such changes. Simple refactoring
+        operations, such as search-and-replace, may also break the formatting.
+
+    ➱   Resistance to modification:
+        tabular formatting requires more effort to maintain. This may put off
+        a programmer from making a beneficial change, such as adding,
+        correcting or improving the name of an identifier, because it will
+        mess up the formatting.
+
+    ➱   Reliance on mono-spaced font:
+        tabular formatting assumes that the editor uses a fixed-width font.
+        Many modern code editors support proportional fonts, and the
+        programmer may prefer to use a proportional font for readability.
+
+    ➱   Tool dependence:
+        some of the effort of maintaining alignment can be alleviated by tools
+        (e.g. a source code editor that supports elastic tabstops), although
+        that creates a reliance on such tools.
+
+ == Naming Conventions == {{{2
+  > Word < {{{3
+    A word is any English term with no internal space. E.g. "PRC" is a word.
+
+  > Names < {{{3
+    ➱   Don't prioritize saving horizontal space
+    ➱   Avoid abbreviations, initialism or acronyms (esp. those not in Wiki)
+    ➱   Generally speaking, descriptiveness should be proportional to the
+        name's scope of visibility
+
+  > Naming styles < {{{3
+    ➱   ['camel case]' or ['Pascal case]':
+        ‣   thisIsExample
+        ‣   startRpc (rather than startRPC)
+
+  > Conventions < {{{3
+   |files| {{{4
+    ➱   All lower case with underscores or dashes (prefer underscore)
+    ➱   C++ files ends with .cc (for the course .cpp)
+    ➱   Header files ends with .h
+
+   |types| {{{4
+    Including classes, structs, type aliases, enums and type template
+    parameters:
+    ‣   MyExcitingClass
+
+   |variables| {{{4
+    Including Variables, parameters, and data members. E.g.:
+    ‣   a_local_variable
+    ‣   a_struct_data_member
+    ‣   a_class_data_member_ (with trailing underscore)
+
+   |constants| {{{4
+    Leading k followed by mixed case. E.g.:
+    ‣   kDaysInAWeek
+    ‣   kAndrioid8_0_0
+
+   |functions| {{{4
+    Regular functions have mixed case. E.g.:
+    ‣   AddTableEntry()
+    ‣   DeleteUrl()
+    ‣   OpenFileOrDie()
+
+    Accessors and mutators may be named like variables.
+
+   |namespace| {{{4
+    All lower case with words separated by underscores.
+
+   |exceptional case| {{{4
+	If you are naming something that is analogous to an existing C or C++ entity then you can follow the existing naming convention scheme.
+
+    bigopen()
+        function name, follows form of open()
+    uint
+        typedef
+    bigpos
+        struct or class, follows form of pos
+    sparse_hash_map
+        STL-like entity; follows STL naming conventions
+    LONGLONG_MAX
+        a constant, as in INT_MAX
+
+ == Comments == {{{2
+  > Style < {{{3
+    Use either [\//]\ or [\/* */]\ but be consistent. [\//]\ is much more
+    common.
+
+  > File comments < {{{3
+   |license boilerplate|
+    Start [[each]] file with license boilerplate
+
+   |file comments|
+    Except if the header file only declare, implement or test exactly one
+    abstraction, file comment is required for all file, describing the content
+    of the file. 1 - 2 sentences should be sufficient.
+
+    Do not duplicate comments in both .h and .cc. Duplicated comments diverge.
+    DUNNO what this means... I know la, it means the general phenomenon that
+    duplicated code inevitably diverges (differ from each other) in time.
+
+  > Class comments < {{{3
+    Non-obvious class or struct declaration should have a comment describing:
+    ‣   What it is for
+    ‣   How it should be used
+
+  > Function comments < {{{3
+   |declaration|
+    Comment immediately precedes almost all function declaration describing:
+    ‣   What the function does
+    ‣   How to use it
+
+    Comment should be written with an implied subject "This function" and
+    should start with the verb phrase, e.g. "Opens the file" rather "Open the
+    file"
+
+    Things to mention in comments:
+    ‣   Inputs and outputs of the function
+        ➱   If function argument names are provided in backticks, e.g.
+            `func_argument`, code-indexing tools may be able to present the
+            documentation better.
+    ‣   For class member functions: whether the object remembers reference
+        arguments beyond the duration of the method call, and whether it will
+        free them or not.
+    ‣   If the function allocates memory that the caller must free.
+    ‣   Whether any of the arguments can be a null pointer.
+    ‣   If there are any performance implications of how a function is used.
+    ‣   If the function is re-entrant. What are its synchronization
+        assumptions?
+
+   |definition|
+    If there is anything tricky about how a function does its job, then should
+    include an explanatory comment.
+
+  > Variable comments < {{{3
+    In general variable name should be descriptive enough.
+
+   |class data members|
+    If there are any invariants not clearly expressed by the type and name,
+    they must be commented. Otherwise no comment is needed.
+
+    In particular, add comments to describe the existence and meaning of
+    sentinel values when they are not obvious
+
+   |global variable|
+    All global variable should have a comment describing:
+    ‣   What they are
+    ‣   What they are used for
+    ‣   If unclear, why it needs to be global
+
+    E.g.:
+    [\// The total number of test cases that we run through in this]\
+    [\// regression test.                                          ]\
+    [\const int kNumTestCases = 6;                                 ]\
+
+  > Implementation comments < {{{3
+    In your implementation should have comments in tricky, non-obvious,
+    interesting or important parts of your code.
+
+   |explanatory comments|
+    Tricky and complicated code blocks should have comments before them
+
+   |line-end comments|
+    ➱   Should be required for lines that are non-obvious
+    ➱   End-of-line comments should be separated from the code by [[2 spaces]]
+
+  > Function argument comments < {{{3
+    The meaning of a function argument should be obvious, if not consider one
+    of the following remedies:
+
+    ➱   If the argument is a literal constant, and the same constant is used
+        in multiple function calls in a way that tacitly assumes they're the
+        same, you should use a named constant to make that constraint
+        explicit, and to guarantee that it holds.
+
+    ➱   Consider changing the function signature to replace a bool argument
+        with an enum argument. This will make the argument values
+        self-describing.
+
+    ➱   For functions that have several configuration options, consider
+        defining a single class or struct to hold all the options , and pass
+        an instance of that. This approach has several advantages. Options are
+        referenced by name at the call site, which clarifies their meaning. It
+        also reduces function argument count, which makes function calls
+        easier to read and write. As an added benefit, you don't have to
+        change call sites when you add another option.
+
+    ➱   Replace large or complex nested expressions with named variables.
+
+    ➱   As a last resort, use comments to clarify argument meanings at the
+        call site.
+
+  > TODO comments < {{{3
+    Use TODO comments for code that is:
+    ‣   Temporary
+    ‣   A short-term solution
+    ‣   Good enough but not perfect
+
+    TODO comments should include the string TODO in all caps, followed by the
+    name, e-mail, bug ID, or other identifier of the person or issue with the
+    best context about the problem referenced by the TODO.
+
+ == Formatting == {{{2
+  > Line length < {{{3
+    Each line should be at max. [[80 characters]] long.
+
+    Possible exceptions:
+    ‣   a comment line which is not feasible to split without harming
+        readability, ease of cut and paste or auto-linking -- e.g., if a line
+        contains an example command or a literal URL longer than 80
+        characters.
+    ‣   a raw-string literal with content that exceeds 80 characters. Except
+        for test code, such literals should appear near the top of a file.
+    ‣   an include statement.
+    ‣   a header guard
+    ‣   a using-declaration
+
+  > Non-ASCII characters < {{{3
+    Should be rare, and must use UTF-8 formatting.
+
+  > Spaces & tabs < {{{3
+    Use only spaces, and indent 2 spaces at a time.
+
+  > Function declarations & definitions < {{{3
+    ➱   Return type on the same line as function name
+    ➱   Parameters on the same line if they fit
+        ⮱   Wrap parameter lists which do not fit on a single line. See the
+            Google C++ styling reference for examples.
+
+   |points to note|
+    ‣   Choose good parameter names.
+    ‣   A parameter name may be omitted only if the parameter is not used in
+        the function's definition.
+    ‣   If you cannot fit the return type and the function name on a single
+        line, break between them.
+    ‣   If you break after the return type of a function declaration or
+        definition, do not indent.
+    ‣   The open parenthesis is always on the same line as the function name.
+    ‣   There is never a space between the function name and the open
+        parenthesis.
+    ‣   There is never a space between the parentheses and the parameters.
+    ‣   The open curly brace is always on the end of the last line of the
+        function declaration, not the start of the next line.
+    ‣   The close curly brace is either on the last line by itself or on the
+        same line as the open curly brace.
+    ‣   There should be a space between the close parenthesis and the open
+        curly brace.
+    ‣   All parameters should be aligned if possible.
+    ‣   Default indentation is 2 spaces.
+    ‣   Wrapped parameters have a 4 space indent.
+
+  > Lambda expressions < {{{3
+    See Google C++ styling reference.
+
+  > Floating-points literals < {{{3
+    Should always have a radix point (the full stop) with digits on both
+    sides, even if they use exponential notation.
+
+    It is fine to initialize a floating-point variable with an integer
+    literal, though.
+
+  > Function calls < {{{3
+    Either:
+    ➱   Write the call on a single line
+    ➱   Wrap the argument at the parenthesis
+    ➱   Or start the argument on a new line indented by four spaces
+
+    Should use the minimum number of lines
+
+  > Braced initializer list format < {{{3
+    Format a braced initializer list exactly like you would format a function
+    call in its place (taking the braces as if they are parentheses)
+
+  > Conditionals < {{{3
+    Either this (GOOGLE):
+    [\if (:CONDITION:) {       ]\░
+    [\  :...:                  ]\░
+    [\} else if (:CONDITION:) {]\░
+    [\  :...:                  ]\░
+    [\} else {               ]\░
+    [\  :...:                  ]\░
+    [\}                      ]\
+
+    Or this
+    ([=http://geosoft.no/development/cppstyle.html#Layout%20and%20Comments]=
+    says this is better than the Google styling, because easier to move the
+    branches around):
+    [\if (:CONDITION:) {     ]\
+    [\ :...:                 ]\
+    [\}                    ]\
+    [\else if (:CONDITION:) {]\
+    [\ :...:                 ]\
+    [\}                    ]\
+    [\else {               ]\
+    [\ :...:                 ]\
+    [\}                    ]\
+
+    When no branches, and with only simple condition and one statement, the
+    followings are possible.
+    [\if (:CONDITION`) A_STATEMENT:;]\
+
+    [\if (:CONDITION:)]\░
+    [\  :A_STATEMENT:;]\
+
+    [\if (:CONDITION:) { :A_STATEMENT:; }]\
+
+  > Loops and switch < {{{3
+    ➱   [\switch]\ statement uses braces for blocks
+    ➱   [\case]\ blocks in [\switch]\ statement can have braces or not
+    ➱   Fall-through from one case label to another must be annotated using
+        the [\ABSL_FALLTHROUGH_INTENDED]\
+        ⮱   macro (defined in absl/base/macros.h
+        ⮱   Except for consecutive case labels without intervening code
+        ⮱   In this course (I think only annotate with comments is ok)
+    ➱   Braces are optional for single-statement loops
+    ➱   Empty loop bodies should use either empty braces or [\continue]\
+
+  > Pointer and reference expressions < {{{3
+    No spaces around pointer or arrow. Pointer operators do not have trailing
+    spaces.
+    ‣   [\x = *p;]\
+    ‣   [\p = &x;]\
+    ‣   [\x = r.y;]\
+    ‣   [\x = r->y;]\
+
+    Okay to declare multiple variables in the same declaration, except if any
+    of those have pointer or reference decorations.
+
+  > Boolean expressions < {{{3
+    For multi-line expression, be consistent in how you break up lines. More
+    common to place wrapping operators at the end of line.
+
+  > Return values < {{{3
+    Do not needlessly surround the return expression with parentheses.
+
+  > Variable and array initialization < {{{3
+    Choose any one:
+    ‣   [\int x = 3;]\
+    ‣   [\int x(3);]\
+    ‣   [\int x{3};]\
+
+    NOTE that brace form prevents narrowing of integral types:
+    ‣   [\int pi(3.14);  // OK -- pi == 3.]\
+    ‣   [\int pi{3.14};  // Compile error~: narrowing conversion.]\
+
+  > Preprocessor directives < {{{3
+    The hash mark that starts a preprocessor directive should always be at the
+    beginning of the line, even if they are within body of indented code.
+
+  > Class format < {{{3
+    Sections in the order: [\public]\, [\protected]\ and [\private]\. Each
+    indented [[one space]].
+
+    [\class MyClass ~: public OtherClass {]\
+    [\ public~:                           ]\
+    [\  MyClass();                       ]\
+    [\  :...:                              ]\
+    [\};                                 ]\
+
+  > Constructor initializer lists < {{{3
+    See Google C++ styling reference.
+
+  > Namespace formatting < {{{3
+    The content of namespaces are not indented.
+
+  > Horizontal whitespace < {{{3
+    ‣   Never put trailing whitespace at the end of line
+    ‣   Open braces always have a space before
+    ‣   Semicolons usually have no space before
+    ‣   Space around the colon in inheritance and initializer lists
+    ‣   For inline function implementation, put spaces between braces and
+        implementation itself.
+
+   |operators| {{{4
+    ➱   Assignment operator always have spaces around them
+    ➱   Other binary operators usually have spaces around them
+        ➱   But okay to remove spaces around factors
+    ➱   Parentheses should have no internal padding
+    ➱   No space separating unary operators and their arguments
+
+  > Vertical whitespace < {{{3
+    ➱   Minimize use of vertical whitespace.
+    ➱   A blank line within a block of codes serves like a paragraph break in
+        prose: visually separating two thoughts
+    ➱   A blank line before a comment line usually helps readability — the
+        introduction of a new comment suggests the start of a new thought, and
+        the blank line makes it clear that the comment goes with the following
+        thing instead of the preceding.
+
+[~{ Debugging }~] {{{1
+ == Reading a program == {{{2
+    ➱  ['Dry run]' means trace manually without using computer.
+
+ == Input-output == {{{2
+  > Expected input-output < {{{3
+    Testing a program against a well-chosen set of input tests.
+
+    When there is mismatch with expected outputs, it reveals the effects of
+    errors but not the cause of it.
+
+  > Intermediate output < {{{3
+    Find starting from which block does the program started behaving
+    incorrectly
+
+    Within loops, we can reduce the number of outputs by only printing
+    intermediate variable every N loops (tracking with the iterating counter)
+
+  > Bug prevention and programming < {{{3
+   |plan beforehand|
+    ➱   Plan before writing, design high-level algorithm first
+    ➱   Decide beforehand the concrete data structures and the invariants you
+        want to maintain
+
+    Benefits of planning beforehand:
+    ‣   Less bugs
+    ‣   Clean design: easier to track down bugs
+
+   |defensive programming|
+    It means coding while assuming worst case scenarios:
+    ‣   Worst case inputs to functions
+
+ == GNU Debugger == {{{2
+  > Compilation < {{{3
+    Programs need to be compiled with debugging information, using the [\-g]\
+    compilation flag.
+
+  > Using GDB < {{{3
+    [\$ gdb :program:]\
+
+  > Basic GDB commands < {{{3
+    ➱   [\r]\ or [\run]\ runs, meaning starts execution from the start of the
+        program until the first breakpoint
+    ➱   [\q]\ quits GDB
+    ➱   [\p :var:]\ prints the current value of a variable
+        ⮱   You can print the value of a variable that is being declared with
+            initialized value at the current line. Though since the statement
+            is technically yet to be executed, it contains garbage value.
+        ⮱   A value of {{0x0}} for a pointer indicates it is a nullptr.
+    ➱   [\b :line_num:]\ sets breakpoint.
+        ⮱   the line at breakpoint won't execute yet
+    ➱   [\c]\ or [\continue]\ continues the execution until the next
+        breakpoint.
+    ➱   [\clear]\ clears breakpoint
+    ➱   [\n]\ or [\next]\ executes next line of code
+    ➱   [\l]\ displays the code
+
+[~{ Concepts }~] {{{1
+ == Big-O notation == {{{2
+    ➱   Used to describe the computational of an algorithm or the space
+        complexity of a data structure.
+    ➱   Describes the worst-case scenario.
+
+ == Object-Oriented Programing == {{{2
+    In ['object-oriented programming]', or ['OOP]', a program is viewed as a
+    collection of interacting objects, within which there are data and
+    algorithms that describe how it should behave in different situations.
+
+    The main characteristics of OOP are:
+
+   |encapsulation|
+    A form of information hiding or abstraction - or in easier terms, a form
+    of simplification of the descriptions of objects.
+
+   |inheritance|
+    Writing reusable program code
+
+   |polymorphism|
+    A single name have multiple meanings in the context of inheritance.
+
+ == Program Design == {{{2
+  > Top-Down Program Design < {{{3
+    Top-down design is also called divide and conquer
+    ➱   Break down the task into sub-tasks, and further until their
+        implementations become manageable
+    ➱   Each module should perform a single well-defined task
+
+[~{ Programming Tricks }~] {{{1
+ == Random == {{{2
+  > rand() & srand() < {{{3
+    ➱   [\rand()]\ in [\<cstdlib>]\ generates a random integer [0, RAND_MAX]
+    ➱   Algorithm for generating the sequence of random numbers depends on an
+        initial "seed" number. [[Same seed, same sequence]].
+        ⮱   Without changing the seed, re-running the same program will give
+            the same sequence
+    ➱   Seed for random number generator can be specified by
+        [\srand(:SEED:)]\, and to make sure the seed is different every time,
+        we use [\time()]\ in [\<ctime>]\.
+        ⮱   [\time(NULL)]\ will return current time of type [\time_t]\.
+
+   |same seed|
+    Sometimes we want to have same sequence of random number, e.g. for
+    debugging. You may fix the seed: [\srand(0)]\.
+
+   |trick with rand()|
+    ➱   Use modulus operator [\%]\ to limit the range
+
+ == Arrays == {{{2
+  > Setting constant array size < {{{3
+    See [={C++ Basics} =Arrays= >Setting constant array size<]=
+
+  > Ignoring some index < {{{3
+    For example, when recording frequency of occurrences of each side of a die
+    ➱   [\int frequency[7];]\: use index 1-6 but ignore index 0.
+
+ == Compound Statements == {{{2
+  > Conditions < {{{3
+    You can place assignment statement in conditions of all compound
+    statements.
+
+    [\while ( (c = get_user_input()) ) {]\░
+    [\  :...:                             ]\░
+    [\}                                 ]\░
+
+  > For loops < {{{3
+    Note that the condition in for loop can be anything, but need not be a
+    condition checking for the initialized counter.
+
+    It is just like a while loop.
+
+ == Recursion == {{{2
+  > Design < {{{3
+    ➱   Find the [[general case]]
+    ➱   Find the [[base case]] that terminates the recursion
+        ⮱   one or more
+    ➱   Makes sure any case will eventually reach the base case.
+
+[~{ Questions }~] {{{1
+ == Compilation == {{{2
+  > Makefile < {{{3
+    ➱   Makefile: What is the difference from using lower case for variable
+        names?
+
+  > Compilation < {{{3
+    ➱   Why is the extension .out if no specified target name (final
+        executable)
+
+ == CPP == {{{2
+  > Functions < {{{3
+    ➱   Should the name for parameter same as variables outside?
+
+  > Stream < {{{3
+    How can we clear the input stream? So that invalid long input doesn't
+    affect later extraction from the input stream.
+
+  > Array < {{{3
+    Is there as way to create an Array with the size responding to user input?
+
+[~{ Vim }~] {{{1
+ == Plugins == {{{2
+  > Fugitive < {{{3
+   |navigation| {{{4
+    ➱   [\(]\ and [\)]\ jumps between hunks/files/revisions
+    ➱   [\[[]\, [\]]]\, [\[]]\ and [\][]\ jump between sections
+    ➱   [\[c]\ and [\]c]\ jump between hunks and open diff automatically
+    ➱   [\[/]\, [\]/]\, [\[m]\ and [\]m]\ jump between file and collapse
+        inline diff automatically.
+    ➱   [\*]\ and [\#]\ at first column of +/- search for corresponding +/-
+        line
+
+   |stage| {{{4
+    ➱   [\s]\ and [\u]\ stages/unstages a hunk. [\-]\ toggles stage/unstage.
+    ➱   [\I]\ to enter interactive staging for the item on the cursor
+
+   |view diff| {{{4
+    ➱   [\>]\ and [\<]\ opens/closes diff for current file. [\=]\ toggles.
+
+   |open file|
+    ➱   [\<Enter>]\ opens a file at previous window
+    ➱   [\o]\ and [\gO]\ splits/vsplits
+    ➱   [\O]\ opens in a new tab
+
+   |commit| {{{4
+    ➱   [\cc]\ commit
+    ➱   [\ca]\ amend the last commit and edit message
+
+ == Tags == {{{2
+   |create tags file|
+    You can you [\ctags :FILE...:]\ to generate a file [\tags]\ which Vim will
+    read and allow functionalities.
+
+   |navigation|
+    ➱   [\<C-]>]\ jumps to the definition of the keyword the cursor is on (or
+        to the right), and add the jump to the ['tag stack]'.
+    ➱   [\<C-t>]\ to return to previous location in the tag stack.
+    ➱   [\~:tags]\ shows the tag stack.
+    ➱   [\~::N:tag]\ goes to N-th newer tag in the tag stack. [\~::N:pop]\
+        goes to N-th older tag.
+    ➱   Use [\g]]\ or [\~:ts:[:elect:]:]\ to check all entry with the same
+        name as the keyword the cursor is on, and prompt for you to choose one
+        to jump to.
+        ⮱   You can give the tag name manually too: [\~:ts :tag:]\.
+        ⮱   It lists the kind of each tag, for more see [=ctags]=
+
+   |show current function|
+    Dunno which Plugins help do that, but with tags file Airline can shows the
+    current function the cursor is in.
+
+ == Normal Mode Shortcuts == {{{2
+  > Jump < {{{3
+    ➱   [\[i]\ displays the first line that has the keyword at the cursor from
+        the beginning of the file.
+        ‣   [\]i]\ search from the cursor position.
+        ‣   [\[I]\ and [\]I]\ displays all lines with a count [\#:n:]\
+        ‣   [\[:<C-I>:]\ and [\]:<C-I>:]\ jumps to that line. Prepending the
+            command with a count [\:n:]\ as listed in [\[I]\ jump to that line
+
+ == Ex Command == {{{2
+  > Plugins < {{{3
+    ➱   [\runtime:[`!] [where] file...]\ to read Ex commands from file in each
+        directory given by 'runtimepath' and/or 'packpath'. There is [[no
+        error]] for non-existing files.
+    ➱   Multiple files are separated by [[spaces]]
+    ➱   By default only the first found file is sourced. With [\!]\ all found
+        files are sourced.
+
+  > Opening files < {{{3
+    ➱   [\oldfiles]\ or [\o]\ list old files
+    ➱   [\browse oldfiles]\ or [\bro o]\ also prompt at bottom to select a
+        file to edit.
+
+ == Debugging Vim Scripts == {{{2
+    Start vim with [\nvim -D]\
+
+[~{ Tags }~] {{{1
+ == Ctags == {{{2
+  > Queries < {{{3
+    NOTE that for many of the following queries, there are general entries
+    that are not specific to any language. These entries can be seen only
+    without specifying which language.
+
+    ➱   [\--list-languages]\ lists recognized languages.
+
+    ➱   [\--list-kinds-full:[`=LANGUAGE]:]\ lists all kinds of tags available
+        for that language and see which is enabled by default.
+        ⮱   Which can be used to enable extra kinds with the option
+            [\--kind-:LANG:=:LETTER...:]\ where the LANG is the language and
+            LETTER is the letter representing the kind of tag to be enabled.
+
+    ➱   [\--list-extras:[`=LANGUAGE]:]\ lists the extras recognized for the
+        language or all languages.
+        ⮱   Which can be used to add extra options in
+            [\--extras=:{[`+|`-]LETTER}...:]\.
+
+    ➱   [\--list-fields:[`=LANGUAGE]:]\ lists the fields [[specific]] for the
+        language, or without LANGUAGE, lists all fields.
+        ⮱   Which can be used to add extra fields in
+            [\--fields=:{[`+|`-]FIELD}...:]\
+
+  > General flags < {{{3
+    ➱   [\-R]\ or [\--recurse]\ recursively find source files into
+        directories.
+    ➱   [\--maxdepth=:N:]\
+    ➱   [\--exclude=:PATTERN:]\, where PATTERN is a list of excluded files and
+        directories. This options may be specified as may times as desired.
+
+  > Generate tags for C++ < {{{3
+    Some useful flags for runing [\ctags]\ for C++ are:
+    ➱   [\--kinds-c++=+p]\
+    ➱   [\--fields=+iaS]\
+    ➱   [\--extras=+q]\
+    ➱   [\--language-force=C++]\
+
+    See [=https://stackoverflow.com/questions/1932396/c-source-tagging]= for
+    more explanations but NOTE that some of the option names given there is
+    obsolete and should replaced with new option names.
+
+  > Tags file < {{{3
+    Each line in a tag file is a tag entry:
+    [\:name file location kind [scope] [typeref]:]\
+
+    ➱   [\:name:]\: the name of the tag item
+    ➱   [\:file:]\: the file where the definition of the tag item is in
+    ➱   [\:location:]\: the location of the tag item in the file, can be a
+                  line number , or more often a regular expression
+                  [\/:regex:/;"]\
+    ➱   [\:kind:]\: the kind of this tag:
+        ‣   [\f]\: a function definition
+        ‣   [\e]\: a constant (enums)
+        ‣   [\m]\: data member
+        ‣   [\d]\: definition defined in [\#define]\
+        ‣   [\p]\: prototype (only available with [\--kinds-c++=+p]\ flag)
+        ‣   [\s]\: struct definition (only available with [\--kinds-c++=+p]\
+               flag)
+        ‣   [\c]\: class definition (only available with [\--kinds-c++=+p]\ flag)
+    ➱   [\:[scope]:]\ the scope where the tag item is in (e.g. namespace,
+        class). E.g. [\struct~:Cell]\ and [\class~:Grid]\
+    ➱   [\:[typeref]:]\: the data type of the tag item

@@ -1,0 +1,64 @@
+/// Language: DQNote_1.35
+[~{ Monitor }~] {{{1
+ == Things to consider == {{{2
+    ‣   DisplayPort / HDMI port:
+        Nvidia G-Sync graphic card needs DisplayPort.
+        AMD graphic cards can use both.
+    ‣   Economy
+    ‣   Colour accuracy
+    ‣   Colour gamut
+    ‣   Viewing angle
+    ‣   Response time
+        ⮱   The time it takes to fully refresh the display and show a new
+            image.
+        ⮱   Only needs to be as fast as the refresh rate. Exceeding that does
+            not matter.
+        ⮱   Slow response causes ['ghosting]', i.e. images blurred and smeared
+            together.
+        ⮱   ['Overdrive]' can counteract ghosting, but having too aggressive
+            overdrive causes ['reverse ghosting]' - wrong colour for a few
+            frames.
+        ⮱   Even at 144Hz, a response time of ~7ms is sufficient.
+    ‣   Resolution
+        ⮱   Highly depends on your graphic card
+    ‣   Panel technology: TN < IPS ~ VA
+
+ == Panel Technology == {{{2
+  > TA < {{{3
+    ‣   Cheapest
+    ‣   Bad viewing angle
+    ‣   Not good colour accuracy
+
+  > IPS and VA < {{{3
+   |sources| {{{4
+    ‣   [=https://www.digitaltrends.com/computing/ips-vs-va-displays/]=
+        ⮱   Compare IPS and VA
+    ‣   [=https://www.tomshardware.com/reviews/monitor-buying-guide,5699.html]=
+        ⮱   Consideration and graphic cards.
+
+   |In-plane Switching (IPS)| {{{4
+    Pros:
+    ‣   Economic
+    ‣   High colour accuracy
+    ‣   Large coverage of wide colour gamuts
+        ⮱   Like DCI-P3 or Adobe sRGB
+    ‣   Wide viewing angles
+    ‣   (Only) some IPS has better response time than VA.
+    ‣   High refresh rate, hitting 500Hz.
+
+    Cons:
+    ‣   Low contrast (cannot produce true darkness)
+        ⮱   Ratio at ~1:1000, max 1:2000
+
+   |Vertical Alignment (VA)| {{{4
+    Pros:
+    ‣   Economic
+    ‣   Good contrast
+        ⮱   Ratio ~1:5000
+
+    Cons:
+    ‣   90% colour gamut of IPA
+    ‣   Less wide viewing angles than IPS, still better than TN.
+        ⮱   Colour inaccuracy drops at the edges. 
+    ‣   Long response time: bad for fast-paced games
+    ‣   Low refresh rate, usually 144Hz or 156Hz.

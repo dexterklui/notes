@@ -1,0 +1,200 @@
+[~{ Plugins }~] {{{1
+ == UltiSnips == {{{2
+  > Keybindings < {{{3
+    ➱   [\<Tab>]\ expands snippet
+    ➱   [\<M-u>]\ lists snippets
+    ➱   [\<M-i>]\ goes to the next placeholder
+    ➱   [\<M-o>]\ goes to the previous placeholder
+
+ == Ctrl-P == {{{2
+  > Keybindings < {{{3
+    ‣   [\<C-p>]\: Call Ctrl-P interface
+
+   |inside Ctrl-P interface|
+    ‣   [\<Enter>]\: Open selected entry.
+    ‣   [\<C-t>]\: Open in a different tab.
+
+ == Sparkup == {{{2
+  > Syntax < {{{3
+    ➱   [\randomtext]\ expands to [\<randomtext></randomtext>]\
+    ➱   [\:[element][`#id][`.class]:]\ expands to:
+        ⮱   [\<:element: id=":id:" class=":class:"></:element:>]\
+        ⮱   You can omit element, and the [[default]] is [\<div>]\
+
+  > Examples < {{{3
+	➱   [\div]\ expands to:
+        [\<div></div>]\
+
+    ➱   [\div#header]\ expands to:
+        [\<div id="header"></div>]\
+
+    ➱   [\div.align-left#header]\ expands to:
+        [\<div id="header" class="align-left"></div>]\
+
+	➱   [\div#header + div#footer]\ expands to:
+        #beginHtml#
+		<div id="header"></div>
+		<div id="footer"></div>
+        #endHtml#
+
+	➱   [\#menu > ul]\ expands to:
+        #beginHtml#
+        <div id="menu">
+			<ul></ul>
+		</div>
+        #endHtml#
+
+	➱   [\#menu > h3 + ul]\ expands to:
+        #beginHtml#
+		<div id="menu">
+			<h3></h3>
+			<ul></ul>
+		</div>
+        #endHtml#
+
+	➱   [\#header > h1{Welcome to our site}]\ expands to:
+        #beginHtml#
+		<div id="header">
+			<h1>Welcome to our site</h1>
+		</div>
+        #endHtml#
+
+	➱   [\a[href=index.html]{Home}]\ expands to:
+		[\<a href="index.html">Home</a>]\
+
+	➱   [\ul > li*3]\ expands to:
+        #beginHtml#
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+        #endHtml#
+
+	➱   [\ul > li.item-$*3]\ expands to:
+        #beginHtml#
+		<ul>
+			<li class="item-1"></li>
+			<li class="item-2"></li>
+			<li class="item-3"></li>
+		</ul>
+        #endHtml#
+
+	➱   [\ul > li.item-$*3 > strong]\ expands to:
+        #beginHtml#
+		<ul>
+			<li class="item-1"><strong></strong></li>
+			<li class="item-2"><strong></strong></li>
+			<li class="item-3"><strong></strong></li>
+		</ul>
+        #endHtml#
+
+	➱   [\table > tr*2 > td.name + td*3]\ expands to:
+        #beginHtml#
+		<table>
+			<tr>
+				<td class="name"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="name"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+        #endHtml#
+
+	➱   [\#header > ul > li < p{Footer}]\ expands to:
+        #beginHtml#
+		<!-- The < symbol goes back up the parent; i.e., the opposite of >. -->
+		<div id="header">
+			<ul>
+				<li></li>
+			</ul>
+			<p>Footer</p>
+		</div>
+        #endHtml#
+
+ == fugitive == {{{2
+  > Gdiffsplit < {{{3
+    ➱   [\Gdiffsplit :[object]:]\:
+        Do a vimdiff of current file in tree against a target file.
+        ⮱   By default, against the same file in [[index]].
+        ⮱   Object can be a file, a commit or a ref, e.g. HEAD.
+    ➱   The tree version of the file is always on the bottom/left.
+
+[~{ Filetypes }~] {{{1
+    ➱   Commands in ftplugin files is added to autocmd [\FileType]\, which is
+        only run when the [\'filetype']\ option is set, which only happens
+        when you set it manually or edit a new file, but [[doesn't happen when
+        entering an existing buffer]].
+    ➱   Similarly, [\b~:undo_ftplugin]\ also only runs in above situation,
+        before the ftplugin of another filetype is run.
+    ➱   Therefore, putting commands only into ftplugin files will leave the
+        effects of those commands persistent afterwards even if you change to
+        a different buffer with different filetypes.
+    ➱   Except for the settings that are local to buffer, such as
+        [\shiftwidth]\, to undo the effects whenever you leave the buffer, and
+        whenever redo those effects when you get back to this buffer, use
+        [\autocmd]\:
+        ‣   [\BufLeave]\: to undo effects of a ftplugin files
+        ‣   [\BufEnter]\: to redo effects of a ftplugin files undone by
+            [\BufLeave]\
+
+[~{ Syntax Highlighting }~] {{{1
+ == :highlight == {{{2
+    Adding [\default]\ argument with [\~:highlight]\ in syntax/colorscheme
+    config file, such that the [\~:highlight]\ won't change existing
+    highlighting rule. Useful for making personal tweaks in vimrc.
+
+ == Solarized == {{{2
+    ‣   [[type]]
+    ‣   [{keyword]}
+    ‣   ['name]'
+    ‣   ["value]"
+    ‣   [-control]-
+    ‣   [/error]/ [/escaped]/
+
+[~{ Support In Other Editors }~] {{{1
+    ➱   VS Code: ['https://github.com/VSCodeVim]'
+
+ == YouCompleteMe == {{{2
+  > Key Bindings < {{{3
+   |normal|
+    ➱   [\<Leader>D]\: in Vim only, close popup documentation that appears
+        after a short delay
+        ⮱   User defined
+    ➱   [\<Leader>g]\: Go To Definition Else Declaration
+
+   |insert|
+    ➱   [\<C-Space>]\: Show completion suggestion in a popup, and when cycling
+        through the suggestions, show documentaion in a preview window.
+        ⮱   [\<C-e>]\: Cancel selection, remain in insert mode
+        ⮱   [\<C-g>]\: Close popup window.
+
+[~{ Navigation }~] {{{1
+ == cd == {{{2
+    ➱   [\cd]\: Global, [\lcd]\: Local (Window), [\tcd]\: Tab.
+        ⮱   Can use e.g. [\%~:h]\ directly.
+
+[~{ Key Bindings }~] {{{1
+ == Unfamiliar == {{{2
+    ➱   [\gV]\: Highlight last inserted text.
+        ⮱   User defined
+
+[~{ Interesting Features }~] {{{1
+    [N] means NeoVim only; [V] means Vim only
+
+    ➱   [":match]"
+    ➱   [":drop]"
+    ➱   [":vim]"
+    ➱   ["gO]": [N] opens ToC
+    ➱   [":!firefox "%"]"
+
+[~{ Regex }~] {{{1
+    ➱   ["\@=]", ["\@!]", ["\@<=]", ["\@<!]"
+        ⮱   All match with zero width. With ["<]" match just before, otherwise
+            match at here.

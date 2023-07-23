@@ -1,0 +1,177 @@
+/// Language: DQNote_1.35
+[~{ C Basics }~] {{{1
+Mainly focus on things that are different from C++.
+
+ == Variables == {{{2
+  > Declaration < {{{3
+    In old version of C (ANSI C89 / i.e. C99), (and by default the gcc is not
+    using C99 standard), you can only declare variables [[just after and
+    opening brace]]. E.g. [\for (int i = 0; i < 10; ++i)]\ is not allowed.
+
+ == Dynamic Memory == {{{2
+  > Library < {{{3
+    We need [\#include<stdlib.h>]\ to use [\malloc()]\, [\free()]\ and
+    [\NULL]\.
+
+  > Dynamic memory allocation < {{{3
+    In C there is no [\new]\ keyword. Instead we use:
+    [\void* malloc(int size);]\
+    ➱   The size specifies the number of bytes to be allocated
+    ➱   The function returns [\void*]\ which is a pointer to the space
+        allocated, or returns {{NULL}} if the memory allocation fails.
+        ⮱   the pointer returned is not defined as particular data type, and
+            you need to type cast it to suit your need:
+            [\int* :ptr: = (int*) malloc(:size: * sizeof(int));]\
+
+    ➱   [\sizeof(:{var|type|struct}:)]\ returns the number of bytes of that
+        object.
+
+  > Release memory < {{{3
+    We use [\void free(void* ptr);]\ to release a memory.
+    ➱   The pointer value passed to free() should be the same as that returned
+        by [\malloc()]\:
+        [\int* a = (int*) malloc(10 * sizeof(int));]\░
+        [\free(a);                                 ]\░
+    ➱   Freeing memory not allocated by malloc() will cause a runtime error.
+
+ == Structs and typedef == {{{2
+  > Concepts and difference from C++ < {{{3
+    ➱   C has no classes, but use [\struct]\ to group items into a new type.
+    ➱   Structs has no access control: all members are public.
+    ➱   Structs [[cannot have member functions]]
+        ⮱   Thus structs do not have constructor or destructor. To
+            [[initialize]] an object of a struct, we need to define a
+            [[function]].
+    ➱   I.e. A struct is simply a group of data, and is not designed to
+        support object-oriented programming.
+
+  > Declare a struct < {{{3
+    Unlike in [\C++]\, we need the keyword [\struct]\ to declare an object of
+    struct: 
+    [\struct Student {                         ]\░
+    [\  char name[20];                         ]\░
+    [\  int uid;                               ]\░
+    [\};                                       ]\░
+    [\struct student a;  // need struct keyword]\░
+
+  > User-defined type < {{{3
+    If you do not want to repeat the [\struct]\ keyword in struct object
+    declaration, you can define [\Student]\ to be a type using [\typedef]\:
+    [\typedef struct Student Student]\;
+    ➱   [\typedef]\ creates an [[alias]], instructing the compiler to treat
+        [\Student]\ as [\struct Student]\ (yes alias can have the [[same
+        name]] with the struct name).
+
+ == Input and Output == {{{2
+  > Library < {{{3
+    Use [\<stdio.h>]\
+
+  > Output < {{{3
+    [\printf("This value of x is %d\n", x);]\
+    ➱   You can [\printf(my_string);]\
+
+  > Input < {{{3
+    [\scanf("%d", &x);]\ (the second arguments should be the [[address]] of
+    the variable that will store the value.
+
+    So, for C-string, no need [\&]\ because the variable representing the
+    C-string is a pointer storing the memory location of the [[first
+    character]] already: [\scanf("%s", str);]\░
+    When read a C-string to a variable, [\scanf()]\ will append [\\0]\ at the
+    end of the string automatically.
+
+    Accepting multiple inputs at a time is possible.
+    [\scanf("%d%f", &my_int, &my_float);]\
+    ➱   NOTE that there is no space between the conversion specifiers.
+
+ == Data Type == {{{2
+  > Boolean < {{{3
+    NOTE that there is no bool data type for C. 0 represents false, other
+    integers represent true.
+
+  > C-string < {{{3
+   |C-string|
+    It says in C, you have to deal with C-string directly, but we don't have a
+    wrapper string. Well my understanding is because we don't have classes in
+    C. C is not an object-oriented language.
+
+   |library|
+    Like [\<cctype>]\ in C++, we have [\<ctype.h>]\ (one c) in C to provide
+    the same character functions.
+
+   |type cast|
+    Need [\<stdlib.h>]\
+
+|------------------------------+---------------------------------------|
+| Functions                    | Description                           |
+|------------------------------+---------------------------------------|
+| int atoi(const char *str)    | return the int represented by char    |
+| double atof(const char *str) | return the double represented by char |
+|------------------------------+---------------------------------------|
+
+   |string functions|
+    Need [\<string.h>]\
+
+|----------------------------------------------------+-------------------------------------------|
+| Functions                                          | Description                               |
+|----------------------------------------------------+-------------------------------------------|
+| char *strcpy(char *s1, const char *s2)             | copy string s2 into array s1              |
+| char *strncpy(char *s1, const char *s2, size_t n)  | copy n chars of s2 into s1, n is optional |
+| char *strcat(char *s1, const char *s2)             | append s2 into s1 (will overwrite '\0')   |
+| char *strncat(char *s1, const char * s2, size_t n) | like above but append only n chars of s2  |
+| int strcmp(const char *s1, const char *s2)         | return 0, <0 or >0 when s1 =,<,> s2       |
+| size_t strlen(const char *s)                       | return length of string                   |
+|----------------------------------------------------+-------------------------------------------|
+
+   |string reassignment and comparison|
+    ➱   When using [\strcpy()]\ and [\strcat()]\, make sure the first array
+        has enough space.
+    ➱   For reassignment, you cannot use [\=]\, so use [\strcpy()]\.
+        ⮱   e.g. [\strcpy(mystr, "My new string");]\
+    ➱   For comparing, you cannot use any compare operator, so use [\strcmp]\.
+
+
+ == Operators == {{{2
+  > Format operator < {{{3
+    [\%]\ is a format operator, which is used in a string to format a string.
+    It is used in the form [\%:x:]\ (which is called the ['conversion
+    specifier]') where x is:
+
+    ➱   [\%d]\ for decimal integers
+    ➱   [\%f]\ for floating points (double and float)
+        ⮱   By default it prints [[6]] digits after the decimal place.
+        ⮱   [\%.3f]\ for a float with 3 decimal places.
+    ➱   [\%c]\ for character
+    ➱   [\%g]\ remove trailing zeros for float and double
+    ➱   [\%s]\ for C-string or string (string only in C++).
+        ⮱   NOTE that you can use [\%[^\n]s]\ for example to format a string
+            that contains characters that are not newline characters. It is
+            useful for you to [[read a whole line]] for example:
+            [\scanf("%[^\n]s", &my_str);]\ NOTE also that it seems this only
+            works in [\scanf()]\. In [\printf()]\ the formatting phrase is
+            treated as literal string characters.
+    ⮱   In [\printf()]\ you can specify the width in which the data is printed
+        for any type:
+        ‣   [\%8s]\ (this print a string in the width of 8 characters
+            [[right-justified]].
+        ‣   [\%8f]\ print a float in the width 8 characters with all remaining
+            space filled with 0 after the decimal point.
+        ‣   [\%8g]\
+
+ == Functions == {{{2
+  > Pass by reference < {{{3
+    ➱   Doesn't support C++ like [\void Swap(int& a, int& b);]\ declaration
+        using [\&]\.
+    ➱   Can only use pointers to pass by reference:
+        [\void Swap(int* a, int* b);]\, and [\Swap(&a, &b);]\
+
+ == Libraries == {{{2
+  > Include libraries < {{{3
+    Syntax is like C++, e.g. [\#include <stdio.h>]\.
+
+  > Math < {{{3
+    [\#include <math.h>]\
+
+    NOTE that to compile, you need to pass the compilation flag [\-lm]\ to
+    link the object .o of main library [\<math.h>]\.
+

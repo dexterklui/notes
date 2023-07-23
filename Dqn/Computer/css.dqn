@@ -1,0 +1,229 @@
+[~{ Basic Syntax }~] {{{1
+   |syntax|
+    #beginCss#
+    selector {
+        property: value;
+        another-property: value;
+    }
+    #endCss#
+
+   |example|
+    #beginCss#
+    header {
+        max-width: 1080px;
+        color: white;
+    }
+    #endCss#
+
+[~{ Selectors }~] {{{1
+    Without prefix, it select the HTML element type.
+
+    Prefix:
+    ➱   [\#]\: ID selector
+    ➱   [\.]\: Class selector (or dot selector)
+
+[~{ Properties }~] {{{1
+ == background == {{{2
+   |background-blend-mode|
+    [\background-blend-mode]\ defines how an element's background-image should
+    blend with its background-color. For values, check:
+    [=https://css-tricks.com/almanac/properties/b/background-blend-mode/]=
+
+[~{ Variables }~] {{{1
+   |declaration|
+    #beginCss#
+    :root {
+        --blue: #1e90ff;
+        --white: #ffffff;
+    }
+    #endCss#
+
+   |usage|
+    #beginCss#
+    button {
+        background-color: var(--white);
+    }
+    #endCss#
+
+[~{ Responsive Web Design }~] {{{1
+ == Overview == {{{2
+    To make the website display equally well in all sizes of monitors.
+
+   |four key components|
+    ➱   Setting [[viewports]] via [\<meta>]\ tag.
+    ➱   Customizing for different viewports using [\media]\ queries. Usually
+        query for 3 different sizes:
+        1.  phone
+        2.  tablet
+        3.  widescreen
+    ➱   Scaling images to the viewport size
+    ➱   Flexible layouts (i.e. contents flowing around)
+
+ == Setting Viewports == {{{2
+  > Viewports < {{{3
+    To fit standard websites onto small screens, mobile browsers render the
+    page on a canvas called the ['viewport]' and then [[shrink that viewport
+    down]] to fit the width of the screen.
+    ⮱   On iPhones, Safari sets viewport width to 980 pixels, and then shrinks
+        it down to 320px in portrait orientaion.
+
+    To tell the mobile browser the viewport size to use, we can use the
+    viewport <meta> element:
+    [\<meta name="viewport" content="width=device-width, initial-scale=1">]\
+    ⮱   Use viewport equal to screen width
+    ⮱   Set zoom level to 100%.
+
+ == Media Queries == {{{2
+  > Simple example < {{{3
+    #beginCss#
+    /* Mobile Styles */
+    @media only screen and (max-width: 400px) {}
+    /* Tablet Styles */
+    @media only screen and (min-width: 401px) and (max-width: 960px) {}
+    /* Desktop Styles */
+    @media only screen and (min-width: 961px) {}
+    #endCss#
+
+    ⮱   [\only]\: Prevent older browser that do not support media queries from
+        applying the specified styles
+    ⮱   [\screen]\: Device has to be a screen
+    ⮱   [\max-width]\: Apply styles if width of viewport is no wider than 480
+        pixels.
+
+  > Different stylesheets for different media < {{{3
+    #beginHtml#
+    <link rel="stylesheet" media="screen and (max-width:400px)" href="mobile.css" />
+    <link rel="stylesheet" media="screen and (min-width:401px) and (max-width:960px)" href="tablet.css" />
+    <link rel="stylesheet" media="screen and (min-width:961px)" href="desktop.css" />
+    #endHtml#
+
+  > Where to place media queries < {{{3
+    ➱   Should be at the end of the stylesheets.
+    ➱   Should apply to class, e.g. [\.text]\.
+
+  > Media queries < {{{3
+    ➱   [\width]\
+    ➱   [\height]\
+    ➱   [\aspect-ratio]\
+    ➱   [\max-width]\
+    ➱   [\min-width]\
+    ➱   [\orientation]\: Portrait or landscape
+    ➱   [\color]\: The number of bits per color
+
+  > Design procedures: choosing breakpoints < {{{3
+   |breakpoints|
+    A ['breakpoint]' is the point when the layout becomes ugly for a screen in
+    certain width, and should change progressively to another layout to make
+    it look nicer.
+
+   |progressive enhancement|
+    Should design the content to fit on [[small screen first]], then expand
+    the screen until a breakpoint becomes necessary.
+
+ == Making Images Responsive == {{{2
+
+[~{ Tricks }~] {{{1
+ == Calculate Size == {{{2
+    #beginCss#
+    .selector {
+        width: calc(10px + 20%);
+    }
+    #endCss#
+
+ == Center the Whole Page == {{{2
+    #beginCss#
+    html {
+      display: flex;
+      justify-content: center;
+    }
+
+    body {
+      max-width: 800px;
+    }
+    #endCss#
+
+ == Interaction == {{{2
+  > With <input> element < {{{3
+   |checkbox|
+    #beginCss#
+    input.checkbox:checked ~ .target {
+        filter: grayscale(100%);
+    }
+    #endCss#
+
+ == Apply a Filter == {{{2
+  > To an element < {{{3
+    To an entire element, use the [\filter]\ property.
+
+   |values|
+    For images:
+    ➱   [\grayscale(:x:%)]\: 100% is completely B&W.
+    ➱   [\brightness(:x:%)]\: 0% is completely black; 100% is original.
+    ➱   [\blur(:x:px)]\: Default is 0px, no blur.
+    ➱   [\contrast(:x:%)]\: 0% is completely black; 100% is original; >100% is
+        more contrast.
+    ➱   [\opacity(:x:%)]\: 0% is completely transparent; 100% is original.
+    ➱   [\saturate(:x:%)]\: 0% is completely un-saturated; 100% is original;
+        >100% is more saturated.
+
+  > To a Background Image < {{{3
+   |1. Use background-blend-mode|
+    E.g. to darken a picture.
+    #beginCss#
+    div.bg {
+        background-image: url("image/bg.png");
+        background-color: hsl(0, 0%, 35%);
+        background-blend-mode: multiply;
+    }
+    #endCss#
+
+   |2|
+    See: [=https://css-tricks.com/apply-a-filter-to-a-background-image]=
+
+ == Aspect Ratio == {{{2
+    To have a cover or banner with a fixed aspect ratio, and potentially a
+    background, and to have content inside such as a caption or texts:
+
+    #beginCss#
+    .container {
+        position: relative; /* required for absolute position child */
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 aspect ratio */
+        background: url("path/to/bg.jpg") no-repeat center center;
+        background-size: 100% auto; /* full width, and auto height */
+    }
+    .container > .content {
+        position: absolute; /* at the first relative position parent */
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #endCss#
+
+ == Scroll Snapping == {{{2
+    Make use of [\scroll-snap-type]\ and [\scroll-snap-align]\ property.
+
+    You need a parent element containing [[direct descendent]]:
+
+    #beginHtml#
+    <div class="container">
+        <div class="snap-align-item"></div>
+        <div class="snap-align-item"></div>
+        <div class="snap-align-item"></div>
+        <div class="snap-align-item"></div>
+    </div>
+    #endHtml#
+
+    #beginCss#
+    div.container {
+        scroll-snap-type: [x|y|both] [mandatory|proximity];
+        overflow-y: scroll;
+    }
+    div.snap-align-item {
+        scroll-snap-align: [center|start|end];
+    }
+    #endCss#

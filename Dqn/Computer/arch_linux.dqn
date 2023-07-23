@@ -1,0 +1,1207 @@
+/// Language: DQNote_1.35
+[~{ dqarch: Programs, Config and Files }~] {{{1
+ == Config == {{{2
+    ➱   Add file {{/etc/modprobe.d/nobeep.conf}} with line:
+        [\blacklist pcspkr]\
+        ⮱   Function is to disable the kernel modules [\pcspkr]\, thus
+            disabling the pc speaker from producing beep sound globally for
+            arch linux.
+        ⮱   Originally the purpose is to disable the beep sound from the pc
+            speaker when I reboot the computer.
+    ➱   Add file ~/.config/plasma-workspace/env/path.sh
+        ⮱   To export addtional directories to $PATH, such that krunner can
+            run scripts from those directories.
+        ⮱   Seems doesn't work.
+    ➱   [\~~/.local/share/mime/packages/markdown.xml]\ to make Firefox
+        recognizes that markdown are text files, so that it can display it.
+    ➱   [\~/.yarnrc.yml]\, see [==npm, nodejs, yarn= >Yarn<]=
+
+  > Firefox < {{{3
+   |about:config|
+    ➱   ui.key.menuAccessKey set to 0
+        ⮱   Allow short-cuts
+    ➱   ui.key.menuAccessKeyFocuses set to false
+
+ == Program == {{{2
+  > Pacman < {{{3
+    ➱   [\linux-lts]\: Arch Linux LTS kernel. Good for fallback kernel.
+    ➱   inotifywait
+    ➱   zettlr (markdown editor and manager)
+    ➱   vdhcoapp-git (Companion app for Firefox addon Video DownloadHelper)
+        ⮱   [aur]
+    ➱   [\code]\: Visual Studio Code
+    ➱   [\noto-font-emoji]\
+    ➱   [\ttf-hack-nerd]\: Patch hack font with more glyphs
+        ⮱   25Mib
+    ➱   [\ttf-noto-nerd]\
+        ⮱   860Mib
+    ➱   [\lazygit]\
+        ⮱   For LazyVim
+    ➱   [\deno]\
+        ⮱   For peek.nvim
+    ➱   [\xournalpp]\: pdf annotator
+    ➱   [\pnpm]\: substitutes of npm - without duplicating each
+        package-version
+        ⮱   Installed for [\exercism-bin]\
+    ➱   [\shfmt]\, [\bash-language-server]\, [\shellcheck]\
+        ⮱   For neovim bash formatter, LSP and linter
+    ➱   [\eslint]\
+        ⮱   For neovim linter
+
+   |Dependencies explicitly installed|
+    ➱   [\python-nose]\ for [\papis]\
+
+   |Deleted|
+    ➱   [\noto-fonts-emoji]\
+        ⮱   For [\plasma5-runners-emoji]\
+
+  > AUR < {{{3
+    ➱   [\ocs-url]\: An install helper program for items served via
+        OpenCollaborationServices (ocs://).
+    ➱   firefox tridactyl native
+    ➱   [\whatsapp-nativefier]\
+    ➱   [\noto-color-emoji-fontconfig]\
+    ➱   [\dvm-bin]\: For installing old version of [\deno]\ needed for
+        [\peek.nvim]\
+        ⮱   [\EXPORT DENO_INSTALL="$HOME/.deno"]\, it is the directory in
+            which different versions of deno is installed.
+    ➱   [\figma-linux-bin]\
+    ➱   [\exercism-bin]\: For exercism cli. Program for a coding training web.
+
+   |Deleted|
+    ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
+        ⮱   installed [\ttf-hack-nerd]\, [\ttf-noto-nerd]\,
+            [\noto-fonts-emoji]\
+        ⮱   [=https://github.com/alex1701c/EmojiRunner/issues/1/]=
+    ➱   [\franz-bin]\: Linux app for various mobile messenging apps
+
+   |live-server|
+    ➱   [\nodejs-live-server]\
+    ➱   NOTE update documentation in [\js.dqn]\ rather than here.
+
+    Usage from command line: From [[project's directory]]:
+    ➱   [\live-server :[OPT]...:]\
+
+    Options:
+    ➱   [\--port=:n:]\: Default 8080
+    ➱   [\--host=:addr:]\: Default IP env var or 0.0.0.0
+    ➱   [\--no-browser]\: Suppress automatic web browser launching
+    ➱   [\-q]\ or [\--quiet]\: Suppress logging
+
+  > Local Packages < {{{3
+    Installed with [\pacman -U :{package_file}:]\
+
+  > Temporary < {{{3
+    ➱   go, cmake
+        ⮱   for compiling YouCompleteMe vim Plugin
+        ⮱   Also for plamoid event calendar
+            ['https://github.com/kanocz/plasma-applet-eventcalendar]'
+
+ == npm, nodejs, yarn == {{{2
+  > Commands < {{{3
+    ➱   [\npm -g list]\
+
+  > Global packages < {{{3
+    ➱   [\http-server]\: installed for CA_07 assignment
+
+  > Yarn < {{{3
+    ➱   Installed and managed by [\corepack]\ binary shipped with [\nodejs]\
+        ⮱   See [=https://yarnpkg.com/getting-started/install]=
+    ➱   [\~/.yarn/]\, [\~/.yarnrc.yml]\
+
+ == KDE == {{{2
+  > Config < {{{3
+    ➱   [\~/.config/kdeglobals]\
+        ⮱   Changing border color for active window [\[WM]]\ section:
+            [\frame=r,g,b]\ and [\inactiveFrame=r,g,b]\
+    ➱   [\~/.config/kwinrc]\
+        ⮱   [\BorderlessMaximizedWindows=true]\ or false if use [{active
+            accent frame]}
+
+  > Plasmoid < {{{3
+    For manual install
+    ➱   eventcalendar git version
+        ⮱   ['~/Resource/Plasma/applets/eventcalendar/]'
+        ⮱   Use [\sh ./uninstall]\ to uninstall
+
+ == LaTeX Packages == {{{2
+    ➱   texlive-most
+        ⮱   It is not a package, but a group containing packages
+    ➱   texlive-revtex
+        ⮱   AUR package
+
+ == Systemctl service == {{{2
+  > Battery Charging End Threshold < {{{3
+   |Source|
+    Source:
+    ➱   https://www.reddit.com/r/kde/comments/uc9r5q/stop_charging_at_setting_does_not_persist/
+
+   |content|
+    Okay here is a temporary solution until they fix it in the next kernel.
+
+    Set your stop charging threshold in the KDE power settings.
+
+    sudo cp /sys/class/power_supply/BAT0/charge_control_end_threshold /home/$USER/.config/charge_control_end_threshold
+
+    sudo mkdir /etc/your; sudo vim /etc/your/script.sh
+    !/bin/bash
+
+    cp -f /home/$USER/.config/charge_control_end_threshold /sys/class/power_supply/BAT0/charge_control_end_threshold
+
+    sudo chmod 777 /etc/your/script.sh
+
+    sudo vim /lib/systemd/system/set-charging-end-threshold.service
+
+    [Unit] Description=My Shell Script
+
+    [Service] ExecStart=/etc/your/script.sh
+
+    [Install] WantedBy=multi-user.target
+
+    sudo chmod 777 /lib/systemd/system/set-charging-end-threshold.service
+
+    sudo systemctl daemon-reload
+
+    sudo systemctl enable set-charging-end-threshold.service
+
+   |Files|
+    ‣   ~/.config/charge_control_end_threshold
+        ⮱   I end up not needing to use it /?/
+    ‣   /etc/myscripts/
+        ⮱   The directory is manually created just to store the self-written
+            scripts.
+    ‣   /etc/myscripts/charge_control_end_threshold.sh
+    ‣   /etc/systemd/system/set-charging-end-threshold.service
+
+ == Manual Install Dependencies == {{{2
+    ➱   python-dominate
+        ⮱   For papis-git from AUR
+
+ == Files/Dirs that are large == {{{2
+    ➱   ~/Zomboid/Logs/
+
+[~{ Key Bindings }~] {{{1
+ == KDE Desktop Environment == {{{2
+  > Screenshot < {{{3
+    ➱   [\<W-q>]\: Screenshot
+    ➱   [\<W-S-q>]\: Control Screenshot
+    ➱   [\<W-C-q>]\: Color picker - pick a color on a screen
+        ⮱   Can right click or Esc to quickly cancel picking action and call
+            the color picker panel
+        ⮱   You can activate color picker to [[freezes the screen]], if you
+            just want to take a look at some changing elements on screen.
+
+  > Window control < {{{3
+    ➱   [\<C-w>]\: Close tab or window
+    ➱   [\<W-e>]\: Close window - same [\<A-F4>]\
+    ➱   [\<C-q>]\: Quit application
+    ➱   [\<C-A-Esc>]\: Kill window (force quit)
+
+    ➱   [\<W-g>]\: Toggle present windows (all desktop) [G]rid
+    ➱   [\<W-d>]\: Peek at desktop (temporarily minimize all windows)
+    ➱   [\<W-o>]\: Keep window on all desktops
+    ➱   [\<W-i>]\: Toggle window raise/lower
+    ➱   [\<W-C-u>]\: Raise window ([U]p)
+    ➱   [\<W-C-d>]\: Lower window ([D]own)
+    ➱   [\<W-S-a>]\: Keep window [A]bove others
+
+    ➱   [\<W-A-=>]\: Increase window opacity by 5%
+    ➱   [\<W-A-->]\: Decrease window opacity by 5%
+    ➱   [\<W-b>]\: Toggle window title bar and frame
+
+    ➱   [\<W-A-w>]\: Move window
+    ➱   [\<W-C-w>]\: Move window to center.
+    ➱   [\<W-w>]\: Move window to next screen
+    ➱   [\<W-A-r>]\: Resize window
+    ➱   [\<W-r>]\: Resize script - Cycle to quarter/large/max size
+        ⮱   Note that max size is not fullscreen, so can still have border
+    ➱   [\<W-f>]\: Toggle maximized window
+    ➱   [\<W-A-f>]\: Toggle fullscreen window
+    ➱   [\<W-m>]\: Minimize window
+
+    ➱   [\<A-F3>]\: Window operations menu
+
+  > Tile window control < {{{3
+    ➱   [\<W-C-E>]\ Tiling tiles editor
+        ⮱   Then hold <Shift> while moving window to snap into set tiles
+
+    ➱   [\<W-C-h>]\: Tile window to left half of screen
+    ➱   [\<W-C-l>]\: Tile window to right half of screen
+    ➱   [\<W-C-k>]\: Tile window to top half of screen
+    ➱   [\<W-C-j>]\: Tile window to bottom half of screen
+
+    ➱   [\<W-C-;>]\: Tile window to top left of screen
+    ➱   [\<W-C-'>]\: Tile window to top right of screen
+    ➱   [\<W-C-.>]\: Tile window to bottom left of screen
+    ➱   [\<W-C-/>]\: Tile window to bottom right of screen
+
+    ➱   [\<W-A-h>]\: Switch to window to the left
+    ➱   [\<W-A-l>]\: Switch to window to the right
+    ➱   [\<W-A-k>]\: Switch to window to the top
+    ➱   [\<W-A-j>]\: Switch to window to the bottom
+
+  > Navigate through windows < {{{3
+    ➱   [\<A-t>]\: Cycle windows. Reverse with [\<Shift>]\
+    ➱   [\<A-`>]\: Cycle windows of current application. Reverse with
+        [\<Shift>]\
+
+  > Desktop < {{{3
+    ➱   [\<W-d>]\: Peek at desktop (temporarily minimize all windows)
+    ➱   [\<W-j>]\: Next desktop
+    ➱   [\<W-k>]\: Previous desktop
+    ➱   [\<W-S-j>]\: Window to next desktop
+    ➱   [\<W-S-k>]\: Window to previous desktop
+
+  > Visual and accessibility < {{{3
+    ➱   [\<W-=>]\: Zoom in
+    ➱   [\<W-->]\: Zoom out
+
+    ➱   [\<W-S-i>]\: Invert color for whole desktop
+    ➱   [\<W-C-i>]\: Invert color for current window
+    ➱   [\<W-C-f>]\: Toggle thumbnail for current window
+
+    ➱   [\<W-S>]\: Hold this to draw on screen with mouse
+    ➱   [\<W-S-z>]\: Undo last line drawn
+    ➱   [\<W-S-x>]\: Clear all drawn lines
+
+  > Media control < {{{3
+    ➱   [\<W-z>]\: Mute microphone
+    ➱   [\<W-x>]\: Edit current item in clipboard
+        ⮱   Good for a quick text editor
+    ➱   [\<W-C-r>]\: Invoke application on current clipboard content
+
+  > Applications < {{{3
+    ➱   [\<W-C-s>]\: Desktop Latte sidebars
+    ➱   [\<W-a>]\: System tray (see [a]ll tray apps)
+    ➱   [\<W-t>]\: Fokus, a pomodoro timer
+    ➱   [\<W-s>]\: Todo Stack
+    ➱   [\<W-A-s>]\: Todo Queue
+    ➱   [\<W-c>]\: Event calendar
+    ➱   [\<W-\>]\: Keepassxc
+    ➱   [\<W-,>]\: Mailspring
+    ➱   [\<W-'>]\: Discord
+    ➱   [\<W-.>]\: Emoji selector
+
+ == Typing == {{{2
+    ➱   [\<W-~:>]\: Quickly search emoji to input
+    ➱   [\<W-.>]\: Open emoji selector window
+
+ == Misc == {{{2
+    ➱   [\<S-F10>]\: Open right-click menu
+
+[~{ Operating System }~] {{{1
+ == Query == {{{2
+  > Check version < {{{3
+    ‣   [\uname -srm]\
+    ‣   [\hostnamectl]\
+    ‣   [\cat /proc/version]\
+
+  > Check hostname < {{{3
+    ‣   [\uname -n]\ DUNNO if this is really the hostname
+    ‣   [\hostnamectl]\
+    ‣   [\cat /etc/hostname]\ (may not be most updated, and may not exist)
+    ‣   [\cat /proc/sys/kernel/hostname]\
+
+[~{ Users and Groups }~] {{{1
+ == Query == {{{2
+    ‣ [\whoami]\ shows the user name of the current user
+    ‣ [\who]\ lists active users on the machine
+    ‣ [\id]\ shows uid, euid and gid of current user
+
+ == Permissions == {{{2
+    ‣ [\chmod]\
+    ‣ [\mount]\ mounts file systems. The [\uid]\, [\gid]\, and [\umask]\ sets
+      the default owner, group and permissions for all files/directories in
+      the mounted file systems. [\fmask]\ and [\dmask]\ applies only to files
+      and directories, respectively.
+
+   |files|
+    ‣ [\/etc/fstab]\ set the default rules for mounting file systems.
+
+[~{ Hardware / Firmwares }~] {{{1
+ == List of programs == {{{2
+    ➱   [\fwupdmgr]\ (firmwares update manager)
+    ➱   [\rfkill]\ (check or turn on/off connection firmwares)
+
+ == fwupdmgr == {{{2
+  > Syntax < {{{3
+    [\fwupdmgr :CMD:]\
+
+  > Commands < {{{3
+    ‣   [\get-devices]\: Display all devices detected
+    ‣   [\refresh]\: Download latest metadata from Linux Vendor firmware
+        Service (LVFS)
+    ‣   [\get-updates]\: List updates available for any devices on the system
+    ‣   [\update]\: Install updates
+        ⮱   Some updates might require [\sudo]\. But most do not.
+
+[~{ Networking }~] {{{1
+ == Checking Connection == {{{2
+  > 1.  Your network interface is listed < {{{3
+    By:
+    ➱   [\ls /sys/class/net]\; or
+    ➱   [\ip link]\
+
+    By default [\udev]\ assign names to the network interface using
+    [{Predictable Network Interface Names]}, with prefixes
+    ➱   [\en]\ for wired/Ethernet
+    ➱   [\wl]\ for wireless/WLAN
+    ➱   [\ww]\ for WWAN
+
+    NOTE that [\lo]\ is the virtual loopback interface, and not used for
+    network connections.
+
+    [\iw dev]\ also lists the wireless device names.
+
+  > 2.  You are connected to the network < {{{3
+        ‣   Cable is plugged; or
+        ‣   Connected to the wireless LAN
+  > 3.  Your network interface has an IP address < {{{3
+  > 4.  Your routing table is correctly set up < {{{3
+  > 5.  You can ping a local IP address (e.g. the default gateway) < {{{3
+  > 6.  You can ping a public IP address (e.g. 8.8.8.8) < {{{3
+  > 7.  You can resolve domain names (e.g. archlinux.org) < {{{3
+
+ == Domain Name Resolution == {{{2
+  > Workflow < {{{3
+    1.  Invoke NSS
+
+  > Name Service Switch < {{{3
+    ['Name Service Switch]' (['NSS]') provides the computer with a variety of
+    sources of common configuration databases and name resolution mechanisms,
+    such as:
+    ‣   local files (e.g. [\/etc/passwd]\, [\/etc/group]\, [\/etc/hosts]\)
+    ‣   the DNS
+    ‣   the Network Information Service (NIS, NIS+)
+    ‣   Lightweight Directory Access Protocol (LDAP)
+
+   |config file|
+    [\/etc/nsswitch.conf]\ is the config file which lists databases and its
+    sources. The order of sources determines the order the NSS will look up to
+    resolve queries.
+
+   |domain name resolution|
+    The database for domain name resolution is the [\hosts]\ database, which
+    has two possible sources:
+    ‣   [\files]\: Read the [\/etc/hosts]\
+    ‣   [\dns]\: The glibc resolver which reads [\/etc/resolv.conf]\
+
+   |manual query using NSS|
+    ‣   [\$ getent hosts :domain_name:]\
+
+ == Program Overview == {{{2
+    ➱   [\ss]\ check tcp/udp open port
+    ➱   [\ip]\
+    ➱   [\iw]\
+    ➱   [\nmcli]\
+
+ == Managing Networking == {{{2
+  > Check status < {{{3
+    ➱   [\ip link :[:show:]:]\ show status of all network interface
+    ➱   [\ip link show dev :NAME:]\ show status of a network interface
+    ➱   [\ip addr:[:ess:] [:show:]:]\ show IP address assigned to network
+        interface
+    ➱   [\ip route :[:show:]:]\ show route table.
+
+  > Setting interface up < {{{3
+    ➱   [\ip link set :NAME [:up:|:down:]:]\ enables / disables an interface.
+        Up means enabled, down means disabled.
+
+  > Setting up IP address < {{{3
+    ➱   [\ip addr :[:add:|:del:] ADDRESS`/MASK: broadcast + dev :INTERFACE:]\░
+        adds / deletes an IP address to an interface
+    ➱   [\ip addr flush dev :INTERFACE:]\ deletes all IP address from an
+        interface
+
+  > Setting up route table < {{{3
+    ➱   [\ip route :[:add:|:del:] PREFIX :via: ADDRESS: dev :INTERFACE:]\░
+        adds / deletes a route. PREFIX is either a CIDR notation IP address or
+        [\default]\ for the default gateway.
+
+  > Local hostname < {{{3
+   |show current hostname|
+    ➱   [\cat /etc/hostname]\
+    ➱   [\cat /proc/sys/kernel/hostname]\
+    ➱   [\hostname]\
+    ➱   [\hostnamectl :[:status:]: --static]\
+    ➱   [\nmcli g:[:eneral:]: hostname]\
+    ➱   [\uname -n]\
+    ➱   [\sysctl kernel.hostname]\
+
+   |set a hostname|
+    ➱   Edit [\/etc/hostname]\ to include a line [\:myhostname:]\.
+    ➱   [\hostnamectl set-hostname :HOSTNAME:]\
+    ➱   To [[temporarily]] set a hostname until next reboot:
+        [\hostname :HOSTNAME:]\
+
+  > Hostname resolution < {{{3
+
+ == ssh == {{{2
+  > Syntax < {{{3
+    [\ssh :[OPTION] {USER}`@{REMOTE_HOST}:]\
+
+  > Options < {{{3
+    ➱   [\-o :CONFIG`=VALUE]\ specifies config options.
+    ➱   [\-p :PORT:]\ connects to the specified port. The default is [\22]\
+        (of course unless the default is overridden by config files).
+    ➱   [\-X]\ or [\-Y]\ forward X11. Allows graphical info communication. See
+        Man pages.
+    ➱   [\-4]\ or [\-6]\ forces use IPv4 or IPv6 respectively.
+    ➱   [\ssh -L :LOCAL_PORT`:FORWARD_HOST`:FORWARD_PORT REMOTE_HOST]\░
+        After ssh to the REMOTE_HOST, forward any contact made to the
+        LOCAL_PORT of the client machine to the FORWARD_HOST at FORWARD_PORT
+        through the REMOTE_HOST.
+        ⮱   Therefore, the FORWARD_HOST has to be reachable from REMOTE_HOST.
+        ⮱   FORWARD_HOST can be the same as the REMOTE_HOST.
+    ➱   [\ssh -R :REMOTE_PORT`:FORWARD_HOST`:FORWARD_PORT REMOTE_HOST:]\░
+        After ssh to the REMOTE_HOST, forward any contact made to the
+        REMOTE_PORT of the REMOTE_HOST to the FORWARD_HOST at FORWARD_PORT
+        through the client machine.
+        ⮱   Therefore, the FORWARD_HOST has to be reachable from the client
+            machine (the local machine here).
+        ⮱   FORWARD_HOST can be the same as the local machine.
+    ➱   [\ssh -W :FORWARD_HOST`:FORWARD_PORT REMOTE_HOST:]\░
+        Forward the stdin and stdout of the client machine to the
+        FORWARD_HOST:FORWARD_PORT through the REMOTE_HOST.
+        ⮱   This command is usually used in the ProxyCommand config option.
+            This connects to the ultimate destination through the REMOTE_HOST
+            specified in this proxy command. I.e. ssh connects to the proxy
+            server with this ProxyCommand first and then ssh to the final
+            destination.
+
+  > Config Options < {{{3
+   |general info| {{{4
+    ➱   Can be specified with [\-o :CONFIG`=VALUE:]\ in the command.
+    ➱   Can be specified in the config files for different entries.
+    ➱   In the same entry in the same config file, when the same config option
+        is specified multiple times, only the first one is effective.
+
+   |config options| {{{4
+    ➱   [\HostName]\ specifies the remote host address (IPv4/IPv6) or
+        hostname.
+    ➱   [\Port]\ specfies the port.
+    ➱   [\User]\ specifies the user name used to make the connection.
+    ➱   [\IdentifyFile]\ specifies the authentication file that is used.
+    ➱   [\ProxyCommand]\ specifies a command to run as the proxy command that
+        is ran to connect to the final destination.
+
+   |tokens| {{{4
+    ➱   [\%h]\ the target host (final destination).
+    ➱   [\%p]\ the target port (final destination).
+
+  > Config Files < {{{3
+    For user config files, it is located at [\~/.ssh/config]\
+
+ == nmcli == {{{2
+  > Connection (c) < {{{3
+    Manage saved connections. E.g.
+    ‣   Saved WiFi access point info (including credentials).
+    ‣   Saved VPN profile.
+
+   |commands|
+    ➱   [\up :NAME:]\ enable a saved profile.
+    ➱   [\down :NAME:]\ disable a using profile.
+
+   |examples|
+    ➱   [\nmcli c up :MY_VPN:]\
+
+  > device (d) < {{{3
+   |examples|
+    ➱   [\nmcli d wifi list]\
+    ➱   [\nmcli d wifi connect :SSID:]\
+
+[~{ Environment }~] {{{1
+ == Switching Between JVM == {{{2
+    Use [\archlinux-java :{CMD}:]\:
+    ➱   [\status]\ lists installed java environments and enabled one
+    ➱   [\get]\ returns the short name of the Java environment set as default
+    ➱   [\set :{JAVA_ENV}:]\ forces JAVA_ENV as default
+    ➱   [\unset]\ unsets current default Java environment
+    ➱   [\fix]\ fixes an invalid/broken default Java environment configuration
+
+[~{ Package Management }~] {{{1
+ == Kde and Plasma == {{{2
+    [\kpackagetool5]\
+
+  > List Installed Plasmoids < {{{3
+    ➱   [\kpackagetool5 -t "Plasma/Applet" -l]\
+
+  > Uninstall Plasmoids < {{{3
+    ➱   [\kpackagetool5 -t "Plasma/Applet" -r :name:]\
+    ➱   Or seems like you can click the bin button at the window that add
+        plasmoids
+
+ == Pacman == {{{2
+  > Installation < {{{3
+    ➱   [\-S :{PACKAGE[ ...]}:]\ installs PACKAGE.
+        ⮱   Sometimes there are [[multiple version]] in different repo (e.g.
+            extra and testing), so you need to prepend the repo name if you
+            want to install a specific non-default one: [\extra/package_anme]\
+        ⮱   Support [[curly brace expansion]] for package name:
+            ‣   [\plasma-{desktop,mediacenter,nm}]\
+            ‣   [\plasma-{workspace{,-wallpapers},pa}]\
+    ➱   [\-Ss :{STRING}:]\ does raw-text search for packages in repositories
+    ➱   [\-S :{GROUP_NAME}:]\ installs a group of packages. Pacman will then
+        prompt you for selecting which packages to install.
+        ⮱   [\1-10 15]\ installs package 1 to 10 and package 15; [\^5-8 ^2]\
+            installs all except 5 to 8 and 2.
+        ⮱   If a package in a group is already installed, it will reinstall
+            again unless with the flag [\--needed]\.
+    ➱   [\-Sg :{GROUP_NAME}:]\ lists packages in a group.
+    ➱   [\--asdeps]\ install as dependency. Useful for makepkg that need to
+        install dependencies before building the package.
+    ➱   [\-U :{PACKAGE_FILE}:]\ installs a local package.
+
+  > Removing < {{{3
+    ➱   [\-R :PACKAGE:]\ removes a package, leaving its dependencies intact.
+    ➱   [\-Rs :PACKAGE:]\ removes a package and all its dependencies that are
+        not required by other installed packages.
+        ⮱   The behaviour is a bit different when removing a group. See Wiki.
+    ➱   [\-Rsc :PACKAGE:]\ [[recursively]] removes a package, its dependencies
+        that are not required by other installed packages, and all packages
+        that depend on it.
+    ➱   Pacman [[saves important config files]] when removing and names them
+        with extension [\.pacsave]\. Adding [\-n]\ flag will disable this
+        behaviours.
+    ➱   NOTE that pacman will not remove configurations that the application
+        itself creates, e.g. the dotfiles in home directory.
+
+  > Upgrading < {{{3
+    ➱   [\-Syu]\ synchronises repository databases and then updates the
+        system's packages, excluding "local" packages that are not in the
+        configured repositories.
+
+  > Query package databases < {{{3
+   |databases| {{{4
+    ➱   [\-Q]\ queries local database (the already installed package list)
+    ➱   [\-S]\ queries sync database (the repo)
+    ➱   [\-F]\ queries file database
+
+   |query commands| {{{4
+    [\-:{Q|S|F}{OPTIONS}]\ where OPTIONS are (if given Q/S/F in the following
+    OPTIONS, then it is for a specific database only):
+    ➱   [\-s :{EXT_REGEX[ ...]}:]\ searches for packages in both names and
+        descriptions.
+    ➱   [\-i :PACKAGE:]\ displays extensive info about a package.
+        ⮱   Also shows what other installed packages require this PACKAGE.
+    ➱   [\-ii :PACKAGE:]\ with a second [\-i]\ also displays the list of
+        backup files and their modification states.
+    ➱   [\-Ql :PACKAGE:]\ retrieves a list of files installed by a package.
+    ➱   [\-Qk :PACKAGE:]\ verify the presence of files installed by a package.
+        ⮱   Passing a second [\-k]\ will perform a more through check.
+    ➱   [\-Qo :{/path/to/file_name}:]\ checks to which installed package a
+        file belongs.
+    ➱   [\-Qd]\ lists packages installed as dependencies.
+    ➱   [\-Qe]\ lists explicitly installed packages.
+    ➱   [\-Qt]\ lists installed packages that are not required as dependencies
+        (i.e. no other packages depend on it).
+    ➱   [\-F :FILE_NAME:]\ searches for a package containing a file
+        ⮱   You need to first sync the files database with [\pacman -Fy]\.
+    ➱   [\-q]\ or [\--quiet]\ shows less info. Search will only show package
+        names but not version, group, and description info.
+
+       |useful compound commands|
+    ➱   [\-Qdt]\ lists packages no longer required as dependencies (but
+        installed as dependencies), i.e. ['orphans]'.
+    ➱   [\-Qet]\ list all packages explicitly installed and not required as
+        dependencies.
+
+  > Cleaning package cache < {{{3
+    ➱   [\-Sc]\
+
+  > Operate on installed packages < {{{3
+    [\-D]\ or [\--database]\ allows you to modify certain attributes of the
+    installed packages in pacman's database.
+    ➱   [\--asdeps :PACKAGES...:]\ mark them as as installed as dependencies.
+    ➱   [\--asexplicit :PACKAGES...:]\ mark them as explicitly installed.
+
+  > Downgrading from archive < {{{3
+    See [=https://wiki.archlinux.org/title/Arch_Linux_Archive]=
+
+    ➱   ['Arch Linux Archive]' is available at
+        [=https://archive.archlinux.org]=.
+    ➱   To downgrade a package manually, find the link for the archived
+        package and run [\pacman -U :link:]\.
+
+[~{ Files }~] {{{1
+ == find == {{{2
+  > Useful commands < {{{3
+    ‣   [\find ':PATH:' \! -newermt ":YYYY`-MM`-DD HH`:MM`:SS:" | xargs rm -rf]\
+
+[~{ File System }~] {{{1
+ == Overview == {{{2
+    ➱   [\lsblk]\ (list block device)
+
+    ➱   [\du]\ (disk usage: query size of dir & files)
+        ⮱   [\-h]\ human-readable unit
+
+    ➱   [\df]\ (disk free: query free space of a partition)
+        ⮱   [\-h]\ human-readable unit
+
+    ➱   [\parted]\ (handle partition tables and partitions)
+        ⮱   [\-l]\ lists devices and partitions
+
+    ➱   [\fdisk]\ / [\gdisk]\ (handle partition tables and partitions)
+        ⮱   [\-l]\ lists devices and partitions
+
+    ➱   [\mkfs]\ (make file system: format partitions into a file system)
+        ⮱   [\mke2fs]\ make ext2, ext3 and ext4
+        ⮱   [\mkfs.vfat]\ make vfat: fat12, fat16, fat32
+
+    ➱   [\dd]\ convert or copy storage
+        ⮱   To create a bootable usb drive from ISO image, [\dd]\, [\cat]\,
+            [\cp]\, [\tee]\ are all capable.
+
+    ➱   [\wipefs]\ (wipe a signature from a device, might need to do this on a
+        bootable usb before reformatting it to a storage drive)
+
+    ➱   [\mount]\ and [\umount]\ mounting a device
+
+    ➱   [\udisksctl]\ mount and unmounting a device through udisks
+
+ == lsblk == {{{2
+    ➱   [\-f]\ list file system type (works in some OS / version) and the
+        usage
+
+ == mkfs == {{{2
+    ➱   [\-t :TYPE:]\ specifies the file system type
+    ➱   [\-L :LABEL:]\ specifies the label for the partition
+
+  > mke2fs < {{{3
+    ➱   [\-t :TYPE:]\ specifies the file system type
+    ➱   [\-L :LABEL:]\ specifies the label for the partition
+
+  > mkfs.vfat < {{{3
+
+ == wipefs == {{{2
+    ➱   [\wipefs --all /dev/sd:x:]\
+
+ == fstab == {{{2
+  > Intro < {{{3
+    It is the config files in the path [\/etc/fstab]\. It describes the file
+    system and how the system should mount the partitions.
+
+  > Mount options < {{{3
+    For man page use cmd [\man mount]\.
+    ➱   [\defaults]\: equivalent to [\rw]\, [\suid]\, [\dev]\, [\exec]\,
+        [\auto]\, [\nouser]\, and [\async]\.
+    ➱   [\ro]\: readonly
+    ➱   [\rw]\: read and write
+    ➱   [\noauto]\: do no mount automatically
+    ➱   [\relatime]\: update inode access time relative to modify or change
+        time.
+    ➱   [\nofail]\: do not report error if this file system does not exist
+        ⮱   Usually use with [\x-systemd.device-timeout=1ms]\ mount option
+            otherwise the system poses a 90-second delay when the file system
+            is not found. I find about [[5000ms]] is needed.
+    ➱   [\user]\: allows non-privilege user to mount and unmount the file
+        system. But cannot execute files from this file system.
+
+   |NTFS| {{{4
+    To improve performance of NTFS on Linux:
+    ‣   [\noatime]\: Speed up filesystem operations
+    ‣   [\prealloc]\: Decrease fragmentation in case of parallel write
+        operations (most useful for [[HDD]]).
+
+  > fschk < {{{3
+    ➱   [\0]\: do NOT perform fschk
+    ➱   [\1]\: perform fschk on this file system first. Should use for root
+        file system.
+    ➱   [\2]\: perform fschk on this file system after those with this option
+        set to [\1]\. Can use for other file system that are not the system
+        core.
+
+ == udisksctl == {{{2
+  > Syntax < {{{3
+    [\udisksctl :{CMD} [OPT]...:]\
+
+  > General options < {{{3
+    ‣   [\-p :{OBJECT}:]\ or [\--object-path]\
+    ‣   [\-b :{DEVICE}:]\ or [\--block-device]\
+        •   E.g. /dev/sda or /dev/sda1
+
+  > Commands < {{{3
+   |status| {{{4
+    Show overview of recognized devices.
+
+   |info| {{{4
+    Show info of a device.
+
+    ‣   [\info -b :{DEVICE}]\
+
+   |mount| {{{4
+    ‣   [\-t :{FILESYSTEM-TYPE}:]\ or [\--filesystem-type]\
+    ‣   [\-o :{MOUNT-OPT}...:]\ or [\--options]\
+
+   |unmount| {{{4
+    ‣   [\-f]\ or [\--force]\:
+        Lazy unmount. Detach the filesystem from the file hierarchy now, and
+        clean up all references to this filesystem as soon as it is not busy
+        anymore.
+
+   |power-off| {{{4
+
+[~{ Little tools }~] {{{1
+    ➱   [\tee]\ save output to a file and also output on the screen
+
+    ➱   [\watch]\ runs a program periodically and watch its output
+    ➱   [\sleep]\ waits for a period before continuing
+    ➱   [\time]\ time the runtime of the program
+
+ == xargs == {{{2
+  > Summary < {{{3
+    Append the input as an argument list at the end of a command.
+
+  > Syntax < {{{3
+    ➱   [\:{FILTERS}: | xargs :{CMD}:]\
+        ⮱   FILTERS are commands that output a list of arguments, which is
+            then piped to [\xargs]\
+        ⮱   The argument list is appended after CMD, and then the new combined
+            command will be executed
+        ⮱   Note that the final command line will be executed
+            non-interactively
+        ⮱   It is a good idea to use [\echo]\ as CMD first, so as to check the
+            argument list is correct
+    ➱   [\xargs -a :FILE CMD:]\
+        ⮱   The command list is read from the FILE.
+        ⮱   The final command will be executed interactively
+
+  > Examples < {{{3
+    ➱   [\ls | grep foo | xargs rm]\
+        {-rm foo1.txt foo2.txt foo3.txt foobar.txt food.cpp}-
+
+[~{ Media }~] {{{1
+ == feh (image viewer) == {{{2
+  > Basic command < {{{3
+    ➱   [\feh :{FILE|DIR}...:]\
+        ⮱   If a dir, add all photos in it to the buffer for cycling through.
+        ⮱   If files, other files not listed but in the same directory is NOT
+            added to the buffer for cycling through.
+
+  > Options < {{{3
+   |select files|
+    ‣   [\-| :file:]\ or [\--start-at]\ add all photos that are in the same
+        directory as the given file to the buffer for cycling through, and
+        start showing at the given file.
+        ⮱   NOTE that in most shell you need to escape the [\|]\ character
+    ‣   [\-r]\ or [\--recursive]\
+
+   |display & zoom|
+    ‣   [\--auto-rotate]\
+    ‣   [\-.]\ or [\--scale-down]\ zoom to fit window size (default is zoom to
+        100% and window size fits as best as possible)
+    ‣   [\-Z]\ or [\--auto-zoom]\ zooms pictures to screen size in fullscreen
+        or fixed geometry mode.
+
+   |window|
+    ‣   [\-x]\ borderless window
+    ‣   [\-F]\ fullscreen mode
+
+   |misc|
+    ‣   [\--edit]\ make rotation and mirroring change the underlying file.
+
+  > Keybindings < {{{3
+   |exit|
+    ‣   [\q]\ exit
+    ‣   [\x]\ close current window
+
+   |display info|
+    ‣   [\d]\ show filename and number of photos in the cycling buffer
+    ‣   [\e]\ show photo information in EXIF tag display (photograph info)
+    ‣   [\o]\ toggles pointer (cursor) visibility
+
+   |zoom & window size|
+    ‣   [\Z]\ toggle auto zoom (zoom to fit fullscreen / fixed geometry mode)
+    ‣   [\w]\ change window size to fit current image size as best as possible
+    ‣   [\/]\ zoom to fit window size
+    ‣   [\*]\ zoom to 100% and window size fits as best as possible
+    ‣   [\k]\ fix zoom scale when cycling through photos
+    ‣   [\f]\ full screen; zoom to fit the screen
+
+   |navigate|
+    ‣   [\z]\ go to random photo in the cycling buffer
+    ‣   [\n]\, [\<Space>]\ next photo
+    ‣   [\p]\ previous photo
+
+   |misc|
+    ‣   [\s]\ save as a new file with a default/configured filename format
+
+ == mp3splt == {{{2
+    Split mp3, ogg, etc. files.
+    See man page.
+
+   |example|
+    ➱   [\mp3splt -g :TAGS: -o :{OUTPUT_FORMAT} {INPUT_FILE|INPUT_DIR} {SPLIT_POINTS}:]\
+        ⮱   NOTE that you should quote the arguments if it contains special
+            characters or whitespace.
+        ⮱   E.g. TAGS can be [\%[@N,@a=:ARTIST:,@b=:ALBUM:,@t=:TITLE:][@t=:TITLE:]:...:]\░
+            ‣   The first [\%[:...:]]\ applies as the default for all split
+                files and to the first file
+            ‣   Then the [\[:...:]]\ applies to the second file and override
+                its title to the given value.
+            ‣   The [\@N]\ at the first brackets means the track numbers
+                automatically increment for all the split files by default.
+        ⮱   E.g. OUTPUT_FORMAT can be [\@n_@t]\ so that its base name (without
+            file type extension) is the [\:{TRACK_NUM}`_{TRACK_TITLE}:]\.
+        ⮱   SPLIT_POINTS is given by [\:MINUTE`.SECOND[`.MILLISEC]:]\. They
+            indicates the beginning time, intermediate split points and the
+            final time: e.g. 3 split points gives 2 tracks.
+
+ == ffmpeg == {{{2
+    Video and audio codec converter.
+
+   |examples|
+    Convert a (video/audio) file to mp3:
+    [\ffmpeg -i :INPUT_FILE: -acodec mp3 -ab 192k :OUTPUT_FILE:]\
+    ➱   [\-acodec]\ means audio codec
+    ➱   [\-ab]\ means audio bitrate. 192k is a pretty good quality.
+
+ == mp3unicode == {{{2
+    Covert MP3 tags to Unicode
+
+[~{ Display }~] {{{1
+ == kwin == {{{2
+  > Commands < {{{3
+    Either [\kwin_x11]\ or [\kwin_xorg]\ or [\kwin]\
+    ➱   Run [\kwin_x11 --replace]\ at [\Alt+F2]\ to restart kwin.
+
+  > Keybindings < {{{3
+    ➱   [\Alt+Shift+F12]\ toggles suspend compositing.
+
+  > Config < {{{3
+    ➱   Edit file [\~/.config/kwinrc]\
+        ⮱   To reload the setting, restart kwin. See [=>Commands<]=.
+        ⮱   NOTE that the file is loaded into memory, and saved back to disk
+            at logout. You should edit the file when no kWin is running to
+            make the change permanent.
+        ⮱   Also NOTE that the borderlessMaximizedWindow setting is also
+            intefered by latte dock. Make sure you first allow maximized
+            borderless window in Latte setting, and then enable the borderless
+            property for that particular latte layout.
+
+ == Overview == {{{2
+    ➱   xdpyinfo
+    ➱   xwininfo
+    ➱   xprop (check also border width)
+
+ == Plasma == {{{2
+  > Package Management < {{{3
+    See [={Package Management} =Kde and Plasma=]=
+
+[~{ Systemd }~] {{{1
+ == Installation Path == {{{2
+    ➱   [\/usr/lib/systemd/system/]\: units provided by installed packages.
+    ➱   [\/etc/systemd/system/]\: units installed by the system administrator.
+
+ == Syntax == {{{2
+    ➱   [\#]\ for newline comment (NOT inline)
+
+  > General Units < {{{3
+    [\[Unit]]\
+    ➱   [\Description=:The description of this unit:]\
+
+    [\[Install]]\
+    ➱   [\WantedBy=:{SYSTEMD_UNIT}:]\
+        Such that whenever that SYSTEMD_UNIT is started, this unit is also
+        started.
+
+  > timer < {{{3
+    ➱   See [=systemd.timer(5)]= for options and [=systemd.time(7)]= for
+        syntax for [\OnCalendar=]\ option syntax.
+    ➱   Within [\[Timer]]\ section, [\OnCalendar=:...:]\ combined with
+        [\Persistent=true]\ is one usual way to schedule thing.
+
+  > service < {{{3
+    [\[Service]]\
+    ➱   [\Type=:{TYPE}:]\ where TYPE is one of the following:
+        ‣   [\simple]\: for service that runs a daemon
+        ‣   [\oneshot]\: for service that runs a command and exits
+
+[~{ Journalctl }~] {{{1
+ == Options == {{{2
+   |handle output display|
+    ➱   [\-x]\ or [\--catalog]\ adds in explanation text.
+    ➱   [\-e]\ jumps to the end of the journal immediately.
+
+   |filter output|
+    Should be used [[after other flags]].
+    ➱   [\-b:[±OFFSET]:]\ select current boot by default. A positive integer
+        indicates the n-th boot in the journal record. A negative integer
+        indicate the n-th last boot.
+    ➱   [\-u=:{UNIT|PATTERN}:]\ selects the log of a unit file.
+    ➱   [\-p]\ or [\--priority=]\ filters base on log level.
+        ⮱   Syntax is either [\:{LEVEL}[:..:LEVEL]:]\.
+        ⮱   If a single level is given, all lower or equal level (more
+            important) are shown.
+        ⮱   Levels are emerg(0), alert(1), crit(2), err(3), warning(4),
+            notice(5), info(6), debug(7).
+    ➱   [\-g]\ or [\--grep=]\ greps at MESSAGE= field. It is smart case
+        sensitive.
+    ➱   [\--facility=]\ filters by syslog facility.
+        ⮱   Takes a comma-separated list of numbers or facility names.
+        ⮱   See [=syslog(3)]=,
+            [=https://wiki.archlinux.org/title/Systemd/Journal#Facility]=, or
+            run [\--facility=help]\
+    ➱   [\-S]\ or [\--since=]\ and [\-U]\ or [\--until=]\
+        ⮱   Syntax see [=systemd.time(7)]=
+        ⮱   E.g. [\-S "20 min ago" -U "1 min ago"]\
+
+   |other queries|
+    ➱   [\--list-boots]\
+    ➱   [\--facility=help]\ lists available syslog facilities.
+
+[~{ Documents }~] {{{1
+ == Okular == {{{2
+  > Keybindings < {{{3
+    ➱   [\~:]\ start typing commands. Like Vim.
+    ➱   [\<C-1>]\ hand browse (scroll)
+    ➱   [\<C-2>]\ select area to zoom
+    ➱   [\<C-4>]\ select text
+
+[~{ Input Method Framework }~] {{{1
+ == ibus == {{{2
+  > Config < {{{3
+   |globally|
+    Append the following lines in [\/etc/environment]\ or [\/etc/profile]\.
+    [\GTK_IM_MODULE=ibus ]\░
+    [\QT_IM_MODULE=ibus  ]\░
+    [\XMODIFIERS=@im=ibus]\░
+    [\GLFW_IM_MODULE=ibus]\░
+    ⮱   See
+        [=https://wiki.archlinux.org/title/Environment_variables#Globally]=
+    ⮱   The last line is not suggested in archlinux wiki, but it is required
+        if you want the framework to work in [\kitty]\, the terminal emulator
+
+ == Fcitx5 == {{{2
+  > Config < {{{3
+   |globally|
+    Append the following lines in [\/etc/environment]\ or [\/etc/profile]\.
+    [\GTK_IM_MODULE=fcitx ]\░
+    [\QT_IM_MODULE=fcitx  ]\░
+    [\XMODIFIERS=@im=fcitx]\░
+    [\GLFW_IM_MODULE=ibus ]\░
+    ⮱   See
+        [=https://wiki.archlinux.org/title/Environment_variables#Globally]=
+    ⮱   The last line is not suggested in archlinux wiki, but it is required
+        if you want the framework to work in [\kitty]\, the terminal emulator.
+        It needs to be [\ibus]\ not [\fcitx]\. This works with fcitx5.
+
+   |user config directory|
+    ➱   [\~/.config/fcitx5/]\
+
+  > Quick Phrase < {{{3
+    ➱   By default the keybinding is [\<Meta+~:>]\
+
+   |database|
+    ➱   System: In [\/usr/share/fcitx5/data/quickphrase.d/]\
+        ⮱   Native database for emoji:
+            [\/usr/share/fcitx5/data/quickphrase.d/emoji-eac.mb]\
+        ⮱   You can add your own quickphrase database in this directory.
+    ➱   You can open the GUI config to export the database, then change it and
+        import it back.
+
+}}}1
+[~{ System Monitoring Tools }~] {{{1
+ == inotifywait == {{{2
+  > Syntax < {{{3
+    [\inotifywait :OPTIONS FILE:]\
+    ⮱   The FILE is the file to be monitored. It can be a file or a directory.
+
+  > Output format < {{{3
+    [\:{MONITORED_FILE} {EVENT} [EVENT_FILE]:]\
+    ⮱   If the monitored file is a directory, there is a slash at the end.
+    ⮱   There is an EVENT_FILE only if the MONITORED_FILE is a directory.
+
+  > Options < {{{3
+    ‣   [\-m]\ keeps monitoring instead of quitting as soon as one event is
+        monitored.
+    ‣   [\-e :EVENT:]\ or [\--event]\ listens for specific event only. Can
+        pass multiple instances of this option to listen to several specific
+        events simultaneously.
+    ‣   [\--format :FMT:]\ specifies the output format. See man page. E.g.
+        [\--format '%w%f']\ outputs the full path of the event file.
+
+  > Examples < {{{3
+    ➱   [\inotifywait -m --event CREATE --event DELETE :DIR:]\
+        ⮱   Keep monitoring and report any event of file creation and deletion
+            in directory DIR.
+
+[~{ Misc }~] {{{1
+ == elinks == {{{2
+  > keybindings < {{{3
+   |navigation|
+    ➱   [\:SPACE:]\ move downwards by a page.
+    ➱   [\Ctrl-F]\ move downwards by a page; [\Ctrl-B]\ upwards
+    ➱   [\b]\ move upwards by a page.
+    ➱   [\Ctrl-N]\ scroll down; [\Ctrl-P]\ scroll up
+    ➱   [\#]\ search link text by typing ahead
+    ➱   [\/]\ search for a text pattern. [\?]\ search backward.
+    ➱   [\N]\ next search text. [\n]\ too.
+    ➱   [\[]\ scroll left; [\]]\ right
+    ➱   [\m]\ set a mark, [\']\ go to a specified mark
+
+   |organize|
+    ➱   [\t]\ open new tab
+    ➱   [\c]\ close tab
+    ➱   [\<]\ previous tab; [\>]\ next tab
+    ➱   [\Alt-<]\ move tab to left; [\Alt->]\ move to right
+
+   |render|
+    ➱   [\W]\ toggle wrapping of text
+
+   |network|
+    ➱   [\Ctrl-R]\ reload current page
+
+   |bookmark|
+    ➱   [\A]\ add new bookmark using current link
+    ➱   [\a]\ add a new bookmark.
+    ➱   [\s]\ open bookmark manager
+
+   |misc|
+    ➱   [\u]\ go forward in history
+    ➱   [\~:]\ enter ex-mode (command line)
+    ➱   [\=]\ show info about current page
+    ➱   [\F]\ open history manager
+
+[~{ Default Application }~] {{{1
+ == xdg-open == {{{2
+    ‣   [\xdg-open :FILE:]\ to open any files with the set default desktop
+        application (.desktop).
+        ⮱   Use [\nohup xdg-open :FILE: > /dev/null]\ if you don't want the
+            application opening the file quits when the bash running the
+            [\xdg-open]\ exits, and if you don't want output messages popping
+            up.
+
+ == xdg-mime == {{{2
+  > mimetype < {{{3
+    In the form of [\:MAJOR`/MINOR:]\. E.g. [\text/plain]\.
+
+  > Examples < {{{3
+    ‣   [\xdg-mime query filetype :FILE:]\ queries the mimetype of a file.
+    ‣   [\xdg-mime query default :MIMETYPE:]\ queries the currently set
+        default application to open a file of the given mimetype.
+    ‣   [\xdg-mime default :{APPLICATION} {MIMETYPE}...]\ set the default
+        application to open files of the given mimetypes.
+
+[~{ Terminal }~] {{{1
+ == Kitty == {{{2
+  > Keybindings < {{{3
+    ‣   [\<C-S-<F5>>]\: Reload kitty.conf
+
+ == Display == {{{2
+  > dircolor < {{{3
+    The default:
+
+    | type           | fg color | bg color | style |
+    |----------------+----------+----------+-------|
+    | file           | /        | /        | /     |
+    | dir            | blue     | /        | bold  |
+    | sym lnk        | cyan     | /        | bold  |
+    | broken sym lnk | red      | black    | bold  |
+    | executable     | green    | /        | bold  |
+    | set uid        | white    | red      | /     |
+    | set gid        | black    | yellow   | /     |
+
+  > Ansi Color Escape Sequence < {{{3
+    [\\033[:X:;:Y:m]\:
+    ‣   [\\033]\ or [\\x1b]\: Escape character (ESC). They are the same.
+    ‣   [\[]\: Define a sequence.
+    ‣   [\:X:]\: Parameter (optional)
+    ‣   [\;]\: Parameter separator
+    ‣   [\:Y:]\: Parameter (optional)
+    ‣   [\m]\: Specify this sequence is a SGR Code (Select Graphic Rendition)
+
+   |Font style|
+    | 0 | Reset / Normal  |
+    | 1 | Bold            |
+    | 2 | Darker color    |
+    | 3 | Italic          |
+    | 4 | Underline       |
+    | 5 | Blinking (slow) |
+    | 6 | Blinking (fast) |
+    | 7 | Reverse         |
+    | 8 | Hide            |
+    | 9 | Cross-out       |
+
+   |16-Color|
+    Normal and bright color respectively:
+
+    |         | FG | BG | FG | BG  |
+    |---------+----+----+----+-----|
+    | Black   | 30 | 40 | 90 | 100 |
+    | Red     | 31 | 41 | 91 | 101 |
+    | Green   | 32 | 42 | 92 | 102 |
+    | Yellow  | 33 | 43 | 93 | 103 |
+    | Blue    | 34 | 44 | 94 | 104 |
+    | Magenta | 35 | 45 | 95 | 105 |
+    | Cyan    | 36 | 46 | 96 | 106 |
+    | White   | 37 | 47 | 97 | 107 |
+
+   |256-Color|
+    First 16 is reserved for 16-color.
+
+    Sequence:
+    ‣   [\38;5;:X:]\ where X is the 256 color number.
+    ‣   E.g. [\\x1b[38;5;6m]\ is normal cyan.
+
+   |RGB Color|
+    Sequence:
+    ‣   [\38;2;:R`;G`;B:]\, where R, G, B are integers ranging 0-255.
+    ‣   E.g. [\\x1b[38;2;255;100;10m]\ is an orange-ish color.
+
+  > neofetch < {{{3
+    Just give a nice overview of your OS and terminal.
+
+ == Shells == {{{2
+  > Change default shell < {{{3
+    Use [\chsh]\. E.g. to change to zsh:
+    ‣   [\chsh -s $(which zsh)]\
+
+ == Getting Help == {{{2
+  > apropos < {{{3
+    [\apropos :REGEX:]\: Search for man pages with matches in title or short
+    descriptions
+
+  > man < {{{3
+   |options|
+    ‣   [\-K :[:--regex:] {TEXT}:]\: Search for text in all man pages.
+
+[~{ Font Configuration }~] {{{1
+ == FreeType == {{{2
+  > Reference < {{{3
+    [=https://wiki.archlinux.org/title/Font_configuration]=
+
+  > fc-list < {{{3
+    [\fc-list '~:' file]\ list known FOntconfig fonts.
+
+  > fc-cache < {{{3
+    ➱   [\fc-cache]\: Rebuild fontconfig's configuration.
+        ⮱   Change only be visible in newly launched applications
+
+  > Font paths < {{{3
+    ➱   Global: [\/usr/share/fonts/]\
+    ➱   User: [\~/.local/share/fonts/]\
+        ⮱   Deprecated: [\~/.fonts/]\
+
+    You can check [\Xorg]\'s known font paths by reviewing its log:
+    ➱   [\grep /fonts ~/.local/share/xorg/Xorg.0.log]\
+    ➱   Or use this: [\xset q]\
+
+  > Configuration File < {{{3
+    ➱   Global: In directory [\/etc/fonts/local.conf]\
+        ⮱   NOTE that another file [\/etc/fonts/fonts.conf]\ may change when
+            there is an upgrade and should not be changed manually
+    ➱   User: [\~/.config/fontconfig/fonts.conf]\
+
+   |syntax|
+    ➱   Use XML format:
+
+        #beginCode#
+        <?xml version="1.0"?>
+        <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd
+        <fontconfig>
+
+            <!-- settings -->
+
+        </fontconfig>
+        #endCode#

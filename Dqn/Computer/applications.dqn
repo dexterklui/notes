@@ -1,0 +1,90 @@
+/// Language: DQNote_1.35
+[~{ Darktable }~] {{{1
+ == Workflow == {{{2
+  > Photo Edit < {{{3
+    0.  Lens correction
+    1.  Exposure
+    2.  White balance
+    5.  Shadows and highlight
+    3.  Level (white & black clipping)
+        Exposure (black clipping)
+        Filmic rgb
+    4.  Curve
+    6.  Local contrast
+    7.  Velvia (saturation)
+    8.  Color Zone (set certain range of color range to manipulate saturation,
+        luminance, etc)
+    8.  denoise
+
+[~{ Mailspring }~] {{{1
+ == Settings == {{{2
+    ➱   You can choose a colour for ech account in "Preferences > Accounts".
+
+ == Keybindings == {{{2
+  > Gmail < {{{3
+   |navigation| {{{4
+    ➱   [\x]\: select mail (may not work with some themes)
+    ➱   [\j]\: next mail
+    ➱   [\k]\: previous mail
+    ➱   [\/]\: focus in the search field
+    ➱   [\g:x:]\: go to some place given by x:
+        ‣   [\i]\: inbox (also clears the search field)
+        ‣   [\s]\: starred
+        ‣   [\t]\: sent mail
+        ‣   [\d]\: drafts
+        ‣   [\a]\: all mail
+
+   |manage| {{{4
+    ➱   [\y]\: Remove from view (Gmail). It is used when new mail of an old
+        tread arrives in the inbox, but still technically in the assigned
+        folder of the thread. Now you cannot use [\v]\ to move to that
+        assigned folder again, for doing this will remove it from inbox view,
+        and also remove it from the assigned folder. So it is like being
+        archived. So you use [\y]\ to just remove from view.
+    ➱   [\<Del>]\ and [\<Backspace>]\: remove from view (not only for Gmail).
+    ➱   [\e]\: archive mail
+    ➱   [\#]\: move to trash
+    ➱   [\v]\: move to folder
+    ➱   [\l:]\: change label
+    ➱   [\z]\, [\h]\: snooze
+    ➱   [\=]\, [\+]\: mark as important (Gmail)
+    ➱   [\-]\: mark as not important (Gmail)
+    ➱   [\s]\: star
+    ➱   [\!]\: mark as Spam
+    ➱   [\I]\: mark as read
+    ➱   [\U]\: mark as unread
+
+   |compose| {{{4
+    ➱   [\c]\, [\d]\, [\^n]\: new message
+    ➱   [\r]\: reply
+    ➱   [\a]\: reply all
+    ➱   [\f]\: forward
+
+   |misc| {{{4
+    ➱   [\<C-,>]\: go to preference
+
+ == Search == {{{2
+    ➱   [\AND]\ (it is the default behaviour for multiple rules)
+    ➱   [\OR]\
+    ➱   [\NOT :SEARCH_RULE:]\. E.g. [\in~:inbox NOT is~:unread]\.
+    ➱   [\(]\ and [\)]\ group rules
+
+    ➱   [\in~::PLACE:]\, e.g. in: inbox
+        ‣   [\all]\, [\"all mail"]\ (or use keybinding [\ga]\)
+        ‣   [\important]\ only for Gmail
+    ➱   [\is~::ATTRIBUTE:]\:
+        ‣   [\read]\
+        ‣   [\unread]\
+        ‣   [\starred]\
+    ➱   [\has~:attachments]\
+    ➱   [\subject~::MAIL_SUBJECT:]\
+    ➱   [\to~::MAIL_ADDRESS:]\
+    ➱   [\from~::MAIL_ADDRESS:]\
+    ➱   [\before~::DATE:]\
+    ➱   [\since~::DATE:]\
+
+
+[~{ Okular }~] {{{1
+ == Keybindings == {{{2
+    ➱   [\~:]\ start typing commands. Like Vim.
+    For others, see [=arch_linux.dqn]=.

@@ -1,0 +1,132 @@
+/// Language: DQNote_1.35
+[~{ Keybindings }~] {{{1
+ == Misc == {{{2
+    ➱   [\<C-,>]\ jumps to page from URL bar, or jump to page where Tridactyl
+        can function.
+    ➱   [\x]\ stops loading page
+    ➱   [\r]\ reloads page
+    ➱   [\R]\ reloads page hard
+    ➱   [\gf]\ view source
+    ➱   [\gr]\ use reader
+    ➱   [\.]\ repeat previous cmd
+
+ == hints == {{{2
+    ➱   [\;m]\ search for image in Google
+    ➱   [\;i]\ opens image at current tab
+    ➱   [\;I]\ opens image at new tab
+    ➱   [\;#]\ anchor: copy a link with anchor to a particular section of the
+        page (elements with id)
+    ➱   [\;y]\ yanks links's target to clipboard
+    ➱   [;custom]; [\;C]\ or [\,m]\ hints and right click to bring up menu
+    ➱   [\;k]\ kills an element.
+    ➱   [\;K]\ kills an element, but recoverable by [\elementunhide]\.
+    ➱   [\;s]\ saves the linked resource
+    ➱   [\;S]\ saves the linked image
+    ➱   [\;a]\ save-as the linked resource
+    ➱   [\;A]\ save-as the linked image
+    ➱   [\;p]\ copy an element's text
+    ➱   [\;z]\ moves page such that the target element at the top
+    ➱   [\;x]\ or [\;X]\ moves cursor and performs a click or ctrl-shift-click
+        (new foreground tab) on an element. Useful for JavaScript.
+    ➱   [;custom]; [\;o]\ opens a page at current window
+
+ == Navigation == {{{2
+   |web|
+    ➱   [\gu]\ goes to parent page
+    ➱   [\gU]\ goes to root page
+
+   |places in page|
+    ➱   [\<C-o>]\ and [\<C-i>]\ like that in Vim
+    ➱   [;custom]; [\,,]\ hint for a div element to focus on that for scrolling
+
+ == Yank == {{{2
+    ➱   [\yy]\ yank URL of current page
+    ➱   [\ys]\ yank short URL
+    ➱   [\yc]\ yank canonical link
+    ➱   [\ym]\ yank title and URL in markdown format
+    ➱   [\yt]\ yank title
+
+ == Tabs == {{{2
+    ➱   [\b]\ acts like Vim's buffer list, let you pick one tab to jump to
+    ➱   [\ga]\ goes to audio playing tab
+    ➱   [;custom]; [\d]\ goes to alternate tab like <C-^>
+    ➱   [\g0]\ goes to first tab
+    ➱   [\g$]\ goes to last tab
+    ➱   [\>>]\ moves tab to the right
+    ➱   [\<<]\ moves tab to the left
+    ➱   [\g;]\ focuses previous focused input field even if it is in other tab
+    ➱   [;custom]; [\gd]\ duplicate current tab
+    ➱   [;custom]; [\gc:{c}:]\ recontain current tab in the container c
+
+ == Open Tab or Win == {{{2
+    ➱   [;custom]; [\T]\ fill command line with [\opentab -c ]\ for easy
+        container specification
+    ➱   [\p]\ open links stored at clipboard, or search for it if not a link
+        at current tab
+    ➱   [\P]\ open links stored at clipboard, or search for it if not a link
+        at new tab
+
+ == Quickmark == {{{2
+    ➱   [\M:{key}:]\ quick mark current page with key.
+    ➱   [;custom]; [\m:{key}:]\ quick mark current page with key.
+    ➱   [\go:{key}:]\ open the marked page in current tab
+    ➱   [\gn:{key}:]\ open the marked page in new tab
+    ➱   [\gw:{key}:]\ open the marked page in new window
+
+ == Fun == {{{2
+    ➱   [\g!]\ randomly shuffle letters other than the first and the last.
+        Reload page to undo it.
+    ➱   [\g?]\ add a shift count to easy encrypt the letters. [\g?]\ again to
+        undo it.
+    ➱   [\neo_mouse_mode]\ add a matrix mask on the webpage, and also toggle
+        [\no_mouse_mode]\. Reload page to undo it.
+    ➱   [\snow_mouse_mode]\
+
+[~{ Commands }~] {{{1
+ == Hint == {{{2
+    [\hint]\
+    ➱   [\-c :selector:]\ hint links that match a CSS selector.
+
+ == Composite command == {{{2
+    ➱   [\gobble :n cmd:]\ will read n input keys, then append them to the cmd
+        and execute that string.
+    ➱   [\command :custom_cmd mapped_cmd]\
+    ➱   [\composite :cmds:]\ composite commands with [\;]\ or [\|]\ (which
+        pipe return value of previous cmd to the next as the last argument).
+    ➱   [\fillcmdline :string:]\ set the command line into the string given
+
+    ➱   [\sleep :time:]\ sleep for certain milliseconds
+
+ == Search == {{{2
+    ➱   [\:{:open:|:tabopen:} {search_provider} {search_string}:]\ where
+        search_provider is set by [\searchurls]\ setting.
+
+   |custom search providers|
+    ➱   [\en]\ searches on Cambridge English to Traditional Chinese
+    ➱   [\de]\ searches on de.pons.com German to English and vice versa
+
+ == Containers == {{{2
+  > autocontain < {{{3
+    [\autocontain -:{`s|`u} regex container:]\
+    ➱   Two modes, sane mode [\-s]\ and URL mode [\-u]\. Both modes accept RegEx.
+    ➱   You most likely want to escape a period: [\\.]\
+    ➱   To use it in Tridactylrc, remember to first [\unset autocontain]\
+
+[~{ Settings }~] {{{1
+ == How To == {{{2
+    ➱   [\set :option value:]\
+    ➱   [\get :option value:]\
+    ➱   [\unset :option:]\ reset an option to its default value. Note that
+        [\reset]\ is a different command.
+    ➱   [\setnull :option:]\ delete a default setting, and set its value to
+        NULL.
+    ➱   [\seturl :regex option value:]\ set an option for web pages whose
+        URL matches the regex pattern.
+
+ == Containers == {{{2
+  > autocontain < {{{3
+    This assign URL or domain (both in regex) to a container so that matching
+    webpages will automatically opened in that container.
+
+    To unset all existing autocontain configuration, [\unset autocontain]\
+    To set a particular website, use the command [\autocontain]\
