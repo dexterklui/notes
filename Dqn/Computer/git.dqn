@@ -323,6 +323,14 @@
     ➱   [\--depth :n:]\: Clone only n most recent commits.
         ⮱   Implies [\--single-branch]\ by default.
         ⮱   Use [\--shallow-submodules]\ for submodules.
+        ⮱   NOTE that this will only make git track the initially downloaded
+            branch. E.g. if you create a new branch and push it while setting
+            up upstream, locally git won't track the corresponding branch in
+            the remote and you won't see the remote tracking ref
+            "remote/new-branch".
+            ⮱   You need to manually set or add more remote branches with
+                [\git remote --set-branches :[:--add:] remote branch:]\.
+                ([\*]\ to represent all branches)
     ➱   [\--single-branch]\: Clone only one branch.
         ⮱   Default is where the remote's HEAD points to. Overridden by
             [\--branch]\.
@@ -676,8 +684,10 @@
     [\git rebsae --continue]\ after manually solving the conflict.
 
    |interactive|
-    This allows you to drop, squash, amend and split commits to [[rewrite]]
-    git history. This is also handy to [[reset author]] information
+    This allows you to drop, squash, amend, split and reorder commits to
+    [[rewrite]] git history. This is also handy to [[reset author]]
+    information
+
     ➱   [\-i]\ interactive rebasing
         ‣   [\HEAD~3]\ or [\HEAD~2^]\ rebase the last three commits onto the
             forth last commit.
@@ -689,8 +699,8 @@
 
    |finding and fixing bug|
     You can use [[interactive]] rebase to find and fix a bug with [\--exec]\.
-    ➱   [\git rebase -i --exec "make test" HEAD~5^]\ let you to take 5 past
-        commits and then rebase it to the first commit's parent while running
+    ➱   [\git rebase -i --exec "make test" HEAD~5]\ let you to take 5 past
+        commits and then rebase it to the 6th last commit while running
         a make test after rebasing each commit. This brings you the todo
         rebase list:
         [\pick 5928aea one  ]\░

@@ -61,7 +61,7 @@ and `$` (which is just an alias for `jQuery`).
 
 To provide its own methods and syntactical sugars, jQuery wraps DOM elements
 within its own object `JQuery<HTMLElement>`. It is different from `HTMLElement`
-or `HTMLElement[]`, and they do not share methods and properties.
+(or `NodeListOf<HTMLElement>`), and they do not share methods and properties.
 
 So it is a good practice to prepend variable names for jQuery objects with `$`.
 
@@ -74,8 +74,8 @@ Generally two types of methods:
 
 ### JQuery object methods
 
-JQuery object methods apply to **whole selection** and **return the same**
-selection. This is useful for **methods chaining**.
+JQuery object methods **_implicitly iterate_** over the whole selection and
+**return the same** selection. This is useful for **methods chaining**.
 
 They are in `$.fn` namespace. They automatically receive and return the
 selection as `this`. We refer to them by its name: `.each()` or `each()`.
@@ -129,7 +129,7 @@ const $divs = $("div");
 
 But if new elements are added, you need to do the query again to include them.
 
-## Methods for filtering selections
+## Methods for queries
 
 All these methods are **_DOM traversal methods_**. All of them accept an
 optional **selector** to further filter the result, except `eq()`.
@@ -194,7 +194,13 @@ $("#content")
 Complex traversal makes it imperative that the document's structure remain the
 same, which is difficult to guarantee. Keep it to one or two-step traversal.
 
-## Getting native DOM element
+# Wrapping and getting native DOM
+
+## Wrapping native DOM
+
+Just wrap it inside `$()`. E.g. `$(event.target)`.
+
+## Getting native DOM elements
 
 Instead of `eq(idx)`, use the following way to get a native DOM element:
 
@@ -206,6 +212,9 @@ object is created every time using `$()` query. Even if two selections have the
 same single element, they are still different if they are separate jQuery
 instances. To test if two elements are the same, you need to get the native DOM
 elements and then do a `===` comparison.
+
+The `get()` without argument gives you back an **array** (even only one element)
+of JavaScript objects wrapped inside the jQuery object.
 
 # Creating Elements
 
@@ -222,7 +231,7 @@ $("<img/>", { src: "path/to/img", alt: "description" });
 $("<div>", { id: "foo", class: "a" });
 ```
 
-# Modifying Elements
+# Modifying and Inspecting Elements
 
 ## Getters and setters
 
@@ -246,6 +255,10 @@ $("<div>", { id: "foo", class: "a" });
 | `attr(attributes)`       | Set attribute from key-value pairs      |
 | `val()`                  | Get value of `value` attribute          |
 | `val(value)`             | Set value of `value` attribute          |
+
+| Methods           | Description       |
+| ----------------- | ----------------- |
+| `hasClass(class)` | True if has class |
 
 ### Using functions to calculate values
 
@@ -314,6 +327,35 @@ Note that though it is convenient to insert elements with jQuery, it has
 performance cost to adding to DOM repeatedly. You should **concatenate all HTML
 into a single string** and append the string instead if possible.
 
+```javascript
+$("#my-container").append(
+  `
+  <section class="sections" id="update-contact">
+    <h1>${title}</h1>
+    <form id="${formName}-form" class="contact-form">
+      <div id="row-name">
+        <input type="text" name="name" class="name" placeholder="Name" />
+      </div>
+      <div id="row-phone">
+        <input
+          type="text"
+          name=${inputName}
+          class=${inputClass}
+          placeholder=${inputPlaceholder}
+        />
+      </div>
+      <div id="row-email">
+        <input type="text" name="email" class="email" placeholder="Email" />
+      </div>
+      <div id="row-submit">
+        <input type="submit" value="submit" />
+      </div>
+    </form>
+  </section>  
+  `
+);
+```
+
 ## Cloning elements
 
 Use `clone()`. Can further chain methods.
@@ -328,16 +370,110 @@ Use `clone()`. Can further chain methods.
 
 Both `remove()` and `detach()` returns the selection removed
 
+## Replacing elements
+
+| Method                 | Description                   |
+| ---------------------- | ----------------------------- |
+| `replaceWith(element)` | Replace with given element(s) |
+
+Note that it returns the original jQuery object, and the removed elements will
+have their data and event handlers removed.
+
 # Comparing Elements
 
 You need to turn jQuery DOM to native DOM element. See
 [Getting native DOM element](#getting-native-dom-element)
 
-# Inspecting Elements
+# Explicit Iteration
 
-| Methods           | Description       |
-| ----------------- | ----------------- |
-| `hasClass(class)` | True if has class |
+## each()
+
+`each(callback)` calls the callback on each element in the selection. It passes
+two arguments to the callback: `function(idx, element)`.
+
+1.  zero-based index indicating the iteration number
+2.  current element (`HTMLElement` **without** wrapping in jQuery object)
+
+Also, the callback is called in the context of the current element ( **without**
+wrapping in jQuery object), so `this` inside refers to that (**unless** it's an
+arrow function).
+
+You can **break** the loop by returning `false`.
+
+## map()
+
+`map(callback)` works like JavaScript's counterpart, except it works on jQuery
+object, returns a jQuery object, and passes arguments (**without** wrapping in
+jQuery object) to the callback like jQuery's `each()`.
+
+At the end, you may want to chain `get()` to turn the result into native
+JavaScript array.
+
+# Utility Methods
+
+They are _Core jQuery methods_ that resides in the `$` namespace. By the way,
+some methods may be deprecated (followed by "!"). You should use native
+JavaScript code instead because deprecated methods may return incorrect result
+when checking against new technology.[^1]
+
+| Method                      | Description                               |
+| --------------------------- | ----------------------------------------- |
+| `$.trim(string)`            | Remove leading and trailing whitespace    |
+| `$.each(iterable, callback` | Call callback(key, val) on iterable       |
+| `$.inArray(val, array)`     | Return a value's index, or -1 if none     |
+| `$.extend(obj0, obj1...)`   | Change properties of obj0 using objs      |
+| `$.extend({}, obj...)`      | Create new obj using objs                 |
+| `$.proxy(func, this)` !     | Bind `this` context and return a function |
+| `$.proxy(obj, objMethod)` ! | Return a function binding `this` to obj   |
+
+| Method                | Description                      |
+| --------------------- | -------------------------------- |
+| `$.isArray(arg)`      | Return true if arg is an array   |
+| `$.isFunction(arg)` ! | Return true if arg is a function |
+| `$.isNumeric(arg)` !  | Return true if arg is a numeric  |
+| `$.type(arg)` !       | Return the internal class        |
+
+Unlike `typeof`, `$.type()` doesn't return `object` only, but can be:
+
+- boolean
+- number
+- string
+- function
+- array
+- null
+- regexp
+- date
+
+[^1]:
+    [GitHub - Deprecate jQuery.type](https://github.com/jquery/jquery/issues/3605)
+
+# Data Methods
+
+In JavaScript, storing data may lead to memory leaks. In jQuery, it manages
+memory issues for you.
+
+To get or set data to an element, use `data()` method:
+
+| Method             | Description                     |
+| ------------------ | ------------------------------- |
+| `data()`           | Receive data in key-value pairs |
+| `data(key)`        | Receive data value of a key     |
+| `data(key, value)` | Store data                      |
+| `data(object)`     | Store data from key-value pairs |
+
+Besides literal data, it can be useful to store reference to other elements so
+you don't need to query that in the future.
+
+```javascript
+$("#my-list li").each(function () {
+  let li = $(this);
+  let div = li.find("div.content");
+  li.data("contentDiv", div);
+});
+// later
+let firstLi = $("#my-list li:first");
+firstLi.data("contentDiv").html("new content");
+```
 
 # Events
 
@@ -353,51 +489,72 @@ $("p").last().on("click", (e) => { ... })
 $(".button").trigger("click");
 ```
 
-# jQuery Forms
+# JQuery Ajax
 
-Use HTML forms. Unlike AJAX, submitting a form will **reload** the webpage. Use
-JavaScript builtin methods `event.preventDefault()` to prevent default behaviour
-(here it is prevent page reload)
+## Deferred object
 
-## Example
+JQuery implements their own `Deferred` object where `Promise` is the interface.
+So it has a superset of fields and methods of `Promise`.
 
-```html
-<form id="login-form" method="post">
-  <input
-    class="text"
-    type="text"
-    name="username"
-    value=""
-    placeholder="Enter your username"
-  />
-  <input
-    class="text"
-    type="password"
-    name="password"
-    value=""
-    placeholder="Enter your password"
-  />
-  <input type="submit" name="submit-button" value="submit" />
-</form>
-```
+## Sending HTTP requests
+
+Use **"minified"** version. JQuery's Ajax methods are not provided in "slim
+minified" version.
+
+JQuery directly transforms JSON into JavaScript object for you.
 
 ```javascript
-$(function () {
-  $("#login-form").on("submit", (e) => {
-    e.preventDefault(); // Prevent prevent page reload
-    const formElem = e.target;
-    const username = formElem.username.value;
-    const password = formElem.password.value;
-    console.log("This form is submitted");
-    $("body").prepend(`<h1>Welcome ${username}</h1>`);
+$.ajax({
+  url: "http://api.open-notify.org/astros.json",
+  method: "GET",
+})
+  .done((data) => {
+    console.log(data);
+  })
+  .fail((error) => {
+    console.log(error);
+  })
+  .always((data) => {
+    console.log("...");
   });
-});
+```
+
+Besides `$.ajax()`, there are `$.get()`, `$.post()` and etc.
+
+## Handling multiple deferred objects
+
+`$.when(deferred...)` takes in multiple Deferred object and return a Promise
+that resolve into a resolved Deferred if all input Deferred resolve, or into a
+rejected Deferred as soon as any input rejects.
+
+You can chain Deferred methods.
+
+# JQuery Form Helper Functions
+
+A jQuery form element has a method `serialize()` that takes the values of the
+form and output a corresponding URL query string:
+
+```javascript
+$("#form").serialize();
+// "name=John&email=john@example.com&tel=12345678"
+```
+
+The method `serializeArray()` outputs an array of key-value pairs:
+
+```javascript
+$("#form").serializeArray();
+/* [
+ *   {name: "name", value: "John"},
+ *   {name: "email", value: "john@example.com"},
+ *   {name: "tel", value: "12345678"}
+ * ]
+ */
 ```
 
 # 🧭 Navigation
 
 - [🔼 Back to top](#)
-- [◀️ Back](../index.md)
-- [🔖 Parent index](../index.md)
-- [📑 Notes Index](../index.md)
-- [🗃️ Master Index](../../index.md)
+- [◀️ Back](.index.md)
+- [🔖 Parent index](index.md)
+- [📑 Notes Index](../../index.md)
+- [🗃️ Master Index](../../../index.md)

@@ -79,10 +79,10 @@ date: 2023-07-22 (Sat)
 
 # Link
 
--   Can append id `path/to/file#id-of-heading` to jump to a particular section
+- Can append id `path/to/file#id-of-heading` to jump to a particular section
 
 # 🧭 Navigation
 
--   [🔼 Back to top](#)
--   [◀️ Back](index-nvim.md)
--   [📑 Index](/media/mikeX/Nextcloud/index.md)
+- [🔼 Back to top](#)
+- [◀️ Back](index.md)
+- [📑 Index](/media/mikeX/Nextcloud/index.md)

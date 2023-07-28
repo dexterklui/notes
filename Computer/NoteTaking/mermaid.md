@@ -22,144 +22,144 @@ flowchart LR
     id1 --- id3
 ```
 
--   `flowchart` specifies types of diagram
--   `graph` is an alias of `flowchart`
--   `LR` specifies the direction of flowcharts
+- `flowchart` specifies types of diagram
+- `graph` is an alias of `flowchart`
+- `LR` specifies the direction of flowcharts
 
 ## ID naming
 
--   Valid characters: a-z A-Z 0-9 -
--   Can start with numbers
--   Case sensitive
+- Valid characters: a-z A-Z 0-9 -
+- Can start with numbers
+- Case sensitive
 
 ## Directions
 
--   `TB` or `TD`: top-down (`TD` sometimes not work for `direction`)
--   `BT`: bottom-top
--   `LR`: left-right
--   `RL`: right-left
+- `TB` or `TD`: top-down (`TD` sometimes not work for `direction`)
+- `BT`: bottom-top
+- `LR`: left-right
+- `RL`: right-left
 
 ## Node content
 
--   To use unicode characters, enclose the node text within `""`.
--   Newer version support **Markdown** formatting. Enclose the node text within
+- To use unicode characters, enclose the node text within `""`.
+- Newer version support **Markdown** formatting. Enclose the node text within
 
-    ```
-    markdown["`This **is** _Markdown_`"]
-    newlines["`Line1
-    Line2
-    Line3`"]
-    markdown --> newlines
-    ```
+  ```
+  markdown["`This **is** _Markdown_`"]
+  newlines["`Line1
+  Line2
+  Line3`"]
+  markdown --> newlines
+  ```
 
-    ```mermaid
-    flowchart LR
-        markdown["`This **is** _Markdown_`"]
-        newlines["`Line1
-        Line2
-        Line3`"]
-        markdown --> newlines
-    ```
+  ```mermaid
+  flowchart LR
+      markdown["`This **is** _Markdown_`"]
+      newlines["`Line1
+      Line2
+      Line3`"]
+      markdown --> newlines
+  ```
 
 ## Node shapes
 
--   Rectangle `[ ]`
+- Rectangle `[ ]`
 
-    ```mermaid
-    flowchart LR
-        id1[rectangle]
-    ```
+  ```mermaid
+  flowchart LR
+      id1[rectangle]
+  ```
 
--   Round edges `( )`
+- Round edges `( )`
 
-    ```mermaid
-    flowchart LR
-        id1(round edges)
-    ```
+  ```mermaid
+  flowchart LR
+      id1(round edges)
+  ```
 
--   Stadium-shaped `([ ])`
+- Stadium-shaped `([ ])`
 
-    ```mermaid
-    flowchart LR
-        id1([stadium-shaped])
-    ```
+  ```mermaid
+  flowchart LR
+      id1([stadium-shaped])
+  ```
 
--   Subroutine shape `[[ ]]`
+- Subroutine shape `[[ ]]`
 
-    ```mermaid
-    flowchart LR
-        id1[[subroutine shape]]
-    ```
+  ```mermaid
+  flowchart LR
+      id1[[subroutine shape]]
+  ```
 
--   Cylindrical shape `[( )]`
+- Cylindrical shape `[( )]`
 
-    ```mermaid
-    flowchart LR
-        id1[(database)]
-    ```
+  ```mermaid
+  flowchart LR
+      id1[(database)]
+  ```
 
--   Circle `(( ))`
+- Circle `(( ))`
 
-    ```mermaid
-    flowchart LR
-        id1((circle))
-    ```
+  ```mermaid
+  flowchart LR
+      id1((circle))
+  ```
 
--   Asymmetrical flag `> ]`
+- Asymmetrical flag `> ]`
 
-    ```mermaid
-    flowchart LR
-        id1>assymmetrical flag]
-    ```
+  ```mermaid
+  flowchart LR
+      id1>assymmetrical flag]
+  ```
 
--   Diamond (rhombus) `{ }`
+- Diamond (rhombus) `{ }`
 
-    ```mermaid
-    flowchart LR
-        id1{diamond}
-    ```
+  ```mermaid
+  flowchart LR
+      id1{diamond}
+  ```
 
--   Hexagon `{{ }}`
+- Hexagon `{{ }}`
 
-    ```mermaid
-    flowchart LR
-        id1{{hexagon}}
-    ```
+  ```mermaid
+  flowchart LR
+      id1{{hexagon}}
+  ```
 
--   Parallelogram `[/ /]`
+- Parallelogram `[/ /]`
 
-    ```mermaid
-    flowchart LR
-        id1[/paralleloogram/]
-    ```
+  ```mermaid
+  flowchart LR
+      id1[/paralleloogram/]
+  ```
 
--   Parallelogram alt `[\ \]`
+- Parallelogram alt `[\ \]`
 
-    ```mermaid
-    flowchart LR
-        id1[\parallelogram alt\]
-    ```
+  ```mermaid
+  flowchart LR
+      id1[\parallelogram alt\]
+  ```
 
--   Trapezoid `[/ \]`
+- Trapezoid `[/ \]`
 
-    ```mermaid
-    flowchart LR
-        id1[/trapezoid\]
-    ```
+  ```mermaid
+  flowchart LR
+      id1[/trapezoid\]
+  ```
 
--   Trapezoid alt `[\ /]`
+- Trapezoid alt `[\ /]`
 
-    ```mermaid
-    flowchart LR
-        id1[\trapezoid alt/]
-    ```
+  ```mermaid
+  flowchart LR
+      id1[\trapezoid alt/]
+  ```
 
--   Double circle `((()))`
+- Double circle `((()))`
 
-    ```mermaid
-    flowchart LR
-        id1(((double circle)))
-    ```
+  ```mermaid
+  flowchart LR
+      id1(((double circle)))
+  ```
 
 ## Links and arrow style
 
@@ -169,65 +169,65 @@ You can make the link **longer** by repeating the defining character of the
 link. (e.g. `.` for dotted link `-.-`). Actually it is to **increase the rank**
 (in column or row depending on direction).
 
--   Open link `---`
+- Open link `---`
 
-    ```mermaid
-    flowchart LR
-        A---B
-    ```
+  ```mermaid
+  flowchart LR
+      A---B
+  ```
 
--   Dotted link `-.-`.
+- Dotted link `-.-`.
 
-    ```mermaid
-    flowchart LR
-        A-.-B
-    ```
+  ```mermaid
+  flowchart LR
+      A-.-B
+  ```
 
--   Thick link `===` (or `==` with an arrow head)
+- Thick link `===` (or `==` with an arrow head)
 
-    ```mermaid
-    flowchart LR
-        A===B
-    ```
+  ```mermaid
+  flowchart LR
+      A===B
+  ```
 
--   Invisible link `~~~` (Useful to alter positioning of nodes)
+- Invisible link `~~~` (Useful to alter positioning of nodes)
 
-    ```mermaid
-    flowchart LR
-        A~~~B
-    ```
+  ```mermaid
+  flowchart LR
+      A~~~B
+  ```
 
 ### Arrow style
 
 You can add arrow head on either side.
 
--   Arrow head `<-->`
+- Arrow head `<-->`
 
-    ```mermaid
-    flowchart LR
-        A<-->B
-    ```
+  ```mermaid
+  flowchart LR
+      A<-->B
+  ```
 
--   Dot `o.-o`
+- Dot `o.-o`
 
-    ```mermaid
-    flowchart LR
-        Ao.-oB
-    ```
+  ```mermaid
+  flowchart LR
+      Ao.-oB
+  ```
 
--   Cross `x==x`
+- Cross `x==x`
 
-    ```mermaid
-    flowchart LR
-        Ax==xB
-    ```
+  ```mermaid
+  flowchart LR
+      Ax==xB
+  ```
 
 ## Texts on links
 
--   `A --> |text| B`
--   `A -- text --> B`
--   `A -. text .-> B`
--   `A .- text --> B`
+- `A --> |text| B`
+- `A -- text --> B`
+- `A -. text .-> B`
+- `A .- text --> B`
 
 ## Chaining links
 
@@ -258,7 +258,7 @@ flowchart TB
 
 ```
 subgraph id1[title]
-    graph definition
+    <graph definition>
 end
 ```
 
@@ -426,14 +426,14 @@ flowchart LR
     end
 ```
 
--   Use indents
--   Declare node first, then define relations
--   Chaining by starting a new line with links
+- Use indents
+- Declare node first, then define relations
+- Chaining by starting a new line with links
 
 # 🧭 Navigation
 
--   [🔼 Back to top](#)
--   📑 [Index](../../../index.md)
+- [🔼 Back to top](#)
+- 📑 [Index](../../../index.md)
 
 # Vim Modelines
 

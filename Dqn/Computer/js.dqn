@@ -997,8 +997,8 @@
 
   > Optional chaining operator < {{{3
     The ['optional chaining]' operator [\?.]\ prevents JavaScript from
-    throwing an error when the parent key on its left-hand side doesn't exist,
-    but to return [\undefined]\.
+    throwing an error when the parent key (method or property) on its
+    left-hand side doesn't exist, but to return [\undefined]\.
 
     #beginJavascript#
     const obj = {

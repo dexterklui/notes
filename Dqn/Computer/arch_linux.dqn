@@ -47,6 +47,7 @@
         ⮱   For neovim bash formatter, LSP and linter
     ➱   [\eslint]\
         ⮱   For neovim linter
+    ➱   [\whois]\: check info about an ip or domain
 
    |Dependencies explicitly installed|
     ➱   [\python-nose]\ for [\papis]\
@@ -180,13 +181,20 @@
  == Files/Dirs that are large == {{{2
     ➱   ~/Zomboid/Logs/
 
+ == Problems and Fixes == {{{2
+    ➱   Media play shortcut not responding
+        ‣   Actually it's tied to the widget in system tray. So try reenabling
+            system tray player.
+        ‣   If this doesn't work, try kill latte dock and then turn it on
+            again
+
 [~{ Key Bindings }~] {{{1
  == KDE Desktop Environment == {{{2
   > Screenshot < {{{3
     ➱   [\<W-q>]\: Screenshot
     ➱   [\<W-S-q>]\: Control Screenshot
     ➱   [\<W-C-q>]\: Color picker - pick a color on a screen
-        ⮱   Can right click or Esc to quickly cancel picking action and call
+        ⮱   Can right click or <Esc> to quickly cancel picking action and call
             the color picker panel
         ⮱   You can activate color picker to [[freezes the screen]], if you
             just want to take a look at some changing elements on screen.
@@ -264,10 +272,11 @@
     ➱   [\<W-S-z>]\: Undo last line drawn
     ➱   [\<W-S-x>]\: Clear all drawn lines
 
-  > Media control < {{{3
+  > Clipboard and Media control < {{{3
     ➱   [\<W-z>]\: Mute microphone
     ➱   [\<W-x>]\: Edit current item in clipboard
         ⮱   Good for a quick text editor
+    ➱   [\<C-~:>]\: Choose entry from clipboard history
     ➱   [\<W-C-r>]\: Invoke application on current clipboard content
 
   > Applications < {{{3

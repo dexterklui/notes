@@ -10,8 +10,8 @@ title: Notes Index
 
 ## 🌐 Web Development
 
+- [HTML](Computer/html.md)
 - [JavaScript - Index](Computer/Javascript/index.md)
-- [jQuery](Computer/jquery.md)
 - [CSS](Computer/css.md)
 - [Figma](Computer/figma.md)
 - [Bootstrap](Computer/bootstrap.md)
@@ -21,7 +21,7 @@ title: Notes Index
 
 ## ⌨️ Vim
 
-- [NeoVim](Computer/Nvim/index-nvim.md)
+- [NeoVim](Computer/Nvim/index.md)
 - [LazyVim](Computer/lazyvim.md)
 
 ## 📝 Note Taking
@@ -40,7 +40,10 @@ title: Notes Index
 ## 🗂️ Misc
 
 - [tmux](Computer/tmux.md)
+- [Git](Computer/git.md)
+- [Bash](Computer/bash.md)
 - [EBNA - Meta Language](Computer/ebna.md)
+- [GPG Key](Computer/gpg-key.md)
 
 # 🧾 Non-notes
 

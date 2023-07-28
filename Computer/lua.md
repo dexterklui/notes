@@ -6,18 +6,18 @@ title: Lua
 
 Three fundamental mechanisms:
 
--   Tables: Represent both maps and lists
--   Closures: Every scope is a closure, e.g. function, module, do block, etc.
--   Stackful coroutines enable cooperative multithreading, generators, and
-    versatile control for both Lua and its host (Nvim).
+- Tables: Represent both maps and lists
+- Closures: Every scope is a closure, e.g. function, module, do block, etc.
+- Stackful coroutines enable cooperative multithreading, generators, and
+  versatile control for both Lua and its host (Nvim).
 
 # Basic Syntax
 
 ## Variable names and keywords
 
--   Any string of letters, digits and underscore
--   Not start with a digit.
--   Case-sensitive
+- Any string of letters, digits and underscore
+- Not start with a digit.
+- Case-sensitive
 
 Reserved keywords: and, break, do, else, elseif, end, false, for, function, if,
 in, local, nil, not, or, repeat, return, then, true, until, while.
@@ -38,16 +38,16 @@ uppercase letters are reserved** for Lua's internal global variables.
 
 Use single `'` or double quotes `"`, both can contain:
 
--   `\a` bell
--   `\b` backspace
--   `\f` form feed
--   `\n` newline
--   `\r` carriage return
--   `\t` horizontal tab
--   `\v` vertical tab
--   `\\` backslash
--   `\"` quotation mark (double quote)
--   `\'` apostrophe (single quote)
+- `\a` bell
+- `\b` backspace
+- `\f` form feed
+- `\n` newline
+- `\r` carriage return
+- `\t` horizontal tab
+- `\v` vertical tab
+- `\\` backslash
+- `\"` quotation mark (double quote)
+- `\'` apostrophe (single quote)
 
 ### Long brackets
 
@@ -81,13 +81,13 @@ alo
 
 ## Numerical constants
 
--   3
--   3.0
--   3.1416
--   314.16e-2
--   0.31316E1
--   0xff
--   0x56
+- 3
+- 3.0
+- 3.1416
+- 314.16e-2
+- 0.31316E1
+- 0xff
+- 0x56
 
 ## Comments
 
@@ -108,14 +108,14 @@ as arguments and returned as results.
 
 ### Eight basic types
 
--   nil
--   boolean
--   number
--   string
--   function
--   userdata
--   thread
--   table
+- nil
+- boolean
+- number
+- string
+- function
+- userdata
+- thread
+- table
 
 ### nil
 
@@ -141,13 +141,30 @@ numbers (after inplicit type casting).
 
 Also see [## Literal strings](#literal-strings).
 
+#### Methods
+
+These methods reside in `string` namespace. E.g. use it as `string.upper("a")`.
+The argument `s` stands for the input string to be processed.
+
+| Method                    | Description                               |
+| ------------------------- | ----------------------------------------- |
+| `upper(s)`                | To upper case                             |
+| `lower(s)`                | To lower case                             |
+| `sub(s, i, j)`            | Substring from idx i to j inclusive       |
+| `format(s, val...)`       | Formatted string, e.g. `"%.4f", PI`       |
+| `gsub(s, pat, repl, [n])` | Substitute globally or first n occurances |
+| `len(s)`                  | Length of string                          |
+| `match(s, pat, [init])`   | Extract matching substrings               |
+| `find(s, pat, [init])`    | Start and end indices of match            |
+| `reverse(s)`              | Reverse string                            |
+
 ### userdata
 
--   To store arbitrary C data.
--   It corresponds to a block of raw memory.
--   No predefined operation, except assignment and identity test.
--   Cannot be created or modified in Lua, but only through C API. This
-    guarantees the integrity of data owned by the host program.
+- To store arbitrary C data.
+- It corresponds to a block of raw memory.
+- No predefined operation, except assignment and identity test.
+- Cannot be created or modified in Lua, but only through C API. This guarantees
+  the integrity of data owned by the host program.
 
 ### thread
 
@@ -158,16 +175,16 @@ coroutine.
 
 #### Introduction to tables
 
--   Implements associative arrays. I.e. index not only with numbers but with
-    value (except `nil`).
--   Both indices and values can be heterogeneous. i.e. contains data of
-    different types (except `nil`).
-    -   If a value is a function, then it works similar to a method.
--   The only data structuring mechanism, and used to represent ordinary arrays,
-    symbol tables, sets, records, graphs, trees, etc.
--   Can use dot notation to represent bracket notation: `a.name` is the same as
-    `a["name"]`.
--   Can be returned in a function as an object to return multiple values.
+- Implements associative arrays. I.e. index not only with numbers but with value
+  (except `nil`).
+- Both indices and values can be heterogeneous. i.e. contains data of different
+  types (except `nil`).
+  - If a value is a function, then it works similar to a method.
+- The only data structuring mechanism, and used to represent ordinary arrays,
+  symbol tables, sets, records, graphs, trees, etc.
+- Can use dot notation to represent bracket notation: `a.name` is the same as
+  `a["name"]`.
+- Can be returned in a function as an object to return multiple values.
 
 #### Defining and using tables
 
@@ -217,10 +234,10 @@ teams["teamB"] = nil
 You can use following methods of `table` object, e.g.
 `table.insert(myTable, newItem)`.
 
--   `insert(myTable, newValue)` appends a new value to the end of a table
--   `insert(myTable, idx, newValue)` inserts a new value at target idx, and push
-    remaining existing values one idx back
--   `remove(myTable, key)` removes an item of that key from a table
+- `insert(myTable, newValue)` appends a new value to the end of a table
+- `insert(myTable, idx, newValue)` inserts a new value at target idx, and push
+  remaining existing values one idx back
+- `remove(myTable, key)` removes an item of that key from a table
 
 #### Table constructors
 
@@ -231,13 +248,13 @@ field ::= [ exp ] = exp | Name = exp | exp
 fieldsep ::=  , | ;
 ```
 
--   `name = exp` is equivalent to `["name"] = exp`.
--   `exp` is equivalent to `[i] = exp`, where `i` are consecutive numerical
-    integers starting from `1`.
--   If the **last field** has the form of `exp` and it is a **function call**,
-    then all returned values enter the field list consecutively.
-    -   Unless the function call is enclosed by parentheses.
--   May have optional trailing separator.
+- `name = exp` is equivalent to `["name"] = exp`.
+- `exp` is equivalent to `[i] = exp`, where `i` are consecutive numerical
+  integers starting from `1`.
+- If the **last field** has the form of `exp` and it is a **function call**,
+  then all returned values enter the field list consecutively.
+  - Unless the function call is enclosed by parentheses.
+- May have optional trailing separator.
 
 ### Object references
 
@@ -248,15 +265,19 @@ references to their values. So object assignment doesn't imply copy of values.
 
 There is implicit type casting between string and number.
 
+## Explicit type casting
+
+- `tostring()` type cast to string.
+
 # Variables
 
 ## Three kinds of variables
 
 There are three kinds of variables:
 
--   global variables
--   local variables
--   table fields
+- global variables
+- local variables
+- table fields
 
 Any variables is assumed to be global unless explicitly declared as local. Local
 variables are **lexically scoped**: freely accessed by functions defined inside
@@ -273,8 +294,8 @@ Each function has its own reference to an environment. All global variables in
 this function will refer to this environment table, because when a function is
 created, it inherits the environment from the parent.
 
--   `getfenv()` to get get the environment table of a Lua function.
--   `setfenv()` to replace it.
+- `getfenv()` to get get the environment table of a Lua function.
+- `setfenv()` to replace it.
 
 If `_env` is the environment of the running function, `x` is equivalent with
 `_env.x`.
@@ -291,11 +312,11 @@ varlist1 ::= var { , var }
 explist1 ::= exp { , exp }
 ```
 
--   If explist1 is larger than varlist1, excesses expressions are thrown away.
--   If varlist1 is larger than explist1, explist1 is extended with `nil`s.
--   If explist1 ends with a **function call**, all return values append to
-    explist1.
-    -   Except when the call is enclosed by parentheses.
+- If explist1 is larger than varlist1, excesses expressions are thrown away.
+- If varlist1 is larger than explist1, explist1 is extended with `nil`s.
+- If explist1 ends with a **function call**, all return values append to
+  explist1.
+  - Except when the call is enclosed by parentheses.
 
 Lua evaluates all expressions (in both varlist1 and explist1) before assignment.
 
@@ -321,8 +342,8 @@ namelist ::= Name { , Name }
 
 Lua's statements are similar to C's.
 
--   Each statement optionally terminated by `;`.
--   No empty statement, i.e. no `;;`.
+- Each statement optionally terminated by `;`.
+- No empty statement, i.e. no `;;`.
 
 ## Block
 
@@ -335,22 +356,22 @@ stat ::= do block end
 
 It is useful to:
 
--   Control the **scope** of variables
--   Use `return` and `break` in the middle of another block. See
-    [## Return and break](#return-and-break).
+- Control the **scope** of variables
+- Use `return` and `break` in the middle of another block. See
+  [## Return and break](#return-and-break).
 
 # Operators
 
 ## Arithematic operators
 
--   `+`
--   `-`
--   `*`
--   `/`: Yields float format number
--   `//`: Yields integer format number
--   `%`
-    -   Defined as `a % b == a - math.floor(a/b)*b`
--   `^`: Exponentiation
+- `+`
+- `-`
+- `*`
+- `/`: Yields float format number
+- `//`: Yields integer format number
+- `%`
+  - Defined as `a % b == a - math.floor(a/b)*b`
+- `^`: Exponentiation
 
 `-` can also be negative unary operator.
 
@@ -361,23 +382,23 @@ casted to numbers.
 
 Always return true or false.
 
--   `==`: True only if both **type** and value are the same. (1 == "1" is false)
--   `~=`: True if either type or value is different.
--   `<`
--   `>`
--   `<=`
--   `>=`
+- `==`: True only if both **type** and value are the same. (1 == "1" is false)
+- `~=`: True if either type or value is different.
+- `<`
+- `>`
+- `<=`
+- `>=`
 
 Objects are compared by reference. They objects are equal if they are the same
 object. For `<` and `>`, Lua tries to call "lt" or "le" metamethods.
 
 ## Logical operators
 
--   `and`: Return **1st argument** if 1st operator is false, otherwise return
-    **2nd argument**.
--   `or`: Return **1st argument** if 1st operator is true, otherwise return
-    **2nd argument**.
--   `not`: Always return true or false.
+- `and`: Return **1st argument** if 1st operator is false, otherwise return
+  **2nd argument**.
+- `or`: Return **1st argument** if 1st operator is true, otherwise return **2nd
+  argument**.
+- `not`: Always return true or false.
 
 ## Concatenation operator
 
@@ -390,9 +411,9 @@ Metamethod "concat" is called when either or both aren't number or string.
 
 Unary operator `#` returns:
 
--   String: number of bytes (i.e. characters)
--   Table: _any_ integer index `n` such that `t[n]` is not `nil` but `t[n+1]` is
-    `nil`. If `t[1]` is `nil`, then _may_ return `0`.
+- String: number of bytes (i.e. characters)
+- Table: _any_ integer index `n` such that `t[n]` is not `nil` but `t[n+1]` is
+  `nil`. If `t[1]` is `nil`, then _may_ return `0`.
 
 ## Operators precedence
 
@@ -430,8 +451,8 @@ exp ::= unop exp
 prefixexp ::= var | functioncall | ( exp )
 ```
 
--   A prefixexp can be a variable referencing a table.
--   binop is a binary operator; unop is a unary operator.
+- A prefixexp can be a variable referencing a table.
+- binop is a binary operator; unop is a unary operator.
 
 ## Multiple values in an expression
 
@@ -517,9 +538,9 @@ stat ::= for Name = exp, exp [ , exp ] do block end
     the 2nd exp)
 3.  After each loop its value is added by the 3rd expression.
 
--   All three control expressions are evaluated only once at start.
--   Default step (value of the 3rd exp) is 1.
--   The control variable is local to the loop.
+- All three control expressions are evaluated only once at start.
+- Default step (value of the 3rd exp) is 1.
+- The control variable is local to the loop.
 
 ```lua
 mytable = { "apple", "orange", "pear" }
@@ -575,40 +596,39 @@ function printTax(price)
 end
 ```
 
--   `function f () body end` == `f = function () body end`
--   `t.a.b.c.f () body end` == `t.a.b.c.f = function () body end`
--   `local function f () body end` == `local f; f = function () body end`
-    -   But **not** equivalent to `local f = function () body end`. But it only
-        makes a difference when the body of the function contains references to
-        `f`
+- `function f () body end` == `f = function () body end`
+- `t.a.b.c.f () body end` == `t.a.b.c.f = function () body end`
+- `local function f () body end` == `local f; f = function () body end`
+  - But **not** equivalent to `local f = function () body end`. But it only
+    makes a difference when the body of the function contains references to `f`
 
 ## Builtin functions
 
--   `print('hello')`
-    -   `print(true) --true`
+- `print('hello')`
+  - `print(true) --true`
 
 ## Builtin math library
 
--   `math.pi`
--   `math.huge` is a constant that represents +infinity
--   `math.abs()`
--   `math.ceil()` ceiling of a number, i.e. round up to nearest integer
--   `math.floor()`
--   `math.sqrt()`
--   `math.log()`
--   `math.exp()`
--   `math.sin()`
--   `math.cos()`
--   `math.tan()`
--   `math.asin()`
--   `math.acos()`
--   `math.atan()`
--   `math.deg()`: turns rad to degrees
--   `math.rad()`: turns degrees to rad
--   `math.randomseed()`
--   `math.random()`: random value in [0, 1)
-    -   `math.random(100)`: random integer from 1 to 100 (inclusive)
-    -   `math.random(20, 100)`: random integer from 20 to 100 (inclusive)
+- `math.pi`
+- `math.huge` is a constant that represents +infinity
+- `math.abs()`
+- `math.ceil()` ceiling of a number, i.e. round up to nearest integer
+- `math.floor()`
+- `math.sqrt()`
+- `math.log()`
+- `math.exp()`
+- `math.sin()`
+- `math.cos()`
+- `math.tan()`
+- `math.asin()`
+- `math.acos()`
+- `math.atan()`
+- `math.deg()`: turns rad to degrees
+- `math.rad()`: turns degrees to rad
+- `math.randomseed()`
+- `math.random()`: random value in [0, 1)
+  - `math.random(100)`: random integer from 1 to 100 (inclusive)
+  - `math.random(20, 100)`: random integer from 20 to 100 (inclusive)
 
 # Patterns
 
@@ -645,9 +665,9 @@ versa through C API.
 
 # References
 
--   `luaref.txt` in NeoVim help
+- `luaref.txt` in NeoVim help
 
 # 🧭 Navigation
 
--   [🔼 Back to top](#)
--   📑 [Index](../../index.md)
+- [🔼 Back to top](#)
+- 📑 [Index](../../index.md)
