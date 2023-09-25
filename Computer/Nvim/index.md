@@ -523,6 +523,8 @@ in the `config`:
 
 # Treesitter
 
+See [nvim: treesitter](https://neovim.io/doc/user/treesitter.html)
+
 A capture group is a syntax element (or node) in the tree that is given a
 **name**. A capture group's name starts with `@`. You can then change the
 highlighting of a capture group with `vim.api.nvim_set_hl()`

@@ -32,46 +32,47 @@ by adding the line `// @ts-check`.
  */
 ```
 
--   For `{type}`, see chapter [Type Name](#type-name).
--   For `{@param}`, see chapter [Parameters](#parameters).
+- For `{type}`, see chapter [Type Name](#type-name).
+- For `{@param}`, see chapter [Parameters](#parameters).
 
 # Type Name
 
--   `{*}`: Any type
--   `{boolean}`, `{myNamespace.MyClass}`
--   `{(number|boolean)}`: Can have one of several type
--   `{Array.<MyClass>}`, `{MyClass[]}`: Array of MyClass instances
--   `{Object.<string, number>}`: String keys and number values
--   `{{a: number, b:string, c}} myObj` or
-    ```
-    {object} myObj
-    {number} myObj a
-    {string} myObj.b
-    {*} myObj.c
-    ```
-    or
-    ```
-    {{
-    a: number,
-    b: string,
-    c
-    }} myObj
-    ```
--   `{Promise<string[]>}`: Promise fulfilled by array of strings
--   `{?number}`: Number or null
--   `{!number}`: Cannot be null
--   `{myCallback}`: A callback function defined elsewhere with `@callback`
+- `{*}`: Any type
+- `{boolean}`, `{myNamespace.MyClass}`
+- `{(number|boolean)}`: Can have one of several type
+- `{Array.<MyClass>}`, `{MyClass[]}`: Array of MyClass instances
+- `{Object.<string, number>}`: String keys and number values
+- `{{a: number, b:string, c}} myObj` or
+  ```
+  {object} myObj
+  {number} myObj a
+  {string} myObj.b
+  {*} myObj.c
+  ```
+  or
+  ```
+  {{
+  a: number,
+  b: string,
+  c
+  }} myObj
+  ```
+- `{Promise<string[]>}`: Promise fulfilled by array of strings
+- `{?number}`: Number or null
+- `{!number}`: Cannot be null
+- `{myCallback}`: A callback function defined elsewhere with `@callback`
+- `{typeof MyClass}`: To pass a class, i.e. to be used as a **constructor**
 
 # Parameters
 
--   `@param {...number} num`: Variable number of numeric param
--   Optional param:
-    ```javascript
-    /**
-    @param {number} [foo]
-    @param {number=} foo
-    ```
--   `@param {number} [foo=1]`: With default value
+- `@param {...number} num`: Variable number of numeric param
+- Optional param:
+  ```javascript
+  /**
+  @param {number} [foo]
+  @param {number=} foo
+  ```
+- `@param {number} [foo=1]`: With default value
 
 # Callback
 
@@ -116,7 +117,8 @@ by adding the line `// @ts-check`.
 
 ## Syntax
 
--   `@class [<type> <name>]`
+- `@class [<type> <name>]` for prototypes
+- `@extends <superclass>`
 
 ## Prototypes
 
@@ -128,8 +130,8 @@ by adding the line `// @ts-check`.
  * @param {number} [height=60] Default is 60.
  */
 function Size(width = 80, height = 60) {
-    this.width = width;
-    this.height = height;
+  this.width = width;
+  this.height = height;
 }
 ```
 
@@ -139,16 +141,17 @@ function Size(width = 80, height = 60) {
 /**
  * Create a new program window.
  * @class {object} ProgramWindow
+ * @extends Window
  * {Size} ProgramWindow.screenSize
  * {Size} ProgramWindow.size
  * {Position} ProgramWindow.position
  */
 class ProgramWindow {
-    constructor() {
-        this.screenSize = new Size(800, 600);
-        this.size = new Size();
-        this.position = new Position();
-    }
+  constructor() {
+    this.screenSize = new Size(800, 600);
+    this.size = new Size();
+    this.position = new Position();
+  }
 }
 ```
 
@@ -175,4 +178,4 @@ List possible kinds of error that the function could throw.
 
 # Reference
 
--   [jsdoc documentation](https://jsdoc.app)
+- [jsdoc documentation](https://jsdoc.app)

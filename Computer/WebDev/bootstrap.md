@@ -6,8 +6,8 @@ title: bootstrap
 
 **_Bootstrap 5_** is a CSS framework that provides
 
--   Beautiful styling
--   Styling just by defining classes in HTML elements
+- Beautiful styling
+- Styling just by defining classes in HTML elements
 
 # Installation and usage
 
@@ -40,10 +40,10 @@ bootstrap classes that you can use, using the key bind `<C-i>`.
 They provide serveral predifined button styles, each with its own **semantic
 purpose**. You can apply the styles by defining a class:
 
--   btn
--   btn-primary
--   btn-secondary
--   btn-danger
+- btn
+- btn-primary
+- btn-secondary
+- btn-danger
 
 # Layouts
 
@@ -51,8 +51,8 @@ purpose**. You can apply the styles by defining a class:
 
 The class `.d-flex` defines a flex box. You can then use further classes:
 
--   Flex direction: `.flex-column`, `.flex-row`, `.flex-column-reverse`
--   Justify content: `.justify-content-center`
+- Flex direction: `.flex-column`, `.flex-row`, `.flex-column-reverse`
+- Justify content: `.justify-content-center`
 
 ## Column system
 
@@ -83,13 +83,13 @@ Dunno why, but my testing suggest adding margin would break the layout
 Paddings (less to more): `.p-0` to `.p-5`. You can also overwrite each of their
 padding size with your own CSS code.
 
--   `.ps-0`: padding-start
--   `.pe-0`: padding-end
--   `.pt-0`: padding-top
--   `.pb-0`: bottom
--   `.pl-0`: left
--   `.pr-0`: right
--   `.px-0`: padding along x-axis, i.e. left and right
+- `.ps-0`: padding-start
+- `.pe-0`: padding-end
+- `.pt-0`: padding-top
+- `.pb-0`: bottom
+- `.pl-0`: left
+- `.pr-0`: right
+- `.px-0`: padding along x-axis, i.e. left and right
 
 Margin is like paddings, but use `.m`.
 
@@ -97,12 +97,12 @@ Margin is like paddings, but use `.m`.
 
 When screen width is larger or equal to certain value:
 
--   X-Small is default
--   Small `-sm-`: 576 px
--   Medium `-md-`: 768px
--   Large `-lg-`: 992px
--   Extra large `-xl-`: 1200px
--   Extra extra large `-xxl-`: 1400px
+- X-Small is default
+- Small `-sm-`: 576 px
+- Medium `-md-`: 768px
+- Large `-lg-`: 992px
+- Extra large `-xl-`: 1200px
+- Extra extra large `-xxl-`: 1400px
 
 Put this before the last number.
 
@@ -110,25 +110,25 @@ Put this before the last number.
 
 Colours:
 
--   `-primary`
--   `-secondary`
--   `-tertiary`
--   `-success`
--   `-info`
--   `-danger`
--   `-light`
--   `-dark`
--   `-link`
+- `-primary`
+- `-secondary`
+- `-tertiary`
+- `-success`
+- `-info`
+- `-danger`
+- `-light`
+- `-dark`
+- `-link`
 
 Elements:
 
--   `.text`
--   `.bg`
--   `.btn`
+- `.text`
+- `.bg`
+- `.btn`
 
 Components:
 
--   `-border-`
+- `-border-`
 
 # Alignment
 
@@ -136,12 +136,12 @@ Components:
 
 # Common Bootstrap Components
 
--   Cards
--   Buttons
--   Navbar
--   Badge
+- Cards
+- Buttons
+- Navbar
+- Badge
 
 # 🧭 Navigation
 
--   [🔼 Back to top](#)
--   📑 [Index](../../index.md)
+- [🔼 Back to top](#)
+- 📑 [Index](../../../index.md)

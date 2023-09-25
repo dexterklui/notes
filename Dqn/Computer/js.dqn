@@ -148,9 +148,15 @@
     [\Number(:value:)]\ type cast to a number type, if can't covert, then to
     [\NaN]\.
 
-   |methods|
+    A quicker way to just type cast is to use [\+]\ operator: [\+myNumStr]\.
+
+   |instance methods|
     ➱   [\toFixed(:decimal_point:)]\: returns a [[string]] fixed to given decimal
         point.
+
+   |static methods|
+    ➱   [\Number.isNaN()]\
+    ➱   [\Number.isInteger()]\
 
    |bigint|
     This number type is for arbitrary precision and big numbers. E.g.
@@ -237,6 +243,10 @@
     ➱   It is NOT a programmer control. Using an undefined variables indicate
         a programming mistake.
 
+   |void|
+    The keyword [\void]\ represents and can be test against both [\null]\ and
+    [\undefined]\.
+
   > Check type < {{{3
     ➱   [\typeof :{VAR|VAL}:]\ output the datatype of a value.
     ➱   To check the type, use [\typeof :{VAR|VAL}: === "string"]\
@@ -305,7 +315,7 @@
     Use spread operator [\...]\.
 
  == Arrays == {{{2
-  > arrays < {{{3
+  > Arrays < {{{3
     ➱   JS arrays are [[untyped]], elements may be of different types
         ➱   Such as arrays of objects and arrays of arrays
     ➱   Dynamically sized
@@ -317,15 +327,18 @@
     ➱   [\Array.from(:iterable:)]\ creates a new, shallow-copied array.
     ➱   [\[...:iteratble:]]\ Same. Should be more efficient because it is
         implemented in native code.
+    ➱   [\myArr.slice()]\ also creates a copy.
+    ➱   [\Array(:n:).fill(:val:)]\ creates an array of n elements whose value
+        is val.
 
-  > declaration < {{{3
+  > Declaration < {{{3
     Two ways:
     ➱   [\var primes = [2, 3, 5, 7, 11, 13];]\
         ➱   Using [\[ ]]\
     ➱   [\var primes = new Array(2, 3, 5, 7, 11, 13);]\
         ➱   Using builtin constructor [\Array()]\ with a [\new]\ method
 
-  > removing a value < {{{3
+  > Removing a value < {{{3
     #beginCode#
     const myArray = ["eins", "zwei"];
     delete myArray[0];
@@ -335,7 +348,7 @@
     [\undefined]\, but that element is still there and occupies the same
     index.
 
-  > builtin methods < {{{3
+  > Builtin methods < {{{3
     For more see [=https://www.w3schools.com/js/js_array_methods.asp]=
 
    |search for something| {{{4
@@ -385,6 +398,7 @@
                 array) by their key [\"age"]\
     ➱   [\arr.slice(:start`, [end]:)]\ creates a new sub-array from index
         [start, end). Can take negative indices.
+        ⮱   Can be used to make a [[copy]] of an array.
     ➱   [\arr.splice(:start`, [deleteCount]`, [newItem]...:)]\ mutates arr by
         removing/replacing elements. Returns an array containing [[deleted]]
         elements
@@ -396,6 +410,8 @@
             deleteCount = 0
     ➱   [\arr.flat(:[depth]:)]\ returns a new flatten array. Default depth is
         1.
+    ➱   [\arr.fill(:value`, start, end:)]\ modifies elements in index range
+        [start, end) with a new value, and return the modified array.
 
    |assert or find with predicates| {{{4
     The following methods take a function which we call ['predicate]' as an
@@ -412,6 +428,11 @@
         none found.
 
    |create new object/value with helper function| {{{4
+    These methods passes three arguments to the helper functions:
+    1.  Current element
+    2.  Current index
+    3.  Original array
+
     ➱   [\arr.filter(:function:)]\ returns an array containing all and only
         elements that satisfy the predicate.
     ➱   [\arr.map(:function:)]\ returns an array containing each returned
@@ -434,7 +455,7 @@
             }, []);
             #endJavascript#
 
-  > destrucutring < {{{3
+  > Destrucutring < {{{3
     #beginJavascript#
     const deutschZahln = [];
     deutschZahln[0] = "eins";
@@ -461,6 +482,12 @@
     // var1 = eins
     // rest = [zwei", "drei", "vier"]
     #endJavascript#
+
+  > Properties < {{{3
+    An array can have properties like an object. And you can interact with it
+    like normal (add, change, delete).
+
+    Natively, [\length]\ is an property of array.
 
  == JavaScript Objects == {{{2
   > Concepts of objects < {{{3
@@ -546,12 +573,12 @@
     #endJavascript#
 
   > Object methods < {{{3
-   |myObj.method()| {{{4
+   |instance methods| {{{4
     ➱   [\myObj.hasOwnProperty("propertyName")]\ returns true if the property
         exists, false otherwise.
     ➱   [\myObj.toString()]\
 
-   |Object.method(myObj)| {{{4
+   |static methods| {{{4
     ➱   [\Object.keys(myObj)]\ returns a list of keys in myObj.
     ➱   [\Object.values(myObj)]\ returns a list of values in myObj.
     ➱   [\Object.entries(myObj)]\ returns an array of arrays each storing a
@@ -574,6 +601,8 @@
         let clonedObj = Object.fromEntries(entries);
         #endJavascript#
 
+    ➱   [\Object.assign(:target`, source:)]\ copies enumerable properties and
+        values in source object to target object.
     ➱   [\Object.is(arg1, arg2)]\ returns true only if both arg1 and arg2
         refer to the [[very same object]].
         ⮱   Same primitive values are considered as the same object.
@@ -675,12 +704,16 @@
     hero = {
       age: 24,
       hobbies: ["running", "doing forensic science"],
-      name: "Flash",
+      name: {
+        firstName: "Tim",
+        lastName: "Jonnathen"
+      },
     };
 
-    const { age, hobbies, name } = hero;
+    const { age, hobbies, name: { first: { firstName, lastName } } } = hero;
     console.log(age);
     console.log(hobbies);
+    console.log(firstName, lastName);
     #endCode#
 
   > The "in" keyword < {{{3
@@ -1428,15 +1461,22 @@
             #endJavascript#
 
   > Date < {{{3
+   |constructor|
     ➱   [\Date()]\ returns time, date and timezone
     ➱   [\Date.now()]\ returns a time stamp (number of milliseconds since Jan
         1 1940 00:00 UTC)
     ➱   [\let date = new Date('July 24 1992 12~:35~:10')]\ creates a Date
         object.
-    ➱   [\date.getDate()]\ returns the date of month (here is 24)
-    ➱   [\date.getMonth()]\ returns the month starting from 0 (here is 6)
-    ➱   [\date.getTime()]\ returns the time stamp
-    ➱   [\date.getFullYear()]\ returns a four digit year.
+
+   |instance method|
+    ➱   [\getDate()]\ returns the date of month (here is 24)
+    ➱   [\getMonth()]\ returns the month starting from 0 (here is 6)
+    ➱   [\getTime()]\ returns the time stamp
+    ➱   [\getFullYear()]\ returns a four digit year.
+    ➱   [\toLocaleTimeString(:[locale]:)]\:
+        ‣   Default is user locale
+        ‣   [\en-US]\: 1:29:33 PM
+        ‣   [\fr-FR]\: 13:29:33
 
  == Help == {{{2
     ➱   Check [{MDN]} for documentation of various methods and properties.

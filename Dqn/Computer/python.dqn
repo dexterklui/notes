@@ -698,7 +698,19 @@
 
 [~{ L11 Slicing and Files }~] {{{1
  == Slicing == {{{2
-    To invoke a range of elements: [\:LST`[IDX1`, IDX2`, INCREMENT`]:]\.
+    To invoke a range of elements: [\:LST`[IDX1`:IDX2`:INCREMENT`]:]\.
+
+   |default value|
+    ‣   INCREMENT: 1
+    ‣   IDX1: inclusive starting index (left most for ascending order, right
+        most for descending order)
+    ‣   IDX2: exclusive ending index (right most for ascending order, left
+        most for descending order)
+
+   |tips to picture the indices|
+    It might help to think index as residing at the edges of each elements
+    like the above diagram. So a range of IDX1=1 and IDX2=5 would selects
+    elements B, C, D and E.
 
    |using ascending order (positive increment)|
     [ A B C D E F G ][ A B C D E F G ]░
@@ -709,18 +721,6 @@
     [ A B C D E F G ][ A B C D E F G ]░
      | | | | | | | └┬─┘ | | | | | | |░
     -8 7 6 5 4 3 2  1  +0 1 2 3 4 5 6
-
-   |tips to picture the indices|
-    It is best to think index as residing at the edges of each elements like
-    the above diagram. So a range of IDX1=1 and IDX2=5 would selects elements
-    B, C, D and E.
-
-   |default value|
-    ‣   INCREMENT: 1
-    ‣   IDX1: starting index (left most for ascending order, right most for
-        descending order)
-    ‣   IDX1: ending index (right most for ascending order, left most for
-        descending order)
 
    |examples|
     ‣   [\"1234567"[~:~:-1]]\ returns {{"7654321"}}.

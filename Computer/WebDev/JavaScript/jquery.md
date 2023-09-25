@@ -108,11 +108,9 @@ Support _CSS 1-3_. See
 
 - All selector `*`
 - Animated selector `:animated`
-- Attribute **equals** selector `[name="value"]`
-- Attribute **not equals** selector `[name!="value"]`
-- Attribute contains **prefix** (followed by `-`) selector `[name=|"value"]`
-- Attribute contains word (delimited by spaces) selector `[name~="value"]`
-- Attribute starts with selector `[name^="value"]`
+
+For attribute selectors, see [css.md](../css.md).
+
 - `:button` selects all button elements and elements of type button
 
 ## Testing if selection empty

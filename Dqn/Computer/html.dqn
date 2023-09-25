@@ -261,6 +261,24 @@
         ⮱   You need to declare less cells accordingly in the following rows
             within the span range
 
+   |padding and spacing| {{{4
+
+    For padding within each cell:
+
+    #beginCode#
+    th, td {
+        padding: 15px;
+    }
+    #endCode#
+
+    For space between each cell:
+
+    #beginCode#
+    table {
+        border-spacing: 30px;
+    }
+    #endCode#
+
    |example| {{{4
     #beginHTML#
     <table>
@@ -316,7 +334,7 @@
     Uploading Files:
     ‣   File upload [\<input type="file"/>]\
 
-   |form|
+   |form element| {{{4
     The [\<form>]\ element:
     ➱   Contains ['Form controls]', such as [\<input>]\.
     ➱   Two essential attributes:
@@ -324,6 +342,23 @@
             form data when submitted
         ‣   [\method="get"]\: specifies how query string data with be transmitted,
             either GET or POST.
+
+   |labels| {{{4
+    Enclosing [\<input>]\ in [\<label>]\:
+
+    #beginHtml#
+    <label>
+        <input type="checkbox" /> Only show products in stock
+    </label>
+    #endHtml#
+
+    Using [\<label>]\ in stand alone:
+
+    #beginHtml#
+    <input type="checkbox" name="search-stock" />
+    <label for="search-stock">Only show products in stock</label>
+    #endHtml#
+
 
  == Semantic Elements == {{{2
   > Why semantic elements? < {{{3

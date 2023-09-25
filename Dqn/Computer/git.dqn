@@ -86,60 +86,6 @@
     ‣   working directory or working tree
     ‣   commit or snapshot
 
- == Configuration == {{{2
-  > Config files < {{{3
-    You can edit the config file directly or with [\git config]\ (see
-    [={Commands}]=). The three configuration files are:
-    ‣   {=[path]/etc/gitconfig}= with option [\--system]\ to [\git config]\
-    ‣   {=~/.gitconfig}= with option [\--global]\
-    ‣   {=.git/config}= with option [\--local]\ which is the default
-
-  > Ignore files < {{{3
-    {".gitignore}" file lists the files that Git doesn't track for version
-    control.
-
-    ➱   Blank lines or lines starting with [\#]\ are ignored.
-    ➱   Standard glob pattern works, and will be applied [[recursively]]
-        throughout the entire working tree.
-    ➱   You can start patterns with a forward slash [\/]\ to avoid recursive
-        application.
-    ➱   You can end patterns with a forward slash [\/]\ to specify a
-        directory.
-    ➱   You can negate a pattern by starting it with an exclamation point
-        [\!]\. But you cannot include files back this way if they are in a
-        directory that is still ignored.
-        ⮱   To include only a file type, use
-            #beginCode#
-            *.*
-            !*.md
-            #endCode#
-
-   |glob patterns|
-    ➱   [\*]\ matches zero or more characters
-    ➱   [\[abc]]\ matches any single character inside the brackets
-    ➱   [\?]\ matches a single character
-    ➱   [\[0-9]\ matches any single character between a range (inclusive).
-    ➱   [\**]\ match nested directories. [\a/**/z]\ matches:
-        [\a/z]\, [\a/b/z]\, [\a/b/c/z]\.
-
-   |example gitignore|
-    GitHub provides a comprehensive list of examples for different kinds of
-    projects and languages. See [=https://github.com/github/gitignore]=.
-
-   |multiple gitignore|
-    {".gitignore}" only works for their directory and subdirectories.
-
-  > Alias < {{{3
-    ➱   [\git config --global alias.co checkout]\
-    ➱   [\git config --global alias.unstage "reset HEAD --"]\
-    ➱   [\git config --global alias.last "log -1 HEAD"]\
-
-    For running external commands, use [\!]\:
-    ➱   [\git config --global alias.visual "!gitk"]\
-
-  > Cached credential < {{{3
-    ➱   [\git config --global credential.helper cache]\
-
  == Commit message == {{{2
   > Basic format < {{{3
     ➱   First line is title with no more than 50 characters.
@@ -207,6 +153,60 @@
     ➱   [\:tree-ish:]\ indicates a tree, commit, or tag object name. Git
         ultimately wants to operate on a tree object, but automatically
         dereference commit and tag objects.
+
+[~{ Configuration }~] {{{1
+ == Config files == {{{2
+    You can edit the config file directly or with [\git config]\ (see
+    [={Commands}]=). The three configuration files are:
+    ‣   {=[path]/etc/gitconfig}= with option [\--system]\ to [\git config]\
+    ‣   {=~/.gitconfig}= with option [\--global]\
+    ‣   {=.git/config}= with option [\--local]\ which is the default
+
+ == Ignore files == {{{2
+    {".gitignore}" file lists the files that Git doesn't track for version
+    control.
+
+    ➱   Blank lines or lines starting with [\#]\ are ignored.
+    ➱   Standard glob pattern works, and will be applied [[recursively]]
+        throughout the entire working tree.
+    ➱   You can start patterns with a forward slash [\/]\ to avoid recursive
+        application.
+    ➱   You can end patterns with a forward slash [\/]\ to specify a
+        directory.
+    ➱   You can negate a pattern by starting it with an exclamation point
+        [\!]\. But you cannot include files back this way if they are in a
+        directory that is still ignored.
+        ⮱   To include only a file type, use
+            #beginCode#
+            *.*
+            !*.md
+            #endCode#
+
+   |glob patterns|
+    ➱   [\*]\ matches zero or more characters
+    ➱   [\[abc]]\ matches any single character inside the brackets
+    ➱   [\?]\ matches a single character
+    ➱   [\[0-9]\ matches any single character between a range (inclusive).
+    ➱   [\**]\ match nested directories. [\a/**/z]\ matches:
+        [\a/z]\, [\a/b/z]\, [\a/b/c/z]\.
+
+   |example gitignore|
+    GitHub provides a comprehensive list of examples for different kinds of
+    projects and languages. See [=https://github.com/github/gitignore]=.
+
+   |multiple gitignore|
+    {".gitignore}" only works for their directory and subdirectories.
+
+ == Alias == {{{2
+    ➱   [\git config --global alias.co checkout]\
+    ➱   [\git config --global alias.unstage "reset HEAD --"]\
+    ➱   [\git config --global alias.last "log -1 HEAD"]\
+
+    For running external commands, use [\!]\:
+    ➱   [\git config --global alias.visual "!gitk"]\
+
+ == Cached credential == {{{2
+    ➱   [\git config --global credential.helper cache]\
 
 [~{ Git Commands }~] {{{1
  == Getting Help == {{{2
@@ -516,6 +516,9 @@
 | %s        | Subject                                    |
 |-----------+--------------------------------------------|
 
+   |reflog| {{{4
+    [\-g]\ walks through reflog
+
   > blame < {{{3
     Check the modification history of each line of a file.
 
@@ -616,11 +619,12 @@
 
     To create a new tracking branch:
     ➱   [\git checkout -b :{new_branch} {remote_tracking_branch}:]\
-    ➱   [\git checkout --track :{remote_tracking_branch}:]\
+    ➱   [\git checkout --track :{remote_tracking_branch}:]\ ([\-t]\)
     ➱   [\git checkout :branch_name:]\ NOTE that the branch_name must:
         ‣   Be non-existent
         ‣   Matching with the branch name part of a remote tracking branch.
 
+   |set upstream| {{{4
     To set up an existing branch to track an upstream branch:
     ➱   [\git branch -u :upstream_branch:]\. ([\--set-upstream-to]\)
 
@@ -635,14 +639,15 @@
     ➱   [\git branch -rd :branch:]\ deletes a remote-tracking branch.
 
     To delete a branch on a remote:
-    ➱   [\git push :remote: --delete :remote_branch:]\
+    ➱   [\git push :remote: --delete :remote_branch:]\ ([\-d]\)
 
    |rename branch| {{{4
-    [\git branch --move :branch new_name:]\ to rename branches [[locally]].
+    [\git branch --move :branch new_name:]\ ([\-m]\) to rename branches
+    [[locally]].
 
     After renaming locally, you pushes the changes to the remote by two steps:
-    ➱   [\git push --set-upstream :remote {local_new_branch_name}:]\
-    ➱   [\git push :remote: --delete :old_branch:]\
+    ➱   [\git push --set-upstream :remote {local_new_branch_name}:]\ ([\-u]\)
+    ➱   [\git push :remote: --delete :old_branch:]\ ([\-d]\)
 
   > switch < {{{3
     See [=>Brancing<]=.
@@ -704,7 +709,7 @@
         a make test after rebasing each commit. This brings you the todo
         rebase list:
         [\pick 5928aea one  ]\░
-        [\fxec make test    ]\░
+        [\exec make test    ]\░
         [\pick 04d0fda two  ]\░
         [\exec make test    ]\░
         [\pick ba46169 three]\░
@@ -836,8 +841,8 @@
   > restore < {{{3
     [\git restore :[:--source=:tree] path...:]\
     ➱   Restore files in [[working tree (default) or index]] with some content
-        from a source. (If a file doesn't exist from the source, it is removed
-        from working tree)
+        from a source. (If a file doesn't exist from the source but is
+        [[tracked]], it is removed from working tree)
 
    |source| {{{4
     ➱   [\-s :tree:]\ or [\--source]\ where tree can be a tree, commit or ref
@@ -903,6 +908,33 @@
     ➱   [\-f]\ or [\--force]\ to force update remote refs even if it is not an
         direct ancestor to local refs that is being pushed.
         ⮱   Used to rewrite remote history
+
+ == Advanced Search Commands == {{{2
+  > bisect < {{{3
+    Use binary search to locate where a bug was introduced (or where a change
+    was made)
+
+   |basic example| {{{4
+    #beginCode#
+    $ git bisect start
+    $ git bisect bad            # current version is bad
+    $ git bisect good v2.6.13   # version that is known to be good
+    #endCode#
+
+    Then Git checks out the middle commit between the two. Now you can test it
+    and then tag it as good or bad again. The process repeats until no more
+    commits and [\refs/bisect/bad]\ will be left pointing to the commit.
+
+    Then [\git bisect reset :[commit]:]\ cleans up bisection state and return to the
+    original or given commit. E.g. [\git bisect reset bisect/bad]\.
+
+    Instead of [\good]\ and [\bad]\, you can use [\new]\ and [\old]\ instead.
+
+   |bisect run| {{{4
+    [\git bisect run :script arg...:]\ to provide a script that can tell if
+    the current source code is good or bad. [[Return code]] [\0]\ indicates
+    good or old. [\125]\ means current code cannot be tested and should be
+    skipped. Other means bad or new.
 
  == Plumbing commands == {{{2
   > cat-file < {{{3

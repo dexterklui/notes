@@ -31,10 +31,7 @@
         ⮱   [aur]
     ➱   [\code]\: Visual Studio Code
     ➱   [\noto-font-emoji]\
-    ➱   [\ttf-hack-nerd]\: Patch hack font with more glyphs
-        ⮱   25Mib
-    ➱   [\ttf-noto-nerd]\
-        ⮱   860Mib
+    ➱   [\ttf-jetbrains-mono]\
     ➱   [\lazygit]\
         ⮱   For LazyVim
     ➱   [\deno]\
@@ -48,6 +45,7 @@
     ➱   [\eslint]\
         ⮱   For neovim linter
     ➱   [\whois]\: check info about an ip or domain
+    ➱   [\trash-cli]\: Use freedesktop.org trash in terminal
 
    |Dependencies explicitly installed|
     ➱   [\python-nose]\ for [\papis]\
@@ -68,6 +66,9 @@
             which different versions of deno is installed.
     ➱   [\figma-linux-bin]\
     ➱   [\exercism-bin]\: For exercism cli. Program for a coding training web.
+    ➱   [\mongodb-compass]\: For reading mongodb database. Used for capstone
+        project for Xccelerate x Hollo
+    ➱   [\bun-bin]\: a new npm
 
    |Deleted|
     ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
@@ -104,6 +105,7 @@
 
   > Global packages < {{{3
     ➱   [\http-server]\: installed for CA_07 assignment
+    ➱   [\json-server]\: a dummy backend server using json file.
 
   > Yarn < {{{3
     ➱   Installed and managed by [\corepack]\ binary shipped with [\nodejs]\
@@ -188,6 +190,110 @@
         ‣   If this doesn't work, try kill latte dock and then turn it on
             again
 
+[~{ Package Management }~] {{{1
+ == Kde and Plasma == {{{2
+    [\kpackagetool5]\
+
+  > List Installed Plasmoids < {{{3
+    ➱   [\kpackagetool5 -t "Plasma/Applet" -l]\
+
+  > Uninstall Plasmoids < {{{3
+    ➱   [\kpackagetool5 -t "Plasma/Applet" -r :name:]\
+    ➱   Or seems like you can click the bin button at the window that add
+        plasmoids
+
+ == Pacman == {{{2
+  > Installation < {{{3
+    ➱   [\-S :{PACKAGE[ ...]}:]\ installs PACKAGE.
+        ⮱   Sometimes there are [[multiple version]] in different repo (e.g.
+            extra and testing), so you need to prepend the repo name if you
+            want to install a specific non-default one: [\extra/package_anme]\
+        ⮱   Support [[curly brace expansion]] for package name:
+            ‣   [\plasma-{desktop,mediacenter,nm}]\
+            ‣   [\plasma-{workspace{,-wallpapers},pa}]\
+    ➱   [\-Ss :{STRING}:]\ does raw-text search for packages in repositories
+    ➱   [\-S :{GROUP_NAME}:]\ installs a group of packages. Pacman will then
+        prompt you for selecting which packages to install.
+        ⮱   [\1-10 15]\ installs package 1 to 10 and package 15; [\^5-8 ^2]\
+            installs all except 5 to 8 and 2.
+        ⮱   If a package in a group is already installed, it will reinstall
+            again unless with the flag [\--needed]\.
+    ➱   [\-Sg :{GROUP_NAME}:]\ lists packages in a group.
+    ➱   [\--asdeps]\ install as dependency. Useful for makepkg that need to
+        install dependencies before building the package.
+    ➱   [\-U :{PACKAGE_FILE}:]\ installs a local package.
+
+  > Removing < {{{3
+    ➱   [\-R :PACKAGE:]\ removes a package, leaving its dependencies intact.
+    ➱   [\-Rs :PACKAGE:]\ removes a package and all its dependencies that are
+        not required by other installed packages.
+        ⮱   The behaviour is a bit different when removing a group. See Wiki.
+    ➱   [\-Rsc :PACKAGE:]\ [[recursively]] removes a package, its dependencies
+        that are not required by other installed packages, and all packages
+        that depend on it.
+    ➱   Pacman [[saves important config files]] when removing and names them
+        with extension [\.pacsave]\. Adding [\-n]\ flag will disable this
+        behaviours.
+    ➱   NOTE that pacman will not remove configurations that the application
+        itself creates, e.g. the dotfiles in home directory.
+
+  > Upgrading < {{{3
+    ➱   [\-Syu]\ synchronises repository databases and then updates the
+        system's packages, excluding "local" packages that are not in the
+        configured repositories.
+
+  > Query package databases < {{{3
+   |databases| {{{4
+    ➱   [\-Q]\ queries local database (the already installed package list)
+    ➱   [\-S]\ queries sync database (the repo)
+    ➱   [\-F]\ queries file database
+
+   |query commands| {{{4
+    [\-:{Q|S|F}{OPTIONS}]\ where OPTIONS are (if given Q/S/F in the following
+    OPTIONS, then it is for a specific database only):
+    ➱   [\-s :{EXT_REGEX[ ...]}:]\ searches for packages in both names and
+        descriptions.
+    ➱   [\-i :PACKAGE:]\ displays extensive info about a package.
+        ⮱   Also shows what other installed packages require this PACKAGE.
+    ➱   [\-ii :PACKAGE:]\ with a second [\-i]\ also displays the list of
+        backup files and their modification states.
+    ➱   [\-Ql :PACKAGE:]\ retrieves a list of files installed by a package.
+    ➱   [\-Qk :PACKAGE:]\ verify the presence of files installed by a package.
+        ⮱   Passing a second [\-k]\ will perform a more through check.
+    ➱   [\-Qo :{/path/to/file_name}:]\ checks to which installed package a
+        file belongs.
+    ➱   [\-Qd]\ lists packages installed as dependencies.
+    ➱   [\-Qe]\ lists explicitly installed packages.
+    ➱   [\-Qt]\ lists installed packages that are not required as dependencies
+        (i.e. no other packages depend on it).
+    ➱   [\-F :FILE_NAME:]\ searches for a package containing a file
+        ⮱   You need to first sync the files database with [\pacman -Fy]\.
+    ➱   [\-q]\ or [\--quiet]\ shows less info. Search will only show package
+        names but not version, group, and description info.
+
+       |useful compound commands|
+    ➱   [\-Qdt]\ lists packages no longer required as dependencies (but
+        installed as dependencies), i.e. ['orphans]'.
+    ➱   [\-Qet]\ list all packages explicitly installed and not required as
+        dependencies.
+
+  > Cleaning package cache < {{{3
+    ➱   [\-Sc]\
+
+  > Operate on installed packages < {{{3
+    [\-D]\ or [\--database]\ allows you to modify certain attributes of the
+    installed packages in pacman's database.
+    ➱   [\--asdeps :PACKAGES...:]\ mark them as as installed as dependencies.
+    ➱   [\--asexplicit :PACKAGES...:]\ mark them as explicitly installed.
+
+  > Downgrading from archive < {{{3
+    See [=https://wiki.archlinux.org/title/Arch_Linux_Archive]=
+
+    ➱   ['Arch Linux Archive]' is available at
+        [=https://archive.archlinux.org]=.
+    ➱   To downgrade a package manually, find the link for the archived
+        package and run [\pacman -U :link:]\.
+
 [~{ Key Bindings }~] {{{1
  == KDE Desktop Environment == {{{2
   > Screenshot < {{{3
@@ -226,6 +332,9 @@
     ➱   [\<W-f>]\: Toggle maximized window
     ➱   [\<W-A-f>]\: Toggle fullscreen window
     ➱   [\<W-m>]\: Minimize window
+
+    ➱   [\<W-C- - >]\: Expand window horizontally
+    ➱   [\<W-C-\>]\: Expand window vertically
 
     ➱   [\<A-F3>]\: Window operations menu
 
@@ -527,110 +636,6 @@
     ➱   [\set :{JAVA_ENV}:]\ forces JAVA_ENV as default
     ➱   [\unset]\ unsets current default Java environment
     ➱   [\fix]\ fixes an invalid/broken default Java environment configuration
-
-[~{ Package Management }~] {{{1
- == Kde and Plasma == {{{2
-    [\kpackagetool5]\
-
-  > List Installed Plasmoids < {{{3
-    ➱   [\kpackagetool5 -t "Plasma/Applet" -l]\
-
-  > Uninstall Plasmoids < {{{3
-    ➱   [\kpackagetool5 -t "Plasma/Applet" -r :name:]\
-    ➱   Or seems like you can click the bin button at the window that add
-        plasmoids
-
- == Pacman == {{{2
-  > Installation < {{{3
-    ➱   [\-S :{PACKAGE[ ...]}:]\ installs PACKAGE.
-        ⮱   Sometimes there are [[multiple version]] in different repo (e.g.
-            extra and testing), so you need to prepend the repo name if you
-            want to install a specific non-default one: [\extra/package_anme]\
-        ⮱   Support [[curly brace expansion]] for package name:
-            ‣   [\plasma-{desktop,mediacenter,nm}]\
-            ‣   [\plasma-{workspace{,-wallpapers},pa}]\
-    ➱   [\-Ss :{STRING}:]\ does raw-text search for packages in repositories
-    ➱   [\-S :{GROUP_NAME}:]\ installs a group of packages. Pacman will then
-        prompt you for selecting which packages to install.
-        ⮱   [\1-10 15]\ installs package 1 to 10 and package 15; [\^5-8 ^2]\
-            installs all except 5 to 8 and 2.
-        ⮱   If a package in a group is already installed, it will reinstall
-            again unless with the flag [\--needed]\.
-    ➱   [\-Sg :{GROUP_NAME}:]\ lists packages in a group.
-    ➱   [\--asdeps]\ install as dependency. Useful for makepkg that need to
-        install dependencies before building the package.
-    ➱   [\-U :{PACKAGE_FILE}:]\ installs a local package.
-
-  > Removing < {{{3
-    ➱   [\-R :PACKAGE:]\ removes a package, leaving its dependencies intact.
-    ➱   [\-Rs :PACKAGE:]\ removes a package and all its dependencies that are
-        not required by other installed packages.
-        ⮱   The behaviour is a bit different when removing a group. See Wiki.
-    ➱   [\-Rsc :PACKAGE:]\ [[recursively]] removes a package, its dependencies
-        that are not required by other installed packages, and all packages
-        that depend on it.
-    ➱   Pacman [[saves important config files]] when removing and names them
-        with extension [\.pacsave]\. Adding [\-n]\ flag will disable this
-        behaviours.
-    ➱   NOTE that pacman will not remove configurations that the application
-        itself creates, e.g. the dotfiles in home directory.
-
-  > Upgrading < {{{3
-    ➱   [\-Syu]\ synchronises repository databases and then updates the
-        system's packages, excluding "local" packages that are not in the
-        configured repositories.
-
-  > Query package databases < {{{3
-   |databases| {{{4
-    ➱   [\-Q]\ queries local database (the already installed package list)
-    ➱   [\-S]\ queries sync database (the repo)
-    ➱   [\-F]\ queries file database
-
-   |query commands| {{{4
-    [\-:{Q|S|F}{OPTIONS}]\ where OPTIONS are (if given Q/S/F in the following
-    OPTIONS, then it is for a specific database only):
-    ➱   [\-s :{EXT_REGEX[ ...]}:]\ searches for packages in both names and
-        descriptions.
-    ➱   [\-i :PACKAGE:]\ displays extensive info about a package.
-        ⮱   Also shows what other installed packages require this PACKAGE.
-    ➱   [\-ii :PACKAGE:]\ with a second [\-i]\ also displays the list of
-        backup files and their modification states.
-    ➱   [\-Ql :PACKAGE:]\ retrieves a list of files installed by a package.
-    ➱   [\-Qk :PACKAGE:]\ verify the presence of files installed by a package.
-        ⮱   Passing a second [\-k]\ will perform a more through check.
-    ➱   [\-Qo :{/path/to/file_name}:]\ checks to which installed package a
-        file belongs.
-    ➱   [\-Qd]\ lists packages installed as dependencies.
-    ➱   [\-Qe]\ lists explicitly installed packages.
-    ➱   [\-Qt]\ lists installed packages that are not required as dependencies
-        (i.e. no other packages depend on it).
-    ➱   [\-F :FILE_NAME:]\ searches for a package containing a file
-        ⮱   You need to first sync the files database with [\pacman -Fy]\.
-    ➱   [\-q]\ or [\--quiet]\ shows less info. Search will only show package
-        names but not version, group, and description info.
-
-       |useful compound commands|
-    ➱   [\-Qdt]\ lists packages no longer required as dependencies (but
-        installed as dependencies), i.e. ['orphans]'.
-    ➱   [\-Qet]\ list all packages explicitly installed and not required as
-        dependencies.
-
-  > Cleaning package cache < {{{3
-    ➱   [\-Sc]\
-
-  > Operate on installed packages < {{{3
-    [\-D]\ or [\--database]\ allows you to modify certain attributes of the
-    installed packages in pacman's database.
-    ➱   [\--asdeps :PACKAGES...:]\ mark them as as installed as dependencies.
-    ➱   [\--asexplicit :PACKAGES...:]\ mark them as explicitly installed.
-
-  > Downgrading from archive < {{{3
-    See [=https://wiki.archlinux.org/title/Arch_Linux_Archive]=
-
-    ➱   ['Arch Linux Archive]' is available at
-        [=https://archive.archlinux.org]=.
-    ➱   To downgrade a package manually, find the link for the archived
-        package and run [\pacman -U :link:]\.
 
 [~{ Files }~] {{{1
  == find == {{{2
@@ -1181,11 +1186,14 @@
     [=https://wiki.archlinux.org/title/Font_configuration]=
 
   > fc-list < {{{3
-    [\fc-list '~:' file]\ list known FOntconfig fonts.
+    [\fc-list '~:' file]\ list known Fontconfig fonts.
 
   > fc-cache < {{{3
     ➱   [\fc-cache]\: Rebuild fontconfig's configuration.
         ⮱   Change only be visible in newly launched applications
+
+  > fc-match < {{{3
+    [\fc-match :query-str:]\ test what font the system selects for a query str
 
   > Font paths < {{{3
     ➱   Global: [\/usr/share/fonts/]\

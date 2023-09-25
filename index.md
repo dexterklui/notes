@@ -10,14 +10,20 @@ title: Notes Index
 
 ## 🌐 Web Development
 
-- [HTML](Computer/html.md)
-- [JavaScript - Index](Computer/Javascript/index.md)
-- [CSS](Computer/css.md)
-- [Figma](Computer/figma.md)
-- [Bootstrap](Computer/bootstrap.md)
-- [Prettier](Computer/prettier.md)
-- [Web Development Resources](Computer/web_develop_resources.md)
-- [TypeScript](Computer/TypeScript/typescript.md)
+- [HTML](Computer/WebDev/html.md)
+- [HTML - SVG](Computer/WebDev/html-svg.md)
+- [JavaScript - Index](Computer/WebDev/JavaScript/index.md)
+- [TypeScript](Computer/WebDev/TypeScript/typescript.md)
+- [CSS](Computer/WebDev/css.md)
+- [Figma](Computer/WebDev/figma.md)
+- [Bootstrap](Computer/WebDev/bootstrap.md)
+- [Prettier](Computer/WebDev/prettier.md)
+- [D3.js](Computer/WebDev/d3js.md)
+- [Web Development Resources](Computer/WebDev/web_develop_resources.md)
+- [React](Computer/React/react.md)
+  - [Next.Js](Computer/React/nextjs.md)
+  - [Tailwind](Computer/React/tailwind.md)
+  - [Redux](Computer/React/redux.md)
 
 ## ⌨️ Vim
 
@@ -39,6 +45,7 @@ title: Notes Index
 
 ## 🗂️ Misc
 
+- [programming paradigm](Computer/programming-paradigm.md)
 - [tmux](Computer/tmux.md)
 - [Git](Computer/git.md)
 - [Bash](Computer/bash.md)
@@ -50,6 +57,10 @@ title: Notes Index
 - [Transcripts for Clara's Recordings](NonNotes/ClaraRecordings/index.md)
 
 # 🎮 Games
+
+# 🎨 Design
+
+- [Web Design for Beginners](Design/WebDesignForBeginners/index.md)
 
 # 🧭 Navigation
 

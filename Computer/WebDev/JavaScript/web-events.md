@@ -122,8 +122,8 @@ It registers **one key at a time**. For `<C-A-t>` for example, it may be
 
 ## SubmitEvent
 
-The event target is a `FormObject`, from which you can access the values, e.g.
-`e.target.formObject.name.value`.
+The event `target` and `currentTarget` is a `FormObject`, from which you can
+access the values, e.g. `e.target.formObject.name.value`.
 
 # Preventing Default Behaviour
 
@@ -150,6 +150,12 @@ Benefits:
 - Prevent functions from interfering with each other
 - In complex document, save system resources from searching through DOM for
   handlers
+
+# Trigger Event Manually
+
+`HTMLElement` has following instance methods:
+
+- `click()`
 
 # Concepts
 

@@ -117,8 +117,11 @@ you want an inline level element to respect these properties, you can set
 
 - `em`: Parent font size
 - `%`: 1% of parent's width, unless it is used for the property `height`.
-- `vw`: 1% of viewport width
-- `vh`: 1% of viewport height
+- `vw` and `vh`: 1% of viewport width and height
+- `dvh` and `dvw`: takes into account of the collapsible address bar on mobile /
+  scrollbar
+- `svw` and `svh`: always assume existence of collapsible address bar and scroll
+  bar, and use the smaller viewport
 
 ## Media queries
 
@@ -136,6 +139,15 @@ Usually you style based on the smallest screen as the default. Then use media
 queries at the **end** of the stylesheet to override styling for wider screen.
 
 # CSS Selectors
+
+## Attribute selector
+
+- Attribute **equals** selector `[name="value"]`
+- Attribute **not equals** selector `[name!="value"]`
+- Attribute contains **prefix** (followed by `-`) selector `[name=|"value"]`
+- Attribute **contains** word (delimited by spaces) selector `[name~="value"]`
+- Attribute **starts** with selector `[name^="value"]`
+- Attribute **ends** with selector `[name$="value"]`
 
 ## Pseudo-classes
 
@@ -286,6 +298,18 @@ Note that each area must be a **rectangle**.
   - `grid-column-end`: until nth border
   - You can have starting border on the right and ending border on the left
 
+### Grid auto flow
+
+Property `grid-auto-flow` control how auto-placed items get inserted in grid:
+
+| Value          | Description                                |
+| -------------- | ------------------------------------------ |
+| `row`          | Default; place items by filling each row   |
+| `column`       | By filling each column                     |
+| `dense`        | Place items to fill any holes              |
+| `row dense`    | By filling each row, and fill any holes    |
+| `column dense` | By filling each column, and fill any holes |
+
 ### Units for grid template
 
 - `fr`: Divide remaining space and share among rows/columns using `fr` using
@@ -297,7 +321,7 @@ Note that each area must be a **rectangle**.
 
 - `repeat(4, 1fr)` expands to `1fr 1fr 1fr 1fr`.
 - `repeat(auto-fit, minmax(300px, 1fr))`
-- `minmax(min, max)`. If min is smaller than min, then max is ignored. `auto`
+- `minmax(min, max)`. If max is smaller than min, then max is ignored. `auto`
   represents the largest `max-content` size of the items.
 
 ### Use cases
@@ -337,6 +361,10 @@ resize: [vertical|horizontal|both]
 
 `aspect-ratio: 16 / 9`
 
+Note that flexbox doesn't respect it unless you also use
+`overflow: (hidden|scroll)`. The idea is that if there is content overflowing,
+then the aspect ratio is not respected.
+
 #### Using padding-top
 
 To have a cover or banner with a fixed aspect ratio, and potentially a
@@ -361,6 +389,11 @@ background, and to have content inside such as a caption or texts:
   align-items: center;
 }
 ```
+
+### Shape clipping
+
+`clip-path` property clips an element into given shape using builtin functions
+or svg paths.
 
 ## Colour
 
@@ -396,41 +429,50 @@ given colour space by a given amount.
 See
 [mdn web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix).
 
-#### Colour gradient
+## Gradient colour
 
-##### Syntax
+### Gradient is an image
 
-`linear-gradient([orientation], colour-point...)`
-
-##### Gradient is an image
-
-Note that linear gradient belong to `<image>` data type. So it won't work on
+Note that gradient colour belongs to `<image>` data type. So it won't work on
 `background-color` and other properties that use `<color>` data type. Use it on
 `background` or `background-image`.
 
-##### Orientation
+### Linear colour gradient
 
+#### Syntax
+
+`linear-gradient([orientation], colour-point...)`
+
+#### Orientation
+
+- Given angle is counted clockwise from the orientation bottom-to-top.
+- Unit includes `deg`, and `turn` (1 turn = 360 deg)
+- Can give textual instruction instead, e.g. `to left top`, `to bottom`
 - Default is top to bottom, i.e. `180deg` / `to bottom` / `0.5turn`.
-- Unit `deg`, clockwise starting from bottom-to-top.
-- Unit `turn`, like `deg` but 1 turn = 360 deg
-- Commands e.g. `to left top`, `to bottom`
 
-##### Colour points
+#### Colour points
 
-- Syntax: `colour [pos1] [pos2]`
+- Syntax: `colour [start-pos] [end-pos]`
 
-- pos1 and pos2 are position of two points where the colour should apply.
+- You can skip both pos, or just skip end-pos
 
-  - Colour changes smoothly between points.
+- Pos are given in distance units, like %, em, px.
 
-  - In case of an overlapping range, former colour has priority, creating a hard
-    transition.
+- Colour changes smoothly between colour points.
 
-##### Multiple linear-gradients
+- In case of an overlapping range, former colour has priority, creating a hard
+  transition.
+
+- If no pos is provided, CSS will try to even out the distance between colour
+  points.
+
+#### Multiple linear-gradients
 
 You can apply **multiple** linear-gradient to blend colours from different
 direction. You may want to use alpha-value in this case to make colour less
 opaque at the far end.
+
+The following is a beautiful blending of three original colours.
 
 ```
 background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
@@ -438,11 +480,64 @@ background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
             linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
 ```
 
-##### Reference
+#### Links
 
-[mdn web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient)
+[Linear gradient - mdn web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient)
 
-##### Gradient in text
+### Repeating conic gradient
+
+```
+background: repeating-conic-gradient(
+  from 45deg,
+  red 0,
+  yellow 15%,
+  red 33%
+);
+```
+
+- Gradient transition from red at 12 o'clock to yellow at 15% revolution.
+- Then to red at 33% revolution.
+- Then repeat (red at 33% to yellow at 48%...)
+- The whole result rotated clockwise by 45 degrees.
+
+---
+
+```
+background: repeating-conic-gradient(
+  from 45deg,
+  black 0 90deg,
+  white 90deg 180deg,
+)
+```
+
+This is a 45 degree tilted black-and-white checker board pattern:
+
+- Solid black from 0 to 90 degrees.
+- Solid white from 90 degrees to 180 degrees.
+- Repeat...
+- The whole result rotated clockwise by 45 degrees.
+
+---
+
+```
+background: repeating-conic-gradient(
+  from 0deg at 25% 50%,
+  black 0 180deg,
+  white 180deg 360deg,
+)
+```
+
+This is just left 25% white right 75% black. The `at 25% 50%` place the centre
+of rotation at 25% width from the left and 50% height from the top.
+
+### Other gradient functions
+
+- `repeating-linear-gradient()`
+- `conic-gradient()`
+- `radial-gradient()`
+- `repeating-radial-gradient()`
+
+### Gradient in text
 
 1.  Set up colour gradient in the background
 2.  **Mask** the background to the text
@@ -529,6 +624,10 @@ See [Typewriter animations](#typewriter-animations).
 
 `object-fit: {cover|fill|contain}`
 
+For `object-fit` to work, the image needs a width and height. Usually you want
+to be 100% and 100%. These specifies the **bounding box** of the image, and then
+the `object-fit` is functioning with respect to this bounding box.
+
 - cover: zoom to fill space, maintaining aspect ratio
 - contained: zoom to see the whole image, maintaining aspect ratio
 
@@ -544,9 +643,10 @@ See [Typewriter animations](#typewriter-animations).
 
 ### pointer-events
 
-Specify under circumstances an element can become the target of pointer events.
-It can be useful to prevent user from selecting an element (e.g. drag-and-drop)
-or highlighting the text, for e.g. aesthetic purposes.
+Attribute `pointer-events` specifies under which circumstances an element can
+become the target of pointer events. It can be useful to prevent user from
+selecting an element (e.g. drag-and-drop) or highlighting the text, for e.g.
+aesthetic purposes.
 
 | Value  | Description                                    |
 | ------ | ---------------------------------------------- |
@@ -787,6 +887,137 @@ h2::before {
 }
 ```
 
+## Cursor
+
+`cursor` attribute controls cursor style hovering on the element. Actual cursor
+icons are dependent on platform and user's computer setting.
+
+### General cursors
+
+| Value     | Description                             |
+| --------- | --------------------------------------- |
+| `auto`    | **Default**, UA determine automatically |
+| `default` | Platform-dependent default cursor       |
+| `none`    | No cursor is rendered                   |
+
+### Links and status cursors
+
+| Value          | Description                                   |
+| -------------- | --------------------------------------------- |
+| `context-menu` | Context menu available                        |
+| `help`         | Help info available                           |
+| `pointer`      | Index finger to indicate a **link**           |
+| `progress`     | Program is busy in bg, but can still interact |
+| `wait`         | Program is busy, cannot interact              |
+
+### Selection cursors
+
+| Value           | Description                                  |
+| --------------- | -------------------------------------------- |
+| `cell`          | Like Excel                                   |
+| `crosshair`     | Often used to indicate selection in a bitmap |
+| `text`          | Text can be selected                         |
+| `vertical-text` | Vertical text can be selected                |
+
+### Drag and drop cursors
+
+| Value         | Description                |
+| ------------- | -------------------------- |
+| `alias`       | Creating alias or shortcut |
+| `copy`        | Copying something          |
+| `move`        | Moving something           |
+| `no-drop`     | Cannot be dropped here     |
+| `not-allowed` |                            |
+| `grab`        | Something can be grabbed   |
+| `grabbing`    | Grabbing something         |
+
+### Resize and scroll cursors
+
+For resizing and scrolling (arrows), the value is
+`<direction>[direction]-resize`, where direction is given by `n`, `e`, `s`, `w`,
+`ne`, etc.
+
+### Zoom cursors
+
+| Value      | Description |
+| ---------- | ----------- |
+| `zoom-in`  | Zoom in     |
+| `zoom-out` | Zoom out    |
+
+## Html tables
+
+- `padding` of `<td>` controls distance between content and border of the cell.
+- `border-spacing` of `<table>` controls space between border of the cells.
+  - Make sure `border-collapse: separate` but not `border-collapse: collapse`
+    for `border-spacing` to work on `<table>`
+  - In tailwind, it seems the default changes to `collapse`
+
+# Queries
+
+## Query conditions
+
+### Logical keywords
+
+- `and`
+- `or`
+- `not`: only one `not` is allowed and cannot be used with `and` or `or`
+
+### Condition
+
+- `(max-width: 500px)`
+- `(min-height: 200px)`
+- `(width >= 1080px)`
+- `(min-width: 640px) and (max-width: 1280px)`
+
+## Container queries
+
+`@container` queries can apply CSS styling based on ancestor element's size.
+
+### Quick example and syntax
+
+```css
+@container (width <= 250px) {
+  .btn {
+    width: 50px;
+    fonr-size: 0.6rem;
+  }
+}
+```
+
+```css
+@container [<container-name>] <container-condition> {
+  /* css styling */
+}
+```
+
+### container
+
+`container: <name> / <type>` is a short hand attribute.
+
+### container-type
+
+Parent has set `container-type` to be either `inline-size` or `size`
+
+- `inline-size`: query based on **inline** dimension
+- `size`: based on both **inline** and **block** dimension
+
+Then you can use container query:
+
+### container-name
+
+You can also give the container a case-sensitive name using `container-name`
+which can be used as a filters in later container queries:
+`@container my-container (width > 500px)`.
+
+### Container conditions
+
+- `width`
+- `height`
+- `aspect-ratio`
+- `block-size`
+- `inline-size`
+- `orientation`: `landscape` or `portrait`
+
 # Tips
 
 ## Apply a filter
@@ -881,8 +1112,6 @@ The second method has an advantage to change layout with media queries.
 Children of a grid would automatically have their size stretched out to fill the
 cell. So instead of setting up each different type of elements with
 `width: 100%`, you can just do `display: grid`.
-
-# Misc
 
 ## Quotes pseudo-element
 
@@ -992,5 +1221,5 @@ filter: drop-shadow(0px 0px 1rem red);
 # 🧭 Navigation
 
 - [🔼 Back to top](#)
-- [📑 Notes Index](../index.md)
+- [📑 Notes Index](../../index.md)
 - [🗃️ Index](/media/mikeX/Nextcloud/index.md)

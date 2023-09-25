@@ -91,7 +91,7 @@ Data types (interfaces):
 - `window.onload`
 - `window.scrollTo()`
 
-# DOM Interfaces Structure
+## DOM Interfaces Structure
 
 ```mermaid
 flowchart RL
@@ -148,6 +148,13 @@ Most HTML attributes (except class) are accessed through instance
 - `textContent`: Text content
   - You can also `document.createTextNode("Some text")` and append it
 - `innerHTML`: Inner HTML
+- `classList`: provides methods to modify class
+  - `add(class...)`
+  - `remove(class...)`
+  - `replace(oldClass, newClass)`
+  - `toggle(class)`
+  - `toggle(class, [force])`: force is true then only add class, false then only
+    remove class.
 
 You can use `Element.setAttribute(attr, value)` to set an attribute (including
 class), and `Element.removeAttribute(attr)` to remove.
@@ -177,9 +184,7 @@ true. You need to remove the attribute to really make the value false.
 - Inserting an already connected node results in **moving** them.
 - Most methods return `undefined`. You can check documentation to make sure.
 
----
-
-Element instance methods:
+## Element instance methods
 
 | Method                            | Description                                                   |
 | --------------------------------- | ------------------------------------------------------------- |
@@ -198,7 +203,7 @@ Element instance methods:
 | `replaceWith(arg...)`     | Replace self with `Node` or string     |
 | `replaceChildren(arg...)` | Replace children with `Node` or string |
 
----
+## Node instance methods
 
 Node instance methods
 
@@ -209,6 +214,14 @@ Node instance methods
 
 In older browser where `remove()` is not supported, you need to
 `node.parentNode.removeChild(node)`
+
+## Delay before inserted element is ready
+
+Sometimes it takes time before an element newly inserted into DOM is ready. And
+this may result to failure in calling certain methods on the element.
+
+E.g. `focus()` can fails when called immediately after the element is added to
+DOM. You may want to add a delay with `setTimeout(() => {myEle.focus()}, 0)`.
 
 ## insertAdjacentElement
 
@@ -280,13 +293,14 @@ Node instance properties:
 | `firstChild` | First child `Node` or `null` |
 | `lastChild`  | Last child `Node` or `null`  |
 
-# Node Assertion
+# Node Testing and Assertion
 
 Element instance method:
 
-| Method              | Description                         |
-| ------------------- | ----------------------------------- |
-| `matches(selector)` | Test whether self would be selected |
+| Method                      | Description                         |
+| --------------------------- | ----------------------------------- |
+| `matches(selector)`         | Test whether self would be selected |
+| `classList.contains(class)` | Test whether belong to a class      |
 
 Node instance property:
 
@@ -294,12 +308,18 @@ Node instance property:
 | ------------- | ---------------------------------------- |
 | `isConnected` | Test if connected to a `Document` object |
 
-# Window Object
+# Getting Node Info
 
-Some static properties:
+Element instance methods:
 
-- `innerWidth`
-- `innerHeight`
+| Method                    | Description                                 |
+| ------------------------- | ------------------------------------------- |
+| `getBoundingClientRect()` | Return `DOMRect` object indicating geometry |
+
+# Other Node Builtin Methods
+
+- `HTMLElement.focus()` to focus an element and scrolling to it.
+  - Passing an argument `true` will prevent scrolling.
 
 # Links
 

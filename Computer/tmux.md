@@ -8,10 +8,10 @@ title: tmux
 
 ## Tmux options
 
--   `-2` forces tmux to assume the terminal supports 256 colours
-    -   Equivalent to `-T 256`
--   `-c {SHELL-CMD}`
--   `-f {FILE}` specifies config file
+- `-2` forces tmux to assume the terminal supports 256 colours
+  - Equivalent to `-T 256`
+- `-c {SHELL-CMD}`
+- `-f {FILE}` specifies config file
 
 # Tmux keybinds
 
@@ -19,9 +19,9 @@ title: tmux
 
 Keybind followed by following symbols has meanings:
 
--   "\*": Custom keybinds
--   "^": Custom behaviour extending the default behaviour
--   "#": Plugin keybinds
+- "\*": Custom keybinds
+- "^": Custom behaviour extending the default behaviour
+- "#": Plugin keybinds
 
 ### Misc
 
@@ -88,19 +88,36 @@ Keybind followed by following symbols has meanings:
 You can go to window/session/pane (**_node_**) selection mode with `<prefix>w`,
 `<prefix>s`, or `<prefix>f` followed by a search string.
 
--   `j`, `k` move cursor up/down
--   `h`, `l` shrink/expand children list of a node. `-` and `<S-=>` also.
--   `g`, `G` move cursor to top/bottom does this
--   `<S-o>` changes sort method (index, name, time)
--   `r` reverses sort order
--   `/` searches for node name and cursor jump to that
--   `f` filters window/session\
-    takes a format string, and only list nodes where the string evaluates to true
--   `t`: I guess it marks nodes as target for `-t` flag
--   `m` marks a window or pane? `M` clears mark. (target for `-s` flag)
--   `x` kills a node
--   `v` toggles preview
--   `:` starts inputting tmux commands
+- `j`, `k` move cursor up/down
+- `h`, `l` shrink/expand children list of a node. `-` and `<S-=>` also.
+- `g`, `G` move cursor to top/bottom does this
+- `<S-o>` changes sort method (index, name, time)
+- `r` reverses sort order
+- `/` searches for node name and cursor jump to that
+- `f` filters window/session\
+  takes a format string, and only list nodes where the string evaluates to true
+- `t`: I guess it marks nodes as target for `-t` flag
+- `m` marks a window or pane? `M` clears mark. (target for `-s` flag)
+- `x` kills a node
+- `v` toggles preview
+- `:` starts inputting tmux commands
+
+## tmux-sessionist
+
+| Keybind | Effect                                 |
+| ------- | -------------------------------------- |
+| `g`     | Prompt for session name and switch     |
+| `C`     | Prompt for session name and create new |
+| `X`     | Kill current session without detaching |
+| `S`     | Switch to last session (same as `L`)   |
+| `@`     | Promote pane into new session          |
+| `C-@`   | Promote window into new session        |
+
+- `t<secondary-key>` join currently marked pane (`m`) to current session/window,
+  and switch to it. Secondary keys:
+  - `h`, `-`, `"`: join horizontally
+  - `v`, `|`, `%`: join vertically
+  - `f`, `@`: join full screen
 
 # Tmux Commands
 
@@ -110,20 +127,20 @@ You can go to window/session/pane (**_node_**) selection mode with `<prefix>w`,
 
 ## List of commands
 
--   `display-message` (`display`) print message in the status line.
--   `command-prompt -p 'prompt message:' 'command template %1'`
+- `display-message` (`display`) print message in the status line.
+- `command-prompt -p 'prompt message:' 'command template %1'`
 
 ## Control statements
 
--   `if-shell` (`if`)
+- `if-shell` (`if`)
 
-    -   `if-shell {shell-command} {true-command} [false-command]`
-    -   shell-command is expanded with tmux format first
+  - `if-shell {shell-command} {true-command} [false-command]`
+  - shell-command is expanded with tmux format first
 
 ## Windows
 
--   `select-window`
--   `swap-window`
+- `select-window`
+- `swap-window`
 
 # Tmux scripts
 
@@ -133,9 +150,9 @@ Line continuation with `\` at the end of line.
 
 ## String
 
--   Things inside `''` is taken literally.
--   `""` allows special characters and expansion. E.g. `"${myenv}"`.
--   `#{}` in `""` is tmux format string.
+- Things inside `''` is taken literally.
+- `""` allows special characters and expansion. E.g. `"${myenv}"`.
+- `#{}` in `""` is tmux format string.
 
 # Concepts explanation
 
@@ -152,6 +169,6 @@ A node is either a session, a window or a pane.
 
 # 🧭 Navigation
 
--   [🔼 Back to top](#)
--   [📑 Notes Index](../index.md)
--   [🗃️ Index](/media/mikeX/Nextcloud/index.md)
+- [🔼 Back to top](#)
+- [📑 Notes Index](../index.md)
+- [🗃️ Index](/media/mikeX/Nextcloud/index.md)
