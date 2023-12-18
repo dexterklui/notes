@@ -136,10 +136,16 @@ import { useRouter } from "next/navigation";
 // ... Then inside a component...
 const router = useRouter();
 
-router.refresh(); // This tells the router to refresh current page, so will
-// fetch updated data
+router.refresh(); // This tells the router to refresh current route, so will
+// fetch updated data, also refresh the page pushed by the router after this
 router.push("/"); // This function redirects current page to path "/"
+router.replace("/"); // Similar to push(), but replace most recent path history
 ```
+
+## Server-side refresh
+
+On the server side, you can `revalidatePath(path)` to refresh a route of a given
+path.
 
 # Client vs Server-side Rendering
 
@@ -163,7 +169,7 @@ import dynamic from "next/dynamic";
 
 const SimpleBarChartWithoutSsr = dynamic(
   import("../components/rechartsCharts/SimpleBar"),
-  { ssr: false }
+  { ssr: false },
 );
 ```
 
@@ -173,6 +179,39 @@ SSR means server-side rendering.
 
 **_Incremental server-side render_** (**_ISR_**) means the server re-renders a
 static pages periodically at a time interval.
+
+## Server actions
+
+### What's a server action?
+
+A **_server action_** is a function that runs only on the server. It should have
+serializable arguments and serializable return value.
+
+### Defining a server action
+
+To tell Next.js that a function is a server action, you can either:
+
+- Define the function in a server component, and then add the line
+  `"use server"` at the top of the body.
+- Define the function in a file `action.js`. Then add the line `"use server"` at
+  the top. Now every export in this file is a server action.
+
+### Using a server action
+
+You can import a server action, or pass it as a prop to a component. Then to
+invoke it, you can:
+
+- Use `action` props of a `<form>` element.
+- Use `formAction` props on `<button>`, `<input type="submit">` and
+  `<input type="image">` elements in a `<form>`.
+
+### Form action
+
+Server action is useful for form submission. In a client form component, you can
+pass a server action to its `action` attribute. On submit, the form data will be
+passed to the server action as the argument `formData`, with the type
+[`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData), and the
+function will run on the server.
 
 # Static vs Dynamic Rendering
 
@@ -280,6 +319,15 @@ attribute.
 </Suspense>
 ```
 
+# Error page
+
+Make a file `error.jsx` that export a default **client** component. The
+component is rendered as the error page when error occurs. The component
+receives two props, `error` and `reset` from _Next.js_.
+
+`error` props is the object thrown in the error, whereas `reset` is a function
+that resets the error and gets back to the previous page.
+
 # Page metadata
 
 ## Defining static metadata
@@ -318,6 +366,79 @@ const rubik = Rubik({ subsets: ["latin"] });
 // ...
 <body className={rubik.className}>
 ```
+
+# Route Handlers
+
+## API Routes
+
+**_Route Handlers_** is for building API endpoints. The endpoints is defined by
+a file `route.js`. It's route is defined by the file path under `app/`
+directory, like a `page.js`. So you should prevent _route conflicts_ with a
+page.
+
+## Example
+
+### GET handler
+
+```typescript
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const dbName = searchParams.get("dbName");
+  const collectionName = searchParams.get("collectionName");
+  const pipeline = searchParams.get("pipeline");
+
+  if (!dbName || !collectionName || !pipeline)
+    return NextResponse.json(
+      { error: "Invalid dbName or collectionName" },
+      { status: 400 },
+    );
+
+  try {
+    const mongoClient = await clientPromise;
+    const data = await mongoClient
+      .db(dbName!)
+      .collection(collectionName!)
+      .aggregate(JSON.parse(pipeline))
+      .toArray();
+
+    return NextResponse.json({ data });
+  } catch (error) {
+    if (error instanceof Error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    throw error;
+  }
+}
+```
+
+### POST handler
+
+```typescript
+export async function POST(request) {
+  const data = await request.json();
+}
+```
+
+## Static vs dynamic route handlers
+
+By default, **_GET_** route handlers are static. That means the response of the
+route is fixed at compile time. To make a route handler dynamic, either you
+provide the init object `{ next: { revalidate: 0 } }` to the `fetch()` function
+in your route to make that fetch dynamic. Or you can add the following line to
+`route.js`, making all route handlers defined in this file dynamic.
+
+```typescript
+export const dynamic = "force-dynamic";
+```
+
+## Dynamic routes for route handlers
+
+```typescript
+export async function GET(_, { params }) {
+  const id = params.id;
+}
+```
+
+Since the first argument is a `NextRequest` object, we use `_` to ignore it.
 
 # Builtin Components
 
@@ -455,10 +576,22 @@ of the two renders from two sides mismatch, this error occurs.
 Dunno if this works. Define the function in a separate js file, and import it
 from the client component file.
 
+# Bugs
+
+## Uncaught ChunkLoadError
+
+For error such as
+`Uncaught ChunkLoadError: Loading chunk app-pages-internals failed.`, it's
+possibly an internal error from Next.js caching. Try to remove the `.next/`
+directory and refresh the page to remove the cache.
+
+For reference, see this
+[stackoverflow question](https://stackoverflow.com/questions/67652612/chunkloaderror-loading-chunk-node-modules-next-dist-client-dev-noop-js-failed).
+
 # 🧭 Navigation
 
 - [🔼 Back to top](#)
-- [◀️ Back](../../index.md)
-- [🔖 Parent index](../../index.md)
-- [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)
+- [◀️ Back](../../../index.md)
+- [🔖 Parent index](../../../index.md)
+- [📑 Notes Index](../../../index.md)
+- [🗃️ Master Index](../../../../index.md)

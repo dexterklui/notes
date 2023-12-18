@@ -17,6 +17,9 @@ title: JavaScript Index
 - [Local Storage](local-storage.md)
 - [Canvas](canvas.md)
 - [Input Element](input-element.md)
+- [Web APIs](web-apis.md)
+- [Timeout and Interval](timeout-and-interval.md)
+- [Intersection Observer API](intersection-observer-api.md)
 
 ## Case studies
 

@@ -22,13 +22,6 @@ Then we use **_dependency injection_**[^1] and use interface to describe the
 kind of argument a function is expecting to receive, where interface is for
 establishing a contract of what the argument can do.
 
-# Design Patterns
-
-## Singleton
-
-- [Guru: Singleton](https://refactoring.guru/design-patterns/singleton)
-- [Guru: Factory Method](https://refactoring.guru/design-patterns/factory-method)
-
 # 🧭 Navigation
 
 - [🔼 Back to top](#)

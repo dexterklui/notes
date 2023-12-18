@@ -346,6 +346,20 @@ You can also `:source` Lua files.
 
 - `<leader>l`: Show Lazy
 
+## LazyVim Mappings
+
+### Code
+
+| Mapping    | Description       |
+| ---------- | ----------------- |
+| `<Lead>cr` | Rename identifier |
+
+### Navigation
+
+| Mapping       | Description         |
+| ------------- | ------------------- |
+| `<Lead>` + \` | To alternate buffer |
+
 # Plugins
 
 ## Lazy.nvim

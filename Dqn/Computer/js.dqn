@@ -222,6 +222,8 @@
         ⮱   substitute can be a string or a function called for each match
     ➱   [\.replaceAll(:pattern:, :substitute:)]\ like [\.replace()]\ but
         replace all occurrence.
+    ➱   [\.search()]\ accepts a string or a regex, and returns the index of
+        the first match, or -1 if not found.
 
     To test a string with a regex, you can create a RegExp object and use its
     methods to [\.test(:str:)]\ against a string.
@@ -714,6 +716,13 @@
     console.log(age);
     console.log(hobbies);
     console.log(firstName, lastName);
+    #endCode#
+
+    You can rename the destructuring variable by using a colon [\~:]\
+
+    #beginCode#
+    const { age: heroAge } = hero;
+    console.log(heroAge); // output the value of hero.age
     #endCode#
 
   > The "in" keyword < {{{3
@@ -1418,6 +1427,8 @@
 
   > Builtin methods using RegExp < {{{3
     ➱   [\:regex:.test(:string:)]\ returns true if there is a match
+    ➱   [\string.search(:regex:)]\ returns the index of the first match or -1
+        if not found
     ➱   [\:string:.match(:regex:)]\ returns [\null]\ or an array containing
         search results. The format of the returned array depends on the regex
         modifier.

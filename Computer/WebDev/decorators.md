@@ -1,7 +1,11 @@
 ---
-title: Tailwind
-date: 2023-09-14 (Thu)
+title: Decorators
+date: 2023-11-21 (Tue)
 ---
+
+# 🔗 Reference and Links
+
+- [Announcing TypeScript 5.0 - Decorators](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#decorators)
 
 # 🧭 Navigation
 

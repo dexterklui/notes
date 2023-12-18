@@ -94,6 +94,23 @@ recursive`Hello``World`;
 The keyword `void` represents and can be tested against both `null` and
 `undefined`.
 
+# Data Structure
+
+- `Map`
+  - any data type can be used as key
+  - Iterable
+- `WeakMap`:
+  - Only allow objects as key
+  - Keys are stored weakly, i.e. even if an object is used as a key for a
+    WeakMap, when there's no more reference to it, it is still eligible for
+    garbage collection. So it is useful for associating data with an object that
+    may be destroyed, like a **DOM node**.
+  - Non-iterable
+  - Doesn't have a `size` property that returns the number of key-value pairs,
+    because it can change on garbage collection
+  - Have additional garbage collection overhead performance-wise
+  - `new WeakMap<key, value>([iterable])`;
+
 # Hoisting
 
 **_Hoisting_** is JavaScript's default behaviour of moving all declarations to
@@ -102,6 +119,12 @@ but **not initialized**.
 
 But as a good practice, you should declare all variables at the top of the
 scope. That can also prevent beginners from misunderstanding.
+
+# Modules and Constructed Object
+
+When creating an instance using constructor function in a module, JS will only
+call the constructor once. That means if you import the module twice, you will
+get the same instance of the object.
 
 # Concepts
 

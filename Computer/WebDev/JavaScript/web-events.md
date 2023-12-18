@@ -69,7 +69,7 @@ btn.addEventListener(
   () => {
     /* ... */
   },
-  { signal: controller.signal } // pass an AbortSignal
+  { signal: controller.signal }, // pass an AbortSignal
 );
 // later...
 // remove all event handlers associated with this controller
@@ -131,6 +131,12 @@ Events have their default behaviour. E.g. sending HTTP request and
 reload/redirect current page on submission of form. To prevent that, call the
 Event method `preventDefault()`.
 
+Another example is during a click event, it prevents opening the link on a `<a>`
+tag, you can call `preventDefault()` on an parent element during bubble phase to
+make this effective, i.e. the default behaviour is still prevented even if the
+event reaches `<a>` before it reaches another element and the `preventDefault()`
+gets called.
+
 # Handling Event Propagation
 
 ## Stop further propagation
@@ -156,6 +162,94 @@ Benefits:
 `HTMLElement` has following instance methods:
 
 - `click()`
+
+# Touch and Mouse
+
+## Touch event guides
+
+- [Mobile Touch and Mouse](https://web.dev/articles/mobile-touchandmouse)
+- [Touch Events Basics](https://www.codeguage.com/courses/js/touch-events-basics)
+
+## Touch events
+
+During touch event, `prventDefault()` will prevent mouse events from happening.
+
+Touch event always target the element where that touch **started**.
+
+## Order of events
+
+### Base on online article
+
+1. touchstart
+2. touchmove
+3. touchend
+4. mouseover
+5. mousemove
+6. mousedown
+7. mouseup
+8. click
+
+### My test on chromium mobile emulator
+
+#### A tap
+
+A tap (touch) on the element:
+
+1. pointerenter
+2. pointerdown
+3. touchstart
+4. pointerup
+5. pointerleave
+6. touchend
+7. mouseover
+8. mouseenter
+9. mousedown
+10. mouseup
+11. click
+
+Then a tap outside:
+
+1. mouseleave
+
+#### Touch and move immediately
+
+Touch and move immediately while touching:
+
+1. pointerenter
+2. pointerdown
+3. touchstart
+4. pointermove
+5. pointerleave (when leave)
+
+Then release touch:
+
+1. touchend
+
+#### Touch and hold position
+
+1. pointerenter
+2. pointerdown
+3. touchstart
+4. mouseover (after waiting a while)
+5. mouseenter
+
+If then move:
+
+1. pointermove
+2. pointerleave (when leave)
+
+When release:
+
+1. touchend
+
+## Tab Index
+
+HTML attribute `tabindex="-1"` can be useful when you want an element focusable
+through touch (and click) to activate `:focus` pseudo-class, or make `focusin`
+and `focusout` event possible on otherwise non-focusable element, but not
+through the keyboard key tab. One example case is when you `preventDefault`
+during touch event which also disable mouse events, thus making `:hover` not
+activate.
 
 # Concepts
 

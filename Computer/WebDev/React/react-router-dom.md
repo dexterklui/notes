@@ -33,7 +33,7 @@ import { Link, Route, Routes } from "react-router-dom";
 
 function App() {
   const isAuthenticated = useSelector(
-    (store) => store.authStore.isAuthenticated
+    (store) => store.authStore.isAuthenticated,
   );
   return (
     <div className="app">
@@ -130,6 +130,6 @@ const state = useLocation().state;
 
 - [🔼 Back to top](#)
 - [◀️ Back](react.md)
-- [🔖 Parent index](../../index.md)
-- [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)
+- [🔖 Parent index](../../../index.md)
+- [📑 Notes Index](../../../index.md)
+- [🗃️ Master Index](../../../../index.md)

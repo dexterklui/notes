@@ -28,6 +28,10 @@ page has finished parsing.
 In HTML5, you can have custom attributes prefixed with `data-` to store data.
 However, in `XHTML1.1` mode the browser will complain about it.
 
+# Disabling Anchors
+
+`<a href="javascript:void(0)">`
+
 # 🧭 Navigation
 
 - [🔼 Back to top](#)

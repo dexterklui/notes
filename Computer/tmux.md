@@ -129,6 +129,13 @@ You can go to window/session/pane (**_node_**) selection mode with `<prefix>w`,
 
 - `display-message` (`display`) print message in the status line.
 - `command-prompt -p 'prompt message:' 'command template %1'`
+- `bind-key` (`bind`) to add a keybind.
+  - `bind <options> <key> <command>`
+  - `-T <table>` specifies a keybind table. E.g. `-T copy-mode-vi` for copy-mode
+    keybinding.
+  - `-n` to specify a keybind without prefix.
+  - Without any flag, the default table is the prefix table. So `bind j` refers
+    to a keybind `<prefix>j`.
 
 ## Control statements
 

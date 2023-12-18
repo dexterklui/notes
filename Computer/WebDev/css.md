@@ -1,10 +1,8 @@
----
-title: CSS
----
+# CSS
 
-# Basics
+## Basics
 
-## CSS Syntax
+### CSS Syntax
 
 ```css
 selector {
@@ -22,7 +20,7 @@ header {
 }
 ```
 
-## Selectors
+### Selectors
 
 - `*`
 - `h1`: html element
@@ -32,9 +30,9 @@ header {
 - `img.cover-img`: element with a class
 - `article > h3`: an element which is a child of a parent
 
-## Variables
+### Variables
 
-### Declaration
+#### Declaration
 
 Variables are local to its block. Unless it is declared in `:root {}`, such
 variables are globally accessible.
@@ -46,7 +44,7 @@ variables are globally accessible.
 }
 ```
 
-### Usage
+#### Usage
 
 ```css
 button {
@@ -54,7 +52,7 @@ button {
 }
 ```
 
-## Priority and Specificity
+### Priority and Specificity
 
 For multiple identical _type_ of rules, the last rule takes priority. Unless
 there's `!important`:
@@ -76,7 +74,7 @@ setting is prioritised. Google it.
 
 - E.g. two class selectors add 2 times 10 points in specificity value.
 
-## Box Model 🔲
+### Box Model 🔲
 
 From center to out:
 
@@ -99,13 +97,13 @@ you can override that with the property:
 }
 ```
 
-## Inline Blocks
+### Inline Blocks
 
 Normally, only block level elements respect `height` and `width` properties. If
 you want an inline level element to respect these properties, you can set
 `display: inline-block` for it.
 
-## Units
+### Units
 
 - `px`: Pixel
 - `rem`: Root (i.e. the whole document) font size
@@ -123,13 +121,13 @@ you want an inline level element to respect these properties, you can set
 - `svw` and `svh`: always assume existence of collapsible address bar and scroll
   bar, and use the smaller viewport
 
-## Media queries
+### Media queries
 
 ```css
 p {
     font-size = 1rem;
 }
-@mediae only screen and (min-width: 401px) {
+@media only screen and (min-width: 401px) {
 }
 @media only screen and (minl-width: 961px) {
 }
@@ -138,9 +136,15 @@ p {
 Usually you style based on the smallest screen as the default. Then use media
 queries at the **end** of the stylesheet to override styling for wider screen.
 
-# CSS Selectors
+### Font
 
-## Attribute selector
+Use `font-family` property. It is automatically inherited by child element in
+most cases, except for perhaps `input`, `textarea` and maybe `button` too on
+mobile devices.
+
+## CSS Selectors
+
+### Attribute selector
 
 - Attribute **equals** selector `[name="value"]`
 - Attribute **not equals** selector `[name!="value"]`
@@ -149,17 +153,17 @@ queries at the **end** of the stylesheet to override styling for wider screen.
 - Attribute **starts** with selector `[name^="value"]`
 - Attribute **ends** with selector `[name$="value"]`
 
-## Pseudo-classes
+### Pseudo-classes
 
-### nth-child
+#### nth-child
 
-| Selector                | Description                                     |
-| ----------------------- | ----------------------------------------------- |
-| `:first-child`          | First child among siblings                      |
-| `:last-child`           | Last child among siblings                       |
-| `:nth-child(n)`         | (n)-th child among siblings                     |
-| `:nth-child(odd\|even)` | Odd or even children                            |
-| `:nth-child(An+B)`      | (An+B)-th children for n ∈ \[0, numOfSiblings\] |
+| Selector                | Description                                |
+| ----------------------- | ------------------------------------------ |
+| `:first-child`          | First child among siblings                 |
+| `:last-child`           | Last child among siblings                  |
+| `:nth-child(n)`         | (n)-th child among siblings                |
+| `:nth-child(odd\|even)` | Odd or even children                       |
+| `:nth-child(An+B)`      | (An+B)-th children for n ∈ \[0, infinity\] |
 
 Note that for `:nth-child()` selector, you can use `of <selector>` after the
 first argument to limit what children should be included in counting. E.g. the
@@ -169,7 +173,7 @@ following code will select the odd `.food` list items:
 ul > li:nth-child(odd of .food)
 ```
 
-### nth-of-type
+#### nth-of-type
 
 The following works like [nth-child](#nth-child). But the counting only include
 children of the given type before among the siblings.
@@ -180,16 +184,23 @@ children of the given type before among the siblings.
 
 Also for `:nth-of-type()`, it seems you can't use `of <selector>`.
 
-## Pseudo-objects
+### Pseudo-objects
 
 - `::before`: a pseudo-element as the first child
 - `::after`: a pseudo-element as the last child
 
-# Display layout
+### Specificity
 
-## Flex layout
+- Put queries into `:where()` to make the specificity zero. Useful for defining
+  default style for easy overriding.
+- `html` is less specific than `:root`.
+- You can **repeat** selector to increase specificity, e.g. `.btn.btn`.
 
-### Flex box
+## Display layout
+
+### Flex layout
+
+#### Flex box
 
 `display: flex`: Set the flow to be using **_flex box_** model. The **_main
 axis_** is the major direction where flex items are arranged, and the **_cross
@@ -213,12 +224,14 @@ axis_** is the secondary direction. Some properties for flex box model:
 - `gap: <row-gap> <column-gap>`: Gap between items along rows and columns. If
   only one value, it applies to both rows and columns.
 
-### Flex items
+#### Flex items
 
 By default, each item has _intrinsic sizing_, meaning they only take up space of
 their content.
 
 - `align-self`: Like in `align-items`, but target this item only.
+- `margin: auto`: Make this item occupy all space available along the main axis
+  by pushing adjacent items to the side.
 - `flex`: Shorthand property for
   - `flex-grow: 1` grow factor to fill available space in main axis
   - `flex-shrink: 1` shrink factor to fit into available space in main axis
@@ -227,22 +240,28 @@ their content.
 For some properties, e.g. `flex`, you may want to apply to all children with
 `.flex-container > *` selector.
 
-### Use cases
+#### Use cases
 
 For flexible layout where the layout adapts to fit the content:
 
 - Navigation links
 - Tags
 
-### Links
+#### With margins
+
+Using `margin: auto` on a flex item will make it occupy all space available,
+i.e. pushing adjacent items to the side. E.g. `margin-right: auto` makes all the
+following flex items to `flex-end`.
+
+#### Links
 
 - [Flexbox Froggy](https://flexboxfroggy.com): A game to learn flex box basics
 - [\[YouTube\] Flexbox or grid = How to decide?](https://youtu.be/3elGSZSWTbM)
 - [\[YouTube\] Learn flexbox the easy way](https://youtu.be/u044iM9xsWU)
 
-## Grid layout
+### Grid layout
 
-### Grid
+#### Grid
 
 `display:grid` to make this element into a grid layout.
 
@@ -252,7 +271,7 @@ For flexible layout where the layout adapts to fit the content:
   - `grid-template-columns` defines the width of each column; space delimited
   - `grid-template-rows` defines the height of each row; space delimited
 
-#### grid-template
+##### grid-template
 
 ```css
 .grid-container {
@@ -263,7 +282,7 @@ For flexible layout where the layout adapts to fit the content:
 }
 ```
 
-#### grid-template-areas
+##### grid-template-areas
 
 Specifies named grid areas, establishing the cells in the grid and assigning
 them names. Grid items can be assigned to a named area with `grid-area: name`.
@@ -289,7 +308,7 @@ them names. Grid items can be assigned to a named area with `grid-area: name`.
 
 Note that each area must be a **rectangle**.
 
-### Grid items
+#### Grid items
 
 - `grid-area` specifies the area occupied. Shorthand property for
   - `grid-row-start`: start from nth border (1-based / -1-based)
@@ -298,7 +317,7 @@ Note that each area must be a **rectangle**.
   - `grid-column-end`: until nth border
   - You can have starting border on the right and ending border on the left
 
-### Grid auto flow
+#### Grid auto flow
 
 Property `grid-auto-flow` control how auto-placed items get inserted in grid:
 
@@ -310,54 +329,134 @@ Property `grid-auto-flow` control how auto-placed items get inserted in grid:
 | `row dense`    | By filling each row, and fill any holes    |
 | `column dense` | By filling each column, and fill any holes |
 
-### Units for grid template
+#### Named grid lines
+
+You can name grid lines and specify grid line names can automatically name grid
+column areas. This method is especially useful to define a content grid with
+normal width, breakout-width, full-width areas to rid the need of making wrapper
+divs.
+
+```css
+.content-grid {
+  display: grid;
+  grid-template-columns:
+    [full-width-start] 1fr
+    [breakout-start] 1fr
+    [content-start] 1fr
+    [content-end] 1fr
+    [breakout-end] 1fr
+    [full-width-end];
+}
+
+.content-grid > * {
+  grid-column: content; /* between content-start and content-end */
+}
+
+. content-grid > .breakout {
+  grid-column: breakout; /* between breakout-start and breakout-end */
+}
+
+. content-grid > .full-width {
+  grid-column: full-width; /* between full-width-start and full-width-end */
+}
+```
+
+##### Responsive and improved column width
+
+```css
+.content-grid,
+.full-width {
+  /* recursively full-width also is a content-grid, so its children also reside
+   * in the same boundary
+   */
+  --padding-inline: 2rem;
+  --breakout-max-width: 85ch;
+  --content-max-width: 70ch;
+  --breakout-column-max-width: (
+      var(--breakout-max-width) - var(--content-max-width)
+    ) / 2;
+
+  display: grid;
+  grid-template-columns:
+    [full-width-start] minmax(var(--padding-inline), 1fr)
+    [breakout-start] minmax(0, var(--breakout-column-max-width))
+    [content-start] min(
+      var(--content-max-width),
+      100% - 2 * var(--padding-inline)
+    )
+    [content-end] minmax(0, var(--breakout-column-max-width))
+    [breakout-end] minmax(var(--padding-inline), 1fr)
+    [full-width-end];
+}
+
+.content-grid > :not(.breakout, .full-width),
+.full-width > :not(.breakout, .full-width) {
+  grid-column: content;
+}
+
+.content-grid > .breakout,
+.full-width > .breakout {
+  grid-column: breakout;
+}
+
+.content-grid > .full-width {
+  grid-column: full-width;
+}
+```
+
+Reference: this [YouTube video](https://www.youtube.com/watch?v=c13gpBrnGEw).
+
+#### Units for grid template
 
 - `fr`: Divide remaining space and share among rows/columns using `fr` using
   their individual weighting relative to their sum
   - `3fr 2fr` divides remaining space into 5 parts, first get space worth of 3
     parts, second get 2 parts
 
-### Functions
+#### Functions
 
 - `repeat(4, 1fr)` expands to `1fr 1fr 1fr 1fr`.
 - `repeat(auto-fit, minmax(300px, 1fr))`
-- `minmax(min, max)`. If max is smaller than min, then max is ignored. `auto`
-  represents the largest `max-content` size of the items.
+  - `1fr` means the full width of grid
+  - `auto-fit` tries to fit as many column as possible.
+  - `auto-fill` tries to fill up the full row width.
+  - `minmax(min, max)`. If max is smaller than min, then max is ignored. `auto`
+    represents the largest `max-content` size of the items.
 
-### Use cases
+#### Use cases
 
 For a fixed layout where the content adapts to fit the layout:
 
 - Grid of cards
 
-### Links
+#### Links
 
 - [Grid Garden](https://cssgridgarden.com): A game to learn grid basics
 - [\[YouTube\] Learn CSS Grid the easy way](https://youtu.be/rg7Fvvl3taU)
 - [\[YouTube\] Learn flexbox the easy way](https://youtu.be/u044iM9xsWU)
 
-# Topics
+## Topics
 
-## Geometry
+### Geometry
 
-### Calculation functions
+#### Calculation functions
 
 - `min(25vw, 200px)`
 - `max(14px, 1em)`
 - `calc(5% - 2px)`
 
-### Resizing
+#### Resizing
 
 To make an element resizeable by the user:
 
-```
+```text
 overflow: auto;
 resize: [vertical|horizontal|both]
 ```
 
-### Aspect Ratio
+#### Aspect Ratio
 
-#### Using aspect ratio
+##### Using aspect ratio
 
 `aspect-ratio: 16 / 9`
 
@@ -365,7 +464,7 @@ Note that flexbox doesn't respect it unless you also use
 `overflow: (hidden|scroll)`. The idea is that if there is content overflowing,
 then the aspect ratio is not respected.
 
-#### Using padding-top
+##### Using padding-top
 
 To have a cover or banner with a fixed aspect ratio, and potentially a
 background, and to have content inside such as a caption or texts:
@@ -390,14 +489,14 @@ background, and to have content inside such as a caption or texts:
 }
 ```
 
-### Shape clipping
+#### Shape clipping
 
 `clip-path` property clips an element into given shape using builtin functions
 or svg paths.
 
-## Colour
+### Colour
 
-### Colour keywords
+#### Colour keywords
 
 - [Named colour](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color)
 - [System colour](https://developer.mozilla.org/en-US/docs/Web/CSS/system-color)
@@ -405,9 +504,9 @@ or svg paths.
   the `color` property, it takes the value from the **inherited** value of the
   `color` property.
 
-### Colour functions
+#### Colour functions
 
-#### Picking particular colour
+##### Picking particular colour
 
 All of the following function can accept an optional forth argument separated by
 a `/` for the alpha-value (opacity): `rgb(255 255 255 / .5)`.
@@ -421,7 +520,7 @@ a `/` for the alpha-value (opacity): `rgb(255 255 255 / .5)`.
 `none` can be used for any argument. It is used for colour interpolation.
 Otherwise it is effectively **0**.
 
-#### Mixing colours
+##### Mixing colours
 
 `color-mix()` takes two `color` values and return the result of mixing them in a
 given colour space by a given amount.
@@ -429,28 +528,34 @@ given colour space by a given amount.
 See
 [mdn web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix).
 
-## Gradient colour
+- `color-mix(in srgb, var(--primary-color) 50%, transparent)`
 
-### Gradient is an image
+##### Add opacity value
+
+Use [colours mixing](#mixing-colours) techniques.
+
+### Gradient colour
+
+#### Gradient is an image
 
 Note that gradient colour belongs to `<image>` data type. So it won't work on
 `background-color` and other properties that use `<color>` data type. Use it on
 `background` or `background-image`.
 
-### Linear colour gradient
+#### Linear colour gradient
 
-#### Syntax
+##### Syntax
 
 `linear-gradient([orientation], colour-point...)`
 
-#### Orientation
+##### Orientation
 
 - Given angle is counted clockwise from the orientation bottom-to-top.
 - Unit includes `deg`, and `turn` (1 turn = 360 deg)
 - Can give textual instruction instead, e.g. `to left top`, `to bottom`
 - Default is top to bottom, i.e. `180deg` / `to bottom` / `0.5turn`.
 
-#### Colour points
+##### Colour points
 
 - Syntax: `colour [start-pos] [end-pos]`
 
@@ -466,7 +571,7 @@ Note that gradient colour belongs to `<image>` data type. So it won't work on
 - If no pos is provided, CSS will try to even out the distance between colour
   points.
 
-#### Multiple linear-gradients
+##### Multiple linear-gradients
 
 You can apply **multiple** linear-gradient to blend colours from different
 direction. You may want to use alpha-value in this case to make colour less
@@ -480,11 +585,11 @@ background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
             linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
 ```
 
-#### Links
+##### Links
 
 [Linear gradient - mdn web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient)
 
-### Repeating conic gradient
+#### Repeating conic gradient
 
 ```
 background: repeating-conic-gradient(
@@ -530,14 +635,14 @@ background: repeating-conic-gradient(
 This is just left 25% white right 75% black. The `at 25% 50%` place the centre
 of rotation at 25% width from the left and 50% height from the top.
 
-### Other gradient functions
+#### Other gradient functions
 
 - `repeating-linear-gradient()`
 - `conic-gradient()`
 - `radial-gradient()`
 - `repeating-radial-gradient()`
 
-### Gradient in text
+#### Gradient in text
 
 1.  Set up colour gradient in the background
 2.  **Mask** the background to the text
@@ -546,13 +651,13 @@ of rotation at 25% width from the left and 50% height from the top.
 3.  Set the text to be transparent
     - `color: transparent`
 
-## Background
+### Background
 
-### Background fill
+#### Background fill
 
 `background-size: {cover|fill|contain}`
 
-### Background blend-mode
+#### Background blend-mode
 
 Blend the background picture with background colour.
 
@@ -561,7 +666,7 @@ Blend the background picture with background colour.
 - [list of values](https://css-tricks.com/almanac/properties/b/background-blend-mode/)
 - `multiply`
 
-## Positioning
+### Positioning
 
 - `position`:
   - `relative`:
@@ -575,17 +680,17 @@ Blend the background picture with background colour.
     - The element move relative to it's first ancestors that is in `relative`
       position. Furthest is the `<html>` tag.
 
-## Text
+### Text
 
-### Text wrap
+#### Text wrap
 
 - `white-space: nowrap`
 
-### Spacing
+#### Spacing
 
 - `letter-spacing`
 
-### Truncate
+#### Truncate
 
 ```css
 p {
@@ -599,11 +704,11 @@ p {
 But I guess I could just use traditional CSS. Like `height: 3em`, instead of
 webkit.
 
-### Gradient colour
+#### Gradient colour
 
 See [Gradient in text](#gradient-in-text)
 
-### Writing direction
+#### Writing direction
 
 `writing-mode` property sets the orientation of text flow and direction of block
 grow.
@@ -614,13 +719,13 @@ grow.
 - Some more
   [experimental values...](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode#values)
 
-### Typewriter effect
+#### Typewriter effect
 
 See [Typewriter animations](#typewriter-animations).
 
-## Images
+### Images
 
-### Fill mode
+#### Fill mode
 
 `object-fit: {cover|fill|contain}`
 
@@ -631,22 +736,25 @@ the `object-fit` is functioning with respect to this bounding box.
 - cover: zoom to fill space, maintaining aspect ratio
 - contained: zoom to see the whole image, maintaining aspect ratio
 
-### Flipping
+#### Flipping
 
 `transform: scaleX(-1)` or `scaleY(-1)`.
 
-### Misc
+#### Misc
 
 - [Aspect Ratio](#aspect-ratio)
 
-## Events and interaction
+### Events and interaction
 
-### pointer-events
+#### pointer-events
 
 Attribute `pointer-events` specifies under which circumstances an element can
-become the target of pointer events. It can be useful to prevent user from
-selecting an element (e.g. drag-and-drop) or highlighting the text, for e.g.
-aesthetic purposes.
+become the target of pointer events.
+
+Setting it to `none` is very useful in preventing an element from stealing click
+event, allowing user to **click through** it. It can be also useful to prevent
+user from selecting an element (e.g. drag-and-drop), or highlighting the text
+for aesthetic purposes.
 
 | Value  | Description                                    |
 | ------ | ---------------------------------------------- |
@@ -657,9 +765,9 @@ aesthetic purposes.
 There are
 [SVG-only values](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events#values).
 
-## Animation
+### Animation
 
-### Transition
+#### Transition
 
 - `transition` is a shorthand property for:
   - `transition-property`: CSS property, `all`, or `none` (default)
@@ -677,7 +785,41 @@ transition:
   color 2s ease;
 ```
 
-### Animation definition
+##### Properties with special behaviour
+
+###### Height
+
+For height, you need to set fixed value for transition to work, like `rem` and
+`px`, but not `100%`, `max-content`, or `auto`. If you want to have transition
+effect for flexible value height, do transition on `max-height`.
+
+#### Transition conflicts with Animation
+
+If there is `animation` (at least with `animation-fill-state` not `none`),
+transition effect will be ignored. So you need to set `animation` to none first.
+
+Note that when synchronously setting multiple CSS properties that involve
+animation or transition, the actual order of the changes isn't guaranteed. So
+the following might not work:
+
+```javascript
+const myElem = document.querySelector("#my-elem");
+myElem.style.setProperty("animation", "none");
+myElem.style.setProperty("opacity", "0"); /* transition effect might not work */
+```
+
+You should use `requestAnimationFrame()` to make sure the changes are applied in
+the next repaint. So use following instead:
+
+```javascript
+const myElem = document.querySelector("#my-elem");
+myElem.style.setProperty("animation", "none");
+requestAnimationFrame(() => {
+  myElem.style.setProperty("opacity", "0"); /* transition effect works */
+});
+```
+
+#### Animation definition
 
 Use `@keyframes` directives:
 
@@ -693,9 +835,9 @@ Use `@keyframes` directives:
 }
 ```
 
-### Animation properties
+#### Animation properties
 
-#### animation property
+##### animation property
 
 A shorthand property for:
 
@@ -708,11 +850,11 @@ A shorthand property for:
 - `animation-fill-mode`
 - `animation-play-state`
 
-#### animation-duration
+##### animation-duration
 
 Default is 0. Units can be `s` or `ms`.
 
-#### animation-timing-function
+##### animation-timing-function
 
 | Value                    | Description                                     |
 | ------------------------ | ----------------------------------------------- |
@@ -728,17 +870,17 @@ Default is 0. Units can be `s` or `ms`.
 Usually `ease-out` is the best. `ease-in` is too slow in the start making user
 feel slack and unresponsive. `linear` stops too abruptly.
 
-#### animation-delay
+##### animation-delay
 
 Default is 0. Units can be `s` or `ms`. **Negative** values are allowed, and it
 means the animation will start as if it had already been playing for that
 absolute amount of time.
 
-#### animation-iteration-count
+##### animation-iteration-count
 
 A number (default is 1) or `infinite`
 
-#### animation-direction
+##### animation-direction
 
 | Value               | Description                    |
 | ------------------- | ------------------------------ |
@@ -750,7 +892,7 @@ A number (default is 1) or `infinite`
 Animation speed for alternate remains the same (so effectively doubling the
 animation duration for each iteration).
 
-#### animation-fill-state
+##### animation-fill-state
 
 Specify how animation affects the styles before and after the animation.
 
@@ -761,14 +903,14 @@ Specify how animation affects the styles before and after the animation.
 | `backwards` | Style of first keyframe applies before |
 | `both`      | Both `forwards` and `backwards`        |
 
-#### animation-play-state
+##### animation-play-state
 
 | Value     | Description                                    |
 | --------- | ---------------------------------------------- |
 | `paused`  | Animation for this element is paused           |
 | `running` | Default; animation for this element is running |
 
-#### animation-range
+##### animation-range
 
 _Experimental_
 
@@ -782,7 +924,7 @@ They specify where along the timeline an animation will start or end. Values:
 - And
   [more...](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-range#values)
 
-#### animation-timeline
+##### animation-timeline
 
 _Experimental_ (Only Chrome supports)
 
@@ -794,7 +936,7 @@ _Experimental_ (Only Chrome supports)
 And
 [more...](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline#values)
 
-### Using multiple animations
+#### Using multiple animations
 
 You can apply multiple animations on a single element.
 
@@ -804,9 +946,9 @@ animation:
   blink-caret .75s step-end infinite;
 ```
 
-### Examples
+#### Examples
 
-#### Typewriter animations
+##### Typewriter animations
 
 In this example the animation is as following ("|" is the blinking caret):
 
@@ -827,8 +969,9 @@ h2::before {
   display: inline-block; /* for width property to take effect */
   white-space: nowrap; /* don't wrap text */
   overflow-x: hidden; /* don't show text beyond the width */
-  animation: projects-typewriter 6s infinite both linear, blinking-caret 0.5s
-      infinite;
+  animation:
+    projects-typewriter 6s infinite both linear,
+    blinking-caret 0.5s infinite;
   border-right: 0.1em solid orange; /* this is the blinking caret */
   position: relative;
   top: 0.15em; /* trying to fix the displacement from inline-block display */
@@ -887,12 +1030,12 @@ h2::before {
 }
 ```
 
-## Cursor
+### Cursor
 
 `cursor` attribute controls cursor style hovering on the element. Actual cursor
 icons are dependent on platform and user's computer setting.
 
-### General cursors
+#### General cursors
 
 | Value     | Description                             |
 | --------- | --------------------------------------- |
@@ -900,7 +1043,7 @@ icons are dependent on platform and user's computer setting.
 | `default` | Platform-dependent default cursor       |
 | `none`    | No cursor is rendered                   |
 
-### Links and status cursors
+#### Links and status cursors
 
 | Value          | Description                                   |
 | -------------- | --------------------------------------------- |
@@ -910,7 +1053,7 @@ icons are dependent on platform and user's computer setting.
 | `progress`     | Program is busy in bg, but can still interact |
 | `wait`         | Program is busy, cannot interact              |
 
-### Selection cursors
+#### Selection cursors
 
 | Value           | Description                                  |
 | --------------- | -------------------------------------------- |
@@ -919,7 +1062,7 @@ icons are dependent on platform and user's computer setting.
 | `text`          | Text can be selected                         |
 | `vertical-text` | Vertical text can be selected                |
 
-### Drag and drop cursors
+#### Drag and drop cursors
 
 | Value         | Description                |
 | ------------- | -------------------------- |
@@ -931,20 +1074,25 @@ icons are dependent on platform and user's computer setting.
 | `grab`        | Something can be grabbed   |
 | `grabbing`    | Grabbing something         |
 
-### Resize and scroll cursors
+#### Resize and scroll cursors
 
 For resizing and scrolling (arrows), the value is
 `<direction>[direction]-resize`, where direction is given by `n`, `e`, `s`, `w`,
 `ne`, etc.
 
-### Zoom cursors
+#### Zoom cursors
 
 | Value      | Description |
 | ---------- | ----------- |
 | `zoom-in`  | Zoom in     |
 | `zoom-out` | Zoom out    |
 
-## Html tables
+### Caret
+
+- `caret-color`: colour of the caret
+- `caret-shape`: `auto` or `bar` (default), `block`, `underscore`
+
+### Html tables
 
 - `padding` of `<td>` controls distance between content and border of the cell.
 - `border-spacing` of `<table>` controls space between border of the cells.
@@ -952,28 +1100,41 @@ For resizing and scrolling (arrows), the value is
     for `border-spacing` to work on `<table>`
   - In tailwind, it seems the default changes to `collapse`
 
-# Queries
+### Shadows
 
-## Query conditions
+- `box-shadow`: h-offset, v-offset, blur, spread, colour
+- `text-shadow`: h-offset, v-offset, blur, colour
+- `filter: drop-shadow()`
 
-### Logical keywords
+```css
+/* Shadow only appears outside the border box. */
+box-shadow: 0px 0px 1rem purple;
+/* Can see throguh invisible part of the element to the shadow */
+filter: drop-shadow(0px 0px 1rem red);
+```
+
+## Queries
+
+### Query conditions
+
+#### Logical keywords
 
 - `and`
 - `or`
 - `not`: only one `not` is allowed and cannot be used with `and` or `or`
 
-### Condition
+#### Condition
 
 - `(max-width: 500px)`
 - `(min-height: 200px)`
 - `(width >= 1080px)`
 - `(min-width: 640px) and (max-width: 1280px)`
 
-## Container queries
+### Container queries
 
 `@container` queries can apply CSS styling based on ancestor element's size.
 
-### Quick example and syntax
+#### Quick example and syntax
 
 ```css
 @container (width <= 250px) {
@@ -990,11 +1151,11 @@ For resizing and scrolling (arrows), the value is
 }
 ```
 
-### container
+#### container
 
 `container: <name> / <type>` is a short hand attribute.
 
-### container-type
+#### container-type
 
 Parent has set `container-type` to be either `inline-size` or `size`
 
@@ -1003,13 +1164,13 @@ Parent has set `container-type` to be either `inline-size` or `size`
 
 Then you can use container query:
 
-### container-name
+#### container-name
 
 You can also give the container a case-sensitive name using `container-name`
 which can be used as a filters in later container queries:
 `@container my-container (width > 500px)`.
 
-### Container conditions
+#### Container conditions
 
 - `width`
 - `height`
@@ -1018,11 +1179,197 @@ which can be used as a filters in later container queries:
 - `inline-size`
 - `orientation`: `landscape` or `portrait`
 
-# Tips
+## BEM Convention
 
-## Apply a filter
+### BEM
 
-## Translate position
+**_BEM_** stands for **_Block_**, **_Element_**, **_Modifier_**. It is a
+methodology to structure codes in a component approach. It applies to CSS
+classes naming conventions and file structure.
+
+| Term     | Description                                                |
+| -------- | ---------------------------------------------------------- |
+| Block    | Functionally independent page component that can be reused |
+| Element  | A composite part of a block that can't be used separately  |
+| Modifier | Change appearance, state or behaviour of block or element  |
+
+#### Block
+
+- Can be nested in each other
+- Block name describes its purpose, not its state
+- Each BEM name has only one block name
+  - Block name acts as the namespace
+
+#### Element
+
+- Element name describes its purpose, not its state
+- An element name is separated from the block name with a double underscore `__`
+- Three general rules: **nesting**, **membership** and **optionality**
+
+##### Nesting rule
+
+- Elements can be nested in each other
+- But an element is always part of a block, not another element
+  - So `block__elem1__elem2` is not a valid name
+  - This allows you to change a block's structure without changing its elements
+    name
+
+##### Membership
+
+An element is always part of a block, so you shouldn't use it separately from
+the block
+
+##### Optionality
+
+An element is an optional block component. Not all blocks have elements.
+
+#### Block vs Element
+
+Create a block:
+
+- If a section of code might be reused
+- It doesn't depend on other page components being implemented
+
+Create an element:
+
+- If a section of code can't be used separately without the parent entity (the
+  block)
+- The exception is elements that must be divided into smaller parts -
+  subelements - in order to simplify development.
+  - Since in BEM methodology, you can't create elements of elements. So in a
+    case like this, instead of creating an element, you need to create a
+    _service block_: a block that also depends on other blocks.
+
+#### Modifier
+
+- Defines the appearance, state, or behaviour of a block or element.
+- A modifier name is separated from the block or element name by a single
+  underscore `_`.
+
+##### Modifier types
+
+Boolean modifiers:
+
+- If a boolean modifier is present, its value is assumed to be `true`.
+- E.g. `disabled`
+
+Key-value modifiers:
+
+- E.g. `menu_theme_islands`
+
+##### Guidelines using modifiers
+
+- Modifier can't be used alone
+- Modifier should change, not replace the appearance, behaviour, or state
+
+#### Mix
+
+A technique for using different BEM entities on a single DOM node.
+
+- Combine the behaviour and styles of multiple entities without duplicating code
+- Create semantically new UI components based on existing ones
+
+```html
+<div class="header">
+  <div class="search-form header__search-form"></div>
+</div>
+```
+
+E.g. `search-form` doesn't specify any specific geometry like padding and
+margin, so it is an independent block element. `header__search-form` element
+specifies the geometry of the search form in the header.
+
+#### File structure
+
+It is only recommended.
+
+- A single block corresponds to a single directory.
+- The block and its directory have the same name.
+- A block's implementation is divided into separate technology files, e.g.
+  `header.css` and `header.js`.
+- The block directory is the root directory for the subdirectories of its
+  elements and modifiers.
+- Names of element directories begin with a double underscore `__`, e.g.
+  `header/__logo`.
+- Names of modifier directories begin with a single underscore `_`, e.g.
+  `header/_fixed/`, `menu/_theme_islands`.
+- Implementations of elements and modifiers are divided into separate technology
+  files. E.g. `header__input.js` and `header_theme_islands.css`.
+
+```
+search-form/
+  __input/
+    search-form__input.css
+    search-form__input.js
+  __button/
+    search-form__button.css
+    search-form__button.js
+  search-form.css
+  search-form.js
+```
+
+### Naming convention
+
+#### Classic style
+
+`block-name__elem-name_mod-name_mod-val`
+
+- Names are written in lowercase Latin letters.
+- Words are separated by a hyphen `-`.
+- The block name defines the namespace for its elements and modifiers.
+- The element name is separated from the block name by a double underscore `__`.
+- The modifier name is separated from the block or element name by a single
+  underscore `_`.
+- The modifier value is separated from the modifier name by a single underscore
+  `_`.
+- For boolean modifiers, the value is not included in the name.
+
+Examples:
+
+```html
+<div class="menu menu_hidden">
+  <span class="menu__item"></span>
+  <span class="menu__item menu__item_type_radio"></span>
+</div>
+```
+
+#### Two dashes style
+
+`block-name__elem-name--mod-name--mod-val`
+
+#### camelCase style
+
+`blcokName-elemName_modName_modVal`
+
+#### React style
+
+`BlockName-ElemName_modName_modVal`
+
+### Reference
+
+- [bem.info](https://en.bem.info/methodology/naming-convention/)
+
+## Tips
+
+### Access value of attribute
+
+```css
+/* hover tooltip showing content of aria-label attribute */
+button:hover::after {
+  content: attr(aria-label);
+  position: absolute;
+  top: 0;
+  left: calc(100% + 0.5em);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-o85);
+  color: var(--fg);
+}
+```
+
+### Apply a filter
+
+### Translate position
 
 Besides using `position` property, you can use `transform` property with
 `translateX()` and `translateY()` function. For example, you vertically align
@@ -1043,9 +1390,9 @@ p.text {
 }
 ```
 
-## One-liners
+### One-liners
 
-### Width
+#### Width
 
 `width: clamp(280px, 60%, 1200px)` is equivalent to
 
@@ -1061,9 +1408,9 @@ You can nest other functions for each of the three values:
 - `max()`
 - `calc()`
 
-## CSS Grids Layouts
+### CSS Grids Layouts
 
-### Header and footer
+#### Header and footer
 
 ```css
 .main-layout {
@@ -1080,7 +1427,7 @@ You can nest other functions for each of the three values:
 }
 ```
 
-### Stacking content
+#### Stacking content
 
 ```css
 .primary-header {
@@ -1107,13 +1454,13 @@ Alternative method:
 
 The second method has an advantage to change layout with media queries.
 
-### Stretching out children
+#### Stretching out children
 
 Children of a grid would automatically have their size stretched out to fill the
 cell. So instead of setting up each different type of elements with
 `width: 100%`, you can just do `display: grid`.
 
-## Quotes pseudo-element
+### Quotes pseudo-element
 
 ```css
 ::bofre {
@@ -1125,7 +1472,7 @@ The next open-quote becomes a single quote. To tell CSS not to nest quotes, you
 need to close quotes at the end (e.g. at `::after`) with `close-quote` or
 `no-close-quote`.
 
-## Isolation
+### Isolation
 
 ```css
 .isolation {
@@ -1136,18 +1483,18 @@ need to close quotes at the end (e.g. at `::after`) with `close-quote` or
 Creates a isolated stacking context for `z-index` so children's z-index won't
 affect their relative z position to elements outside the parent.
 
-## Inset
+### Inset
 
 ```css
 inset: auto 1px 2rem 3em;
-// is identical to
+/* is identical to */
 top: auto;
 right: 1px;
 bottom: 2rem;
 left: 3em;
 ```
 
-## Counters
+### Counters
 
 ```css
 section {
@@ -1159,7 +1506,7 @@ section {
 }
 ```
 
-## CSS Contain
+### CSS Contain
 
 `contain` property makes certain aspect of CSS styling contained within an
 element (no effect outside). Some values:
@@ -1169,7 +1516,7 @@ element (no effect outside). Some values:
 - `paint` / `layout` contains layout recalculations, so that, say, animation
   within won't cause outside elements to readjust.
 
-### Example: style
+#### Example: style
 
 In above counter example, counter increments after each section. If you want to
 insert a contained section having its own counter:
@@ -1186,7 +1533,7 @@ insert a contained section having its own counter:
 Now the counting outside won't take `.contain-section` into account (not sure),
 and within it there is a new counting from 1 for each .section-title.
 
-## Filters and focus-within
+### Filters and focus-within
 
 ```css
 .card__img {
@@ -1199,7 +1546,7 @@ and within it there is a new counting from 1 for each .section-title.
 }
 ```
 
-## Invert colour
+### Invert colour
 
 ```css
 @media (perfers-color-scheme: dark) {
@@ -1209,16 +1556,40 @@ and within it there is a new counting from 1 for each .section-title.
 }
 ```
 
-## Shadow
+## Weird Behaviour
 
-```css
-// Shadow only appears outside the border box.
-box-shadow: 0px 0px 1rem purple;
-// Can see throguh invisible part of the element to the shadow
-filter: drop-shadow(0px 0px 1rem red);
-```
+### Overflow
 
-# 🧭 Navigation
+If you use `visible` for either `overflow-x` and `overflow-y`, but something
+else for the other, the `visible` value is interpreted as `auto`.
+
+### Scroll bar conflicts with justify or place
+
+If you use `auto` or `scroll`, but also use `justify-content: flex-end`,
+`place-items: end`, `jusitfy-self: flex-end` or `place-self: end`, then the
+scroll bar will be disabled.
+
+You might want to do this, for example, in a terminal output display box or a
+chatbox, when you want to justify content at the bottom when the output is too
+little and there isn't overflow yet.
+
+To work around, set the first child in the container to `margin-top: auto` to
+achieve the same effect without breaking scroll bars when overflow happens.
+
+### Inline-flex and vertical-align
+
+See this
+[stack overflow question](https://stackoverflow.com/questions/48117071/element-with-display-inline-flex-has-a-strange-top-margin).
+
+Basically, setting `inline-flex` makes an element an inline-level element, which
+activates `vertical-align` property, whose default value is `baseline`, so that
+the element is pushed down to align with the baseline of the text. There are two
+solutions:
+
+- Override the default value of `vertical-align` to any other value.
+- Set parent element to `display: flex`.
+
+## 🧭 Navigation
 
 - [🔼 Back to top](#)
 - [📑 Notes Index](../../index.md)

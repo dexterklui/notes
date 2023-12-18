@@ -245,6 +245,15 @@ In process: `git cherry-pick (--continue|--skip|--abort|--quit)`
 | `commit --amend`     | Amend last commit            |
 | `rebase -i <commit>` | Rebase commits onto <commit> |
 
+# Creating git repo on other filesystem
+
+On other filesystem, make sure you are the owner of the directory. Usually this
+is set by the `uid` mount option, best set in `fstab` file.
+
+On NTFS, if other methods fail, you can try the hack mentioned in the following
+blog post:
+[Creating git repo on NTFS in Linux](https://subzerodays.wordpress.com/2018/11/21/creating-git-repo-on-ntfs-in-linux/).
+
 # 🧭 Navigation
 
 - [🔼 Back to top](#)

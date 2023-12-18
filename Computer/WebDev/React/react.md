@@ -187,15 +187,9 @@ function Greeting({ firstName }) {
 
 To use a component with a given props:
 
-```javascript
+```js
 function App() {
-  return <Greeting props={name: "Tim"} />
-}
-
-// or with destructuring
-
-function App() {
-  return <Greeting firstName="Tim" />
+  return <Greeting firstName="Tim" />;
 }
 ```
 
@@ -434,7 +428,7 @@ const handleMouseMove = useCallback(
     const { clientX, clientY } = e;
     setMousePos({ x: clientX, y: clientY });
   },
-  [setMousePos]
+  [setMousePos],
 );
 ```
 
@@ -457,9 +451,9 @@ Define a function whose identifier starts with `use`.
 
 - [🔼 Back to top](#)
 - [◀️ Back](../index.md)
-- [🔖 Parent index](../../index.md)
-- [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)
+- [🔖 Parent index](../../../index.md)
+- [📑 Notes Index](../../../index.md)
+- [🗃️ Master Index](../../../../index.md)
 
 # Footnote
 

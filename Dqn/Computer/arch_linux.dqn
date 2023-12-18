@@ -15,7 +15,13 @@
     ➱   [\~~/.local/share/mime/packages/markdown.xml]\ to make Firefox
         recognizes that markdown are text files, so that it can display it.
     ➱   [\~/.yarnrc.yml]\, see [==npm, nodejs, yarn= >Yarn<]=
-
+    ➱   Added drop-in file
+        [\/etc/systemd/system/postgresql.service.d/pgroot.conf]\ to change the
+        root directory of postgresql See
+        [=https://wiki.archlinux.org/title/PostgreSQL#Change_default_data_directory]=
+    ➱   Edited [\/etc/my.cnf.d/server.cnf]\ to change the [\datadir]\ under
+        [\[mariadb]]\ section. (changing the root directory for mariadb data)
+    
   > Firefox < {{{3
    |about:config|
     ➱   ui.key.menuAccessKey set to 0
@@ -46,6 +52,8 @@
         ⮱   For neovim linter
     ➱   [\whois]\: check info about an ip or domain
     ➱   [\trash-cli]\: Use freedesktop.org trash in terminal
+    ➱   [\postgresql]\
+    ➱   [\mariadb]\: Drop in for MySQL for Arch Linux
 
    |Dependencies explicitly installed|
     ➱   [\python-nose]\ for [\papis]\
@@ -53,6 +61,9 @@
    |Deleted|
     ➱   [\noto-fonts-emoji]\
         ⮱   For [\plasma5-runners-emoji]\
+    ➱   [\tree-sitter-cli]\: For ast-grep custom language support
+        ⮱   See
+            [=https://ast-grep.github.io/advanced/custom-language.html#prepare-tree-sitter-tool-and-parser]=
 
   > AUR < {{{3
     ➱   [\ocs-url]\: An install helper program for items served via
@@ -66,9 +77,11 @@
             which different versions of deno is installed.
     ➱   [\figma-linux-bin]\
     ➱   [\exercism-bin]\: For exercism cli. Program for a coding training web.
-    ➱   [\mongodb-compass]\: For reading mongodb database. Used for capstone
-        project for Xccelerate x Hollo
     ➱   [\bun-bin]\: a new npm
+    ➱   [\postman-bin]\: program for testing APIs.
+    ➱   [\python310]\: python 3.10 for pyTorch required by Stable Diffusion
+        Web UI - Generative AI software.
+    ➱   [\ast-grep-bin]\: Ast-grep
 
    |Deleted|
     ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
@@ -76,6 +89,8 @@
             [\noto-fonts-emoji]\
         ⮱   [=https://github.com/alex1701c/EmojiRunner/issues/1/]=
     ➱   [\franz-bin]\: Linux app for various mobile messenging apps
+    ➱   [\mongodb-compass]\: For reading mongodb database. Used for capstone
+        project for Xccelerate x Hollo
 
    |live-server|
     ➱   [\nodejs-live-server]\
@@ -98,6 +113,11 @@
         ⮱   for compiling YouCompleteMe vim Plugin
         ⮱   Also for plamoid event calendar
             ['https://github.com/kanocz/plasma-applet-eventcalendar]'
+
+  > Binary download < {{{3
+    ➱   [\gh]\ - GitHub cli
+        ⮱   copilot extension (used [\gh]\ to install, don't know where does
+            it install to)
 
  == npm, nodejs, yarn == {{{2
   > Commands < {{{3
@@ -710,6 +730,12 @@
             is not found. I find about [[5000ms]] is needed.
     ➱   [\user]\: allows non-privilege user to mount and unmount the file
         system. But cannot execute files from this file system.
+    ➱   [\umask]\: set the default permissions for files and directories
+        created on the file system. It is a 4-digit octal number, where the
+        first digit is for the owner, second for the group, and third for
+        others. The fourth digit is for special permissions.
+        ⮱   [\fmask]\ and [\dmask]\ applies only to files and directories,
+            respectively.
 
    |NTFS| {{{4
     To improve performance of NTFS on Linux:
@@ -754,6 +780,11 @@
         anymore.
 
    |power-off| {{{4
+
+ == exfat filesystem == {{{2
+    You can't chown or chmod on exfat. The user and group is set by the
+    [\uid]\ and [\gid]\ mount options. You can set it in the [\/etc/fstab]\
+    file.
 
 [~{ Little tools }~] {{{1
     ➱   [\tee]\ save output to a file and also output on the screen

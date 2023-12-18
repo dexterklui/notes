@@ -22,6 +22,7 @@ title: Resources for Web Developments
 
 - [million](https://million.dev): Make React 70% faster by replacing React
   Virtual DOM
+- [Svelte and SvelteKit](https://svelte.dev/)
 
 # 🧭 Navigation
 

@@ -364,6 +364,6 @@ You can install `Redux DevTools` browser extensions.
 
 - [🔼 Back to top](#)
 - [◀️ Back](../../index.md)
-- [🔖 Parent index](../../index.md)
-- [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)
+- [🔖 Parent index](../../../index.md)
+- [📑 Notes Index](../../../index.md)
+- [🗃️ Master Index](../../../../index.md)
