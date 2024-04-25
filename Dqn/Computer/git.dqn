@@ -413,6 +413,8 @@
   > rm < {{{3
     [\git rm]\
     ➱   [\-f]\ to force remove a modified or staged file from index.
+    ➱   [\--cached]\ to remove a file from version control (i.e. index)
+        without removing it from the file system (i.e. working tree)
 
   > mv < {{{3
     [\git mv :file_from file_to:]\ is equivalent to:
