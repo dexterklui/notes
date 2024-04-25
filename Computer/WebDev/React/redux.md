@@ -1,16 +1,17 @@
 ---
-title: Redux
 date: 2023-08-31 (Thu)
 ---
 
-# Brief Introduction
+# Redux
 
-## Purpose
+## Brief Introduction
+
+### Purpose
 
 For state management, like `useContext` in React. It can avoid **_Prop
 Drilling_**.
 
-## Packages
+### Packages
 
 | Package            | Description                |
 | ------------------ | -------------------------- |
@@ -21,7 +22,7 @@ Drilling_**.
 
 It seems you don't need `redux` if you are using `react-redux`.
 
-## Basic mechanism
+### Basic mechanism
 
 Each application has a root **_store_** that stores all the states managed by
 Redux.
@@ -39,7 +40,7 @@ function accepts two argument, **previous state** and **action**.
 Usually, root reducer function does not handle the updates by itself, but calls
 other sub-reducer functions by forwarding the arguments.
 
-## Store
+### Store
 
 Usually defined in `src/redux/store.js`.
 
@@ -59,7 +60,7 @@ export default store;
 
 Note that `createStore` is deprecated.
 
-## Reducer
+### Reducer
 
 ```js
 import { INCREMENT, DECREMENT, INCREASE } from "./constants";
@@ -97,7 +98,7 @@ export const DECREMENT = Symbol("counterActionDecrement");
 export const INCREASE = Symbol("counterActionIncrease");
 ```
 
-## Accessing and updating a state
+### Accessing and updating a state
 
 ```js
 import { useDispatch, useSelector } from "react-redux";
@@ -134,7 +135,7 @@ function Counter() {
 export default Counter;
 ```
 
-## Action creaters
+### Action creaters
 
 Usually it is convenient to define **_action creaters_** to make calling
 dispatcher to update states easier.
@@ -159,14 +160,14 @@ export function increaseByN(n) {
 A component can then import and use these action creaters.
 `dispatcher(increaseByN(3))`.
 
-# Thunk
+## Thunk
 
 A **_thunks_** is function that interact with a Redux store's `dispatch` and
 `getState()`.
 
 This is particularly useful for writing asynchronous functions.
 
-## Example
+### Example
 
 ```js
 async function loginThunk(dispatch, email, password) {
@@ -196,14 +197,14 @@ async function loginThunk(dispatch, email, password) {
 export const authActions = { ...authSlice.actions, loginThunk };
 ```
 
-# Reduxjs Toolkit
+## Reduxjs Toolkit
 
-## Purpose
+### Purpose
 
 To simplify the process of setting up stores, states, reducers and action
 creaters. With `@reduxjs/toolkit`, we define a **_slice_** for each store.
 
-## Root store
+### Root store
 
 To setup the root store, in `store.js`:
 
@@ -218,9 +219,9 @@ const store = configureStore({
 });
 ```
 
-## Creating slices
+### Creating slices
 
-### createSlice
+#### createSlice
 
 Use `createSlice()` from the package and pass an object to it
 (`mySlice = createSlice({...})`) with following properties:
@@ -242,7 +243,7 @@ Each created slice is an object with its own reducers and action creaters:
 | `reducer`         | An object with reducer functions        |
 | `actions`         | An object with action creater functions |
 
-### Exporting a slice
+#### Exporting a slice
 
 Either you export a slice, or you export the reducers and actions:
 
@@ -252,9 +253,9 @@ export const mySliceReducer = mySlice.reducer;
 export const mySliceActions = mySlice.actions;
 ```
 
-### Example
+#### Example
 
-#### Creating a slice
+##### Creating a slice
 
 ```js
 import { createSlice } from "@reduxjs/toolkit";
@@ -284,7 +285,7 @@ export const counterReducer = counterSlice.reducer;
 export default counterReducer;
 ```
 
-#### Using a slice
+##### Using a slice
 
 ```js
 import { useDispatch, useSelector } from "react-redux";
@@ -334,7 +335,7 @@ function Counter() {
 export default Counter;
 ```
 
-## Specifying middleware
+### Specifying middleware
 
 In `store.js`, for the object passed to `configureStore()`, you can specifies
 middleware with the property `middleware`.
@@ -348,22 +349,19 @@ const store = configureStore({
 }
 ```
 
-# Middleware
+## Middleware
 
-## Logger
+### Logger
 
 For each update of state values, log the details in the console.
 
 Simply use middleware `logger` from package `redux-logger`.
 
-# Redux DevTools
+## Redux DevTools
 
 You can install `Redux DevTools` browser extensions.
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../../index.md)
 - [🔖 Parent index](../../../index.md)
 - [📑 Notes Index](../../../index.md)
-- [🗃️ Master Index](../../../../index.md)

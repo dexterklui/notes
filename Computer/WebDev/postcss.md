@@ -1,11 +1,12 @@
 ---
-title: PostCSS
 date: 2023-11-03 (Fri)
 ---
 
-# Plugins
+# PostCSS
 
-## PostCSS Global Data
+## Plugins
+
+### PostCSS Global Data
 
 - [Socket page](https://socket.dev/npm/package/@csstools/postcss-global-data)
 
@@ -39,10 +40,7 @@ because it's just a standardized CSS rule. So if you only inject the global CSS
 but not also import it, during run time `--my-color` will be undefined and all
 other standardized CSS rules that depend on it will break.
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../../index.md)
 - [🔖 Parent index](../../index.md)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)

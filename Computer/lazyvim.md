@@ -1,23 +1,19 @@
----
-title: LazyVim
----
+# LazyVim
 
-# Keybindings
+## Keybindings
 
 Prefixes of different types:
 
--   `gc`: comments
-    -   `gcc`: toggle comments
--   `<leader>u`: ui
+- `gc`: comments
+  - `gcc`: toggle comments
+- `<leader>u`: ui
 
-# Lazy.nvim
+## Lazy.nvim
 
-## Commands
+### Commands
 
--   `:Lazy profile` shows you how long each plugin takes to load.
+- `:Lazy profile` shows you how long each plugin takes to load.
 
-# 🧭 Navigation
+## 🧭 Navigation
 
--   [🔼 Back to top](#)
--   [📑 Notes Index](../index.md)
--   [🗃️ Index](/media/mikeX/Nextcloud/index.md)
+- [📑 Notes Index](../index.md)

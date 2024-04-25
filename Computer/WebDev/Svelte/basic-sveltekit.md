@@ -1,9 +1,10 @@
 ---
-title: Basic SvelteKit
 date: 2023-10-20 (Fri)
 ---
 
-# Project Structure
+# Basic SvelteKit
+
+## Project Structure
 
 | File / Dir          | Description          |
 | ------------------- | -------------------- |
@@ -15,20 +16,20 @@ date: 2023-10-20 (Fri)
 | `/src/routes/`      | Defines routes       |
 | `/static/`          | Contains assets      |
 
-# Routing
+## Routing
 
-## Filesystem-based routing
+### Filesystem-based routing
 
 - `+page.svelte` in `/src/routes/` is a page
 - Routes follow the filesystem structure in `/src/routes/`
 - You can create groups with **parentheses** `/src/routes/(auth)/login/`
 
-## Dynamic content
+### Dynamic content
 
 Like single-page app, navigating to a different page and back updates the
 contents. This can be configured.
 
-## Layouts
+### Layouts
 
 `+layout.svelte` defines a layout component that applies to all routes in the
 same directory. In the file, `<slot />` is where the content of the page will be
@@ -36,7 +37,7 @@ rendered.
 
 You can nest layouts.
 
-## Route parameters
+### Route parameters
 
 Use **square brackets** around a valid variable name for a directory name to
 specify a dynamic parameter (i.e. dynamic routing). E.g.
@@ -55,9 +56,9 @@ export function load({ params }) {
 }
 ```
 
-# Loading Data
+## Loading Data
 
-## Page data
+### Page data
 
 You can export a `load` function in a `+page.server.js` file alongside the
 `+page.svelte` file. This module runs on the server, including for client-side
@@ -78,30 +79,31 @@ be accessed in the page via the `data` prop:
 </ul>
 ```
 
-## Layout data
+### Layout data
 
 `+layout.server.js` works the same as `+page.server.js`, except its scope is
 similar to `+layout.svelte`, i.e. all pages under the current directory. So you
 can load data for every child route.
 
-## Server load function props
+### Server load function props
 
 - `params`: route parameters
 - `request`: HTTP request object
 
-# Throw error
+## Throw error
 
 In `+page.server.js`:
 
 ```javascript
 import { error } from "@sveltejs/kit";
 
-throw error(404);
+error(404);
+// throw error(404); // In SvelteKit 1.x, you need to `throw` the error yourself
 ```
 
-# Forms
+## Forms
 
-## Form actions
+### Form actions
 
 In `+page.svelte`, you define `method` and the API route with `action` property.
 
@@ -143,7 +145,7 @@ export const actions = {
 After the server responding to the request, the client will **refresh** the
 page.
 
-## Example: using form actions without form
+### Example: using form actions without form
 
 ```svelte
 <ul class="todos">
@@ -159,7 +161,7 @@ page.
 </ul>
 ```
 
-## Validation
+### Validation
 
 Built-in form validation can be useful as a first line defence.
 
@@ -169,7 +171,7 @@ Built-in form validation can be useful as a first line defence.
 
 But this doesn't remove the needs to do server-side validation.
 
-## Error handling and custom status code
+### Error handling and custom status code
 
 When not in dev mode, when error occurs on server side, SvelteKit hides the
 error message in client side to prevent the lead of sensitive information. To
@@ -211,7 +213,7 @@ prop, which is only ever populated after a form submission.
 </form>
 ```
 
-## Form prop from form actions
+### Form prop from form actions
 
 As said in
 [Error handling and custom status code](#error-handling-and-custom-status-code),
@@ -219,14 +221,14 @@ As said in
 submission. But it also is populated with any return value from **form
 actions**. So you can use the `form` prop to access that.
 
-## Progressive enhancement
+### Progressive enhancement
 
 `import { enhance } from "$app/forms"` and use the enhance directive,
 `<form use:enhance>`, to make the form enhance the behaviour and features with
 client-side JavaScript when possible. See
 [Svelte tutorial](https://learn.svelte.dev/tutorial/progressive-enhancement).
 
-# Server-side Only Code
+## Server-side Only Code
 
 In the following, replace the last extension to `.ts` for TypeScript.
 
@@ -238,9 +240,9 @@ In the following, replace the last extension to `.ts` for TypeScript.
 These modules only run on the server, and can be imported only by other server
 modules.
 
-# Environment Variables
+## Environment Variables
 
-## Modules that expose environment variables
+### Modules that expose environment variables
 
 - `$env/dynamic/private`
 - `$env/dynamic/public`
@@ -252,7 +254,7 @@ are exposed to the client. **Static** variables are known at build time and can
 be **statically replaced** at build time. **Dynamic** variables are read at
 runtime.
 
-## Defining environment variables
+### Defining environment variables
 
 You define them in `.env`, `.env.local`, `.env.<mode>`, or `.env.[mode].local`
 files. See
@@ -261,7 +263,7 @@ files. See
 By default, environment variables are only available in server-side code. To
 make them public, prefix the variable name with `PUBLIC_`.
 
-## Importing environment variables
+### Importing environment variables
 
 For static variables, you can import them directly:
 
@@ -276,7 +278,7 @@ import { env } from "$env/dynamic/private";
 const { MY_VAR } = env;
 ```
 
-# Page Metadata
+## Page Metadata
 
 ```svelte
 <svelte:head>
@@ -284,14 +286,39 @@ const { MY_VAR } = env;
 </svelte:head>
 ```
 
-# 🔗 References
+## API Routes
+
+See this [SvelteKit Tutorial](https://kit.svelte.dev/docs/routing#server).
+
+Defined with a `+server.js` file, usually in `/src/routes/api/`.
+
+A `+server.js` file exports functions corresponding to HTTP verbs like `GET`,
+`POST`, `PATCH`, `PUT`, `DELETE`, `OPTIONS`, and `HEAD` that take a
+`RequestEvent` argument and return a `Response` object.
+
+```ts
+import { error } from "@sveltejs/kit";
+
+export const GET({ url }) {
+  const min = Number(url.searchParams.get("min") ?? "0");
+  const max = Number(url.searchParams.get("max") ?? "1");
+  const d = max - min;
+
+  if (isNaN(d) || d < 0) {
+    error(400, "min and max must be numbers, and min must be less than max");
+  }
+
+  const random = min + Math.random() * d;
+
+  return new Response(String(random));
+}
+```
+
+## 🔗 References
 
 - [SvelteKit Tutorial - Basics](https://learn.svelte.dev/tutorial/introducing-sveltekit)
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](index.md)
 - [🔖 Parent index](index.md)
 - [📑 Notes Index](../../../index.md)
-- [🗃️ Master Index](../../../../index.md)

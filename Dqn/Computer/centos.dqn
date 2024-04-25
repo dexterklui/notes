@@ -277,7 +277,7 @@
     ➱   [\$ firewall-cmd --state]\ gets the firewalld state: running or not.
     ➱   [\$ firewall-cmd --get-active-zones]\
     ➱   [\$ firewall-cmd --get-zone-of-interface=:INTERFACE:]\
-    ➱   [\firewall-cmd --get-zones]\ lists all available services
+    ➱   [\firewall-cmd --get-zones]\ lists all available zones
 
     ➱   [\firewall-cmd --get-services]\ lists all available services
     ➱   [\firewall-cmd --list-:OPTION:]\ lists all active OPTION:
@@ -313,6 +313,10 @@
         connection can be established with correct firewall rules.
 
    |open ports / services| {{{4
+    ➱   [\firewall-cmd --:{:add:|:remove:}:-service=http]\
+
+    Also set the zone:
+
     ➱   [\firewall-cmd --zone=public --:{:add:|:remove:}:-port=80/tcp]\
     ➱   [\firewall-cmd --zone=public --:{:add:|:remove:}:-service=http]\
 

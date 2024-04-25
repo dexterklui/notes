@@ -1,17 +1,18 @@
 ---
-title: DOM Manipulation
 date: 2023-07-27 (Thu)
 ---
 
-# Basic Structure
+# DOM Manipulation
+
+## Basic Structure
 
 - `Navigator` object
 - `Window` object
 - `Document` object
 
-# Document Object Model
+## Document Object Model
 
-## Overview
+### Overview
 
 - Name is **_Document object model_** or **_DOM_**.
 - It represents a whole document in a tree structure of **_nodes_**.
@@ -28,10 +29,10 @@ Terms describing node hierarchy in the tree:
 - _Root node_: Top node; HTML
 - _Child node_: Node directly inside another
 - _Descendant node_: Node anywhere inside another
-- _Parent node_: Node what has another node inside it
+- _Parent node_: Node that has another node inside it
 - _Sibling node_: Node that sit on the same level in DOM
 
-## Fundamental data types
+### Fundamental data types
 
 Data types (interfaces):
 
@@ -73,7 +74,7 @@ Data types (interfaces):
   method for this purpose, and you can also add and remove items from a
   `namedNodeMap`.
 
-## List of core interfaces in the DOM
+### List of core interfaces in the DOM
 
 - `document.querySelector()`
 - `document.querySelectorAll()`
@@ -91,7 +92,7 @@ Data types (interfaces):
 - `window.onload`
 - `window.scrollTo()`
 
-## DOM Interfaces Structure
+### DOM Interfaces Structure
 
 ```mermaid
 flowchart RL
@@ -108,15 +109,15 @@ There are subclasses of `HTMLElement`:
 
 `window` has `document`.
 
-## NodeList
+### NodeList
 
 `myNodeList[idx]`: Access node of at idx.
 
-### Instance properties
+#### Instance properties
 
 `length`: the number of nodes
 
-### Instance methods
+#### Instance methods
 
 | Method          | Description                            |
 | --------------- | -------------------------------------- |
@@ -126,7 +127,7 @@ There are subclasses of `HTMLElement`:
 | `keys()`        | Return `iterator` of keys              |
 | `values()`      | Return `iterator` of values            |
 
-# Node Query
+## Node Query
 
 - `querySelector()` returns first matching node
 - `querySelectorAll()` returns a **static** `NodeList`
@@ -138,9 +139,9 @@ Since an `HTMLCollection` in the HTML DOM is **live**, i.e. the content reflect
 changes in real time, it may be desirable to use `Array.from` to make an array
 copy.
 
-# Modifying Nodes
+## Modifying Nodes
 
-## Modifying attributes
+### Modifying attributes
 
 Most HTML attributes (except class) are accessed through instance
 **properties**. Here are some other instance properties:
@@ -162,29 +163,29 @@ class), and `Element.removeAttribute(attr)` to remove.
 Note that for **boolean** attribute, setting any value at all (e.g. `""`) means
 true. You need to remove the attribute to really make the value false.
 
-## Changing classes
+### Changing classes
 
 - `Element.classList.addClass()`
 - `Element.classList.removeClass()`
 
-## Manipulating styles
+### Manipulating styles
 
 - `Document.stylesheets` gives you an array-like object with `CSSStyleSheet`
   objects. This is an old way to manipulate style.
 - `HTMLElement.style` refers to an object containing styling info. The key names
   for a CSS property is the **camel case** equivalent of CSS property name.
 
-# Creating Nodes
+## Creating Nodes
 
 - `document.createElement("p")` creates a `<p>` element.
 - `Node.cloneNode()` clones a node.
 
-# Modifying DOM Tree
+## Modifying DOM Tree
 
 - Inserting an already connected node results in **moving** them.
 - Most methods return `undefined`. You can check documentation to make sure.
 
-## Element instance methods
+### Element instance methods
 
 | Method                            | Description                                                   |
 | --------------------------------- | ------------------------------------------------------------- |
@@ -203,7 +204,7 @@ true. You need to remove the attribute to really make the value false.
 | `replaceWith(arg...)`     | Replace self with `Node` or string     |
 | `replaceChildren(arg...)` | Replace children with `Node` or string |
 
-## Node instance methods
+### Node instance methods
 
 Node instance methods
 
@@ -215,7 +216,7 @@ Node instance methods
 In older browser where `remove()` is not supported, you need to
 `node.parentNode.removeChild(node)`
 
-## Delay before inserted element is ready
+### Delay before inserted element is ready
 
 Sometimes it takes time before an element newly inserted into DOM is ready. And
 this may result to failure in calling certain methods on the element.
@@ -223,7 +224,7 @@ this may result to failure in calling certain methods on the element.
 E.g. `focus()` can fails when called immediately after the element is added to
 DOM. You may want to add a delay with `setTimeout(() => {myEle.focus()}, 0)`.
 
-## insertAdjacentElement
+### insertAdjacentElement
 
 Position can be:
 
@@ -234,9 +235,9 @@ Position can be:
 | `beforeend`   | Just inside after last child   |
 | `afterend`    | After self                     |
 
-# DOM Traversal
+## DOM Traversal
 
-## Note that...
+### Note that...
 
 - Many `NodeList` returned are **live**. Keep this in mind when making decisions
   like caching the length for iteration
@@ -246,7 +247,7 @@ Position can be:
 - You should combine with [**query** methods](#node-query) to better traverse
   the DOM, the query will only be done in the subtree.
 
-## Ancestors
+### Ancestors
 
 Element instance method:
 
@@ -258,7 +259,7 @@ Node instance property:
 
 `parentNode`: read-only.
 
-## Siblings
+### Siblings
 
 Element instance properties:
 
@@ -274,7 +275,7 @@ Node instance properties:
 | `nextSibling`     | Next sibling `Node` or `null` |
 | `previousSibling` | Prev sibling `Node` or `null` |
 
-## Descendants
+### Descendants
 
 Element instance properties:
 
@@ -293,7 +294,7 @@ Node instance properties:
 | `firstChild` | First child `Node` or `null` |
 | `lastChild`  | Last child `Node` or `null`  |
 
-# Node Testing and Assertion
+## Node Testing and Assertion
 
 Element instance method:
 
@@ -308,7 +309,7 @@ Node instance property:
 | ------------- | ---------------------------------------- |
 | `isConnected` | Test if connected to a `Document` object |
 
-# Getting Node Info
+## Getting Node Info
 
 Element instance methods:
 
@@ -316,18 +317,18 @@ Element instance methods:
 | ------------------------- | ------------------------------------------- |
 | `getBoundingClientRect()` | Return `DOMRect` object indicating geometry |
 
-# Other Node Builtin Methods
+## Other Node Builtin Methods
 
 - `HTMLElement.focus()` to focus an element and scrolling to it.
   - Passing an argument `true` will prevent scrolling.
 
-# Links
+## Links
 
 - [Document Object Model - mdn web docs](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)
 - [Node - mdn web docs](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 - [Element - mdn web docs](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 
-# 🧭 Navigation
+## 🧭 Navigation
 
 - [🔼 Back to top](#)
 - [◀️ Back](index.md)

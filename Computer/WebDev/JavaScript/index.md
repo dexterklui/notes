@@ -1,12 +1,10 @@
----
-title: JavaScript Index
----
+# JavaScript Index
 
-# DQNotes
+## DQNotes
 
 - [Detailed Intro to JavaScript](../../Dqn/Computer/js.dqn)
 
-# Coding
+## Coding
 
 - [Basics](js-basics.md)
 - [Tips and Tricks](tips-and-tricks.md)
@@ -21,20 +19,20 @@ title: JavaScript Index
 - [Timeout and Interval](timeout-and-interval.md)
 - [Intersection Observer API](intersection-observer-api.md)
 
-## Case studies
+### Case studies
 
 - [The Keyword `this`](this-keyword.md)
 
-# Configuration and Documentation
+## Configuration and Documentation
 
 - [jsconfig](jsconfig.md)
 - [jsdoc](jsdoc.md)
 
-# Library and Frameworks
+## Library and Frameworks
 
 - [jQuery](jquery.md)
 
-# Random Notes
+## Random Notes
 
 Update object values
 
@@ -46,10 +44,7 @@ function Person(options) {
 }
 ```
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../../../index.md)
 - [🔖 Parent index](../../../index.md)
 - [📑 Notes Index](../../../index.md)
-- [🗃️ Master Index](../../../../index.md)

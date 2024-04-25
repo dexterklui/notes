@@ -1,19 +1,20 @@
 ---
-title: HTML
 date: 2023-07-27 (Thu)
 ---
 
-# Include Scripts
+# HTML
+
+## Include Scripts
 
 `defer` boolean attribute of `<script>` instructs the browser to to download the
 script in parallel to parsing the page, and execute the script **after** the
 page has finished parsing.
 
-# Form
+## Form
 
-## Input elements
+### Input elements
 
-### Input attributes
+#### Input attributes
 
 | Attribute     | Description                         |
 | ------------- | ----------------------------------- |
@@ -23,19 +24,16 @@ page has finished parsing.
 | `value`       | Value                               |
 | `required`    | Required for submission             |
 
-# Storing Data in Element
+## Storing Data in Element
 
 In HTML5, you can have custom attributes prefixed with `data-` to store data.
 However, in `XHTML1.1` mode the browser will complain about it.
 
-# Disabling Anchors
+## Disabling Anchors
 
 `<a href="javascript:void(0)">`
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../../index.md)
 - [🔖 Parent index](../../index.md)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)

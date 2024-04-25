@@ -1,8 +1,6 @@
----
-title: NeoVim
----
+# NeoVim
 
-# Notes to Self
+## Notes to Self
 
 - I use [lazy-vim-starter](https://github.com/frans-johansson/lazy-nvim-starter)
   script to initialize the NVim configuration structure:
@@ -14,35 +12,35 @@ title: NeoVim
       plugin spec.
   - Mappings specific for each plugin is located in its own `.lua` spec file.
 
-# Lua in NeoVim
+## Lua in NeoVim
 
-## Reference and Help
+### Reference and Help
 
 Use `:help lua-concepts`.
 
 `:help lua-guide` for API.
 
-## Lua API in Vim
+### Lua API in Vim
 
-### Overview: 3 layers
+#### Overview: 3 layers
 
-1.  The **Vim API** inherited from Vim:
+1. The **Vim API** inherited from Vim:
 
-    - Ex-commands: via `vim.cmd()`
-    - Vim builtin functions, and user functions: via `vim.fn()`
+   - Ex-commands: via `vim.cmd()`
+   - Vim builtin functions, and user functions: via `vim.fn()`
 
-    See `:help lua-guide-vimscript`.
+   See `:help lua-guide-vimscript`.
 
-2.  The **NVim API** written in C for use in remote plugins and GUIs. Accessed
-    through `vim.api`. See `:help api`.
+2. The **NVim API** written in C for use in remote plugins and GUIs. Accessed
+   through `vim.api`. See `:help api`.
 
-3.  The **Lua API** written in and specifically for Lua. Accessible by any other
-    `vim.*` functions not mentioned above. See `:help lua-stdlib`.
+3. The **Lua API** written in and specifically for Lua. Accessible by any other
+   `vim.*` functions not mentioned above. See `:help lua-stdlib`.
 
 This distinction is important because different layers work in different source
 with different syntax. E.g. starting index (0 or 1) and argument omission.
 
-### Using Vim commands
+#### Using Vim commands
 
 ```lua
 vim.cmd("colorscheme gruvbox")
@@ -61,21 +59,21 @@ vim.cmd.highlight({ "Error", "guibg=red" })
 vim.cmd.highlight({ "link", "Warning", "Error" })
 ```
 
-### Sourcing Vim scripts
+#### Sourcing Vim scripts
 
 `vim.cmd.source("path/to/vim/script.vim")`
 
-### Calling Vim functions
+#### Calling Vim functions
 
 Use `vim.fn`, with the two different notations for Lua table:
 
-1.  `vim.fn.abs(-1)`
-2.  `vim.fn['abs'](-1)`
+1. `vim.fn.abs(-1)`
+2. `vim.fn['abs'](-1)`
 
 To call an autoload function, since `#` is not a valid character for Lua
 identifier, so you have to use the 2nd notation.
 
-### Vim variables
+#### Vim variables
 
 - `vim.g`: global variables (`g:`)
 - `vim.b`: variables for the current buffer (`b:`)
@@ -87,9 +85,9 @@ identifier, so you have to use the 2nd notation.
 
 Data type are converted automatically.
 
-### Vim options
+#### Vim options
 
-#### Setting options
+##### Setting options
 
 - `vim.opt` behaves like `:set`
 - `vim.opt_global` behaves like `:setglobal`
@@ -115,7 +113,7 @@ vim.opt.listchars = { space = '_', tab = '>~' }
 vim.opt.formatoptions = { n = true, j = true, t = true }
 ```
 
-#### Append, prepend and remove
+##### Append, prepend and remove
 
 For `:set^=`, `:set+=` and `:set-=`:
 
@@ -125,7 +123,7 @@ vim.opt.wildignore:prepend('*.o')
 vim.opt.whichwrap:remove({ 'b', 's' })
 ```
 
-#### Query option value
+##### Query option value
 
 But getting the value of an options is indirect, and need to use `:get()`:
 
@@ -136,7 +134,7 @@ print(vim.opt.smarttab:get())
 --output false
 ```
 
-#### Vim options shortcuts
+##### Vim options shortcuts
 
 - `vim.o`: behaves like `:set`
 - `vim.go`: behaves like `:setglobal`
@@ -170,7 +168,7 @@ is equivalent to a Lua code
 print(vim.bo.expandtab)
 ```
 
-### Vim autocmds
+#### Vim autocmds
 
 Use `vim.api.nvim_create_autocmd({event}, {*opts})`
 
@@ -201,23 +199,23 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
 })
 ```
 
-### Vim user commands
+#### Vim user commands
 
 Use `vim.api.nvim_create_autocmd({name}, {command}, {opts})`:
 
 One opt is `desc`.
 
-## Using Lua files on startup
+### Using Lua files on startup
 
 From the root config dir of NVim (default: `$XDG_CONFIG_HOME/nvim/`), there can
 be either `init.vim` or `init.lua` but not both. Then NVim will source all vim
 scripts and lua files in `plugin/` in `'runetimepath'`.
 
-## Vim patterns
+### Vim patterns
 
 In NeoVim, you can use `vim.regex()` to use Vim regex.
 
-## Import Lua modules in Vim
+### Import Lua modules in Vim
 
 Place the Lua modules in a `lua/` directory in `'runtimepath'`. Then use
 `require()` in a Lua script to load it:
@@ -232,19 +230,19 @@ Submodules is just subdirectories. This is like Vim's autoload mechanism.
 
 What NVim does when using `require()`:
 
-1.  Modules are searched in a `lua/` directory in `'runtimepath'`, in the order
-    they appear.
-2.  Any `.` in the module name is treated as a directory separator.
-3.  So for a module `foo.bar`, the first directory in `'runtimepath'` is search
-    for `lua/foo/bar.lua` then for `lua/foo/bar/init.lua`, and then repeat in
-    the next directory.
-4.  If still fails, then other search mechanics are used. See NeoVim lua.txt
-5.  The first lua script found is run, and `require()` returns the value
-    **returned by the script** if any, else true.
-6.  This return value is **cached** after the first call to `require()` for each
-    module. I.e. subsequent calls don't search or execute lua script.
+1. Modules are searched in a `lua/` directory in `'runtimepath'`, in the order
+   they appear.
+2. Any `.` in the module name is treated as a directory separator.
+3. So for a module `foo.bar`, the first directory in `'runtimepath'` is search
+   for `lua/foo/bar.lua` then for `lua/foo/bar/init.lua`, and then repeat in the
+   next directory.
+4. If still fails, then other search mechanics are used. See NeoVim lua.txt
+5. The first lua script found is run, and `require()` returns the value
+   **returned by the script** if any, else true.
+6. This return value is **cached** after the first call to `require()` for each
+   module. I.e. subsequent calls don't search or execute lua script.
 
-### Catching errors
+#### Catching errors
 
 `pcall()` can be used to catch errors.
 
@@ -257,7 +255,7 @@ else
 end
 ```
 
-### require() vs :source
+#### require() vs :source
 
 `require()` caches the module on the module's first use. To clear the cache:
 
@@ -265,9 +263,9 @@ end
 package.loaded['myluamodule'] = nil
 ```
 
-## Executing Lua code in Vim
+### Executing Lua code in Vim
 
-### Overview
+#### Overview
 
 `:lua` executes a Lua chunk. `:luado` execute Lua chunk within in a given range
 in a Lua file. `:luafile` execute a Lua file as a chunk.
@@ -275,16 +273,16 @@ in a Lua file. `:luafile` execute a Lua file as a chunk.
 Each chunk has its **own scope**, so only global variables are shared between
 command calls.
 
-### :lua
+#### :lua
 
 `:lua {chunk}` executes a chunk. If chunk starts with `=`, the rest of the chunk
 is evaluated as an expression and printed:
 
 - `:lua =expr` == `:=expr` == `:lua print(vim.inspect(expr))`
 
-### :lua with endmarker
+#### :lua with endmarker
 
-```
+```text
 :lua << [endmarker]
 {script}
 {endmarker}
@@ -302,71 +300,71 @@ EOF
 endfunction
 ```
 
-### :luado
+#### :luado
 
 `:[range]luado {body}` executes Lua chunk "function(line, linenr) {body} end"
 for each buffer line in [range], whereas line is current line text and linenr is
 current line number.
 
-### :luafile
+#### :luafile
 
 `:luafile {file}` executes Lua script in a file. The whole argument is used as
 filename (like `:edit`), so don't need to escape whitespace.
 
 You can also `:source` Lua files.
 
-## Print
+### Print
 
 - To print object in human readable format, use `print(vim.inspect(myTable))`.
 - To display a notification, use `vim.notify()`
 
-# Mappings
+## Mappings
 
-## Insert mode
+### Insert mode
 
 - `<C-f>` reindents current line. (Set by 'indk' option by default)
 
-## Lists of useful mappings
+### Lists of useful mappings
 
 - `<leader>sb`: telescope fuzzy search line in current buffer
 - `[p`, `]p`, `gp`: paste with current indent; paste and jump cursor to after
 
-## View port
+### View port
 
 - `z<cr>`: Redraw, cursor line at the top of screen.
 - `z.`: Redraw, cursor line at the middle of screen.
 
-## From lazy-nvim-starter
+### From lazy-nvim-starter
 
-### Source
+#### Source
 
 [GitHub site](https://github.com/frans-johansson/lazy-nvim-starter)
 
-### lazy-nvim-starter mappings
+#### lazy-nvim-starter mappings
 
 - `<leader>l`: Show Lazy
 
-## LazyVim Mappings
+### LazyVim Mappings
 
-### Code
+#### Code
 
 | Mapping    | Description       |
 | ---------- | ----------------- |
 | `<Lead>cr` | Rename identifier |
 
-### Navigation
+#### Navigation
 
 | Mapping       | Description         |
 | ------------- | ------------------- |
 | `<Lead>` + \` | To alternate buffer |
 
-# Plugins
+## Plugins
 
-## Lazy.nvim
+### Lazy.nvim
 
 See [# Using the Lazy.nvim](#using-the-lazy.vim)
 
-## nvim-cmp
+### nvim-cmp
 
 Key bindings:
 
@@ -375,9 +373,9 @@ Key bindings:
 - `<C-e>`: Abort complete and close menu.
 - `<CR>` and `<C-y>`: Confirm selection
 
-## Telescope
+### Telescope
 
-### Mappings
+#### Mappings
 
 | Key       | Effect                       |
 | --------- | ---------------------------- |
@@ -386,18 +384,18 @@ Key bindings:
 | `<S-Tab>` | Toggle selection + move down |
 | `<C-v>`   | Vertical split               |
 
-## nvim-html-css
+### nvim-html-css
 
 - I added a bash alias `vh` to set an environment variable before opening nvim,
   to enable this plugin.
 
-## vim-visual-multi
+### vim-visual-multi
 
-### General rule
+#### General rule
 
 - There are two modes, change between each other with `<Tab>`:
-  1.  Multi-cursor mode
-  2.  Multi-visual mode
+  1. Multi-cursor mode
+  2. Multi-visual mode
 - `<Leader>` here is the specific leader for _vim-visual-multi_ only.
 - Many keymaps can be repeated by prepending a number, or repeated later with
   `.`.
@@ -406,19 +404,19 @@ Key bindings:
   - Seems like only text deleted in multi-select mode (but not in multi-cursor
     mode) are recorded in the unique register.
 
-### Vim normal mode
+#### Vim normal mode
 
 - `<C-Arrow>` enters multi-cursor mode at given direction.
 - `<S-Arrow>` enters multi-select mode at given direction
 - `<C-n>` selects the current word and enters multi-select mode.
 
-### Vim visual mode
+#### Vim visual mode
 
 - `<Leader>c` enters multi-cursor mode
   - If in row visual mode, enters at the column of the visual start
   - If in column visual mode, enters at the column of the right-most column
 
-### Multi-cursor mode
+#### Multi-cursor mode
 
 - Most Vim normal mappings are functional
 - `s<Selector>` enters multi-visual mode by selecting elements with Vim selector
@@ -430,7 +428,7 @@ Key bindings:
   is one action)
 - `<Leader>N` adds a number list followed with a given string.
 
-### Multi-select mode
+#### Multi-select mode
 
 - Most Vim visual mapping are functional
 - `n` and `N` jumps and selects the next matching word/patterns
@@ -439,46 +437,46 @@ Key bindings:
 - `<Leader>c` cycles among different case matching setting
 - `R` does a `:substitute` command in each selection region
 
-### Multi-insert mode
+#### Multi-insert mode
 
 - `<C-v>` pastes content in visual-multi's register.
 
-## flash
+### flash
 
 Mappings:
 
 - `r`: Only at the beginning of motion operator pending mode (e.g. after `y`)
-  1.  Type pattern
-  2.  Select label
-  3.  Perform motion / start flash Treesitter with `S`
-  4.  (Yank will be performed on the new selection)
-  5.  (Cursor back to original window/position)
+  1. Type pattern
+  2. Select label
+  3. Perform motion / start flash Treesitter with `S`
+  4. (Yank will be performed on the new selection)
+  5. (Cursor back to original window/position)
 - `R`: Like above but use flash Treesitter directly
 
 Telescope mapping
 
 - `<C-s>`: Flash to a line?
 
-## Orgmode
+### Orgmode
 
-## Insert mode (custom)
+### Insert mode (custom)
 
 Leading key is `<A-;>`, then followed by:
 
 - `h` toggles heading
 
-## Mkdnflow
+### Mkdnflow
 
 - [Mkdnflow](mkdnflow.md)
 
-## LuaSnip
+### LuaSnip
 
 Guides:
 
 - [Finding the comment-string](https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#finding-the-comment-string)
 - [Writing a comment box snippet](https://github.com/L3MON4D3/LuaSnip/issues/151)
 
-# Plugin Wish List
+## Plugin Wish List
 
 - [nabla.nvim](https://github.com/jbyuki/nabla.nvim): Render LaTeX equation in
   vim
@@ -486,9 +484,9 @@ Guides:
 - [lsp_lines.nvim](https://git.sr.ht/~whynothugo/lsp_lines.nvim): Renders
   diagnostics using virtual lines pointing at the location
 
-# Using IDE Tools
+## Using IDE Tools
 
-## Prettier
+### Prettier
 
 For prettier, you can set the format by going to your project root directory,
 and run `npx-prettier-init`. It will ask you questions about formatting
@@ -519,7 +517,7 @@ config I use for some filetypes is:
 For the list of config options, and guidelines for configuration: see
 [prettier config](https://prettier.io/docs/en/options.html).
 
-# Using the Lazy.nvim
+## Using the Lazy.nvim
 
 If use use both `opts` and `config`. Remember to past `opts` to the function set
 in the `config`:
@@ -535,7 +533,7 @@ in the `config`:
 }
 ```
 
-# Treesitter
+## Treesitter
 
 See [nvim: treesitter](https://neovim.io/doc/user/treesitter.html)
 
@@ -545,11 +543,10 @@ highlighting of a capture group with `vim.api.nvim_set_hl()`
 
 To inspect the capture group of the node at the cursor, use
 
-```
+```text
 lua print(vim.inspect(vim.treesitter.get_captures_at_cursor(0)))
 ```
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [📑 Index](../../index.md)
+- [📑 Notes Index](../../index.md)

@@ -579,8 +579,7 @@ NAMED-DRIVER {
 
 ## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- 📑 [Index](../../../index.md)
+- 📑 [Notes Index](../../index.md)
 
 ## Vim Modelines
 

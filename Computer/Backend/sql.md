@@ -1110,11 +1110,8 @@ WITH RECURSIVE
 
 ## 🧭 Navigation
 
-- [🔼 Back to top](#sql)
-- [◀️ Back](../../index.md)
 - [🔖 Parent index](../../index.md)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)
 
 ---
 

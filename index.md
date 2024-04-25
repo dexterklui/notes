@@ -10,10 +10,11 @@
 
 ### 📚 Courses
 
-- [WebDev Course](Links/GDC-C04-WebDev/index.md)
+- [WebDev Course Index](Links/GDC-C04-WebDev/index.md)
 
 ### 🌐 Web Development
 
+- [Web Development Resources](Computer/WebDev/web_develop_resources.md)
 - [HTML](Computer/WebDev/html.md)
 - [HTML - SVG](Computer/WebDev/html-svg.md)
 - [JavaScript - Index](Computer/WebDev/JavaScript/index.md)
@@ -25,7 +26,6 @@
 - [Bootstrap](Computer/WebDev/bootstrap.md)
 - [Prettier](Computer/WebDev/prettier.md)
 - [D3.js](Computer/WebDev/d3js.md)
-- [Web Development Resources](Computer/WebDev/web_develop_resources.md)
 - [React](Computer/WebDev/React/react.md)
   - [Next.Js](Computer/WebDev/React/nextjs.md)
   - [Tailwind](Computer/WebDev/React/tailwind.md)
@@ -39,6 +39,7 @@
 - [SQL](Computer/Backend/sql.md)
 - [PostgreSQL](Computer/Backend/postgresql.md)
 - [MySQL](Computer/Backend/mysql.md)
+- [Firebase](Computer/Backend/firebase.md)
 
 ### ⌨️ Vim
 
@@ -57,6 +58,7 @@
 ### 🐧 Linux
 
 - [Boot Up and Kernel](Computer/Linux/boot-and-kernel.md)
+- [File System](Computer/Linux/file-system.md)
 
 ### 🗂️ Misc
 
@@ -66,6 +68,10 @@
 - [EBNA - Meta Language](Computer/ebna.md)
 - [GPG Key](Computer/gpg-key.md)
 - [YAML](Computer/yaml.md)
+
+### 🗓️ Project Management
+
+- [System Development Life Cycle](Computer/sdlc.md)
 
 ## 🧾 Non-notes
 
@@ -80,11 +86,3 @@
 ## AI
 
 - [AI](Computer/AI/index.md)
-
-## 🧭 Navigation
-
-- [🔼 Back to top](#)
-- [◀️ Back](../index.md)
-- [🔖 Parent index](../index.md)
-- [📑 Notes Index](index.md)
-- [🗃️ Master Index](../index.md)

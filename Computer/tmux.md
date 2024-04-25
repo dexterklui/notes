@@ -1,21 +1,19 @@
----
-title: tmux
----
+# tmux
 
-# Invoke Tmux in Terminal
+## Invoke Tmux in Terminal
 
 `tmux [OPT]... [CMD [CMD-OPT]...]`
 
-## Tmux options
+### Tmux options
 
 - `-2` forces tmux to assume the terminal supports 256 colours
   - Equivalent to `-T 256`
 - `-c {SHELL-CMD}`
 - `-f {FILE}` specifies config file
 
-# Tmux keybinds
+## Tmux keybinds
 
-## Prefix table
+### Prefix table
 
 Keybind followed by following symbols has meanings:
 
@@ -23,7 +21,7 @@ Keybind followed by following symbols has meanings:
 - "^": Custom behaviour extending the default behaviour
 - "#": Plugin keybinds
 
-### Misc
+#### Misc
 
 | Keybind    | Effect                                |
 | ---------- | ------------------------------------- |
@@ -42,7 +40,7 @@ Keybind followed by following symbols has meanings:
 | `m`        | Toggle [mark](#mark)                  |
 | `M`        | Remove [mark](#mark)                  |
 
-### Layout
+#### Layout
 
 | Keybind   | Effect                       |
 | --------- | ---------------------------- |
@@ -57,7 +55,7 @@ Keybind followed by following symbols has meanings:
 | `<A-4>`   | Main pane on the left layout |
 | `<A-5>`   | Main pane below layout       |
 
-### Windows
+#### Windows
 
 | Keybind | Effect                                                         |
 | ------- | -------------------------------------------------------------- |
@@ -68,7 +66,7 @@ Keybind followed by following symbols has meanings:
 | `c`     | Create new window                                              |
 | `!`     | Break pane to a new window                                     |
 
-### Navigation
+#### Navigation
 
 | Keybind    | Effect                                          |
 | ---------- | ----------------------------------------------- |
@@ -83,7 +81,7 @@ Keybind followed by following symbols has meanings:
 | `w`        | Window selection mode                           |
 | `f`        | Find a [node](#node-selection-mode)             |
 
-## Node selection mode
+### Node selection mode
 
 You can go to window/session/pane (**_node_**) selection mode with `<prefix>w`,
 `<prefix>s`, or `<prefix>f` followed by a search string.
@@ -102,7 +100,7 @@ You can go to window/session/pane (**_node_**) selection mode with `<prefix>w`,
 - `v` toggles preview
 - `:` starts inputting tmux commands
 
-## tmux-sessionist
+### tmux-sessionist
 
 | Keybind | Effect                                 |
 | ------- | -------------------------------------- |
@@ -119,13 +117,13 @@ You can go to window/session/pane (**_node_**) selection mode with `<prefix>w`,
   - `v`, `|`, `%`: join vertically
   - `f`, `@`: join full screen
 
-# Tmux Commands
+## Tmux Commands
 
-## Executing commands
+### Executing commands
 
 `<prefix>:` enters to command prompt.
 
-## List of commands
+### List of commands
 
 - `display-message` (`display`) print message in the status line.
 - `command-prompt -p 'prompt message:' 'command template %1'`
@@ -137,45 +135,43 @@ You can go to window/session/pane (**_node_**) selection mode with `<prefix>w`,
   - Without any flag, the default table is the prefix table. So `bind j` refers
     to a keybind `<prefix>j`.
 
-## Control statements
+### Control statements
 
 - `if-shell` (`if`)
 
   - `if-shell {shell-command} {true-command} [false-command]`
   - shell-command is expanded with tmux format first
 
-## Windows
+### Window commands
 
 - `select-window`
 - `swap-window`
 
-# Tmux scripts
+## Tmux scripts
 
-## Basic Syntax
+### Basic Syntax
 
 Line continuation with `\` at the end of line.
 
-## String
+### String
 
 - Things inside `''` is taken literally.
 - `""` allows special characters and expansion. E.g. `"${myenv}"`.
 - `#{}` in `""` is tmux format string.
 
-# Concepts explanation
+## Concepts explanation
 
-## Mark
+### Mark
 
 Marked pane is the default target for `-s` to `join-pane`, `move-pane`,
 `swap-pane` and `swap-window`.
 
 Only one pane can be marked at a time. Marking a new pane remove existing mark.
 
-## Nodes
+### Nodes
 
 A node is either a session, a window or a pane.
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
 - [📑 Notes Index](../index.md)
-- [🗃️ Index](/media/mikeX/Nextcloud/index.md)

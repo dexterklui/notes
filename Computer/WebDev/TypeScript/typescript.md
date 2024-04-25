@@ -1,12 +1,10 @@
----
-title: TypeScript
----
+# TypeScript
 
-# Type Alias
+## Type Alias
 
 Use keyword `type`. Name convention is **PascalCase**.
 
-## Union type
+### Union type
 
 Uses type _union operator_ `|` to make less specific type.
 
@@ -15,7 +13,7 @@ type Progress = "Not started" | "In progress" | "Done";
 type Address = string | string[];
 ```
 
-## Intersect object type
+### Intersect object type
 
 Use type _intersect operator_ `&` to make a more specific object type. It works
 like class inheritance. In fact it function the same as `interface extends`.
@@ -33,25 +31,23 @@ type ClubExco = ClubMember & {
 };
 ```
 
-# Interface
+## Describing Types
 
-# Describing Types
-
-## Primitive types
+### Primitive types
 
 Unlike in JSDoc, no need to capitalise the first letter of the primitive type in
 TypeScript. So it is `number` not `Number`.
 
-## Functions
+### Functions
 
 Use arrow function notation:
 
 - `() => void`
 - `(arg: string) => number`
 
-## Objects
+### Objects
 
-### Direct description
+#### Direct description
 
 ```typescript
 type ButtonProps = {
@@ -60,7 +56,7 @@ type ButtonProps = {
 };
 ```
 
-### Arbitrary fields
+#### Arbitrary fields
 
 ```typescript
 type ObjectWithUnknownFields = {
@@ -72,7 +68,7 @@ type ObjectWithUnknownFields = {
 type ObjectUsingRecord = Record<string, any>;
 ```
 
-### Omission
+#### Omission
 
 Use `Omit<T, K>`
 
@@ -85,11 +81,11 @@ type User = {
 type Guest = Omit<User, "name">; // takes the User type and omit "name" property
 ```
 
-## Generating types from types
+### Generating types from types
 
 - `keyof MyType` or `keyof typeof MyObj`
 
-## Unknown types
+### Unknown types
 
 `unknown` type is especially useful for describing data coming from external
 source. You should use `unknown` over `any`.
@@ -107,9 +103,9 @@ Another useful trick is to use the library `ts-reset` when fetching data. It
 helps make the default type for fetched data to be `unknown` and also some other
 benefits.
 
-# Function Argument and Return Type
+## Function Argument and Return Type
 
-## Argument and return type
+### Argument and return type
 
 ```typescript
 function hello(name: string): string {
@@ -117,7 +113,7 @@ function hello(name: string): string {
 }
 ```
 
-## Inferred argument type
+### Inferred argument type
 
 You can do inferred typing by giving a **default** value.
 
@@ -127,7 +123,7 @@ function hello(name = "stranger"): string {
 }
 ```
 
-## Optional argument
+### Optional argument
 
 Add `?` after the parameter identifier.
 
@@ -137,14 +133,14 @@ function hello(firstName: string, lastName?: string): string {
 }
 ```
 
-# Function Overloading
+## Function Overloading
 
 You can define multiple function signatures for the same function name. Note
 that you can still define the implementation (i.e. body) once.
 
-# Type Assertion
+## Type Assertion
 
-## Asserting type
+### Asserting type
 
 Use `as` keyword.
 
@@ -152,7 +148,7 @@ Use `as` keyword.
 const previousName = localStorage.getItem("playerName") as string;
 ```
 
-## As const
+### As const
 
 For array and object, asserting them `as const` make them `readonly`, i.e. the
 content is **immutable**. Using this can help further type inferring,
@@ -174,13 +170,13 @@ export default function PrimaryColorBoxes() {
 }
 ```
 
-## Assert non-nullable
+### Assert non-nullable
 
 Append `!` to the value to assert that it is non-nullable, meaning it is not
 null or undefined. This is useful when you already filter out the possibilities
 of nullable values, e.g. with `flatMap()`.
 
-## Assert boolean
+### Assert boolean
 
 By default, you cannot use, say a number, in place of a boolean. To be able to
 do this, you need to prepend `!!` in front to use it as boolean. Practically
@@ -188,9 +184,15 @@ it's just applying the `!` operator twice.
 
 The other way is use `Boolean(value)`.
 
-# Generics
+### Validate type by satisfying
 
-## Intro to Generics
+`as` keyword changes the type of the value. If you don't want that, use
+`satisfy` which checks if the value satisfies the type, but doesn't change
+(assert) the type.
+
+## Generics
+
+### Intro to Generics
 
 Generics is used to describe the **relationship** of types without restricting
 what types they are. The convention is to use `T`, then `K` as the identifier
@@ -201,7 +203,7 @@ Generics are like interface, and you can use the keyword `extends` to make it
 more specific. See
 [Objects with arbitrary fields](#objects-with-arbitrary-fields) for an example.
 
-## Functions
+### Functions
 
 ```typescript
 function wrapInArray<T>(value: T): T[] {
@@ -214,7 +216,7 @@ const wrapInArray2 = <T>(value: T): T[] => [value];
 // to distinguish it from JSX.
 ```
 
-## Objects
+### Objects
 
 ```typescript
 type ValueControllerProps<T> = {
@@ -234,7 +236,7 @@ export default function ValueControllerV2<T>({ value: T, valueHistory: T[] }) {
 }
 ```
 
-# Using Type Predicates for Type Guards
+## Using Type Predicates for Type Guards
 
 ```ts
 function isString(test: any): test is string {
@@ -256,7 +258,7 @@ function returns true, TypeScript will narrow the type to string in any block
 guarded by a call to the function. The compiler will think that foo is string in
 the below-guarded block (and ONLY in the below-guarded block)
 
-# Export types
+## Export types
 
 Can define the types in the file `/lib/types.ts` and export normally:
 
@@ -269,13 +271,13 @@ import { type PrimaryColors } from "@/lib/type.ts";
 // the keyword `type` is not necessary, it's just to make it explicit
 ```
 
-## Declaration files
+### Declaration files
 
 You may see types definition in files like `types.d.ts`. For you own custom
 types, don't use `.d.ts` extensions. For they are for types **_declaration
 files_** that declares the types of exports from third-party libraries.
 
-# Third-Party Library Types
+## Third-Party Library Types
 
 Files with type definitions are in `/node_modules/@types/`.
 
@@ -283,7 +285,7 @@ A good library that provides TypeScript type definitions for old popular
 third-party libraries is
 [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped.)
 
-# Tsconfig
+## Tsconfig
 
 Next.js 2023 default:
 
@@ -318,7 +320,7 @@ Next.js 2023 default:
 }
 ```
 
-## With JavaScript
+### With JavaScript
 
 The presence of `tsconfig.json` nullifies `jsconfig.json`. So if you don't
 include JavaScript files by adding `**/*.js` and `**/*.jsx` at the **very
@@ -326,9 +328,9 @@ front**, the settings in either config file won't applies to JS files. For
 example, path resolution won't be done in a JS file, and intellisence would fail
 when you do import aliases with `@`.
 
-# Problems and tricks
+## Problems and tricks
 
-## Handling unknown readonly field that might have different shape
+### Handling unknown readonly field that might have different shape
 
 In the following code, if we don't type cast `keySpec` in the function
 `as unknown as KeySpec`, there will be a compilation error at the header of the
@@ -375,7 +377,7 @@ export function idas2Score(subscale: Subscale, answers: number[]): number {
 }
 ```
 
-## Objects with arbitrary fields
+### Objects with arbitrary fields
 
 ```ts
 /**
@@ -396,14 +398,14 @@ export function range<O, K extends keyof O>(
 }
 ```
 
-# Intelliscense
+## Intelliscense
 
 You need to in development mode, and you need to use the browser to run the page
 once to trigger the compiling first, before you can have intelliscense.
 
-# Using with JavaScript
+## Using with JavaScript
 
-## Setting up tsconfig
+### Setting up tsconfig
 
 In `tsconfig.js`, the most relevant `compilerOptions` are:
 
@@ -418,7 +420,7 @@ In `tsconfig.js`, the most relevant `compilerOptions` are:
 See
 [Mixing JavaScript and TypeScript in Node.js](https://stackoverflow.com/questions/49640121/mixing-javascript-and-typescript-in-node-js).
 
-## Handling types in JavaScript files
+### Handling types in JavaScript files
 
 ```js
 /** @typedef {import("./types").NewsItem} NewsItem */
@@ -439,9 +441,9 @@ const res = fetch(url);
 const feed = /**@type NewsFeed */ res.json();
 ```
 
-# React
+## React
 
-## React types
+### React types
 
 When you don't know what type a react token is, you can hover same kind of token
 existing and see what type it is.
@@ -458,11 +460,11 @@ existing and see what type it is.
   - `React.ComponentPropsWithoutRef<"button">` for components that doesn't
   - Usually useful to use with type intersect operator `&`
 
-## Hooks
+### Hooks
 
-### useState
+#### useState
 
-#### Define state type
+##### Define state type
 
 Usually TypeScript infers the type when you give an initial value. You can
 define the type explicitly:
@@ -472,7 +474,7 @@ const [count, setCount] = useState<number>(0);
 const [user, setUser] = useState<User | null>(null); // use a custom User type
 ```
 
-#### setState dispatcher
+##### setState dispatcher
 
 You don't need to memorize the set state function type. Hover to see the types,
 e.g.:
@@ -480,14 +482,14 @@ e.g.:
 - `React.Dispatch<React.SetStateAction<number>>`: set state dispatcher for a
   number typed state
 
-### useRef
+#### useRef
 
 ```typescript
 const ref = useRef<HTMLButtonElement | null>(null);
 return <button ref={ref}>Click me!</button>;
 ```
 
-## Event handlers
+### Event handlers
 
 When you define a event handler in the right context, e.g. inside curly braces
 of `onClick={}` in a component, then the type of the first argument `e` is
@@ -496,9 +498,9 @@ automatically inferred.
 If you need to define the function outside, you can use hover and copy the type
 shown and then paste it.
 
-## Common practical examples
+### Common practical examples
 
-### Props type definition with CSS
+#### Props type definition with CSS
 
 ```typescript
 type ButtonProps = {
@@ -508,7 +510,7 @@ type ButtonProps = {
 export default function Button({ style }: ButtonProps) {}
 ```
 
-### Inline type declaration
+#### Inline type declaration
 
 ```typescript
 export default function Button({
@@ -520,18 +522,18 @@ export default function Button({
 }) {}
 ```
 
-### Children prop
+#### Children prop
 
 ```typescript
 export default function Button({ children }: React.ReactNode) {}
 ```
 
-# Next
+## Next
 
 The file `next-env.d.ts` in the root is to provide Next.js own's typing. Like
 the `next` property for `fetch()` `requestInit` argument.
 
-# Bugs and Incompatibility
+## Bugs and Incompatibility
 
 Note that functional components would lost its generics (it got changed into
 `unknown`) type definition, if you do a `dynamic()` export.
@@ -556,8 +558,6 @@ export default dynamic(() => Promise.resolve(CategoricalBarChart), {
 });
 ```
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Index](/media/mikeX/Nextcloud/index.md)

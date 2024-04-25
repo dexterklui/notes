@@ -1,10 +1,8 @@
----
-title: Figma
----
+# Figma
 
-# Some Keybindings
+## Some Keybindings
 
-## Basic modes and movement
+### Basic modes and movement
 
 - `v`: Select tool
 - `h`: Hand tool (scroll)
@@ -16,11 +14,11 @@ title: Figma
 - `<C-g>` groups items
 - `[` and `]` bring a selected element to front and back respectively
 
-# Design flow
+## Design flow
 
 Try to break a webpage into different components, and design each one by one.
 
-# Components
+## Components
 
 - `<C-A-k>` or press the button on top to create a component
 - Some designers will make a separate frame that contains all the components for
@@ -35,8 +33,6 @@ Try to break a webpage into different components, and design each one by one.
 
 You can also create **variants** of a components.
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Index](/media/mikeX/Nextcloud/index.md)

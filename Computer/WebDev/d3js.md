@@ -1,46 +1,47 @@
 ---
-title: D3.js
 date: 2023-09-17 (Sun)
 ---
 
-# Data Visualisation
+# D3.js
 
-## Two general purposes
+## Data Visualisation
 
-1.  **Exploratory**
-    - Present in unbiased and unleading way
-    - Allows audience to connect freely and explore for any insight
-    - Richard Feynman: I think on paper. External visual representation augment
-      cognition process with perception
-    - It helps you to ask new questions you didn't come up with
-2.  **Explanatory**:
-    - Conveys your insights about the data
+### Two general purposes
 
-## 5 key lessons for successful explanatory visualisation
+1. **Exploratory**
+   - Present in unbiased and unleading way
+   - Allows audience to connect freely and explore for any insight
+   - Richard Feynman: I think on paper. External visual representation augment
+     cognition process with perception
+   - It helps you to ask new questions you didn't come up with
+2. **Explanatory**:
+   - Conveys your insights about the data
 
-1.  Understanding **context**
-    - Who the audience is? What they need to know and do?
-2.  Choosing right **type** of visualisation
-3.  Removing **clutter**
-    - Removing unnecessary visuals to decrease cognitive flow and make data
-      stand out
-4.  Guiding **attentions**
-    - Use colours, shapes, sizes and placements
-5.  Telling a **story**
+### 5 key lessons for successful explanatory visualisation
 
-## Tool Landscape for data visualisation
+1. Understanding **context**
+   - Who the audience is? What they need to know and do?
+2. Choosing right **type** of visualisation
+3. Removing **clutter**
+   - Removing unnecessary visuals to decrease cognitive flow and make data stand
+     out
+4. Guiding **attentions**
+   - Use colours, shapes, sizes and placements
+5. Telling a **story**
+
+### Tool Landscape for data visualisation
 
 From low level to high level tools:
 
-1.  HTML, CSS, SVG, JavaScript, DOM APIs
-2.  D3, React, Angular, Panda
-3.  Vega, VX, Matplotlib
-4.  Semiotic, RAWGraphs
-5.  Vega-Lite, Seaborn
-6.  Altair
-7.  Vega-lite-api
-8.  ggplot2
-9.  Tableau, PowerBI, QlickSense, Tibco Spotfire, Plotly
+1. HTML, CSS, SVG, JavaScript, DOM APIs
+2. D3, React, Angular, Panda
+3. Vega, VX, Matplotlib
+4. Semiotic, RAWGraphs
+5. Vega-Lite, Seaborn
+6. Altair
+7. Vega-lite-api
+8. ggplot2
+9. Tableau, PowerBI, QlickSense, Tibco Spotfire, Plotly
 
 - Vega allows you declaratively specify visualisation using only a JSON
   configuration object
@@ -52,13 +53,13 @@ From low level to high level tools:
   developers to create visualisation in short period of time
   - It inspires Vega, which leads to Vega-Lite, and in turn to Vega-lite-api
 
-## Type of Visualisation
+### Type of Visualisation
 
 - [Slope graph](https://www.storytellingwithdata.com/blog/2014/03/more-on-slopegraphs)
   - [Alberto Cairo - iterative approach to arrive at slope graph](https://www.vizwiz.com/2013/01/alberto-cairo-three-steps-to-become.html)
 - Steam graph: solve the problem of stacked area.
 
-## Marks and Channels
+### Marks and Channels
 
 In data visualisation, a **_mark_** of a plot represents an **item** (one datum
 point), and **_channels_** are visual modifiers of the mark that signifies its
@@ -71,7 +72,7 @@ For hue, a full spectrum is not good to represent fields that are not
 categorical, except for multi-hue colourgrams, but they work because they rely
 on luminance or saturation, but hue only assist to bring out the contrast.
 
-### Ranking of channels
+#### Ranking of channels
 
 _Magnitude_ channels:
 
@@ -91,24 +92,24 @@ _Identity_ channels:
 - Motion
 - Shape
 
-# Data
+## Data
 
-## Formats
+### Formats
 
 - **_Comma Separated Values_** (**_CSV_**)
 - **_JavaScript Object Notation_** (**_JSON_**)
 
-## Obtaining data
+### Obtaining data
 
-### From HTML tables on webpages
+#### From HTML tables on webpages
 
-1.  Select the data (cursor highlight)
-2.  Copy (Ctrl+C)
-3.  Paste to a spreadsheet program (e.g. Google Spreadsheet)
-4.  Modification (e.g. remove columns that can't translate well to CSV)
-5.  Export to CSV
+1. Select the data (cursor highlight)
+2. Copy (Ctrl+C)
+3. Paste to a spreadsheet program (e.g. Google Spreadsheet)
+4. Modification (e.g. remove columns that can't translate well to CSV)
+5. Export to CSV
 
-## Hosting data online
+### Hosting data online
 
 [GitHub Gist](https://gist.github.com/) allows you to upload CSV files and host
 it. Click the `Raw` button and you get the URL to access the raw CSV.
@@ -119,11 +120,11 @@ Then you can use `fetch()` API to fetch the data.
 
 It is important to list the _provenance_ (source) of the data.
 
-## Handling data
+### Handling data
 
-### CSV data
+#### CSV data
 
-#### CSV URL
+##### CSV URL
 
 d3 has `csv()` that takes the URL linking to a CSV file, and returns a
 **promise** that resolves into parsed data.
@@ -134,7 +135,7 @@ const numOfData = data.length;
 const numOfFields = data.columns.length;
 ```
 
-#### CSV string
+##### CSV string
 
 d3 has `csvParse()` that takes a CSV string and returns an array of data rows,
 with a property `columns` whose value is an array of **header** columns.
@@ -146,24 +147,24 @@ const numOfEntries = data.length;
 const numOfFields = data.columns.length;
 ```
 
-#### Format parsed data to CSV string
+##### Format parsed data to CSV string
 
 d3 has `csvFormat()` that takes parsed CSV data returns a CSV string.
 
-### JSON data
+#### JSON data
 
 `json(url)` returns a **promise** that resolves into parsed json **object**.
 
 Otherwise, use native JavaScript fetch json methods.
 
-## Types of data
+### Types of data
 
-### Reference
+#### Reference
 
 Watch
 [Inputs for Visualization: Data & Tasks](https://youtu.be/2LhoCfjm8R4?si=xhi35r_B4qXYD5U1&t=11320).
 
-### Types of dataset
+#### Types of dataset
 
 - Tables
   - Spreadsheet with Attributes (columns) and items (rows)
@@ -175,7 +176,7 @@ Watch
   - Geometry
   - Vector table
 
-### Attribute types
+#### Attribute types
 
 - Categorical (or nominal)
 - Ordered
@@ -188,9 +189,9 @@ Some special case:
 - temporal data (point in time vs region in time)
 - spatial data (point in space vs region in space)
 
-# SVG Path Generator
+## SVG Path Generator
 
-## Arc
+### Arc
 
 `arc()` returns a function, which returns a string for the attribute `d` of svg
 `<path>`.
@@ -203,13 +204,13 @@ const mouthArc = arc()
   .endAngle(Math.PI * 1.3);
 ```
 
-# Helper Functions
+## Helper Functions
 
-## Range
+### Range
 
 `range(5)` returns `[0, 1, 2, 3, 4]`.
 
-## Max
+### Max
 
 `max(arr, projFunc)` returns the max value in an array using natural order and a
 projection function to map values to easily-sorted values.
@@ -217,9 +218,9 @@ projection function to map values to easily-sorted values.
 E.g. `max(countriesData, (d) => d.population)` returns the maximum population in
 the dataset.
 
-## Formatters
+### Formatters
 
-### Numbers
+#### Numbers
 
 Use `d3.format()`. See [d3-format](https://github.com/d3/d3-format#d3-format).
 
@@ -235,17 +236,17 @@ d3.format("#x")(48879); // prefixed lowercase hexadecimal, "0xbeef"
 d3.format(",.2r")(4223); // grouped thousands with two significant digits, "4,200"
 ```
 
-#### Number format testing tool
+##### Number format testing tool
 
 See [Tools](#tools).
 
-### Dates
+#### Dates
 
-#### D3 time format documentation
+##### D3 time format documentation
 
 - [d3-time-format](https://github.com/d3/d3-time-format#d3-time-format)
 
-#### Date object to formatted string
+##### Date object to formatted string
 
 `timeFormat()` accepts a format string, and returns a function, which accepts a
 `Date` object and returns a formatted string.
@@ -255,7 +256,7 @@ const formatTime = d3.timeFormat("%B %d, %Y");
 formatTime(new Date()); // "June 30, 2015"
 ```
 
-#### Formatted string to date object
+##### Formatted string to date object
 
 `timeParse()` accepts a format string, and returns a function, which accepts a
 formatted string and returns a `Date` object.
@@ -265,7 +266,7 @@ const parseTime = d3.timeParse("%B %d, %Y");
 parseTime("June 30, 2015"); // Tue Jun 30 2015 00:00:00 GMT-0700 (PDT)
 ```
 
-#### Format string placeholder
+##### Format string placeholder
 
 - `%a` - abbreviated weekday name.\*
 - `%A` - full weekday name.\*
@@ -305,7 +306,7 @@ Directives marked with an asterisk (\*) may be affected by the locale
 definition. For more details about `%U`, `%V`, `%g`, `%G`, see the
 [doc](https://github.com/d3/d3-time-format#locale_format).
 
-#### Specifying padding
+##### Specifying padding
 
 The `%` sign indicating a directive may be immediately followed by a padding
 modifier:
@@ -314,13 +315,13 @@ modifier:
 - `_`: space-padding (default for `%e`)
 - `-`: disable padding
 
-#### Time format testing tool
+##### Time format testing tool
 
 See [Tools](#tools).
 
-# Plotting
+## Plotting
 
-## Bar chart
+### Bar chart
 
 The idea is to map each data item to a `<rect>` in `<svg>`. `<rect>` has four
 attributes, `x`, `y`, `width` and `height`.
@@ -369,22 +370,22 @@ Then we can set the `width` attribute to `xScale(+d.population)`.
 For other orientation of bar charts, you can use `<g>` to group the bars and use
 `transform` attributes to reflect, translate and scale.
 
-## Scatter plot
+### Scatter plot
 
 See [Bar chart](#bar-chart) for general plotting technique.
 
 For scatter plot, the marks are usually `<circle>`. But you can use custom
 shapes or any custom SVG element.
 
-## Line graph
+### Line graph
 
 Can use [`line()`](#line-generator).
 
-## Map graph
+### Map graph
 
-### Map data and resources
+#### Map data and resources
 
-#### Map data file formats
+##### Map data file formats
 
 [**_TopoJSON_**](https://github.com/topojson/topojson#topojson) is a file format
 extended from [**_GeoJSON_**](https://en.wikipedia.org/wiki/GeoJSON) that
@@ -411,7 +412,7 @@ an array of **_feature_** object via the field `features`.
 A feature's `type` is `"Feature"`. It's `geometry` is the spatial info and
 `properties` is the non-spatial info in key-value pairs.
 
-##### TopoJSON to GeoJSON
+###### TopoJSON to GeoJSON
 
 [topojson-client](https://www.npmjs.com/package/topojson-client) npm package
 provides tools to manipulate TopoJSON and covert it to GeoJSON for rendering
@@ -422,12 +423,12 @@ import { feature } from "topojson-client";
 const geojson = feature(topojson, topojson.objects.countries);
 ```
 
-##### GeoJSON to TopoJSON
+###### GeoJSON to TopoJSON
 
 [topojson-server](https://www.npmjs.com/package/topojson-server) npm package
 provides tools to convert GeoJSON to TopoJSON.
 
-#### World map
+##### World map
 
 [topojson/world-atlas](https://github.com/topojson/world-atlas) provides the
 _TopoJSON_ derived from the _Natural Earth_ project.
@@ -440,9 +441,9 @@ exposed to us by _topojson/world-atlas_. _topojson/world-atlas_ also provides
 multiple level of details, and you download or use the URL of the TopoJSON of
 your desired details.
 
-#### Reducing size of data file
+##### Reducing size of data file
 
-##### Online tool
+###### Online tool
 
 [Mapshaper](https://mapshaper.org) helps you visualise geographical shapes. It
 also helps you convert among Shapefile, GeoJSON, TopoJSON, DBF and CSV. Some map
@@ -453,24 +454,24 @@ to reduce the size of the output file.
 
 You can then host the data, e.g. on GitHub gist.
 
-##### npm package
+###### npm package
 
 [topojson-simplify](https://www.npmjs.com/package/topojson-simplify) npm package
 provides tools to simplify and do filtering for TopoJSON, to reduce the size and
 make rendering faster.
 
-### Visualising map data
+#### Visualising map data
 
 TopoJSON uses longitude and latitudes. We need to do a projection to transform
 them into 2D coordinate.
 
-#### d3-geo
+##### d3-geo
 
-##### Docs
+###### Docs
 
 See [d3-geo](https://github.com/d3/d3-geo#d3-geo) docs.
 
-##### geoPath generator
+###### geoPath generator
 
 We use `geoPath([projection])` to create a geo-path data string generator. We
 need to supply the path generator with a
@@ -493,7 +494,7 @@ A geoPath generator can also invoked with `{type: "Sphere"}` as an argument to
 output a data string that visualise the sphere of the projection, i.e. the
 background of the map.
 
-##### Instance methods
+###### Instance methods
 
 - `projection([projection])` to provides a
   [projection](https://github.com/d3/d3-geo#projections).
@@ -506,15 +507,15 @@ background of the map.
   - Not to be confused with `geoBounds([geojson])`. Which returns the longitude
     and latitude bounding box for sphere projection.
 
-#### Manipulating map data
+##### Manipulating map data
 
 - `topojson.mesh(topology, object, filterFunc)` prunes overlapping lines
 
-#### Plot latitudes and longitudes
+##### Plot latitudes and longitudes
 
 - `d3.geoGraticule()`
 
-### Example
+#### Example
 
 ```js
 import { feature } from "topojson-client";
@@ -537,13 +538,13 @@ export default function Map({ topojson }) {
 }
 ```
 
-# Shapes Generators
+## Shapes Generators
 
-## D3 shapes docs
+### D3 shapes docs
 
 - [d3-shape](https://github.com/d3/d3-shape#d3-shape)
 
-## Shape generators
+### Shape generators
 
 A **_shape generator_** is a path data string generator that accepts an array of
 data, and returns a SVG path data string. It can be used in
@@ -559,7 +560,7 @@ y-coordinate accessor before calling it:
 - `x(x)`: sets up the x-coordinate accessor, `x( xScale( xVal(d) ) )`
 - `y(y)`: sets up the y-coordinate accessor.
 
-## Line Generator
+### Line Generator
 
 `line()` creates a line generator. It is a [shape generator](#shape-generators)
 Instance methods of line generator:
@@ -570,16 +571,16 @@ Instance methods of line generator:
   [Observable: d3.line](https://observablehq.com/@d3/d3-line) has some example
   of different curves, and you can select and observe their behaviour.
 
-### Curve factory
+#### Curve factory
 
 - `curveLinear()`: linear line from each pair of data points
 - `curveNatural()`: smooth curve
 - `curveBasis()`: very smooth, but line doesn't always hit the data points
 - `curveCardinal().tension()` control how curve between data points.
 
-# Scales
+## Scales
 
-## What is a scale
+### What is a scale
 
 A **_scale_** is a function that takes an input (here it is the value of a field
 of an data item) and returns a corresponding coordinate that represent this
@@ -587,9 +588,9 @@ input within a range. In short, a mapping from a domain to a range. Once we have
 a scale, we can simply pass a field value of each data item to it and obtain the
 position within the range that represents that field value.
 
-## Generating a scale
+### Generating a scale
 
-### Defining domain and range
+#### Defining domain and range
 
 To use scale-generating functions in _d3_, you need to specify the domain and
 range of the scale. Different scale-generating functions generate different
@@ -600,7 +601,7 @@ generally:
 const scale = scaleGeneratingFunc().domain(domain).range(range);
 ```
 
-### Customising a scale
+#### Customising a scale
 
 You can chain further functions to customise the scale.
 
@@ -608,9 +609,9 @@ You can chain further functions to customise the scale.
   - Optionally accepts a tick count to control the step size used to extend the
     bounds.
 
-## Scale instance properties
+### Scale instance properties
 
-## Overview of scale types
+### Overview of scale types
 
 | Type of Scale | Scale generating function |
 | ------------- | ------------------------- |
@@ -620,9 +621,9 @@ You can chain further functions to customise the scale.
 
 - `scaleTime()` can accept JavaScript `Date` objects.
 
-# Margins and Axes
+## Margins and Axes
 
-## The Margin Convention
+### The Margin Convention
 
 See diagram from
 [YouTube: Margins and Axes](https://youtu.be/2LhoCfjm8R4?si=qgNn6Z0MZZQfK57N&t=17916).
@@ -634,7 +635,7 @@ own `innerWidth` and `innerHeight`.
 We define `const margin = {top: 20, right: 20, bottom: 20, left: 20}` and
 calculate `innerWidth` and `innerHeight` correspondingly.
 
-## Ticks of axes
+### Ticks of axes
 
 For a generated continuous `scale`, you can use `scale.ticks()` to get a list of
 position for ticks. See
@@ -675,19 +676,19 @@ position.
 }
 ```
 
-## Formatting ticks
+### Formatting ticks
 
 See [Formatters](#formatters) for helper functions that can help you format the
 values.
 
-# Tooltips
+## Tooltips
 
 For a very simple way to make tooltips, we can use
 [HTML SVG - Hover Tooltip](html-svg.md#hover-tooltip).
 
-# Key Concepts
+## Key Concepts
 
-## Accessors
+### Accessors
 
 An accessor is a function that takes in a object and return the value of a
 particular field. In the context of handling data, it takes in a data item and
@@ -700,45 +701,45 @@ an accesor `const popAcsr = (d) => d.population`, and pass `popAcsr(d)` and
 
 In D3, you will need to provide or receive accessors for various functions.
 
-# Notes on Other Tools
+## Notes on Other Tools
 
-## Vega Lite API
+### Vega Lite API
 
-### Data
+#### Terms for Data
 
 - A data frame refer to a table dataset
 - A data field refers to a column in the table dataset
 
-### Functions
+#### Functions
 
 - `printTable()` takes a data frame and prints a table representing it
 
-# Links and Resources
+## Links and Resources
 
-## Course Link
+### Course Link
 
 - The course [video](https://www.youtube.com/watch?v=2LhoCfjm8R4) on YouTube
 - Sunlight Foundation Data Visualization Style Guide
 
-## Import Node Modules through CDN
+### Import Node Modules through CDN
 
 [unpkg.com](https://unpkg.com/)
 
 - An URL scheme to load any file from any package:
   `<script src="unpkg.com/react@16.7.0/umd/react.production.min.js></script>"`
 
-## Modules bundler
+### Modules bundler
 
 Bundle modules into one file. There's a plugin that transpires JSX into JS in
 the bundler [rollup.js](https://rollupjs.org/). The result is a bundled JS file
 `bundle.js`. Then you source this script with
 `<script src="bundle.js"></script>`.
 
-## Courses
+### Courses
 
 - [Data Visualization and D3.js - Udacity](https://learn.udacity.com/courses/ud507)
 
-## Examples
+### Examples
 
 - [NYT Graphics @ Twitter](https://twitter.com/nytgraphics)
 - [Reuters Graphics](https://www.reuters.com/graphics/)
@@ -754,35 +755,32 @@ the bundler [rollup.js](https://rollupjs.org/). The result is a bundled JS file
 - [Observable community](https://observablehq.com/community#highlights)
 - [Our World in Data](https://ourworldindata.org/)
 
-## Blogs
+### Blogs
 
 - [FlowingData](https://flowingdata.com/)
 - [Observable community](https://observablehq.com/community#highlights)
 - [Zan Armstrong](https://www.zanarmstrong.com/)
 
-## Data source
+### Data source
 
 - [Our World in Data](https://ourworldindata.org/)
 
-### Datasets to play around
+#### Datasets to play around
 
 - The Iris Dataset
 - [Sense Your City](https://grayarea.org/initiative/data-canvas-sense-your-city/),
   [Sense Your City Live Map](https://grayarea.org/initiative/data-canvas-sense-your-city/)
 
-## Tools
+### Tools
 
 - [Zan's D3 number format tool](https://blocks.roadtolarissa.com/zanarmstrong/raw/05c1e95bf7aa16c4768e/index.html)
 - [Zan's D3 date/time format tool](https://blocks.roadtolarissa.com/zanarmstrong/raw/ca0adb7e426c12c06a95/index.html)
 
-## Visualisation resources
+### Visualisation resources
 
 - [Map data and resources](#map-data-and-resources)
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../../index.md)
 - [🔖 Parent index](../../index.md)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)

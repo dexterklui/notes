@@ -1,9 +1,10 @@
 ---
-title: Next.Js
 date: 2023-09-14 (Thu)
 ---
 
-# Layout
+# Next.Js
+
+## Layout
 
 Layout applies as default to every pages and subpages of its path.
 
@@ -20,9 +21,9 @@ export default function DashboardLayout({ children }) {
 }
 ```
 
-# Routing
+## Routing
 
-## Routing paths
+### Routing paths
 
 By default, routing paths mirror the **file structure** inside `app` directory.
 Each `page.jsx` inside a subdirectory of `app` is a specific path. I.e.:
@@ -32,7 +33,7 @@ Each `page.jsx` inside a subdirectory of `app` is a specific path. I.e.:
 - `page.jsx` inside `app/dashboard/projects` is the page for path
   `/dashboard/projects`
 
-### Route groups
+#### Route groups
 
 Use parentheses, e.g. `(auth)`, to name directories to group routes together.
 
@@ -51,7 +52,7 @@ following file exists, respectively:
 
 `layout.jsx` can be put into route groups to apply to all subdirectories.
 
-## Dynamic segment
+### Dynamic segment
 
 Enclose the name of a directory with square bracket `[]` for a **dynamic**
 routing segment.
@@ -66,7 +67,7 @@ export default async Ticket({ params }) {
 }
 ```
 
-## Nested dynamic segment
+### Nested dynamic segment
 
 A directory named `[...catch-all]`, where `catch-all` can be any string, is like
 a dynamic segment but can catch nested level of route.
@@ -83,12 +84,12 @@ export default CatchAll({ params }) {
 }
 ```
 
-## Static vs Dynamic Rendering
+### Static vs Dynamic Rendering
 
 **_Static rendering_** pre-renders pages during build phase (not in dev
 environment). **_Dynamic rendering_** renders pages on request.
 
-### Generating static page at build phase
+#### Generating static page at build phase
 
 You need to export a function called `generateStaticParams()` that returns an
 array of objects, each has one key-value pair where:
@@ -110,7 +111,7 @@ export async function generateStaticParams() {
 See
 [documentation](https://nextjs.org/docs/app/api-reference/functions/generate-static-params).
 
-### Handling not pre-rendered page
+#### Handling not pre-rendered page
 
 If you pre-render static page for a dynamic routing section, there are specific
 paths that aren't pre-render. You can tweak how Next.Js handle this situation.
@@ -123,13 +124,13 @@ When `dyanmicParams = true`, you may want to manually display **404** page when
 fetch is unsuccessful. You can use the function `notFound()` from
 `"next/navigation"` inside a _server component_ to set the status code to 404.
 
-## Custom 404 page
+### Custom 404 page
 
 Make a file `not-found.jsx` that returns a component called `NotFound`. It
 becomes the 404 page for the current route segment, and sub-segments until being
 overridden by other `not-found.jsx`.
 
-## Using Router
+### Using Router
 
 ```js
 import { useRouter } from "next/navigation";
@@ -142,12 +143,12 @@ router.push("/"); // This function redirects current page to path "/"
 router.replace("/"); // Similar to push(), but replace most recent path history
 ```
 
-## Server-side refresh
+### Server-side refresh
 
 On the server side, you can `revalidatePath(path)` to refresh a route of a given
 path.
 
-# Client vs Server-side Rendering
+## Client vs Server-side Rendering
 
 You need to decide which should be **_client components_** vs **_server
 components_**. Both client and server components are rendered on the server, but
@@ -158,11 +159,11 @@ By **default**, all components are server components. See
 [Server and Client Composition Patterns](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns)
 to see when to use client vs server components.
 
-## Making a client component
+### Making a client component
 
 In the jsx file, add the line `"use client"` as the first line.
 
-## Disable server-side rendering
+### Disable server-side rendering
 
 ```js
 import dynamic from "next/dynamic";
@@ -175,19 +176,19 @@ const SimpleBarChartWithoutSsr = dynamic(
 
 SSR means server-side rendering.
 
-## Incremental server-side rendering
+### Incremental server-side rendering
 
 **_Incremental server-side render_** (**_ISR_**) means the server re-renders a
 static pages periodically at a time interval.
 
-## Server actions
+### Server actions
 
-### What's a server action?
+#### What's a server action?
 
 A **_server action_** is a function that runs only on the server. It should have
 serializable arguments and serializable return value.
 
-### Defining a server action
+#### Defining a server action
 
 To tell Next.js that a function is a server action, you can either:
 
@@ -196,7 +197,7 @@ To tell Next.js that a function is a server action, you can either:
 - Define the function in a file `action.js`. Then add the line `"use server"` at
   the top. Now every export in this file is a server action.
 
-### Using a server action
+#### Using a server action
 
 You can import a server action, or pass it as a prop to a component. Then to
 invoke it, you can:
@@ -205,7 +206,7 @@ invoke it, you can:
 - Use `formAction` props on `<button>`, `<input type="submit">` and
   `<input type="image">` elements in a `<form>`.
 
-### Form action
+#### Form action
 
 Server action is useful for form submission. In a client form component, you can
 pass a server action to its `action` attribute. On submit, the form data will be
@@ -213,7 +214,7 @@ passed to the server action as the argument `formData`, with the type
 [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData), and the
 function will run on the server.
 
-# Static vs Dynamic Rendering
+## Static vs Dynamic Rendering
 
 ```js
 export const dynamic = "auto"; // | "force-dynamic" | "error" | "force-static"
@@ -229,9 +230,9 @@ In `"auto"`, Next.js opts in dynamic rendering when there are dynamic functions:
     dynamically. So it is a good idea to wrap this kind of client components in
     `<Suspense>`.
 
-# Async Server Components for Fetching
+## Async Server Components for Fetching
 
-## Usage
+### Usage
 
 Just use `async` for the functional component
 
@@ -247,7 +248,7 @@ export default async function TicketList() {
 }
 ```
 
-## Fetch and cache behaviour
+### Fetch and cache behaviour
 
 See
 [Caching in Next.js](https://nextjs.org/docs/app/building-your-application/caching).
@@ -262,7 +263,7 @@ By default, _Next.Js_ would have following behaviour:
   - This is a _React_ feature.
   - This happens no matter data is cached or not.
 
-### Tweaking cache
+#### Tweaking cache
 
 To opt-out cached response completely, pass `{cache: "no-store"}` to `fetch()`
 as a second argument.
@@ -281,7 +282,7 @@ fetch(`https://...`, {
 
 For `revalidate: 0`, then Next.Js will always re-fetch data.
 
-## Fetching local files from server side
+### Fetching local files from server side
 
 Note using `fetch()` to fetch local data in the server from the server side
 requires an absolute path.
@@ -291,19 +292,19 @@ E.g. to fetch the local file `/public/data.csv`.
 - `fetch("/data.csv")` throws an error about can't resolve URL
 - `fetch("http://localhost:3000/data.csv")` works (replace your own port number)
 
-# Streaming and Suspense
+## Streaming and Suspense
 
 - Stream content to the browser using Suspense boundaries
 - Load rest of the page where it is ready first, and show loading status only in
   subcomponents that waiting for the fetched data.
 
-## Making a loading placeholder component
+### Making a loading placeholder component
 
 Make a file `loading.jsx` that returns a component called `Loading`. The
 component is automatically used as a placeholder for **pages** that hasn't be
 rendered (e.g. one of the sub-components is waiting for fetch to complete).
 
-## Specifying boundary for loading placeholder
+### Specifying boundary for loading placeholder
 
 If you don't want the whole page to be replaced by `<Loading />` placeholder,
 you can specify a custom boundary by wrapping the part to be replaced with
@@ -319,7 +320,7 @@ attribute.
 </Suspense>
 ```
 
-# Error page
+## Error page
 
 Make a file `error.jsx` that export a default **client** component. The
 component is rendered as the error page when error occurs. The component
@@ -328,9 +329,9 @@ receives two props, `error` and `reset` from _Next.js_.
 `error` props is the object thrown in the error, whereas `reset` is a function
 that resets the error and gets back to the previous page.
 
-# Page metadata
+## Page metadata
 
-## Defining static metadata
+### Defining static metadata
 
 In `layout.jsx` or `page.jsx`
 
@@ -344,7 +345,7 @@ export const metadata = {
 `metadata` exported in descendent layouts and pages is merged with and
 **update** the parent metadata.
 
-## Defining dynamic metadata
+### Defining dynamic metadata
 
 ```js
 // Use async function if you need to fetch
@@ -357,7 +358,7 @@ export function generateMetadata({ params }) {
 }
 ```
 
-# Font
+## Font
 
 ```js
 import { Rubik } from "next/font/google";
@@ -367,18 +368,18 @@ const rubik = Rubik({ subsets: ["latin"] });
 <body className={rubik.className}>
 ```
 
-# Route Handlers
+## Route Handlers
 
-## API Routes
+### API Routes
 
 **_Route Handlers_** is for building API endpoints. The endpoints is defined by
 a file `route.js`. It's route is defined by the file path under `app/`
 directory, like a `page.js`. So you should prevent _route conflicts_ with a
 page.
 
-## Example
+### Example
 
-### GET handler
+#### GET handler
 
 ```typescript
 export async function GET(request: NextRequest) {
@@ -410,7 +411,7 @@ export async function GET(request: NextRequest) {
 }
 ```
 
-### POST handler
+#### POST handler
 
 ```typescript
 export async function POST(request) {
@@ -418,7 +419,7 @@ export async function POST(request) {
 }
 ```
 
-## Static vs dynamic route handlers
+### Static vs dynamic route handlers
 
 By default, **_GET_** route handlers are static. That means the response of the
 route is fixed at compile time. To make a route handler dynamic, either you
@@ -430,7 +431,7 @@ in your route to make that fetch dynamic. Or you can add the following line to
 export const dynamic = "force-dynamic";
 ```
 
-## Dynamic routes for route handlers
+### Dynamic routes for route handlers
 
 ```typescript
 export async function GET(_, { params }) {
@@ -440,9 +441,9 @@ export async function GET(_, { params }) {
 
 Since the first argument is a `NextRequest` object, we use `_` to ignore it.
 
-# Builtin Components
+## Builtin Components
 
-## Image
+### Image
 
 `<Image>` has certain properties, here are some useful ones:
 
@@ -455,11 +456,11 @@ Since the first argument is a `NextRequest` object, we use `_` to ignore it.
 | `placeholder`       | Placeholder while image is loading: `'empty'` or `'blur'` |
 | `onLoadingComplete` | Callback when image is loaded                             |
 
-## Link
+### Link
 
 `<Link>` acts like `<a>`. Attribute `href` specifies the URL.
 
-# Building Application
+## Building Application
 
 Run `npm run build`.
 
@@ -469,7 +470,7 @@ You will see a list of routes / pages with a little leading icon:
 - A filled circle `●` means a static page with initial props.
 - A lambda `λ` means a dynamically rendered page.
 
-# Tailwind CSS
+## Tailwind CSS
 
 You can create more CSS files, without the boilerplate with `@tailwind`
 directive, and import the CSS files into component files.
@@ -495,9 +496,9 @@ Then for `D3Plot.jsx`:
 import "./d3.css";
 ```
 
-# Debug
+## Debug
 
-## Console log
+### Console log
 
 Be aware of where `console.log()` is done, server or client side.
 
@@ -513,22 +514,22 @@ export default function ConsoleLog({ logArgs }) {
 }
 ```
 
-## Errors
+### Errors
 
-### Hydration failed initial UI does not match
+#### Hydration failed initial UI does not match
 
-#### Error
+##### Error
 
 `Error: Hydration failed because the initial UI does not match what was rendered on the server.`
 
-#### Problem
+##### Problem
 
 At server side, Next.js generates an HTML document (_pre-render_) and send it to
 the client. At the client side, React hydrates the documents, and generates its
 own _initial rendering_ so that it can attach event handlers. When the DOM model
 of the two renders from two sides mismatch, this error occurs.
 
-#### Scenarios
+##### Scenarios
 
 - Using browser APIs to conditionally render the component/page. The conditions
   differ between sever and client side.
@@ -537,48 +538,48 @@ of the two renders from two sides mismatch, this error occurs.
 - Some browser extensions change the HTML on the client side.
 - Using components from Recharts library with Next.Js. (Dunno why)
 
-#### Solution
+##### Solution
 
-1.  Reconfigure Logic with `useEffect()`, which only runs on the client side and
-    has access to all browser APIs.
+1. Reconfigure Logic with `useEffect()`, which only runs on the client side and
+   has access to all browser APIs.
 
-2.  Disable SSR (server side rendering) on some components that may differ on
-    the client side. Either one of the two ways:
+2. Disable SSR (server side rendering) on some components that may differ on the
+   client side. Either one of the two ways:
 
-    - Export dynamically:
+   - Export dynamically:
 
-      ```js
-      import dynamic from "next/dynamic";
-      // define your component
-      export default dynamic(() => Promise.resolve(YourComponent), {
-        ssr: false,
-      });
-      ```
+     ```js
+     import dynamic from "next/dynamic";
+     // define your component
+     export default dynamic(() => Promise.resolve(YourComponent), {
+       ssr: false,
+     });
+     ```
 
-    - Import dynamically:
+   - Import dynamically:
 
-      ```js
-      import dynamic from "next/dynamic";
-      const YourComponent = dynamic(() => import("./YourComponent"), {
-        ssr: false,
-      });
-      ```
+     ```js
+     import dynamic from "next/dynamic";
+     const YourComponent = dynamic(() => import("./YourComponent"), {
+       ssr: false,
+     });
+     ```
 
-3.  In case of timestamps that always differ,suppress the warning by using
-    `suppressHydrationWarning={true}` in the element
+3. In case of timestamps that always differ,suppress the warning by using
+   `suppressHydrationWarning={true}` in the element
 
-#### Link
+##### Link
 
 [How to Solve Hydration Error in Next.js](https://chirag-gupta.hashnode.dev/how-to-solve-hydration-error-in-nextjs)
 
-### Cannot pass functions from server to client component
+#### Cannot pass functions from server to client component
 
 Dunno if this works. Define the function in a separate js file, and import it
 from the client component file.
 
-# Bugs
+## Bugs
 
-## Uncaught ChunkLoadError
+### Uncaught ChunkLoadError
 
 For error such as
 `Uncaught ChunkLoadError: Loading chunk app-pages-internals failed.`, it's
@@ -588,10 +589,7 @@ directory and refresh the page to remove the cache.
 For reference, see this
 [stackoverflow question](https://stackoverflow.com/questions/67652612/chunkloaderror-loading-chunk-node-modules-next-dist-client-dev-noop-js-failed).
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../../../index.md)
 - [🔖 Parent index](../../../index.md)
 - [📑 Notes Index](../../../index.md)
-- [🗃️ Master Index](../../../../index.md)

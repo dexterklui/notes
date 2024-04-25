@@ -1,9 +1,10 @@
 ---
-title: programming paradigm
 date: 2023-09-18 (Mon)
 ---
 
-# Composition Better Than Inheritance
+# programming paradigm
+
+## Composition Better Than Inheritance
 
 - A YouTube video,
   [The Flaws of Inheritance](https://youtu.be/hxGOiiR9ZKg?si=sO-EC10vrYYH-US0),
@@ -22,15 +23,12 @@ Then we use **_dependency injection_**[^1] and use interface to describe the
 kind of argument a function is expecting to receive, where interface is for
 establishing a contract of what the argument can do.
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../index.md)
 - [🔖 Parent index](../index.md)
 - [📑 Notes Index](../index.md)
-- [🗃️ Master Index](../../index.md)
 
-# Footnote
+## Footnote
 
 [^1]:
     YouTube video,

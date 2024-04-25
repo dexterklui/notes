@@ -1072,8 +1072,5 @@ preserved.
 
 ## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../index.md)
 - [🔖 Parent index](../index.md)
 - [📑 Notes Index](../index.md)
-- [🗃️ Master Index](../../index.md)

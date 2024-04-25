@@ -1,6 +1,4 @@
----
-title: Resources for Web Developments
----
+# Resources for Web Developments
 
 - [Bootstrap](https://getbootstrap.com/) - CSS Libraries
 - [Font Awesome](https://fontawesome.com/) - Icons
@@ -10,22 +8,26 @@ title: Resources for Web Developments
 
 - [Kenneth's website](https://kennethhau.com) Tutor's personal website
 
-# Searching Resources
+## Searching Resources
 
 - [WebDev Town](https://webdev.town)
 
-# Design Tools
+## Design Tools
 
-[Web Design Resources](../../Design/WebDesignForBeginners/index.md#resources)
+- [Web Design Resources](../../Design/WebDesignForBeginners/index.md#resources)
 
-# Frameworks
+## Favicons
+
+- [Favicon Generator](https://favicon.io)
+- [Emoji Favicon](https://fav.farm/)
+  - `<link rel="icon" href="https://fav.farm/🔥" />` uses fire emoji for favicon
+
+## Frameworks
 
 - [million](https://million.dev): Make React 70% faster by replacing React
   Virtual DOM
 - [Svelte and SvelteKit](https://svelte.dev/)
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Index](/media/mikeX/Nextcloud/index.md)

@@ -21,6 +21,8 @@
         [=https://wiki.archlinux.org/title/PostgreSQL#Change_default_data_directory]=
     ➱   Edited [\/etc/my.cnf.d/server.cnf]\ to change the [\datadir]\ under
         [\[mariadb]]\ section. (changing the root directory for mariadb data)
+    ➱   [\~/.config/environment.d/envvars.conf]\: a new config file for
+        setting up environment variables for Wayland session.
     
   > Firefox < {{{3
    |about:config|
@@ -32,7 +34,6 @@
   > Pacman < {{{3
     ➱   [\linux-lts]\: Arch Linux LTS kernel. Good for fallback kernel.
     ➱   inotifywait
-    ➱   zettlr (markdown editor and manager)
     ➱   vdhcoapp-git (Companion app for Firefox addon Video DownloadHelper)
         ⮱   [aur]
     ➱   [\code]\: Visual Studio Code
@@ -40,8 +41,6 @@
     ➱   [\ttf-jetbrains-mono]\
     ➱   [\lazygit]\
         ⮱   For LazyVim
-    ➱   [\deno]\
-        ⮱   For peek.nvim
     ➱   [\xournalpp]\: pdf annotator
     ➱   [\pnpm]\: substitutes of npm - without duplicating each
         package-version
@@ -54,6 +53,11 @@
     ➱   [\trash-cli]\: Use freedesktop.org trash in terminal
     ➱   [\postgresql]\
     ➱   [\mariadb]\: Drop in for MySQL for Arch Linux
+    ➱   [\linux-zen]\ a kernel for running adroid app See
+        [=https://wiki.archlinux.org/title/Waydroid]=
+        ⮱   With [\linux-zen-headers]\
+        ⮱   [\lzip]\ for waydroid-script to work
+            [=https://github.com/casualsnek/waydroid_script#dependencies]=
 
    |Dependencies explicitly installed|
     ➱   [\python-nose]\ for [\papis]\
@@ -64,6 +68,9 @@
     ➱   [\tree-sitter-cli]\: For ast-grep custom language support
         ⮱   See
             [=https://ast-grep.github.io/advanced/custom-language.html#prepare-tree-sitter-tool-and-parser]=
+    ➱   zettlr (markdown editor and manager)
+    ➱   [\deno]\
+        ⮱   For peek.nvim
 
   > AUR < {{{3
     ➱   [\ocs-url]\: An install helper program for items served via
@@ -71,17 +78,12 @@
     ➱   firefox tridactyl native
     ➱   [\whatsapp-nativefier]\
     ➱   [\noto-color-emoji-fontconfig]\
-    ➱   [\dvm-bin]\: For installing old version of [\deno]\ needed for
-        [\peek.nvim]\
-        ⮱   [\EXPORT DENO_INSTALL="$HOME/.deno"]\, it is the directory in
-            which different versions of deno is installed.
     ➱   [\figma-linux-bin]\
     ➱   [\exercism-bin]\: For exercism cli. Program for a coding training web.
-    ➱   [\bun-bin]\: a new npm
-    ➱   [\postman-bin]\: program for testing APIs.
     ➱   [\python310]\: python 3.10 for pyTorch required by Stable Diffusion
         Web UI - Generative AI software.
     ➱   [\ast-grep-bin]\: Ast-grep
+    ➱   [\waydroid]\: for running adroid apps
 
    |Deleted|
     ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
@@ -91,6 +93,12 @@
     ➱   [\franz-bin]\: Linux app for various mobile messenging apps
     ➱   [\mongodb-compass]\: For reading mongodb database. Used for capstone
         project for Xccelerate x Hollo
+    ➱   [\dvm-bin]\: For installing old version of [\deno]\ needed for
+        [\peek.nvim]\
+        ⮱   [\EXPORT DENO_INSTALL="$HOME/.deno"]\, it is the directory in
+            which different versions of deno is installed.
+    ➱   [\bun-bin]\: a new npm
+    ➱   [\postman-bin]\: program for testing APIs.
 
    |live-server|
     ➱   [\nodejs-live-server]\
@@ -661,6 +669,19 @@
  == find == {{{2
   > Useful commands < {{{3
     ‣   [\find ':PATH:' \! -newermt ":YYYY`-MM`-DD HH`:MM`:SS:" | xargs rm -rf]\
+
+ == Dotfiles == {{{2
+  > Start up scripts and env variables < {{{3
+   |for KDE/Plasma|
+    ‣   [\~/.config/plasma-workspace/env/]\: executing scripts at login before
+        launching plasma
+    ‣   [\~/.config/plasma-workspace/shutdown/]\: executing scripts when
+        Plasma exits
+
+   |for Wayland|
+    ‣   [\~/.config/environment.d/envvars.conf]\: setting environment variables
+        for Wayland session
+    ‣   [\/etc/profile]\ and [\/etc/profile.d/]\
 
 [~{ File System }~] {{{1
  == Overview == {{{2

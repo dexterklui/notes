@@ -320,7 +320,7 @@
     Adding text:
     ‣   Text input (single-line) [\<input type="text"/>]\
     ‣   Password input [\<input type="password"/>]\
-    ‣   Text area (multi-line)
+    ‣   Text area (multi-line) [\<textarea />]\
 
     Making choices:
     ‣   Radio buttons (select only one) [\<input type="radio"/>]\
@@ -358,7 +358,6 @@
     <input type="checkbox" name="search-stock" />
     <label for="search-stock">Only show products in stock</label>
     #endHtml#
-
 
  == Semantic Elements == {{{2
   > Why semantic elements? < {{{3
@@ -468,6 +467,27 @@
 
   > mark < {{{3
     To mark or highlight text for reference or notation purposes.
+
+  > dialogue < {{{3
+    Popup dialogue, or used as a modal. [\<dialog>:...:</diaglog>]\
+
+    Attributes:
+    ‣   [\open]\: boolean. Whether the dialogue is open or hidden. It is not
+        advised to toggle it for modal. Use its methods instead.
+    
+    JavaScript control:
+    ‣   [\show()]\: open as a dialogue box within the flow of document
+    ‣   [\showModal()]\: open as a modal. [\<Esc>]\ also will close an opened
+        modal.
+    ‣   [\close()]\: close as a dialogue box or a modal.
+    ‣   When using a [[form]] in a modal, [\<form method="modal">]\ makes the
+        submission of the form close the opened modal.
+    ‣   You can open another modal while a modal is open. The new modal will
+        stack on top.
+
+    Styling:
+    ‣   You can style the backdrop of the opened modal with
+        [\.modal~:~:backdrop]\ selector.
 
  == Text Styling == {{{2
   > Coding styles < {{{3

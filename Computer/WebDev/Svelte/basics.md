@@ -1,13 +1,14 @@
 ---
-title: Basics
 date: 2023-10-18 (Wed)
 ---
 
-# Files
+# Basics
+
+## Files
 
 A component is defined in a file with the extension `.svelte`.
 
-# Basic structure
+## Basic structure
 
 ```svelte
 <script>
@@ -25,16 +26,18 @@ A component is defined in a file with the extension `.svelte`.
 </style>
 ```
 
-# Shorthand attribute
+## Shorthand attribute
 
 You can omit the attribute name if the name and the identifier of the value are
 the same: `src={src}` can be written as `{src}`.
 
-# Styling
+## Styling
 
 Write CSS in `<style>`. The rules are **scoped** to the component.
 
-# Importing components
+- `:global(...)` to apply a CSS selector global
+
+## Importing components
 
 Svelte automatically does default export for components defined in a `.svelte`
 file. You can `import` them in `<script>` and then use them like React.
@@ -56,7 +59,7 @@ In `App.svelte`:
 <Nested />
 ```
 
-# Interpret HTML tags
+## Interpret HTML tags
 
 Use `{@html ...}` to interpret HTML tags in a string. But note that Svelte
 **doesn't** perform any **sanitization**, so be aware of XSS attacks when
@@ -70,9 +73,9 @@ serving untrusted content.
 <p>{@html string.length ? string : "<small>Nothing here</small>"}</p>
 ```
 
-# Reactivity
+## Reactivity
 
-## Assignments
+### Assignments
 
 Reactivity is updating DOM as the states change. In Svelte, reactivity is
 triggered by assignments. Any components that reference the assigned variables
@@ -92,7 +95,7 @@ will be re-rendered.
 </button>
 ```
 
-## Declarations
+### Declarations
 
 Sometimes certain values are derived from other reactive values, and need to be
 updated when their dependency changes. Use `$: ...` to declare a reactive value
@@ -108,7 +111,7 @@ that depends on other reactive values.
 
 Reactive declarations and statements will run **after** other script code.
 
-## Statements
+### Statements
 
 You can leverage reactive declarations to run statements when certain reactive
 values change.
@@ -127,7 +130,7 @@ values change.
 </script>
 ```
 
-## Updating arrays and objects
+### Updating arrays and objects
 
 Methods like `push()` for arrays aren't assignment and by default there won't be
 any updates. To fix this:
@@ -146,9 +149,9 @@ the assignment. E.g. the following won't work:
 </script>
 ```
 
-# Props
+## Props
 
-## Declaring props
+### Declaring props
 
 In `Nested.svelte`:
 
@@ -170,7 +173,7 @@ In `App.svelte`:
 <Nested answer={42} />
 ```
 
-## Spread props
+### Spread props
 
 ```svelte
 <script>
@@ -185,16 +188,16 @@ In `App.svelte`:
 <PackageInfo {...pkg} />
 ```
 
-## Referencing all props
+### Referencing all props
 
 Alternatively, if you need to reference all the props that were passed into a
 component, including ones that weren't declared with `export`, you can do so by
 accessing `$$props` directly. It's not generally recommended, as it's difficult
 for Svelte to optimise but it's useful in rare cases.
 
-# Logic
+## Logic
 
-## Logic blocks
+### Logic blocks
 
 Augment HTML to implement complex rendering logic, with traditional if-else and
 for-each blocks.
@@ -203,7 +206,7 @@ Control statements of blocks are wrapped in curly braces `{}`. Opening control
 statement (or _block opening_ tag) starts with `#`, and _closing_ tag starts
 with `/`, while _continuation_ tag starts with `:`.
 
-## If-else blocks
+### If-else blocks
 
 Just use `{#if ...}` and `{/if}`
 
@@ -217,7 +220,7 @@ Just use `{#if ...}` and `{/if}`
 {/if}
 ```
 
-## Each blocks
+### Each blocks
 
 ```svelte
 {#each colors as color, idx}
@@ -231,7 +234,7 @@ Just use `{#if ...}` and `{/if}`
 {/each}
 ```
 
-### Keyed each blocks
+#### Keyed each blocks
 
 When the value of an each block is updated, Svelte won't re-render the whole
 block, but add and remove items at the **end** of the block, then update any
@@ -251,7 +254,7 @@ You can use **any object** as the key. But generally primitive type is safer
 because identity persists even when referential equality breaks after updating
 with fresh data from API.
 
-## Await blocks
+### Await blocks
 
 ```svelte
 <script>
@@ -288,16 +291,16 @@ You can skip first block and catch block.
 </await>
 ```
 
-# Events
+## Events
 
-## Event directive
+### Event directive
 
 Use `on:` directive in attribute to listen to any DOM event on an element.
 
 You can pass in a reference to a handler, or define it in place. Both are the
 same performance-wise.
 
-## Event modifiers
+### Event modifiers
 
 ```svelte
 <button on:click|once={() => alert("clicked")}>
@@ -319,7 +322,7 @@ Full list of modifiers:
 
 You can **chain** modifiers together, e.g. `on:click|once|capture={...}`.
 
-## Component events
+### Component events
 
 In `Inner.svelte`, you must call `createEventDispatcher()` to create a
 dispatcher when the component is first instantiated.
@@ -352,13 +355,13 @@ In `App.svelte`:
 <Inner on:message={e => alert(e.detail.text)} />
 ```
 
-## Event forwarding
+### Event forwarding
 
 Component events **don't bubble**. You must **forward** event manually. To
 forward an event, simply write the `on:` directive without the need to pass a
 forwarding handler. You can forward DOM events too.
 
-### Forwarding component event
+#### Forwarding component event
 
 ```svelte
 <script>
@@ -368,7 +371,7 @@ forwarding handler. You can forward DOM events too.
 <Inner on:message />
 ```
 
-### Forwarding DOM event
+#### Forwarding DOM event
 
 `BigRedButton.svelte`:
 
@@ -393,15 +396,15 @@ In `App.svelte`:
 <BigRedButton on:click={() => audio.play()} />
 ```
 
-## This in event handlers
+### This in event handlers
 
 In this [tutorial](https://learn.svelte.dev/tutorial/tick), it seems you can use
 `this` in a event handler to refer to the element that the handler is attached
 to. This can easily access the element's properties and methods.
 
-# Bindings
+## Bindings
 
-## Binding attribute to variable
+### Binding attribute to variable
 
 Binding connects a variable with an attribute of an element.
 
@@ -411,7 +414,7 @@ Binding connects a variable with an attribute of an element.
 <input value={name} on:input={e => name = e.target.value} />
 ```
 
-## Automatic type conversion
+### Automatic type conversion
 
 Binding automatically handles different types of input elements.
 
@@ -421,7 +424,7 @@ Binding automatically handles different types of input elements.
 <input type="checkbox" bind:checked={isHappy} />
 ```
 
-## Multiple radio and checkboxes
+### Multiple radio and checkboxes
 
 Using `bind:group={myGroup}` along side with `value={myValue}` attrbute binds a
 group of elements to the same group: changing the same state together.
@@ -444,12 +447,12 @@ they are checkboxes, they form an array of selected values.
 {/each}
 ```
 
-## Shorthand form
+### Shorthand form
 
 In case the name of the variable and the attribute matches, you can use
 shorthand form: `bind:value` is the same as `bind:value={value}`.
 
-## Bind this
+### Bind this
 
 You can get a reference to an element by using `bind:this`. This achieves
 something like `useRef` in React.
@@ -463,9 +466,9 @@ something like `useRef` in React.
 </div>
 ```
 
-# Lifecycle
+## Lifecycle
 
-## onMount
+### onMount
 
 You pass a function to `onMount()` and it's body will run when the component is
 mounted. The function can return a cleanup function that will run when the
@@ -494,7 +497,7 @@ component is unmounted.
 <canvas width={32} height={32} />
 ```
 
-## onDestroy
+### onDestroy
 
 `onDestroy` is similar to `onMount`, but runs just before the component is
 umnounted.
@@ -503,12 +506,12 @@ NOTE that this has nothing to do with the DOM. Being destroyed is not the same
 as being removed from the DOM. It only means Svelte is about to stop managing
 the component.
 
-## beforeUpdate and afterUpdate
+### beforeUpdate and afterUpdate
 
 Callbacks passed to them fires before DOM is updated and after DOM is in sync
 with the state, respectively.
 
-## Tick
+### Tick
 
 `tick()` returns a promise that resolves after the next DOM update. It's useful
 when you want to wait for DOM to be in sync with state changes before doing
@@ -517,18 +520,18 @@ something.
 In the handler, you can use `await tick()` to wait until after the next DOM
 update.
 
-# Stores
+## Stores
 
-## What's a store
+### What's a store
 
 Solves the problem of accessing a state from multiple components. A store is
 simply an object with a `subscribe` method that allows interested parties to be
 notified whenever the store value changes. Writable stores additionally have
 `update` and `set` methods for changing the value.
 
-## Creating stores
+### Creating stores
 
-### Readable store
+#### Readable store
 
 When it doesn't make sense to update a store value from outside. Use a
 `readable` store.
@@ -554,12 +557,12 @@ export const time = readable(new Date(), function start(set) {
 });
 ```
 
-### Writable store
+#### Writable store
 
 Creating a `writable` store is similar to creating a readable store. A writable
 store additionally provides `set` and `update` methods for changing the value.
 
-### Derived store
+#### Derived store
 
 A `derived` store is a readable store whose value is **derived** from one or
 more other stores.
@@ -574,7 +577,7 @@ See this [tutorial](https://learn.svelte.dev/tutorial/derived-stores) for more
 info, and for links to documentation describing asynchronous derived stores
 using `set` explicitly.
 
-### Custom store
+#### Custom store
 
 As long as an object correctly implements the `subscribe` method, it's a store.
 Beyond that, anything goes. You can implement you own methods and avoid exposing
@@ -593,7 +596,7 @@ function createCount() {
 }
 ```
 
-## Subscribing a store
+### Subscribing a store
 
 `subscribe` method accepts a callback, and when the store value changes, it
 calls the callback with the new value. It **returns** a function that can be
@@ -616,7 +619,7 @@ gets destroyed and created again.
 <h1>The count is {countValue}</h1>
 ```
 
-### Autosubscription
+#### Autosubscription
 
 Autosubscription is a succinct way to subscribe, unsubscribe and use a store
 value. It is by referencing the store variable with a `$` prefix.
@@ -640,7 +643,7 @@ store value.
 <h1>The count is {$count}</h1>
 ```
 
-## Setting value of a writable store
+### Setting value of a writable store
 
 `set` method accepts a new value and updates the store value.
 
@@ -654,7 +657,7 @@ store value.
 </script>
 ```
 
-## Updating value of a writable store
+### Updating value of a writable store
 
 `update` method accepts a callback that takes the current value and returns the
 new value.
@@ -669,7 +672,7 @@ new value.
 </script>
 ```
 
-## Getting value of a store
+### Getting value of a store
 
 ```javascript
 import { get } from "svelte/store";
@@ -678,21 +681,18 @@ import { myStore } from "$lib/stores/my-store.js";
 const storeValue = get(myStore);
 ```
 
-## Store bindings
+### Store bindings
 
 If a store is writable, i.e. it has a `set` method - you can
 [**bind**](#bindings) to its value.
 
 And `$name += "!"` is equivalent to `name.set($name + "!")`.
 
-# 🔗 References
+## 🔗 References
 
 - [Svelte Tutorial - Basics](https://learn.svelte.dev/tutorial/welcome-to-svelte)
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](index.md)
 - [🔖 Parent index](index.md)
 - [📑 Notes Index](../../../index.md)
-- [🗃️ Master Index](../../../../index.md)

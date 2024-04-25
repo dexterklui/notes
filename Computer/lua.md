@@ -1,8 +1,6 @@
----
-title: Lua
----
+# Lua
 
-# Basic Concepts
+## Basic Concepts
 
 Three fundamental mechanisms:
 
@@ -11,9 +9,9 @@ Three fundamental mechanisms:
 - Stackful coroutines enable cooperative multithreading, generators, and
   versatile control for both Lua and its host (Nvim).
 
-# Basic Syntax
+## Basic Syntax
 
-## Variable names and keywords
+### Variable names and keywords
 
 - Any string of letters, digits and underscore
 - Not start with a digit.
@@ -25,16 +23,16 @@ in, local, nil, not, or, repeat, return, then, true, until, while.
 Also as a convention, names that start with an **underscored followed by
 uppercase letters are reserved** for Lua's internal global variables.
 
-## Other tokens
+### Other tokens
 
-```
+```text
 +     -     *     /     %     ^     #
 ==    ~=    <=    >=    <     >     =
 (     )     {     }     [     ]
 ;     :     ,     .     ..    ...
 ```
 
-## Literal strings
+### Literal strings
 
 Use single `'` or double quotes `"`, both can contain:
 
@@ -49,7 +47,7 @@ Use single `'` or double quotes `"`, both can contain:
 - `\"` quotation mark (double quote)
 - `\'` apostrophe (single quote)
 
-### Long brackets
+#### Long brackets
 
 Literal strings can also be defined using a long format enclosed by long
 brackets. We define an opening long bracket of level n as an opening square
@@ -79,7 +77,7 @@ alo
 123"]==]
 ```
 
-## Numerical constants
+### Numerical constants
 
 - 3
 - 3.0
@@ -89,14 +87,14 @@ alo
 - 0xff
 - 0x56
 
-## Comments
+### Comments
 
 `--` starts a comment until the end of line. Or use opening long brackets after
 `--` to start a multiline comments until a corresponding closing long brackets.
 
-# Values and Types
+## Values and Types
 
-## Introduction
+### Introduction
 
 Lua is **dynamically typed**. There are no type definitions, only values carry
 their own type.
@@ -104,9 +102,9 @@ their own type.
 All values are **first-class** values, i.e. can be stored in variables, passed
 as arguments and returned as results.
 
-## Basic types
+### Basic types
 
-### Eight basic types
+#### Eight basic types
 
 - nil
 - boolean
@@ -117,31 +115,31 @@ as arguments and returned as results.
 - thread
 - table
 
-### nil
+#### nil
 
 The only value is `nil`, which represents absence of a useful value. It makes a
 condition false.
 
-### boolean
+#### boolean
 
 `true` and `false`.
 
 Only `false` and `nil` make a condition false, any other make it true.
 
-### number
+#### number
 
 Double precision floating-point.
 
 Also see [## Numerical constants](#numerical-constants).
 
-### string
+#### string
 
 Array of 8-bit characters, including `\0`. Use `..` to concatenate strings and
 numbers (after inplicit type casting).
 
 Also see [## Literal strings](#literal-strings).
 
-#### Methods
+##### Methods
 
 These methods reside in `string` namespace. E.g. use it as `string.upper("a")`.
 The argument `s` stands for the input string to be processed.
@@ -158,7 +156,7 @@ The argument `s` stands for the input string to be processed.
 | `find(s, pat, [init])`    | Start and end indices of match            |
 | `reverse(s)`              | Reverse string                            |
 
-### userdata
+#### userdata
 
 - To store arbitrary C data.
 - It corresponds to a block of raw memory.
@@ -166,14 +164,14 @@ The argument `s` stands for the input string to be processed.
 - Cannot be created or modified in Lua, but only through C API. This guarantees
   the integrity of data owned by the host program.
 
-### thread
+#### thread
 
 Represents independent threads of execution, and used to implement Lua
 coroutine.
 
-### table
+#### table
 
-#### Introduction to tables
+##### Introduction to tables
 
 - Implements associative arrays. I.e. index not only with numbers but with value
   (except `nil`).
@@ -186,7 +184,7 @@ coroutine.
   `a["name"]`.
 - Can be returned in a function as an object to return multiple values.
 
-#### Defining and using tables
+##### Defining and using tables
 
 For formal description, see [#### Table constructors](#table-constructors).
 
@@ -213,7 +211,7 @@ heterogeneous.
 
 For iterating tables with for loops, see [## For statements](#for-statements)
 
-#### Modifying tables
+##### Modifying tables
 
 ```lua
 myTable[myKey] = myValue
@@ -229,7 +227,7 @@ table instead:
 teams["teamB"] = nil
 ```
 
-#### Table methods
+##### Table methods
 
 You can use following methods of `table` object, e.g.
 `table.insert(myTable, newItem)`.
@@ -239,9 +237,9 @@ You can use following methods of `table` object, e.g.
   remaining existing values one idx back
 - `remove(myTable, key)` removes an item of that key from a table
 
-#### Table constructors
+##### Table constructors
 
-```
+```text
 tableconstructor ::= { [ fieldlist ] }
 fieldlist ::= field { fieldsep field } [ fieldsep ]
 field ::= [ exp ] = exp | Name = exp | exp
@@ -256,22 +254,22 @@ fieldsep ::=  , | ;
   - Unless the function call is enclosed by parentheses.
 - May have optional trailing separator.
 
-### Object references
+#### Object references
 
 Tables, functions, threads and (full) userdata are objects. Variables contains
 references to their values. So object assignment doesn't imply copy of values.
 
-## Implicit type casting
+### Implicit type casting
 
 There is implicit type casting between string and number.
 
-## Explicit type casting
+### Explicit type casting
 
 - `tostring()` type cast to string.
 
-# Variables
+## Variables
 
-## Three kinds of variables
+### Three kinds of variables
 
 There are three kinds of variables:
 
@@ -285,7 +283,7 @@ their scope.
 
 Before the first assignment to a variable, it's value is `nil`.
 
-## Environment tables
+### Environment tables
 
 All global variables live as fields in a Lua table called **_environment
 tables_** or simply _environments_.
@@ -300,13 +298,13 @@ created, it inherits the environment from the parent.
 If `_env` is the environment of the running function, `x` is equivalent with
 `_env.x`.
 
-## Naming variables
+### Naming variables
 
 See [## Variable names and keywords](#variable-names-and-keywords).
 
-## Assignments
+### Assignments
 
-```
+```text
 stat ::= varlist1 = explist1
 varlist1 ::= var { , var }
 explist1 ::= exp { , exp }
@@ -329,28 +327,28 @@ In here, a[3] is changed whereas a[4] is untouched.
 
 To exchange values of two variables, `x, y = y, x`.
 
-## Local declaration
+### Local declaration
 
-```
+```text
 stat ::= local namelist [ = explist1 ]
 namelist ::= Name { , Name }
 ```
 
-# Statements
+## Statements
 
-## Semicolons
+### Semicolons
 
 Lua's statements are similar to C's.
 
 - Each statement optionally terminated by `;`.
 - No empty statement, i.e. no `;;`.
 
-## Block
+### Block
 
 A _block_ is just a list of statements. It can be explicitly **delimited** to
 produce a single statement:
 
-```
+```text
 stat ::= do block end
 ```
 
@@ -360,9 +358,9 @@ It is useful to:
 - Use `return` and `break` in the middle of another block. See
   [## Return and break](#return-and-break).
 
-# Operators
+## Operators
 
-## Arithematic operators
+### Arithematic operators
 
 - `+`
 - `-`
@@ -378,7 +376,7 @@ It is useful to:
 All arithematic operators can take both numbers and strings that can be type
 casted to numbers.
 
-## Relational operators
+### Relational operators
 
 Always return true or false.
 
@@ -392,7 +390,7 @@ Always return true or false.
 Objects are compared by reference. They objects are equal if they are the same
 object. For `<` and `>`, Lua tries to call "lt" or "le" metamethods.
 
-## Logical operators
+### Logical operators
 
 - `and`: Return **1st argument** if 1st operator is false, otherwise return
   **2nd argument**.
@@ -400,14 +398,14 @@ object. For `<` and `>`, Lua tries to call "lt" or "le" metamethods.
   argument**.
 - `not`: Always return true or false.
 
-## Concatenation operator
+### Concatenation operator
 
 `..` concatenate numbers and strings. Numbers are implicitly type casted to
 strings first.
 
 Metamethod "concat" is called when either or both aren't number or string.
 
-## Length operator
+### Length operator
 
 Unary operator `#` returns:
 
@@ -415,30 +413,30 @@ Unary operator `#` returns:
 - Table: _any_ integer index `n` such that `t[n]` is not `nil` but `t[n+1]` is
   `nil`. If `t[1]` is `nil`, then _may_ return `0`.
 
-## Operators precedence
+### Operators precedence
 
 From lower to higher priority:
 
-1.  `or`
-2.  `and`
-3.  `<`, `>`, `<=`, `=>`, `~=`, `==`
-4.  `..`
-5.  `+`, `-`
-6.  `*`, `/`
-7.  `not`, `#`, `-` (unary)
-8.  `^`
+1. `or`
+2. `and`
+3. `<`, `>`, `<=`, `=>`, `~=`, `==`
+4. `..`
+5. `+`, `-`
+6. `*`, `/`
+7. `not`, `#`, `-` (unary)
+8. `^`
 
 **Parenthese** can be used to change the precedence.
 
-## Ternary operator
+### Ternary operator
 
 There is no `a ? b : c` syntax. But it can be approximated by `a and b : c`.
 Note that they aren't exactly the same though, when `b` is false while `a` and
 `c` are true.
 
-# Expressions
+## Expressions
 
-```
+```text
 exp ::= prefixexp
 exp ::=  nil  |  false  |  true
 exp ::= Number
@@ -454,7 +452,7 @@ prefixexp ::= var | functioncall | ( exp )
 - A prefixexp can be a variable referencing a table.
 - binop is a binary operator; unop is a unary operator.
 
-## Multiple values in an expression
+### Multiple values in an expression
 
 To quote NeoVim's documentation:
 
@@ -492,11 +490,11 @@ An expression enclosed in parentheses always results in only one value. Thus,
 value of `(f(x,y,z))` is the first value returned by `f` or `nil` if `f` does
 not return any values.)
 
-# Flow control
+## Flow control
 
-## While and repeat
+### While and repeat
 
-```
+```text
 stat ::= while exp do block end
 stat ::= repeat block until exp
 ```
@@ -506,15 +504,15 @@ Recall that `0` and `""` are considered true in condition expression. Only
 
 You can make infinit loop with `while true` or `until false`.
 
-## If statements
+### If statements
 
-```
+```text
 stat ::= if exp then block
          { elseif exp then block }
          [ else block ] end
 ```
 
-## Return and break
+### Return and break
 
 `return` returns value(s) from a function: `stat ::= return [explist1]`.
 
@@ -525,18 +523,18 @@ Note that `return` and `break` can only be used as the **last statement of a
 block**. To use it in the middle of a block, then use an explicit block, e.g.
 `do break end`.
 
-## For statements
+### For statements
 
-### Numeric for loop
+#### Numeric for loop
 
-```
+```text
 stat ::= for Name = exp, exp [ , exp ] do block end
 ```
 
-1.  The variable initialize with the value of the 1st exp
-2.  Until it **passes** the 2nd exp, repeat block (i.e. also repeat if equal to
-    the 2nd exp)
-3.  After each loop its value is added by the 3rd expression.
+1. The variable initialize with the value of the 1st exp
+2. Until it **passes** the 2nd exp, repeat block (i.e. also repeat if equal to
+   the 2nd exp)
+3. After each loop its value is added by the 3rd expression.
 
 - All three control expressions are evaluated only once at start.
 - Default step (value of the 3rd exp) is 1.
@@ -549,9 +547,9 @@ for i = 1, #mytable do
 end
 ```
 
-### Generic for loop
+#### Generic for loop
 
-```
+```text
 stat ::= for namelist in explist1 do block end
 namelist ::= Name { , Name }
 ```
@@ -566,9 +564,9 @@ for key,value in pairs(teams) do
 end
 ```
 
-# Functions
+## Functions
 
-## Function call
+### Function call
 
 `funcName(arg1, arg2)`
 
@@ -587,7 +585,7 @@ end
 func_with_opts { foo = true, filename = "hello.world" }
 ```
 
-## Function definition
+### Function definition
 
 ```lua
 function printTax(price)
@@ -602,12 +600,12 @@ end
   - But **not** equivalent to `local f = function () body end`. But it only
     makes a difference when the body of the function contains references to `f`
 
-## Builtin functions
+### Builtin functions
 
 - `print('hello')`
   - `print(true) --true`
 
-## Builtin math library
+### Builtin math library
 
 - `math.pi`
 - `math.huge` is a constant that represents +infinity
@@ -630,7 +628,7 @@ end
   - `math.random(100)`: random integer from 1 to 100 (inclusive)
   - `math.random(20, 100)`: random integer from 20 to 100 (inclusive)
 
-# Patterns
+## Patterns
 
 Lua intentionally doesn't support regular expressions. It provides limited
 patterns to maintain high performance:
@@ -646,7 +644,7 @@ print(string.match("foo.bar", "%.bar"))
 -- .bar
 ```
 
-# Import modules
+## Import modules
 
 ```lua
 require("otherfile")
@@ -655,7 +653,7 @@ require("otherfile")
 Runs the code of another file. Don't need to include the extension of that file
 in the filename.
 
-# Running Lua
+## Running Lua
 
 Use `lua` interpreter from the terminal. Support for both script mode and
 interactive mode.
@@ -663,11 +661,10 @@ interactive mode.
 There is C integration, where you can invoke lua codes in C codes, and vice
 versa through C API.
 
-# References
+## References
 
 - `luaref.txt` in NeoVim help
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- 📑 [Index](../../index.md)
+- 📑 [Notes Index](../index.md)

@@ -69,8 +69,8 @@ p {
 But when the types of rules are different, different types have different
 priority. E.g. rules in id selectors takes precedence over class selectors.
 
-Actually there is a rule of caculating **_specificity value_** that decies which
-setting is prioritised. Google it.
+Actually there is a rule of calculating **_specificity value_** that decides
+which setting is prioritised. Google it.
 
 - E.g. two class selectors add 2 times 10 points in specificity value.
 
@@ -169,7 +169,7 @@ Note that for `:nth-child()` selector, you can use `of <selector>` after the
 first argument to limit what children should be included in counting. E.g. the
 following code will select the odd `.food` list items:
 
-```
+```css
 ul > li:nth-child(odd of .food)
 ```
 
@@ -219,10 +219,21 @@ axis_** is the secondary direction. Some properties for flex box model:
   - `flex-end`
   - `center`
   - `stretch`: All item occupy all space available along the cross axis.
-- `flex-wrap: nowrap|wrap`: Whether the items go to next line when there is not
-  enough space. Default is `nowrap`, and item keep shrinking.
+- `align-content`: Determine spacing between each line. Like justify-content but
+  for lines along the cross axis.
+  - `flex-start`
+  - `flex-end`
+  - `center`
+  - `space-between`
+  - `space-around`
+  - `stretch`: lines are stretched to fit the container
+- `flex-wrap: nowrap|wrap|wrap-reverse`: Whether the items go to next line when
+  there is not enough space. `wrap-reverse` makes line wrap to reverse
+  direction, effectively reversing the direction of cross-axis. Default is
+  `nowrap`, and item keep shrinking.
 - `gap: <row-gap> <column-gap>`: Gap between items along rows and columns. If
   only one value, it applies to both rows and columns.
+- `flex-flow`: Short form for `flex-direction` and `flex-wrap`.
 
 #### Flex items
 
@@ -236,6 +247,8 @@ their content.
   - `flex-grow: 1` grow factor to fill available space in main axis
   - `flex-shrink: 1` shrink factor to fit into available space in main axis
   - `flex-basis: 33%` base size from which item grow/shrink
+- `order`: change the ordering among flex items. Can be any integer. Default is
+  0, smaller order ranks earlier than larger order.
 
 For some properties, e.g. `flex`, you may want to apply to all children with
 `.flex-container > *` selector.
@@ -268,10 +281,22 @@ following flex items to `flex-end`.
 - `grid-auto-flow: row|column`: Flow elements inside a cell into row/columns
 - [`grid-template`](#grid-template): Shorthand property for:
   - [`grid-template-areas`](#grid-template-areas) specifies named grid areas
+    (optional)
   - `grid-template-columns` defines the width of each column; space delimited
   - `grid-template-rows` defines the height of each row; space delimited
 
 ##### grid-template
+
+To define rows and columns width only:
+
+```css
+.grid-container {
+  /* 3 rows of 40px, 3 columns of various width */
+  grid-template: 40px 40px 40px / 20% 4em 1fr;
+}
+```
+
+To define named grid areas:
 
 ```css
 .grid-container {
@@ -310,12 +335,22 @@ Note that each area must be a **rectangle**.
 
 #### Grid items
 
-- `grid-area` specifies the area occupied. Shorthand property for
-  - `grid-row-start`: start from nth border (1-based / -1-based)
-  - `grid-column-start`: start from nth border
-  - `grid-row-end`: until nth border
-  - `grid-column-end`: until nth border
-  - You can have starting border on the right and ending border on the left
+- `grid-row-start`: start from nth border
+  - Integer (1-based / -1-based from the right): until nth border. Default is
+    value of `grid-row-end` - 1.
+  - `span 2` to span two rows.
+- `grid-row-end`:
+  - Integer: until nth border. Default is value of `grid-row-start` + 1. You can
+    have starting border on the right and ending border on the left
+  - `span 2` to span two rows.
+- `grid-column-start`: similar as above
+- `grid-column-end`: similar as above
+- `grid-column: 2 / 4`: shorthand for `grid-column-start` and `grid-colun-end`
+- `grid-row`: similar as above
+- `grid-area: 1 / 1 / 3 / 6` specifies the area occupied. Shorthand property for
+  `grid-row-start`, `grid-column-start`, `grid-row-end`, `grid-column-end`.
+  - You can overlap grid areas.
+- `order`: works like order in flexbox
 
 #### Grid auto flow
 
@@ -331,10 +366,13 @@ Property `grid-auto-flow` control how auto-placed items get inserted in grid:
 
 #### Named grid lines
 
-You can name grid lines and specify grid line names can automatically name grid
-column areas. This method is especially useful to define a content grid with
-normal width, breakout-width, full-width areas to rid the need of making wrapper
-divs.
+You can name grid lines and specified grid line names can automatically name
+grid column areas. This method is especially useful to define a content grid
+with normal width, breakout-width, full-width areas to rid the need of making
+wrapper divs.
+
+Use square brackets to name grid lines. A grid line name must end with `-start`
+or `-end` so as to designate their corresponding grid area.
 
 ```css
 .content-grid {
@@ -352,11 +390,11 @@ divs.
   grid-column: content; /* between content-start and content-end */
 }
 
-. content-grid > .breakout {
+.content-grid > .breakout {
   grid-column: breakout; /* between breakout-start and breakout-end */
 }
 
-. content-grid > .full-width {
+.content-grid > .full-width {
   grid-column: full-width; /* between full-width-start and full-width-end */
 }
 ```
@@ -372,9 +410,9 @@ divs.
   --padding-inline: 2rem;
   --breakout-max-width: 85ch;
   --content-max-width: 70ch;
-  --breakout-column-max-width: (
-      var(--breakout-max-width) - var(--content-max-width)
-    ) / 2;
+  --breakout-column-max-width: calc(
+    (var(--breakout-max-width) - var(--content-max-width)) / 2
+  );
 
   display: grid;
   grid-template-columns:
@@ -413,11 +451,13 @@ Reference: this [YouTube video](https://www.youtube.com/watch?v=c13gpBrnGEw).
   - `3fr 2fr` divides remaining space into 5 parts, first get space worth of 3
     parts, second get 2 parts
 
-#### Functions
+#### Functions for grid-layout
 
 - `repeat(4, 1fr)` expands to `1fr 1fr 1fr 1fr`.
 - `repeat(auto-fit, minmax(300px, 1fr))`
-  - `1fr` means the full width of grid
+  - `1fr` means one share of remaining available space (i.e. after allocating
+    space to other columns/rows with other units, the remaining space are shared
+    among the columns/rows specified with the unit `fr`). Can be `0fr`.
   - `auto-fit` tries to fit as many column as possible.
   - `auto-fill` tries to fill up the full row width.
   - `minmax(min, max)`. If max is smaller than min, then max is ignored. `auto`
@@ -665,6 +705,10 @@ Blend the background picture with background colour.
 
 - [list of values](https://css-tricks.com/almanac/properties/b/background-blend-mode/)
 - `multiply`
+
+#### Background attachment
+
+`background-attachment: {scroll|fixed|local}`. Default is `scroll`.
 
 ### Positioning
 
@@ -1112,6 +1156,21 @@ box-shadow: 0px 0px 1rem purple;
 /* Can see throguh invisible part of the element to the shadow */
 filter: drop-shadow(0px 0px 1rem red);
 ```
+
+### Logical properties
+
+`block`, `inline`, `start` and `end` is according to the writing direction.
+
+- `margin-block` and `margin-inline`
+- `padding-inline-start` and `padding-inline-end`
+- `max-inline-size` and `max-block-size`
+
+### Themes
+
+- `color-theme`: `light` or `dark` let the browser to render light or dark theme
+  of build in elements, such as form elements.
+- Media query `prefers-color-scheme`: `light` or `dark`
+-
 
 ## Queries
 
@@ -1591,6 +1650,4 @@ solutions:
 
 ## 🧭 Navigation
 
-- [🔼 Back to top](#)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Index](/media/mikeX/Nextcloud/index.md)

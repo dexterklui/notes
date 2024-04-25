@@ -1,14 +1,15 @@
 ---
-title: Git
 date: 2023-07-25 (Tue)
 ---
 
-# 📛 aliases
+# Git
+
+## 📛 aliases
 
 Some of them aren't set by me and I don't know where do they come from, but they
 are handy:
 
-## Git log aliases
+### Git log aliases
 
 | Command | Description                                                  |
 | ------- | ------------------------------------------------------------ |
@@ -30,7 +31,7 @@ are handy:
 | -------- | ----------------------------------- |
 | `gcount` | `git shortlog --summary --numbered` |
 
-## Git commit aliases
+### Git commit aliases
 
 | Command | Description                  |
 | ------- | ---------------------------- |
@@ -38,7 +39,7 @@ are handy:
 | `gcs`   | `git commit --gpg-sign`      |
 | `gcas`  | `git commit --all --signoff` |
 
-## Git checkout aliases
+### Git checkout aliases
 
 | Command | Description                          |
 | ------- | ------------------------------------ |
@@ -47,7 +48,7 @@ are handy:
 | `gco`   | `git checkout`                       |
 | `gcb`   | `git checkout -b`                    |
 
-## Git stash aliases
+### Git stash aliases
 
 | Command  | Description                          |
 | -------- | ------------------------------------ |
@@ -64,7 +65,7 @@ are handy:
 | `gstl`  | `git stash list`        |
 | `gsts`  | `git stash show --text` |
 
-## Git branch aliases
+### Git branch aliases
 
 | Command | Description                   |
 | ------- | ----------------------------- |
@@ -75,7 +76,7 @@ are handy:
 | `gbD`   | `git branch --delete --force` |
 | `gbnm`  | `git branch --no-merged`      |
 
-## Git bisect aliases
+### Git bisect aliases
 
 | Command | Description        |
 | ------- | ------------------ |
@@ -85,7 +86,7 @@ are handy:
 | `gbsb`  | `git bisect bad`   |
 | `gbsr`  | `git bisect reset` |
 
-## Git other aliases
+### Git other aliases
 
 | Command | Description         |
 | ------- | ------------------- |
@@ -95,9 +96,9 @@ are handy:
 | `gpr`   | `git pull --rebase` |
 | `gbl`   | `git blame -b -w`   |
 
-# 📝 Commit Message
+## 📝 Commit Message
 
-## Why use conventional commit messages
+### Why use conventional commit messages
 
 - Automatically generating CHANGELOGs
 - Automatically determining a semantic version bump
@@ -105,7 +106,7 @@ are handy:
 - Triggering build and publish processes
 - Makes the life of contributors easier when reading commit history
 
-## 📛 Subject prefix
+### 📛 Subject prefix
 
 One practice from plugin development is to add subject prefix to describe the
 type of commit, `<type>(<scope>)[!]:`.
@@ -127,7 +128,7 @@ type of commit, `<type>(<scope>)[!]:`.
 
 A `!` before the `:` indicates that it introduced a breaking changes.
 
-## Subject
+### Subject
 
 - Try no more than **50** chars
 - Use imperative; No tenses
@@ -136,13 +137,13 @@ A `!` before the `:` indicates that it introduced a breaking changes.
 - Good if include the places of change (more efficient that checking what files
   are changed manually)
 
-## Body
+### Body
 
 - Try no more than **78** chars (some newer standard is 100)
 - Use imperative; No tenses
 - Include motivation for the change and contrast with previous behaviour
 
-## Footer
+### Footer
 
 - Reference GitHub issues that this commit **closes**
   - `Close #234, #245` / `Fix #501` / `Resolve octo-org/octo-repo#100`
@@ -162,12 +163,12 @@ A `!` before the `:` indicates that it introduced a breaking changes.
   - `Acked-by: Alice <alice@example.com>`
   - `Helped-by: Junio C Hamano <junioh@example.com>`
 
-## Git bisect
+### Git bisect
 
 With consistent format in commit messages, you can find relevant commits with
 `git bisect`.
 
-# Select Ranges of Commits
+## Select Ranges of Commits
 
 - `<commit>^` selects the parent of a commit (refs and HEAD also works)
 - `<commit>^n:` selects an n-th **alternative** parent of a merge commit. The
@@ -197,9 +198,9 @@ With consistent format in commit messages, you can find relevant commits with
   - Usually with option `--left-right` to show a `<`/`>` to show which side of
     the commit history each commit is in.
 
-# ⤵️ Merge
+## ⤵️ Merge
 
-## Merge strategy
+### Merge strategy
 
 When doing `git merge`, the flag `-s` chooses a merge strategy.
 
@@ -207,15 +208,15 @@ When doing `git merge`, the flag `-s` chooses a merge strategy.
 - `octopus`: Default for more than two heads
 - `ours`: Ignoring other branches, i.e. only merge for the git history
 
-# 🍒 Cherry Pick
+## 🍒 Cherry Pick
 
-## Synopsis
+### Synopsis
 
 To initiate: `git cherry-pick [opts]... <commit>...`
 
 In process: `git cherry-pick (--continue|--skip|--abort|--quit)`
 
-## Options
+### Options
 
 | Option | Description                         |
 | ------ | ----------------------------------- |
@@ -223,7 +224,7 @@ In process: `git cherry-pick (--continue|--skip|--abort|--quit)`
 | `-x`   | Append line recording source commit |
 | `-n`   | Don't commit; fill working tree     |
 
-## Sequencer subcommands
+### Sequencer subcommands
 
 | Command      | Description                                   |
 | ------------ | --------------------------------------------- |
@@ -232,20 +233,20 @@ In process: `git cherry-pick (--continue|--skip|--abort|--quit)`
 | `--quit`     | Forget current operation; keep merged commits |
 | `--abort`    | Cancel whole operation; undo merged commits   |
 
-# 🔀 Good Workflow
+## 🔀 Good Workflow
 
 - [Working on a branch with a dependence on another branch that is being reviewed](https://softwareengineering.stackexchange.com/questions/351727/working-on-a-branch-with-a-dependence-on-another-branch-that-is-being-reviewed)
 
-# 🗂️ Rewrite Git History
+## 🗂️ Rewrite Git History
 
-## Examples
+### Examples
 
-| Command              | Description                  |
-| -------------------- | ---------------------------- |
-| `commit --amend`     | Amend last commit            |
-| `rebase -i <commit>` | Rebase commits onto <commit> |
+| Command              | Description                    |
+| -------------------- | ------------------------------ |
+| `commit --amend`     | Amend last commit              |
+| `rebase -i <commit>` | Rebase commits onto `<commit>` |
 
-# Creating git repo on other filesystem
+## Creating git repo on other filesystem
 
 On other filesystem, make sure you are the owner of the directory. Usually this
 is set by the `uid` mount option, best set in `fstab` file.
@@ -254,10 +255,7 @@ On NTFS, if other methods fail, you can try the hack mentioned in the following
 blog post:
 [Creating git repo on NTFS in Linux](https://subzerodays.wordpress.com/2018/11/21/creating-git-repo-on-ntfs-in-linux/).
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../index.md)
 - [🔖 Parent index](../index.md)
 - [📑 Notes Index](../index.md)
-- [🗃️ Master Index](../../index.md)

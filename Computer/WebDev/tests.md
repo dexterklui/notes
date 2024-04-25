@@ -1,74 +1,75 @@
 ---
-title: Tests
 date: 2023-09-26 (Tue)
 ---
 
-# Testings
+# Tests
 
-## Different levels of testing
+## Testings
 
-### Unit tests
+### Different levels of testing
+
+#### Unit tests
 
 Unit tests \[Jest\] (automated): These are low-level tests that sit close to the
 application code. Generally, they are concerned with testing individual methods
 and classes.
 
-### Integration tests
+#### Integration tests
 
 Integration tests (automated): These are slightly higher level and ensure
 different parts of our application interact correctly. For example, a server and
 a database.
 
-### Functional tests
+#### Functional tests
 
 Functional testing (automated): These confirm the business logic is correct.
 They are different from integration tests in that they don’t look at the
 internal state, they only verify behavior.
 
-### End-to-end tests
+#### End-to-end tests
 
 End-to-end testing \[Cypress\] (automated): These replicate complex user flows
 across the whole application. They confirm that end users can interact with our
 program as expected. They are the most complex and costly.
 
-### Acceptance tests
+#### Acceptance tests
 
 Acceptance testing \[Storybook\] (automated/ generally manual): This is where we
 check to make sure that what we’ve built satisfies our business requirements.
 This could include putting it in front of your product manager and making sure
 they’re happy.
 
-### UI tests
+#### UI tests
 
 UI testing \[Storybook\] (automated): Ensures everything appears on screen and
 functions correctly. Concerned with things like ‘When I press this button, does
 it do what I expect?’.
 
-### Smoke tests
+#### Smoke tests
 
 Smoke testing (automated/ manual): When we create a new version of an
 application we run these initial tests to make sure that nothing catches fire
 when we turn it on. They are a minimal suite of tests to confirm we’ve not
 broken anything.
 
-### Canary tests
+#### Canary tests
 
 Canary testing: This reduces risk by initially releasing new versions to a small
 number of users, then expanding the group as we verify there are no issues.
 
-### Performance tests
+#### Performance tests
 
 Performance testing: A brilliant article on the subject is
 [here](https://jc1175.medium.com/a-developers-guide-to-performance-testing-5c69d02a8841).
 Performance testing ensures the scalability, stability and reliability of your
 web services.
 
-## Test pyramid
+### Test pyramid
 
 This dictates how many of each test you should use. See this
 [online book](https://martinfowler.com/articles/practical-test-pyramid.html).
 
-## Testing public behaviour not implementation
+### Testing public behaviour not implementation
 
 See
 [Testing implementation Details](https://kentcdodds.com/blog/testing-implementation-details).
@@ -82,7 +83,7 @@ See
   make sure it's not broken.
 - Turn this list of instructions into an automated test.
 
-# Conditional export for testing
+## Conditional export for testing
 
 Often you should only test the public functions. Exposing private functions just
 for the sake of testing is not considered a good practice. If the functions are
@@ -117,14 +118,14 @@ if (process.env.NODE_ENV === "test") {
 export { exportedFn, exportedForTesting };
 ```
 
-# Tools
+## Tools
 
 Some tools that can integrate well with testing and for CI
 
 - husky
 - lint-staged
 
-# With TypeScript
+## With TypeScript
 
 Sometimes you need to pass an argument of invalid type to a function during
 testing, and TypeScript linter will complain. To suppress these kinds of error,
@@ -132,9 +133,9 @@ use `@ts-expect-error` comment on the line above. The difference of it from
 `@ts-ignore` is that `@ts-expect-error` will alert us if there is in fact no
 type error on the next line.
 
-# Mock
+## Mock
 
-## Pros and Cons
+### Pros and Cons
 
 Pros:
 
@@ -146,7 +147,7 @@ Cons:
 - Testing the implementation makes refactoring difficult
 - More complicated tests and complicated code (to allow for mocking)
 
-## Mocking inner functions
+### Mocking inner functions
 
 See
 [jest mock inner function](https://stackoverflow.com/questions/51269431/jest-mock-inner-function)
@@ -213,10 +214,7 @@ describe("testFn", () => {
 });
 ```
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../../index.md)
 - [🔖 Parent index](../../index.md)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)

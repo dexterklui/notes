@@ -1,8 +1,6 @@
----
-title: prettier
----
+# prettier
 
-# Config File
+## Config File
 
 For prettier, you can set the format by going to your project root directory,
 and run `npx-prettier-init`. It will ask you questions about formatting
@@ -33,7 +31,7 @@ config I use for some filetypes is:
 For the list of config options, and guidelines for configuration: see
 [prettier config](https://prettier.io/docs/en/options.html).
 
-# Ignore
+## Ignore
 
 - Use `.prettierignore` like `.gitignore`
 - Use `// prettier-ignore` to ignore the next block of code
@@ -41,8 +39,6 @@ For the list of config options, and guidelines for configuration: see
   everything in between, but this only works on top level code blocks. It is for
   ignoring auto-generated code.
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Index](/media/mikeX/Nextcloud/index.md)

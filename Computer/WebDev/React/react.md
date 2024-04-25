@@ -1,22 +1,23 @@
 ---
-title: React
 date: 2023-08-19 (Sat)
 ---
 
-# ⚙️ Installation and Sandbox
+# React
 
-## Online Sandbox
+## ⚙️ Installation and Sandbox
+
+### Online Sandbox
 
 Edit or fork a basic React sandbox from
 [React - Try React](https://react.dev/learn/installation#try-react)
 
-## Local Sandbox
+### Local Sandbox
 
-Down this
+Download this
 [HTML](https://gist.githubusercontent.com/gaearon/0275b1e1518599bbeafcde4722e79ed1/raw/db72dcbf3384ee1708c4a07d3be79860db04bff0/example.html)
 and start writing React code within the html file.
 
-## Making a React app
+### Making a React app
 
 - `npx create-react-app my-app`
 - `yarn create react-app my-app`
@@ -31,7 +32,7 @@ To use TypeScript:
 Also see [here](https://create-react-app.dev/docs/adding-typescript/) for adding
 TypeScript to existing project.
 
-## Using other frameworks
+### Using other frameworks
 
 | Framework | Command               | Description                              |
 | --------- | --------------------- | ---------------------------------------- |
@@ -43,21 +44,21 @@ TypeScript to existing project.
 See
 [Production-grade React frameworks](https://react.dev/learn/start-a-new-react-project#production-grade-react-frameworks).
 
-# 🌈 TypeScript
+## 🌈 TypeScript
 
-## Installation
+### Installation
 
 See [Making a React app](#making-a-react-app)
 
-## TypeScript files
+### TypeScript files
 
 For a TypeScript file containing JSX, use `.tsx` file extension.
 
-## Type checking
+### Type checking
 
 See [React TypeScript](https://react.dev/learn/typescript).
 
-### Prop types
+#### Prop types
 
 ```ts
 function MyButton({ title }: { title: string }) {
@@ -76,9 +77,9 @@ function MyButton({ title, disabled }: MyButtonProps) {
 }
 ```
 
-### Hook types
+#### Hook types
 
-#### Types for useState
+##### Types for useState
 
 Can used inferred type mostly. For explicit type:
 
@@ -87,9 +88,9 @@ type Status = "idle" | "loading" | "success" | "errror";
 const [status, setStatus] = useState<Status>("idle");
 ```
 
-# 📖 React Basics
+## 📖 React Basics
 
-## File Structure
+### File Structure
 
 - Anything in `public` stores static assets for the index.html and can be
   accessed directly through URL.
@@ -100,7 +101,7 @@ const [status, setStatus] = useState<Status>("idle");
 - `src`, standing for _source_, contains files for React Application
   - `index.js` is the entry point for the React Application
 
-## JSX
+### JSX
 
 `JSX` is a syntactic sugar to create HTML elements in JS file. The only
 difference is you need to use **camelCase** for tag attributes.
@@ -116,7 +117,7 @@ Inside JSX, you can embed JavaScript **expressions** inside a pair of curly
 braces `{}`. If you passed an array, React will render each element in the
 array.
 
-### Creating element with JSX
+#### Creating element with JSX
 
 ```javascript
 const myPara = <p>Hello</p>;
@@ -124,9 +125,9 @@ const myPara = <p>Hello</p>;
 const myPara = React.createElement("p", {}, "Hello");
 ```
 
-## Components
+### Components
 
-### Functional and class components
+#### Functional and class components
 
 There are **_functional_** and **_class_** components.
 
@@ -149,7 +150,7 @@ function Greeting() {
 For class components, there is a `render()` method that returns a JSX expression
 to be rendered.
 
-### Using components
+#### Using components
 
 It is conventional to **export** the main component of the JS file as default.
 Then other files can import the component and use it to compose more complex
@@ -167,7 +168,7 @@ function App() {
 }
 ```
 
-### Props
+#### Props
 
 **_Props_** stands for properties for components. When you specify HTML
 attributes for a component, React **pass** those attributes in key-value pairs
@@ -196,7 +197,7 @@ function App() {
 For boolean attributes, you can simply declare it. I.e. `<div isWide>` is
 equivalent to `<div isWide={true}>`.
 
-#### Passing props with spread operator
+##### Passing props with spread operator
 
 ```js
 const greetingProps = {
@@ -217,7 +218,7 @@ function App() {
 }
 ```
 
-#### Children
+##### Children
 
 Anything within the tag is stored as the value of `props.children`.
 
@@ -244,11 +245,11 @@ function App() {
 }
 ```
 
-### States
+#### States
 
 See [useState](#usestate).
 
-## Map array to create components
+### Map array to create components
 
 It is a common practice to use `map()` to iterate over an array and return JSX.
 
@@ -271,7 +272,7 @@ function List() {
 }
 ```
 
-# 🪝 Hooks
+## 🪝 Hooks
 
 Every function starting with `use` is a **_Hook_**, like the builtin
 `useState()`.
@@ -280,7 +281,7 @@ You can only call Hooks at the **top** of your **functional** component (or
 other Hooks). If you want to use Hooks in a condition or loop, extract a new
 component and put it there.
 
-## useState
+### useState
 
 #### Using states
 
@@ -319,7 +320,7 @@ again, and any local variables will be set again, except React will handle
 states updates automatically, so you don't need to worry states will be
 re-initialized.
 
-#### Sharing states
+##### Sharing states
 
 If you need to shares the state across multiple components, you need to _lift
 the state up_ to a common ancestor component, and pass the state (and setState
@@ -337,9 +338,9 @@ function App() {
 }
 ```
 
-## useEffect
+### useEffect
 
-### Fetching data
+#### Fetching data
 
 `useEffect()` is useful to fetch data when the component mount.
 
@@ -408,7 +409,7 @@ export default function MyComponent() {
 }
 ```
 
-### Better fetching data alternatives
+#### Better fetching data alternatives
 
 But note that this is usually not the best way to fetch data. Because there's no
 optimizations like caching and server-rendering, it's easy to cause "network
@@ -416,7 +417,7 @@ waterfalls", and it's not ergonomic. So it's better to use the framework's
 fetching method if you are using a framework (e.g. _Next.js_), or a custom hook
 or third-party library (e.g. `useSWR`).
 
-## useCallback
+### useCallback
 
 You can pass a function and optionally an array of dependencies to
 `useCallback()`. This is useful to prevent redefining an event callback function
@@ -432,30 +433,112 @@ const handleMouseMove = useCallback(
 );
 ```
 
-## Custom hooks
+### useContext
+
+#### Creating and using context
+
+1. Create the context
+
+   Create a js file to create a context, and export the context from it. E.g. in
+   a `LevelContext.js`:
+
+   ```js
+   import { createContext } from "react";
+   export const LevelContext = createContext(1); // default value is 1
+   ```
+
+2. Use the context
+
+   Use `useContext` hook from react to use the context in your component. E.g.
+   in `Heading.jsx`:
+
+   ```js
+   import { useContext } from "react";
+   import { LevelContext } from "@/lib/LevelContext.js";
+
+   export default function Heading({ children }) {
+     const level = useContext(LevelContext);
+     // ...
+   }
+   ```
+
+   You no longer need to pass a prop `level` to the `Heading` component.
+   Currently, since no context is provided by any ancestor component up the
+   tree, React will use the **default** level, i.e. 1.
+
+3. Provide the context
+
+   Provide the context with an ancestor component. In the ancestor component,
+   wrap the children with a **context provider**. E.g. in `Section.jsx`:
+
+   ```js
+   import { useContext } from "react";
+   import { LevelContext } from "@/lib/LevelContext.js";
+
+   export default function Section({ children }) {
+     const level = useContext(LevelContext);
+     return (
+       <section className="section">
+         <LevelContext.Provider value={level + 1}>
+           {children}
+         </LevelContext.Provider>
+       </section>
+     );
+   }
+   ```
+
+   Any component using `LevelContext` will use the value of the **nearest**
+   `<LevelContext.Provider>` in the tree above it.
+
+#### Context
+
+- The value can be any object.
+
+### useRef
+
+- To store information between re-renders (unlike regular variables, which reset
+  on every render)
+- Changing it doesn't trigger a re-render (unlike state variables)
+- The information is local to each copy of your component (unlike variables
+  outside)
+
+`useRef` can be used as a replacement to `querySelector` to get a reference to
+an element for manipulation.
+
+```js
+import { useRef } from "react";
+
+function MyComponent() {
+  const inputRef = useRef(null);
+  return <input ref={inputRef} />;
+}
+
+function handleClick() {
+  inputRef.current.focus();
+}
+```
+
+### Custom hooks
 
 Define a function whose identifier starts with `use`.
 
-# 📦 React Packages
+## 📦 React Packages
 
 - `clsx`: convenient to add classes conditionally
 - [`react-redux`](redux.md): manage and access states easily
 - [`react-router-dom`](react-router-dom.md): use routing to simulate multi-page
   websites
 
-# 🌐 Resources
+## 🌐 Resources
 
 - [HTML to JSX converter](https://transform.tools/html-to-jsx)
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../index.md)
 - [🔖 Parent index](../../../index.md)
 - [📑 Notes Index](../../../index.md)
-- [🗃️ Master Index](../../../../index.md)
 
-# Footnote
+## Footnote
 
 [^1]:
     See

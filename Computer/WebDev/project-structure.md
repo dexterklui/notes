@@ -1,5 +1,4 @@
 ---
-title: Project Structure
 date: 2023-11-08 (Wed)
 ---
 
@@ -123,10 +122,7 @@ module.exports = {
 See
 [Component Trees - Medium](https://medium.com/better-programming/a-better-frontend-component-structure-component-trees-5a99ed6d1ece).
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../../index.md)
 - [🔖 Parent index](../../index.md)
 - [📑 Notes Index](../../index.md)
-- [🗃️ Master Index](../../../index.md)

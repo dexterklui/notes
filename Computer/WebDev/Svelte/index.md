@@ -1,9 +1,10 @@
 ---
-title: Svelte
 date: 2023-10-18 (Wed)
 ---
 
-# Notes
+# Svelte
+
+## Notes
 
 - [Basics](basics.md)
 - [Advanced](advanced.md)
@@ -11,12 +12,13 @@ date: 2023-10-18 (Wed)
 - [NeoVim Setup](neovim-setup.md)
 - [Useful Packages](useful-packages.md)
 - [Integration](integration.md)
+- [Svelte Config](svelte-config.md)
 
-# Conventions
+## Conventions
 
-## My conventions
+### My conventions
 
-### CSS class names
+#### CSS class names
 
 The goal is to make it compatible to BEM methodology.
 
@@ -26,15 +28,12 @@ The goal is to make it compatible to BEM methodology.
   CSS utility classes
 - camelCase for local CSS classes defined in Svelte components
 
-### CSS variable names
+#### CSS variable names
 
 - kebab-case for variables defined in CSS stylesheets
 - camelCase for variables defined in and passed to Svelte components
 
-# 🧭 Navigation
+## 🧭 Navigation
 
-- [🔼 Back to top](#)
-- [◀️ Back](../../../index.md)
 - [🔖 Parent index](../../../index.md)
 - [📑 Notes Index](../../../index.md)
-- [🗃️ Master Index](../../../../index.md)
