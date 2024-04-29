@@ -470,6 +470,39 @@ You will see a list of routes / pages with a little leading icon:
 - A filled circle `●` means a static page with initial props.
 - A lambda `λ` means a dynamically rendered page.
 
+## Process Environment and Environment Variable
+
+### Environment Variables
+
+Environment variables are read from `.env` or `.env.local` from the project
+roots. These files should hold private tokens and API keys locally and should
+NOT be version controlled. Their syntax is something like:
+
+```text
+MY_API_KEY=abcde012345
+```
+
+`.env.example` and `.env.local.example` can be version controlled and list keys
+required without the actual key.
+
+```text
+MY_API_KEY=
+```
+
+The value can be accessed through `process.env.MY_API_KEY` as a string.
+
+### Process Environment
+
+`process.env.NODE_ENV` can be `develop`, `production` or `test`.
+
+## Global Variables
+
+Dunno if this is limited to Next.js or also to React and JS. But `global` is a
+reserved keyword for the global variable. It has the type `typeof globalThis`.
+It's an JS object, where you can define new properties with your assigned value.
+It will preserve in the whole session, even across Hot Module Replacement in
+development mode.
+
 ## Tailwind CSS
 
 You can create more CSS files, without the boilerplate with `@tailwind`
