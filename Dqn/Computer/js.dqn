@@ -252,7 +252,16 @@
   > Check type < {{{3
     ➱   [\typeof :{VAR|VAL}:]\ output the datatype of a value.
     ➱   To check the type, use [\typeof :{VAR|VAL}: === "string"]\
-        ⮱   Arrays, functions, objects all have the type "object".
+        ⮱   Arrays, objects, and even [[null]] value all have the type "object".
+    ➱   List of possible types:
+        ‣   string
+        ‣   number
+        ‣   bigint
+        ‣   symbol
+        ‣   object
+        ‣   boolean
+        ‣   function
+        ‣   undefined
 
   > Type casting < {{{3
     Explicit ['type conversion]' or implicit ['type coercion]'.
