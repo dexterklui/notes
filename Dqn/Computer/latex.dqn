@@ -62,6 +62,7 @@
   > Expressions < {{{3
     ➱   Superscript: [\^]\
     ➱   Subscript: [\_]\
+    ➱   Summation: [\\sum]\
     ➱   Integral sign: [\\int]\
         ⮱   Integrate from a to b: [\\int_a^b]\
     ➱   Fractions: [\\frac{:NOMINATOR:}{:DENOMINATOR:}]\
