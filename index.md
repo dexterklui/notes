@@ -7,6 +7,7 @@
 - [Programming Paradigm](Computer/programming-paradigm.md)
 - [Design Pattern](Computer/design-pattern.md)
 - [Databases](Computer/databases.md)
+- [Algorithm and Data Structure](Computer/algorithm-data-structure.md)
 
 ### 📚 Courses
 
