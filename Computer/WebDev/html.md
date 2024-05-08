@@ -12,6 +12,14 @@ page has finished parsing.
 
 ## Form
 
+### Submit Events
+
+The `submit` event happens when:
+
+- The user click a submit button for the form
+- The user presses `<Enter>` while editing a field in the form
+- A script calls the `form.requestSubmit()` method
+
 ### Input elements
 
 #### Input attributes
