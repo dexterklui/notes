@@ -528,6 +528,8 @@ Define a function whose identifier starts with `use`.
 - [`react-redux`](redux.md): manage and access states easily
 - [`react-router-dom`](react-router-dom.md): use routing to simulate multi-page
   websites
+- [`react-icons`](https://react-icons.github.io/react-icons/): can work with
+  tailwind
 
 ## 🌐 Resources
 
