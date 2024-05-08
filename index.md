@@ -51,6 +51,7 @@
 
 - [Org.org](Computer/NoteTaking/org.org)
 - [Mermaid](Computer/NoteTaking/mermaid.md)
+- [markdown](Computer/NoteTaking/markdown.md)
 
 ### 💻 Computer Languages
 
