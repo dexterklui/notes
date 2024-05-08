@@ -284,6 +284,9 @@ following flex items to `flex-end`.
     (optional)
   - `grid-template-columns` defines the width of each column; space delimited
   - `grid-template-rows` defines the height of each row; space delimited
+- `grid-auto-columns` and `grid-auto-rows`: Specify the size of an
+  implicitly-created grid column/row (e.g. in grid-auto-flow or explicit
+  out-of-range assignment in grid items). Default is `auto`.
 
 ##### grid-template
 
@@ -453,21 +456,45 @@ Reference: this [YouTube video](https://www.youtube.com/watch?v=c13gpBrnGEw).
 
 #### Functions for grid-layout
 
+See
+[A Deep Dive Into CSS Grid minmax](https://ishadeed.com/article/css-grid-minmax/)
+
 - `repeat(4, 1fr)` expands to `1fr 1fr 1fr 1fr`.
 - `repeat(auto-fit, minmax(300px, 1fr))`
   - `1fr` means one share of remaining available space (i.e. after allocating
     space to other columns/rows with other units, the remaining space are shared
     among the columns/rows specified with the unit `fr`). Can be `0fr`.
-  - `auto-fit` tries to fit as many column as possible.
-  - `auto-fill` tries to fill up the full row width.
-  - `minmax(min, max)`. If max is smaller than min, then max is ignored. `auto`
-    represents the largest `max-content` size of the items.
+  - `auto-fit` tries to fit as many column as possible. It expands the grid
+    items to fill the available space.
+  - `auto-fill` tries to fill up the full row width. It won't expands the grid
+    items, and remaining space are left unfilled.
+
+##### minmax
+
+In grid, usually items automatically shrink to fit all items or expand to fill
+up available space. `minmax(min, max)` is used to define a size range.
+
+- `auto` represents the largest `max-content` size of the items.
+
+Invalid inputs:
+
+- If `max` is smaller than `min`, then `max` is ignored.
+- If `min` is `1fr`, then whole declaration is ignored. `1fr` is only valid for
+  `max`
 
 #### Use cases
 
 For a fixed layout where the content adapts to fit the layout:
 
 - Grid of cards
+
+```css
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  grid-gap: 1rem;
+}
+```
 
 #### Links
 
