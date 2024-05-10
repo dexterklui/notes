@@ -41,16 +41,62 @@ The argument `s` means a string.
 
 ##### [Tagged templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates)
 
-It is a new way of calling a function with arguments. When calling a function
-this way, we call the function a **_tag_**.
+###### Calling with tagged templates
 
-1. The template literals are broken into segments of string values and
-   expression values (i.e. evaluated `${}`)
-2. All string values are passed to the function in an array as the first
-   argument
-3. Each expression value is passed one by one as a single argument
-4. Function body executes normally, and it can return anything like a normal
-   function.
+Instead of using parenthesized arguments to call a function, we can call a
+function with a template literal, as in `` console.log`Hello, ${name}!` ``. The
+template literal is a **_tagged template_** and the function a **_tag_**.
+
+In a call `` myTag`Hello, ${p1} and ${p2}!` ``, the tag function `myTag` will
+receive three arguments:
+
+- The first argument is a list of strings, which contains string fragments from
+  the tagged template literal separated by expressions (given within `${}`).
+  It's like applying the `split` method of a string, where the delimiters are
+  the expressions in the template literal. So here the first argument will be
+  `["Hello, ", " and ", "!"]`.
+- The second argument is the evaluated value of the first expression `${p1}`,
+  the third argument is `${p2}`, and so on if there're more expressions. In the
+  tag function, you could use **rest operator** to collect all the expression
+  values into a list: `myTag(strings, ...expressions)`.
+
+###### Raw interpretation
+
+Actually, the list in the first argument has a hidden property `raw` (like
+`length` is a hidden property to any array), which is a list storing the same
+sequence of strings but in **raw interpretation**. Hence, special escape
+sequences like `\n` will be interpreted literally. I.e. its content is identical
+to mapping each string fragment `s` to `` String.raw`s` ``. As in:
+
+```javascript
+console.log("a\tb"); // a	b
+console.log(String.raw`a\tb`); // a\tb
+
+function print(strings) {
+  console.log(strings[0]);
+  console.log(strings.raw[0]);
+}
+print`a\tb`; // output is the following:
+// a	b
+// a\tb
+```
+
+###### Passing arrow functions to tag function
+
+When an expression in a tagged template is an arrow function, the arrow function
+is passed to the tag function, unlike the case in untagged template literal
+where the arrow function is stringified.
+
+```javascript
+console.log(`Hi, ${() => "Ben"}!`); // Hi, () => "Ben"!
+
+function print(strings, fn) {
+  console.log(strings[0] + fn() + strings[1]);
+}
+print`Hi, ${() => "Ben"}!`; // Hi, Ben!
+```
+
+###### Examples
 
 ```javascript
 const person = "Mike";
@@ -67,10 +113,11 @@ console.log(output); // That Mike is a youngster.
 
 ```javascript
 console.log`Hello`; // [ 'Hello' ]
-console.log.bind(1, 2)`Hello`; // 2 [ 'Hello' ]
+console.log.bind(this, 2)`Hello${":"}`; // 2 [ 'Hello', '' ] :
 new Function("console.log(arguments)")`Hello`;
 // [Arguments] { '0': [ 'Hello' ] }
 
+// recursive chaining
 function recursive(strings, ...values) {
   console.log(strings, values);
   return recursive;
