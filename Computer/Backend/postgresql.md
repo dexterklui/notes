@@ -11,6 +11,12 @@ date: 2023-11-27 (Mon)
 
 ## Commands
 
+From shell, run `psql` as a postgres user (e.g. `sudo -u postgres psql` to run
+as the default postgres root user) to enter the database shell. If no `sudo` is
+available, you can run `psql -U postgres`.
+
+Or try `psql DBNAME USERNAME`.
+
 ### Privileges
 
 Some of the command line tools required you to have different privileges.
@@ -33,6 +39,16 @@ switch to that with `sudo su`.
   - This deletes all associated files and **cannot be undone**.
 - `psql -l` lists all databases.
 - `psql mydb` connects to a database and enters the interactive shell.
+
+### Management Commands
+
+- `\c <database>` connects to a database.
+- `\conninfo` shows info about current connection
+- `\l` lists all databases.
+- `\dt` lists tables in the current database.
+- `\d [target]` lists tables, views or sequence, or describe the given table,
+  view, sequence, or index.
+- `\di` list indexes (primary keys?)
 
 ## Interactive shell
 

@@ -138,6 +138,9 @@ WHERE required_date BETWEEN
 - `SHOW INDEX FROM <table>;`
 - `SHOW ENGINES;` shows all available storage engines.
 
+For `postgres` equivalent commands, see
+[Management Commands](postgresql.md#management-commands)
+
 ## Engines
 
 - `SHOW ENGINES;` shows all available storage engines.
