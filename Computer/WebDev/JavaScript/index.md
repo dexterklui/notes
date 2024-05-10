@@ -6,7 +6,7 @@
 
 ## Coding
 
-- [Basics](js-basics.md)
+- [JS Basics](js-basics.md)
 - [Tips and Tricks](tips-and-tricks.md)
 - [DOM Manipulation](js-dom.md)
 - [Events](web-events.md)
