@@ -42,6 +42,7 @@
 - [PostgreSQL](Computer/Backend/postgresql.md)
 - [MySQL](Computer/Backend/mysql.md)
 - [Firebase](Computer/Backend/firebase.md)
+- [aws](Computer/Backend/aws.md)
 
 ### ⌨️ Vim
 
