@@ -1074,6 +1074,7 @@
     assignment. It collects zero or more values, and stores them into a single
     array.
     ⮱   E.g. [\const [a, b, ...everythingElse] = [0, 1, 1, 2, 3, 5, 8];]\
+    ⮱   E.g. [\const {keyA, keyB, ...otherKeys} = myObject;]\
     ⮱   NOTE that the rest element must be the [[last]] element in a
         destructuring assignment.
 
