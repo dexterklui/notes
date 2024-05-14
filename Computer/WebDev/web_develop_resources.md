@@ -28,6 +28,11 @@
   Virtual DOM
 - [Svelte and SvelteKit](https://svelte.dev/)
 
+## Roadmaps and Skill-trees
+
+- [Backend](https://roadmap.sh/backend)
+- [Frontend](https://roadmap.sh/frontend)
+
 ## 🧭 Navigation
 
 - [📑 Notes Index](../../index.md)
