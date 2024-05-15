@@ -53,6 +53,12 @@
     ‣   [\-i]\ or [\--initial]\: Do not convert tabs after non-blanks.
     ‣   [\-t]\ or [\--tabs=:N:]\: Have tabs N characters apart ([[default 8]])
 
+ == tr == {{{2
+    Translate or delete characters.
+
+    ➱   [\tr '\n']\ remove newline characters
+    ➱   [\tr '\n' ' ']\ replace newline characters with spaces
+
 [~{ awk }~] {{{1
  == Basic Idea == {{{2
     ➱   Awk is a data-driven, interpreted programming language.
