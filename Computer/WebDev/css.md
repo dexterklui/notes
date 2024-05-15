@@ -1171,6 +1171,31 @@ For resizing and scrolling (arrows), the value is
     for `border-spacing` to work on `<table>`
   - In tailwind, it seems the default changes to `collapse`
 
+To make rounded border, say for each row, you must do something like this:
+
+```css
+table {
+  border-collapse: separate;
+  border-spacing: 0 auto; // spacing in x-axis is 0
+}
+
+table :is(th, td) {
+  border-block: 1px;
+}
+
+table :is(th, td):first-child {
+  border-left: 1px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+table :is(th, td):last-child {
+  border-right: 1px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+```
+
 ### Shadows
 
 - `box-shadow`: h-offset, v-offset, blur, spread, colour
