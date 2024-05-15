@@ -530,6 +530,9 @@ Define a function whose identifier starts with `use`.
   websites
 - [`react-icons`](https://react-icons.github.io/react-icons/): can work with
   tailwind
+- [`dnd-kit`](https://docs.dndkit.com) provides `@dnd-kit/core` to build custom
+  drag and drop components, and an optional `@dnd-kit/sortable` package to
+  provide presets to simplify building drag-and-drop sortable lists/tables.
 
 ## 🌐 Resources
 
