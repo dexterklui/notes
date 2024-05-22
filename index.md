@@ -77,10 +77,6 @@
 
 - [System Development Life Cycle](Computer/sdlc.md)
 
-## 🧾 Non-notes
-
-- [Transcripts for Clara's Recordings](NonNotes/ClaraRecordings/index.md)
-
 ## 🎮 Games
 
 ## 🎨 Design
