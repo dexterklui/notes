@@ -294,6 +294,7 @@
     ➱   [\-Qe]\ lists explicitly installed packages.
     ➱   [\-Qt]\ lists installed packages that are not required as dependencies
         (i.e. no other packages depend on it).
+    ➱   [\-Qm]\ lists foreign packages (from AUR or custom PKGBUILD)
     ➱   [\-F :FILE_NAME:]\ searches for a package containing a file
         ⮱   You need to first sync the files database with [\pacman -Fy]\.
     ➱   [\-q]\ or [\--quiet]\ shows less info. Search will only show package
