@@ -32,6 +32,7 @@
 
  == Program == {{{2
   > Pacman < {{{3
+   |explicit installed packages| {{{4
     ➱   [\linux-lts]\: Arch Linux LTS kernel. Good for fallback kernel.
     ➱   inotifywait
     ➱   vdhcoapp-git (Companion app for Firefox addon Video DownloadHelper)
@@ -58,11 +59,15 @@
         ⮱   With [\linux-zen-headers]\
         ⮱   [\lzip]\ for waydroid-script to work
             [=https://github.com/casualsnek/waydroid_script#dependencies]=
+    ➱   [\npm]\: NPM package manager
+    ➱   [\adobe-source-han-sans-otc-fonts]\: need to display Chinese
+        characters, at least in Firefox, but may also be for all programs.
+    ➱   [\openvpn]\ and [\networkmanager-openvpn]\
 
-   |Dependencies explicitly installed|
+   |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
 
-   |Deleted|
+   |Deleted| {{{4
     ➱   [\noto-fonts-emoji]\
         ⮱   For [\plasma5-runners-emoji]\
     ➱   [\tree-sitter-cli]\: For ast-grep custom language support
@@ -71,6 +76,14 @@
     ➱   zettlr (markdown editor and manager)
     ➱   [\deno]\
         ⮱   For peek.nvim
+
+   |deleted packages that aren't sure without side effects| {{{4
+    ➱   [\khotkeys]\ seems it can be safely removed after upgrade to Plasma 6
+    ➱   [\electron22]\
+        ➱   [\-Rscn]\ also also deleted [\openssl-1.0]\ and [\mailspring-bin]\
+    ➱   [\ifuse]\: I think I can just use dolphin builtin support for iOS.
+    ➱   [\jdk11-openjdk]\: I still has the default [\jdk-oepnjdk]\ package
+    ➱   [\luit]\
 
   > AUR < {{{3
     ➱   [\ocs-url]\: An install helper program for items served via
@@ -84,6 +97,10 @@
         Web UI - Generative AI software.
     ➱   [\ast-grep-bin]\: Ast-grep
     ➱   [\waydroid]\: for running adroid apps
+    ➱   [\python-pyclip]\: clipboard support for [\waydroid]\
+    ➱   [\cutechess]\: for playing chess and reading database of chess
+    ➱   [\openvpn-update-systemd-resolved]\: install up and down scripts for
+        openvpn
 
    |Deleted|
     ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
