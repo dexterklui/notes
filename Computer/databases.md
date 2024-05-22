@@ -72,7 +72,7 @@ In the E-R diagram, the primary key is **underlined**.
 ### Attribute Types
 
 - Single vs **_composite attributes_** (consisting of **_component
-  attributes_**)
+  attributes_**, represented in **dot notation** in tables)
 - Single-valued vs **_multi-valued attributes_** (represented in **double
   ellipses** in E-R diagram)
 - **_Derived attributes_** can be derived from other attributes.
