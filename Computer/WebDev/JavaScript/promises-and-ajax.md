@@ -10,21 +10,23 @@ asynchronous operation and its resulting value.
 ### States of promise
 
 - _pending_: initial state
-- _fulfilled_: operation completed successfully
-- _rejected_: operation failed
+- _settled_: to either of the two _eventual states_
+  - _fulfilled_: operation completed successfully
+  - _rejected_: operation failed
 
-After a promise is **_settled_**, i.e. reaching one of the two _eventual
-states_, its associated handlers queued up by `then()` are called asap, even if
-the handlers are attached afterwards.
+After a promise is settled, its associated handlers queued up by `then()` or
+`catch()` are called asap, even if the handlers are attached afterwards.
 
 ### Fates of promise
 
-- _resolved_: further attempt to resolve or reject has no effect
-- _unresolved_: further attempt to resolve or reject leaves an impact
+A promise is always in one of the two mutually exclusive fates: resolved or
+unresolved.
 
-### Relating states and fates
+Also a promise is said to be **_resolved_**, when it is settled or "locked-in"
+to match the eventual state of another promise, thus further attempt to resolve
+the promise will have **no effect**.
 
-A resolved promise can be in one of three states:
+So a resolved promise can be in one of three states, not just fulfilled:
 
 - _fulfilled_ - When resolved to:
   - Non-promise value
@@ -42,8 +44,8 @@ A resolved promise can be in one of three states:
 
 We use `then()` method to attach callback functions. It takes two arguments:
 
-1.  Callback function to handle the fulfilment value
-2.  **Optional**: Callback function to handle rejection value
+1. Callback function to handle the fulfilment value
+2. **Optional**: Callback function to handle rejection value
 
 `then()` returns a newly generated promise, whose fulfilment value is the
 **return value** of the executed callback. So remember to add return statement
@@ -115,12 +117,12 @@ const promise1 = new Promise((resolve, reject) => {
 
 The constructor `Promise()` accepts a function, which can accepts two arguments.
 
-1.  A _resolve_ callback - The function calls it to fulfil the promise and
-    passes the result to it, if any.
-2.  A _reject_ callback - The function calls it to reject the promise and passes
-    the reject reason to it (usually an error).
-    - Any uncaught error thrown by the function will also reject the promise,
-      unless the promise has already been resolved.
+1. A _resolve_ callback - The function calls it to fulfil the promise and passes
+   the result to it, if any.
+2. A _reject_ callback - The function calls it to reject the promise and passes
+   the reject reason to it (usually an error).
+   - Any uncaught error thrown by the function will also reject the promise,
+     unless the promise has already been resolved.
 
 Once a promise is created, it will execute the function it accepts, and wait for
 the function to resolve it. If the function returns without resolving the
@@ -202,6 +204,10 @@ single promise.
   - Remains pending forever if the input is empty.
   - Still settles asynchronously if input is non-empty but contains no pending
     promises.
+
+## AJAX
+
+See [AJAX](../ajax.md).
 
 ## References
 
