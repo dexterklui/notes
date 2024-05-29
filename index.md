@@ -18,6 +18,7 @@
 - [Web Development Resources](Computer/WebDev/web_develop_resources.md)
 - [HTML](Computer/WebDev/html.md)
 - [HTML - SVG](Computer/WebDev/html-svg.md)
+- [AJAX and JSON](Computer/WebDev/ajax-and-json.md)
 - [JavaScript - Index](Computer/WebDev/JavaScript/index.md)
 - [TypeScript](Computer/WebDev/TypeScript/typescript.md)
 - [Decorators](Computer/WebDev/decorators.md)
