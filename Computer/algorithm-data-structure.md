@@ -1103,7 +1103,7 @@ struct tree_node {
 }
 ```
 
-## Searching
+## Searching an Array
 
 ### Jump Search
 
@@ -1120,9 +1120,28 @@ Requires sorted list. Takes $O(\sqrt{n})$ time.
 
 $O(\log n)$
 
+```text
+BinarySearch(L, k, low = 0, high = L.length - 1) {
+  while (low <= high) {
+    mid = floor((low + high) / 2)
+    case L[mid] {
+      < X: low = mid + 1;
+      == X: return mid;
+      > X: high = mid - 1;
+    }
+  }
+
+  return -1;
+}
+```
+
 ### Interpolation Search
 
-$O(\log \log n)$
+The average time is $O(\log \log n)$.
+
+We guess where in the array $L is the target $k$ likely to be. For example, if
+the array more or less uniformly partitions the set of numbers, then $k$ should
+be near $L[pm]$ where $p = \frac{k - L[0]}{L[n-1] - L[0]}$.
 
 ### Binary vs Linear Search
 
@@ -1191,6 +1210,262 @@ Lecturer:
 
 ## Binary Search tree
 
+### Binary Search Tree
+
+To be able to do binary search in a sorted linked list, we need to have a
+pointer to the middle node. Now we take that node to be the root, and
+recursively do the same thing in the subtrees, we got a binary search tree which
+supports:
+
+- search
+- minimum
+- maximum
+- predecessor
+- successor
+- insert
+- delete
+
+All in $O(log n)$ worst case time if the tree is **kept balanced**.
+
+#### Properties
+
+If $x$ is a node, then $x$'s key > all keys in $x$'s left subtree and < all keys
+in $x$'s right subtree.
+
+### Implementation
+
+#### Minimum
+
+```c
+Node* TreeMinimum(node* T) {
+  if (T = nullptr) return nullptr;
+
+  while (T -> left != nullptr) T = T -> left;
+  return T;
+}
+```
+
+#### Search
+
+```c
+Node* TreeSearch(node* T, key k) {
+  if (T == nullptr) return nullptr;
+
+  while (x -> left != nullptr) {
+    if (k = x -> key) return x;
+    x = k < x -> key ? x -> left : x -> right;
+  }
+  return nullptr;
+}
+```
+
+#### Successor
+
+If $x$ has a right subtree, $x$'s successor is the minimum node in its right
+subtree. Otherwise, it's the first parent (from **left child relation**) that
+has a larger key.
+
+Find the first parent from **left child relation**:
+
+```c
+Node* Successor(node* x) {
+  if (x -> right != nullptr) return TreeMinimum(x -> right);
+
+  Node* y = x -> parent;
+  while (y != nullptr && x == y -> right) {
+    x = y;
+    y = y -> parent;
+  }
+
+  return y;
+}
+```
+
+Find the first parent with a **greater key**:
+
+```c
+Node* Successor(node* x) {
+  if (x -> right != nullptr) return TreeMinimum(x -> right);
+
+  Node* y = x;
+  while (y -> parent != nullptr) {
+    if (y -> parent -> key > x -> key) return y -> parent;
+    y = y -> parent;
+  }
+
+  return nullptr;
+}
+```
+
+#### Insertion
+
+To insert a node $z$, we pretend that $z$ is already in the tree and "look for
+it". When we encounter a `nullptr`, that is where $z$ is supposed to be.
+
+```c
+bool TreeInsert(node* &T, node* x) {
+  Node* prev = nullptr;
+  Node* curr = T;
+
+  while (curr != nullptr) {
+    if (x -> key == curr -> key) return false;
+    prev = curr;
+    curr = x -> key < curr -> key ? curr -> left : curr -> right;
+  }
+
+  x -> parent = prev;
+  x -> left = nullptr;
+  x -> right = nullptr;
+
+  if (prev == nullptr) {
+    T = x // T passed by reference
+  } else if (x -> key < prev -> key) {
+    prev -> left = x;
+  } else {
+    prev -> right = x;
+  }
+
+  return true;
+}
+```
+
+#### Deletion
+
+To delete a node $z$ from the tree, we need to consider 3 cases:
+
+1. $z$ has no children
+
+   We simply remove $z$ and set the pointer to $z$ to `NULL`
+
+2. $z$ has one child
+
+   We **_splice out_** $z$, i.e. linking $z$'s parent to $z$'s child.
+
+3. $z$ has 2 children
+
+   We find the successor of $z$, $y$, in the right subtree, and then use it to
+   replace $z$'s position, and splice out $y$.
+
+##### Lecture Notes Implementation
+
+```c
+Node TreeDelete(Node* &T, Node* z) {
+  Node* y; // Node to be spliced out
+
+  if ((z -> left == nullptr) || (z -> right == nullptr)) {
+    y = z;
+  } else {
+    y = TreeMinimum(z -> right);
+    z -> key = y -> key;
+    /* copy other fields too */
+  }
+
+  Node* x; // Child node of y
+  if (y -> left != nullptr) {
+    x = y -> left;
+  } else {
+    x = y -> right;
+  }
+
+  if (y -> parent == nullptr) {
+    T = x;
+  } else {
+    if (y -> parent -> left == y) {
+      y -> parent -> left = x;
+    } else {
+      y -> parent -> right = x;
+    }
+  }
+
+  x -> parent = y -> parent // Dunno why lecture note doesn't have this line
+
+  // return y, or free y, ...
+}
+```
+
+##### My Implementation
+
+```c
+bool SpliceOutNode(Node* &tree, Node* z) {
+  if (tree == nullptr || z == nullptr) return false;
+  if (z -> left != nullptr && z -> right != nullptr) return false;
+
+  Node* child = z -> left == nullptr ? z -> right : z -> left;
+
+  if (z -> parent == nullptr) {
+    tree = child;
+    return true;
+  }
+
+  if (z -> parent -> left == z) {
+    z -> parent -> left = child;
+  } else if (z -> parent -> right == z) {
+    z -> parent -> right = child;
+  } else {
+    return false; // perhaps throw an error
+  }
+
+  child -> parent = z -> parent;
+  return true;
+}
+
+bool DeleteNode(Node* &tree, Node* z) {
+  if (z == nullptr || tree == nullptr) return false;
+
+  // case 1 & 2: z has only one or no child
+  if (z -> left = nullptr || z -> right = nullptr) {
+    if (!SpliceOutNode(T, z)) return false;
+  } else { // case 3: z has two children
+    Node* successor = TreeMinimum(z -> right);
+
+    if (!SpliceOutNode(T, successor)) return false;
+    successor -> parent = z -> parent;
+    successor -> left = z -> left;
+    successor -> right = z -> right;
+
+    if (z -> parent -> left = z) {
+      z -> parent -> left = successor;
+    } else if (z -> parent -> right = z) {
+      z -> parent -> right = successor;
+    } else {
+      return false; // perhaps throw an error
+    }
+  }
+
+  delete z;
+  return true;
+}
+```
+
+### Time Complexity
+
+The time complexity of the operations are $O(h)$ where $h$ is the height of the
+tree. For a balanced binary tree the height is $O(\log n)$, which is the same
+for the average height of a randomly built binary tree. But our **deletion**
+algorithm favours making the left subtrees deeper than the right, so the average
+height is no longer $O(\log n)$. One way to improve this is to not always use
+the successor to replace a deleted node, but also a "presessor".
+
+### A Theorem
+
+Let $r$ be the root of a tree and $x$ be a node in the tree. Let $T(x)$ denote
+the tree rooted at $x$. Theorem:
+
+$\forall m \in ( T(r) - T(x) )$ \
+$\forall y \in T(x)$ \
+either $x, y < m$ or $x, y > m$.
+
+The intuition is this. Consider any subtrees $T(x)$ and any node $m$ external to
+$T(x)$, we can always find their most near common ancestor $p$ (could be $m$
+itself).
+
+If $p$ is $m$, then $T(x)$ is in one subtree of $m$ and so $x$ and any
+$y \in T(x)$ must be smaller or larger than $m$.
+
+If $p$ is not $m$, then one of them ($x$ and $m$) is in $p$'s left subtree and
+the other in the right subtree. So that $x$ and any $y \in T(x)$ must be either
+smaller than $m$ or larger than $m$.
+
 ### Lecture Notes
 
 ##### p.5
@@ -1222,27 +1497,25 @@ has a larger key.
 Use recursive function, see if the left and right subtree are also binary search
 tree, and if their maximum height is the same.
 
-[\bool IsBst(node* root) { ]\
+```c
+bool IsBst(Node* root) {
+  if (root == nullptr) {
+    return true;
+  }
 
-[\ if (root == NULL) ]\
+  bool is_left = IsBst(root -> left); // optimization: if at any recurssive
+  //level IsBst is false, then immediately end recursion and return false
 
-[\ return true; ]\
+  bool is_right = IsBst(root -> right);
 
-[\ bool IsLeft = IsBst(root->left); // optimize this~: if at any recursive ]\
+  int max_left = TreeMax(root -> left); // TreeMax(nullptr) = -ve infinity
+  int min_right = TreeMin(root -> right); // TreeMin(nullptr) = +ve infinity
 
-[\ //level IsBst is false, then immediately end recursion and return false]\
-
-[\ bool IsRight = IsBst(root->right); ]\
-
-[\ int max_left = Max(root->left); // (Max(null) = -∞) ]\
-
-[\ int min_right = Min(root->right); // (Min(null) = +∞) ]\
-
-[\ if (...) return true; ]\
-
-[\ return false; ]\
-
-[\} ]\
+  if (max_left -> key < root -> key && min_right -> key > root -> key)
+    return true;
+  return false;
+}
+```
 
 if (? max n = n), then "?" should be -∞. This gives you the base case.
 
