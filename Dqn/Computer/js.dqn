@@ -336,6 +336,8 @@
 
   > Creating arrays < {{{3
     ➱   [\new Array(:length:)]\ or [\new Array(:item...:)]\
+        ⮱   For JS, you don't actually need the [\new]\ keyword for
+            [\Array()]\. This is a special case.
     ➱   [\Array.from(:iterable:)]\ creates a new, shallow-copied array.
     ➱   [\[...:iteratble:]]\ Same. Should be more efficient because it is
         implemented in native code.
