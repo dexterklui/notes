@@ -8,7 +8,7 @@ date: 2023-09-23 (Sat)
 ## Problem
 
 Sometimes a function returns different kinds of result in different situations.
-And outside you need to handle the returned value different based on the kinds
+And outside you need to handle the returned value differently based on the kinds
 of result returned.
 
 One basic example is in try-catch block, you may want to return a meaningful
@@ -33,7 +33,7 @@ async function getData() {
 
     return { data };
   } catch (error) {
-    return "Could not fetch data.";
+    return { error: "Could not fetch data." };
   }
 }
 

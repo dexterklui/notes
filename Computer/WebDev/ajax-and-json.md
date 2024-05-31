@@ -12,6 +12,8 @@ entire page.
 
 ## XMLHttpRequest Object
 
+### Intro to XHR Object
+
 **_XMLHttpRequest object_** (short for **_XHR object_**) is the core of AJAX.
 
 1. Create an XMLHttpRequest object
