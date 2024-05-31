@@ -1,18 +1,18 @@
----
-title: JavaScript Web Events
----
+# JavaScript Web Events
 
-# Web Events
+## Web Events
 
 JavaScript itself does not provide events and event methods. This note describes
 **_Web Events_** that is provided by Web API (provided by browsers). There are
 other event models that are different from Web Event Model, such as event models
 of _Node.js_ and _WebExtensions_.
 
-# List of Events
+## List of Events
 
 - `change`: When value of an element (e.g. `<input>`) changes. Note that value
-  only updates when user leave focus from the element.
+  only updates when user confirm a value from the element (leave focus for text
+  input)
+- `input`: typing in textbox or checking a checkbox
 - `focus`: When focus on element
 - `blur`: When leave focus from element
 - `mouseover` and `mouseleave`
@@ -20,19 +20,19 @@ of _Node.js_ and _WebExtensions_.
 - `click`
 - `submit`: Submitting a form
 
-# Adding Events Handlers
+## Adding Events Handlers
 
-## Using method addEventListener
+### Using method addEventListener
 
-1.  `addEventListener(event, callback)`
-2.  `addEventListener(event, callback, abortSignal)`
-    - This allows [removing the handler later](#using-abortsignal).
+1. `addEventListener(event, callback)`
+2. `addEventListener(event, callback, abortSignal)`
+   - This allows [removing the handler later](#using-abortsignal).
 
 - `event` is a string
 - The callback will receive an `Event` object as argument.
 - You can add multiple handlers to the same event type.
 
-## Event handler properties
+### Event handler properties
 
 Objects have properties that are named with a prefix "on" followed by the event,
 e.g. `onclick` for click event. You can assign a callback to these properties.
@@ -40,7 +40,7 @@ e.g. `onclick` for click event. You can assign a callback to these properties.
 The cons is that you cannot add multiple handlers for the same kind of event,
 because any assignment overwrites the previous one.
 
-## Inline event handlers
+### Inline event handlers
 
 Don't use this approach. Many web server disable these scripts for security
 reason. It is also a maintenance nightmare.
@@ -48,15 +48,15 @@ reason. It is also a maintenance nightmare.
 See
 [MDN web docs](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_%E2%80%94_dont_use_these).
 
-# Removing Events Handlers
+## Removing Events Handlers
 
-## Using method removeEventListener
+### Using method removeEventListener
 
 `removeEventListener(event, callback)`
 
 - The argument `callback` must be the same function reference.
 
-## Using AbortSignal
+### Using AbortSignal
 
 For event listeners that were
 [added with an AbortSignal](#using-method-addeventlistener), you can remove them
@@ -76,23 +76,23 @@ btn.addEventListener(
 controller.abort();
 ```
 
-# Event Objects
+## Event Objects
 
-## Event Object
+### Event Object
 
 | Property        | Description                                             |
 | --------------- | ------------------------------------------------------- |
 | `target`        | Element upon which event occurred                       |
-| `currentTarget` | Element within the event bubbling phase                 |
+| `currentTarget` | Element to which the event handler is attached          |
 | `cancelable`    | Whether the event can be canceled by `preventDefault()` |
 
-## KeyboardEvent
+### KeyboardEvent
 
 | Property | Description              |
 | -------- | ------------------------ |
 | `key`    | The key that was pressed |
 
-### Property key
+#### Property key
 
 They are strings. Some examples:
 
@@ -120,12 +120,12 @@ They are strings. Some examples:
 It registers **one key at a time**. For `<C-A-t>` for example, it may be
 "Control", then "Alt", then "t".
 
-## SubmitEvent
+### SubmitEvent
 
 The event `target` and `currentTarget` is a `FormObject`, from which you can
 access the values, e.g. `e.target.formObject.name.value`.
 
-# Preventing Default Behaviour
+## Preventing Default Behaviour
 
 Events have their default behaviour. E.g. sending HTTP request and
 reload/redirect current page on submission of form. To prevent that, call the
@@ -137,9 +137,9 @@ make this effective, i.e. the default behaviour is still prevented even if the
 event reaches `<a>` before it reaches another element and the `preventDefault()`
 gets called.
 
-# Handling Event Propagation
+## Handling Event Propagation
 
-## Stop further propagation
+### Stop further propagation
 
 - `event.stopPropagation()` stop this event from propagating onwards.
 - Passing `capture` option to `addEventListener()` to make the handler called
@@ -157,28 +157,28 @@ Benefits:
 - In complex document, save system resources from searching through DOM for
   handlers
 
-# Trigger Event Manually
+## Trigger Event Manually
 
 `HTMLElement` has following instance methods:
 
 - `click()`
 
-# Touch and Mouse
+## Touch and Mouse
 
-## Touch event guides
+### Touch event guides
 
 - [Mobile Touch and Mouse](https://web.dev/articles/mobile-touchandmouse)
 - [Touch Events Basics](https://www.codeguage.com/courses/js/touch-events-basics)
 
-## Touch events
+### Touch events
 
 During touch event, `prventDefault()` will prevent mouse events from happening.
 
 Touch event always target the element where that touch **started**.
 
-## Order of events
+### Order of events
 
-### Base on online article
+#### Base on online article
 
 1. touchstart
 2. touchmove
@@ -189,9 +189,9 @@ Touch event always target the element where that touch **started**.
 7. mouseup
 8. click
 
-### My test on chromium mobile emulator
+#### My test on chromium mobile emulator
 
-#### A tap
+##### A tap
 
 A tap (touch) on the element:
 
@@ -211,7 +211,7 @@ Then a tap outside:
 
 1. mouseleave
 
-#### Touch and move immediately
+##### Touch and move immediately
 
 Touch and move immediately while touching:
 
@@ -225,7 +225,7 @@ Then release touch:
 
 1. touchend
 
-#### Touch and hold position
+##### Touch and hold position
 
 1. pointerenter
 2. pointerdown
@@ -242,7 +242,7 @@ When release:
 
 1. touchend
 
-## Tab Index
+### Tab Index
 
 HTML attribute `tabindex="-1"` can be useful when you want an element focusable
 through touch (and click) to activate `:focus` pseudo-class, or make `focusin`
@@ -251,29 +251,29 @@ through the keyboard key tab. One example case is when you `preventDefault`
 during touch event which also disable mouse events, thus making `:hover` not
 activate.
 
-# Concepts
+## Concepts
 
-## Event listeners and handlers
+### Event listeners and handlers
 
 An event **_listener_** listens to an event. An event **_handler_** is a
 callback that handles the event.
 
-## Event Propagation
+### Event Propagation
 
-1.  **_Capturing phase_**:
+1. **_Capturing phase_**:
 
-    Go from outermost elements towards the innermost target, calling handlers
-    that have [`capture` option set](#stop-further-propagation) on the way. This
-    is called **_event capturing_**.
+   Go from outermost elements towards the innermost target, calling handlers
+   that have [`capture` option set](#stop-further-propagation) on the way. This
+   is called **_event capturing_**.
 
-2.  **_Bubbling phase_**:
+2. **_Bubbling phase_**:
 
-    Go from innermost target and _bubbles up_ to the less nested elements,
-    calling handlers that don't have
-    [`capture` option set](#handling-event-propagation). This is **_event
-    bubbling_**.
+   Go from innermost target and _bubbles up_ to the less nested elements,
+   calling handlers that don't have
+   [`capture` option set](#handling-event-propagation). This is **_event
+   bubbling_**.
 
-### Event delegation
+#### Event delegation
 
 We can delegate event handling to a parent element, instead of adding event
 handlers for a large amount of children one after another. In the handler
@@ -283,7 +283,7 @@ attached to the parent, we use `event.target` to get the innermost element and
 For more detail and an example, see
 [MDN web docs](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_%E2%80%94_dont_use_these).
 
-### Document-wide event handler
+#### Document-wide event handler
 
 Sometimes it is necessary to set a default handler to the `docuemnt` object.
 This is especially true for document-wide drag-and-drop action.
@@ -292,11 +292,11 @@ You attach `mousedown` handler to the target. Then attach `mousemove` and
 `mouseup` event to the document. If these `mousemove` and `mouseup` are
 registered to the target layer, they aren't caught.[^1]
 
-# Example Use Cases
+## Example Use Cases
 
 Input form validation: `keyup`
 
-# References and Links
+## References and Links
 
 References:
 
@@ -306,7 +306,7 @@ Other links:
 
 - [Test your skills: Events](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Test_your_skills:_Events)
 
-# 🧭 Navigation
+## 🧭 Navigation
 
 - [🔼 Back to top](#)
 - [◀️ Back](index.md)
@@ -314,7 +314,7 @@ Other links:
 - [📑 Notes Index](../../index.md)
 - [🗃️ Master Index](../../../index.md)
 
-# Footnotes
+## Footnotes
 
 [^1]:
     [Javascript - Event order](https://www.quirksmode.org/js/events_order.html#link8)

@@ -14,7 +14,7 @@ remove the scheduler. After removing the scheduler, the scheduled task will not
 be executed.
 
 You can either store their returned value in a variable and remove the scheduler
-later using that. Or on a **server side** (Node.js) you can remove the scheduler
+later using that. Or on **server side** (Node.js) you can remove the scheduler
 in the **anonymous (not arrow function)** callback function by referencing the
 scheduler through the keyword `this`, like the following:
 

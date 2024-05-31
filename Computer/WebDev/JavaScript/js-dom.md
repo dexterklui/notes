@@ -163,17 +163,26 @@ class), and `Element.removeAttribute(attr)` to remove.
 Note that for **boolean** attribute, setting any value at all (e.g. `""`) means
 true. You need to remove the attribute to really make the value false.
 
-### Changing classes
-
-- `Element.classList.addClass()`
-- `Element.classList.removeClass()`
-
 ### Manipulating styles
 
 - `Document.stylesheets` gives you an array-like object with `CSSStyleSheet`
   objects. This is an old way to manipulate style.
-- `HTMLElement.style` refers to an object containing styling info. The key names
-  for a CSS property is the **camel case** equivalent of CSS property name.
+
+- `HTMLElement.style` is **read-only** and returns the **inline** style of an
+  element in the form of a live `CSSStyleDeclaration` object that contains a
+  list of all styles properties for that element with values assigned only for
+  the attributes that are defined in the element's inline style attribute.
+
+  The key names for a CSS property is the **camel case** equivalent of CSS
+  property name.
+
+  Though it is read-only and cannot assign a `CSSStyleDeclaration` object to it,
+  you can directly assign a string to set an inline style that totally replaces
+  all previous inline styles.
+
+  So to add specific styles to an element without altering other style values,
+  you should set individual properties on the returned `CSSStyleDeclaration`
+  object, e.g. `myElement.style.backgroundColor = "red"`.
 
 ## Creating Nodes
 
@@ -237,7 +246,7 @@ Position can be:
 
 ## DOM Traversal
 
-### Note that...
+### Note that
 
 - Many `NodeList` returned are **live**. Keep this in mind when making decisions
   like caching the length for iteration
