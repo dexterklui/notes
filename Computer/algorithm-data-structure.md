@@ -1190,9 +1190,9 @@ Facts:
 - You find a critical height when you find a please where egg doesn't break and
   that the next place it breaks.
 
-1.  jump search: 10: worst case 50 + 9 times
-2.  1 binary 9 jump: worst case 1 + 250/9 + 7 = 1 + 27 + 8 = 36
-3.  2 - 8: worst case: 2 + 125/8 + 6 = 2 + 15 + 6 = 23
+1. jump search: 10: worst case 50 + 9 times
+2. 1 binary 9 jump: worst case 1 + 250/9 + 7 = 1 + 27 + 8 = 36
+3. 2 - 8: worst case: 2 + 125/8 + 6 = 2 + 15 + 6 = 23
 
 Lecturer:
 
@@ -1232,7 +1232,7 @@ All in $O(log n)$ worst case time if the tree is **kept balanced**.
 If $x$ is a node, then $x$'s key > all keys in $x$'s left subtree and < all keys
 in $x$'s right subtree.
 
-### Implementation
+### BST Implementation
 
 #### Minimum
 
@@ -1608,29 +1608,49 @@ recursion similar to the previous algorithm.
 
 ##### (a)
 
-if (root == null) return 0; return (root -> key + Sum(root -> left) + Sum(root
--> right));
+```c
+if (root == null) return 0;
+return (root -> key + Sum(root -> left) + Sum(root -> right));
+```
 
 ##### (b)
 
-if (root == null) return 0; int temp_root = 0; if (a ≤ root->key ≤ b) temp_root
-= root->key; return (temp_root + SumRange(root->left, a, b) +
-SumRange(root->right, a, b))
+```c
+if (root == null) return 0;
+
+int temp_root = 0;
+if (a ≤ root->key ≤ b) temp_root = root->key;
+
+return (temp_root + SumRange(root->left, a, b) + SumRange(root->right, a, b))
 
 // You can do some optimization
+```
 
 ##### (c)
 
-if (root == null) return null; if (root->key > b) return MaxRange(root->left, a,
-b); node\* temp_right = MaxRange(root->right, a, b); if (temp_right != null)
-return temp_right; if (a ≤ root->key) return root; return null;
+```c
+if (root == null) return null;
+if (root->key > b) return MaxRange(root->left, a, b);
+
+node* temp_right = MaxRange(root->right, a, b);
+
+if (temp_right != null) return temp_right;
+if (a ≤ root->key) return root;
+return null;
+```
 
 ##### (d)
 
-if (root == null) return null; node* temp_left = Transform(root->left, a, b);
-node* temp_right = Transform(root->right, a, b); root -> key = a \* root ->
-key + b; if (a < 0) { root->left = temp_right; root->right = temp_left; } return
-root;
+```c
+if (root == null) return null;
+node* temp_left = Transform(root->left, a, b);
+node* temp_right = Transform(root->right, a, b);
+root -> key = a \* root -> key + b;
+if (a < 0) {
+  root->left = temp_right; root->right = temp_left;
+}
+return root;
+```
 
 ## L8 Balanced Tree
 
@@ -1647,7 +1667,7 @@ Note that AVL tree is not the most balanced binary search tree.
 
 It is costly to make a binary search tree as balance as possible (the number of
 nodes at either subtree is as close as possible). So a less stringent condition
-is provided for [[AVL tree]].
+is provided for **_AVL tree_**.
 
 #### Height bound
 
@@ -1732,20 +1752,20 @@ For it only passes the problem of Y to another node.
 
 #### Insertion General Approach
 
-1.  Follow the algorithm of binary search tree insertion
-2.  Go from inserted node up to the root through parent pointers, updating the
-    height information of the nodes along the path
-    - **_NOTE_** that depending on your implementation, you may not really
-      tracing from the new leaf to the root. When you make an insertion by
-      **recursion**, you are tracing from the root to leaf, and each recursion
-      will fix the AVL tree at that node. If you use this method, make sure when
-      a recursive call returns, you need to pass all necessary information.
-      - Since you can compare the key of the newly added node and that of the
-        child, you don't even need to pass information up in order for the
-        ancestor to know whether the direction changed and thus need a double
-        rotation.
-3.  If a node on the path violate AVL condition due to insertion, perform a
-    rotation (single/double) to restore balance.
+1. Follow the algorithm of binary search tree insertion
+2. Go from inserted node up to the root through parent pointers, updating the
+   height information of the nodes along the path
+   - **_NOTE_** that depending on your implementation, you may not really
+     tracing from the new leaf to the root. When you make an insertion by
+     **recursion**, you are tracing from the root to leaf, and each recursion
+     will fix the AVL tree at that node. If you use this method, make sure when
+     a recursive call returns, you need to pass all necessary information.
+     - Since you can compare the key of the newly added node and that of the
+       child, you don't even need to pass information up in order for the
+       ancestor to know whether the direction changed and thus need a double
+       rotation.
+3. If a node on the path violate AVL condition due to insertion, perform a
+   rotation (single/double) to restore balance.
 
 #### Node definition for AVL tree
 
@@ -1853,10 +1873,10 @@ branch from the point of view of parent.
 
 #### Deletion
 
-1.  Delete the node as in a binary tree.
-2.  Go up to the root from the parent of the deleted node and do:
-    - update the value of height
-    - perform rotation to restore balance if the node violate AVL tree condition
+1. Delete the node as in a binary tree.
+2. Go up to the root from the parent of the deleted node and do:
+   - update the value of height
+   - perform rotation to restore balance if the node violate AVL tree condition
 
 ## Sort
 
@@ -2052,9 +2072,9 @@ _p. 54_ there can be an extra function: change priority of a node.
 
 #### Idea
 
-1.  Divide the list into 2 roughly equal parts
-2.  Sort the 2 parts individually
-3.  Merge them afterwards
+1. Divide the list into 2 roughly equal parts
+2. Sort the 2 parts individually
+3. Merge them afterwards
 
 Depth of recursion is O(log n)
 
@@ -2068,25 +2088,19 @@ If the input was:
 
 #### Algorithm
 
-[\MergeSort(arr, low, high) { ]\
+```c
+MergeSort(arr, low, high) {
+    /* sort the subarray arr[low..high] */
+    if (high > low) {
+        mid = floor((low + high) / 2);
+        MergeSort(arr, low, mid);
+        MergeSort(arr, mid + 1, high);
+        Merge(arr, low, mid, high); // O(n) time + extra space
 
-[\ /_ sort the subarray arr[low..high] _/ ]\
-
-[\ if (high > low) { ]\
-
-[\ mid = floor((low+high)/2); ]\
-
-[\ MergeSort(arr, low, mid); ]\
-
-[\ MergeSort(arr, mid+1, high); ]\
-
-[\ Merge(arr, low, mid, high); // O(n) time + extra space ]\
-
-[\ /_ merge the lists arr[low..mid] and arr[mid+1..high] _/]\
-
-[\ } ]\
-
-[\} ]\
+        /* merge the lists arr[low..mid] and arr[mid+1..high] */
+    }
+}
+```
 
 #### Time complexity
 
@@ -2116,7 +2130,11 @@ merge sort.
 
 #### Algorithm
 
-Partition(arr, p, r) { /_ partition the array segment arr[p..r] _/ }
+```c
+Partition(arr, p, r) {
+    /* partition the array segment arr[p..r] */
+}
+```
 
 #### Complexity
 
@@ -2155,12 +2173,12 @@ Input is given in an array: [\A[1..n]]\. The output is [\B[1..n]]\ takes up
 
 _slide p.32_ REMEMBER that the index (and key) starts from 1, not 0.
 
-1.  initialize the count to 0.
-2.  count the occurrence of each key. [\C[A[j].key]++]\
-3.  update C[] to have cumulative sum.
-4.  After copying the element to a correct position, lower the counter for that
-    key by 1.
-    - Scanning backward to achieve **stable sorting**.
+1. initialize the count to 0.
+2. count the occurrence of each key. `C[A[j].key]++`
+3. update `C[]` to have cumulative sum.
+4. After copying the element to a correct position, lower the counter for that
+   key by 1.
+   - Scanning backward to achieve **stable sorting**.
 
 ##### time complexity
 
@@ -2170,10 +2188,10 @@ _slide p.32_ REMEMBER that the index (and key) starts from 1, not 0.
 
 #### Linked list counting sort
 
-1.  Create an array of k element: B[1..k]
-2.  Iterate through the input list, and append each node to the appropriate
-    linked list rooted at the appropriate element in B[1..k].
-3.  Concatenate the k linked list in B[1..k].
+1. Create an array of k element: `B[1..k]`
+2. Iterate through the input list, and append each node to the appropriate
+   linked list rooted at the appropriate element in `B[1..k]`.
+3. Concatenate the k linked list in `B[1..k]`.
 
 ### Radix Sort
 
