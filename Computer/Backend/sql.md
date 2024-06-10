@@ -1,7 +1,6 @@
 ---
 date: 2023-11-27 (Mon)
 ---
-
 # SQL
 
 ## What is SQL?
@@ -160,6 +159,13 @@ For details about each engine, see
 - SQL statements are terminated with `;`.
 - SQL comments start with `--` and end with the end of the line.
 - SQL statements can span multiple lines.
+- Single quote string values (otherwise it would be interpreted as name of
+  attributes or relations)
+
+Good convention:
+
+- Use **uppercase** for SQL keywords
+- Double quote names of attributes and relations
 
 ## Builtin Functions
 
@@ -410,18 +416,28 @@ WHERE Customer.customer_id = Borrower.customer_id;
 #### Logical Operators
 
 Comparison results can be combined using logical operators: `AND`, `OR`, `NOT`.
+And even with parentheses `()`.
 
 ```sql
 SELECT loan_id
 FROM Loan
 WHERE branch_id = 'B1' AND
-      amount > 1200;
+      NOT amount > 1200;
+```
+
+#### IS NULL Clause
+
+`IS NULL` and `IS NOT NULL`:
+
+```sql
+SELECT "title", "translator" FROM "longlist" WHERE "translator" IS NULL;
+SELECT "title", "translator" FROM "longlist" WHERE "translator" IS NOT NULL;
 ```
 
 #### Like Clause
 
-`LIKE` is used to match a string with a _pattern_. Patterns are case sensitive.
-Use single quotes `'` to enclose the pattern.
+`LIKE` is used to match a string with a _pattern_. Patterns are case sensitive
+(not case sensitive for SQLite). Use single quotes `'` to enclose the pattern.
 
 - Percent `%` matches any number of characters
 - Underscore `_` matches exactly one character
@@ -509,13 +525,17 @@ WHERE EXISTS (
 
 #### Between Clause
 
-`BETWEEN` specifies a range of values. `NOT BETWEEN` is also available.
+`BETWEEN` specifies an (inclusive) range of values. `NOT BETWEEN` is also
+available.
 
 ```sql
 SELECT name
 FROM Branch
 WHERE asset BETWEEN 5000000 AND 10000000;
 ```
+
+You can use `BETWEEN` with dates, such as
+`BETWEEN '2000-01-01' AND '2000-12-31'`.
 
 #### Subqueries in where clause
 
@@ -667,18 +687,28 @@ WHERE branch_id = 'B2';
 
 #### Aggregate functions
 
-| Function         | Description    |
-| ---------------- | -------------- |
-| `AVG`            | Average        |
-| `MIN`            | Minimum        |
-| `MAX`            | Maximum        |
-| `SUM`            | Sum            |
-| `COUNT`          | Count          |
-| `COUNT-DISTINCT` | Count distinct |
+| Function         | Description                         |
+| ---------------- | ----------------------------------- |
+| `AVG`            | Average                             |
+| `MIN`            | Minimum (Earliest in Sorting Order) |
+| `MAX`            | Maximum (Latest in Sorting Order)   |
+| `SUM`            | Sum                                 |
+| `COUNT`          | Count                               |
+| `COUNT-DISTINCT` | Count distinct                      |
+
+- `COUNT(*)` count number of rows. `COUNT("my-column")` count number of rows
+  with **non-null** value for `my-column`.
+- You can do `COUNT(DISTINCT "publisher")` or `COUNT-DISTINCT("publisher")`
+  depending on the DBMS.
 
 #### Group-by Clause
 
-`GROUP BY` let aggregate functions to be applied to groups of tuples.
+`GROUP BY` groups rows sharing the same value on the specified attribute into
+one row. The **first row** in the table of that value will be used as a
+representative of the group. Note that `GROUP BY` doesn't sort the table by that
+attribute before grouping, but follows whatever order the table is in.
+
+`GROUP BY` is usually used with aggregate functions.
 
 ```sql
 # Find the average balance for each branch
@@ -697,6 +727,16 @@ SELECT branch_id, AVG(balance)
 FROM Account
 GROUP BY branch_id
 HAVING AVG(balance) > 650;
+```
+
+### Modifying Functions
+
+Use to modify values
+
+```sql
+SELECT ROUND(AVG(balance), 2) # average
+FROM Account
+WHERE branch_id = 'B2';
 ```
 
 ### Set Operators
@@ -838,6 +878,12 @@ WHERE D.budget = (
   SELECT MAX(D2.budget)
   FROM Departments D2
 );
+```
+
+### Limit Clause
+
+```sql
+SELECT title FROM books LIMIT 10; # select first 10 rows
 ```
 
 ## Null and Unknwon Values
@@ -1123,3 +1169,4 @@ WITH RECURSIVE
 [^cartesian-product]:
     Cartesian product is defined as
     $A \times B = \{(a, b) \mid a \in A, b \in B\}$.
+
