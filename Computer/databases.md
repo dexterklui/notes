@@ -1,7 +1,6 @@
 ---
 date: 2023-11-27 (Mon)
 ---
-
 # Databases
 
 ## Data Modeling
@@ -591,19 +590,20 @@ $R \bowtie_\theta S = \sigma_\theta(R \times S)$.
 
 #### Division
 
-$R \div S$ is defined such that $(R \times S) \div S = R$. But in general
-$(R
-\div S) \times S \neq R$. See [this proof](#counter-example-of).
+$R \div S$ only makes sense when $S$'s attributes is a subset of $R$'s
+attributes.
 
-So
-$R \div S =
-\{ t \vert t \in \pi_{R-S}(R) \land (\forall s \in S, ((t \cup s) \in R)) \}$
+The formal definition is
+$R \div S = \{ t \vert t \in \pi_{R-S}(R) \land
+(\forall s \in S, ((t \cup s) \in R)) \}$
 
 $R \div S$ is used to express queries with the **all** quantifier. E.g. if
-$R
-\div S$ is a tuple of $(A = 2)$, then for tuples whose attribute $A$ is $2$ in
-$R$, those tuples' values in the common attribute $B$ covers **all** values in
-attribute $B$ of $S$.
+$R \div S$ is a tuple of $(A = 2)$, then for tuples whose attribute $A$ is $2$
+in $R$, those tuples' values in the common attribute $B$ covers **all** values
+in attribute $B$ of $S$.
+
+Note that $(R \times S) \div S = R'$ where $R'$ is $\pi_{R-S}(R)$. But in
+general $(R \div S) \times S \neq R$. See [this proof](#counter-example-of).
 
 ##### Counter example of $(R \div S) \times S = R$
 
@@ -976,7 +976,7 @@ we **don't need to join** the decomposed relations to check the functional
 dependency.
 
 A decomposition is **_dependency preserving_** if and only if
-$(\cup_i F_i)^+ \to F^+$. This way, we can check the functional dependencies by
+$(\cup_i F_i)^+ = F^+$. This way, we can check the functional dependencies by
 checking individual decomposed relations $R_i$ only without the need to join.
 
 Consider $R(A, B, C, D)$ and $F = \{A \to B, B \to CD\}$.
@@ -996,7 +996,8 @@ joining $R_1$ and $R_2$.
 When all non-trivial functional dependencies (_non-reflexive_ dependencies) form
 a key, the relation has no redundancy. We say $R$ is in
 [Boyce-Codd Normal Form](#boyce-codd-normal-form) _iff_ for all non-reflexive
-FDs $\alpha \to \beta$ where $\beta \nsubseteq \alpha$, $\{ \alpha \}^+ = R$.
+FDs $\alpha \to \beta$ where $\beta \nsubseteq \alpha$, $\{ \alpha \}^+ = R$,
+i.e. $\alpha$ forms a super key for $R$.
 
 #### Redundancy example
 
@@ -1074,3 +1075,4 @@ preserved.
 
 - [🔖 Parent index](../index.md)
 - [📑 Notes Index](../index.md)
+
