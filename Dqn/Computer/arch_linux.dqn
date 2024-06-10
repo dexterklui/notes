@@ -63,6 +63,7 @@
     ➱   [\adobe-source-han-sans-otc-fonts]\: need to display Chinese
         characters, at least in Firefox, but may also be for all programs.
     ➱   [\openvpn]\ and [\networkmanager-openvpn]\
+    ➱   [\wl-clipboard]\: for clipboard support to waydroid in wayland
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
