@@ -562,10 +562,10 @@ product as similar to `FROM` + `WHERE`.
 
 ```sql
 SELECT *
-FROM Employee JOIN Department # same as INNER JOIN
+FROM Employee JOIN Department -- same as INNER JOIN
 ON Employee.department_id = Department.department_id;
 
-# is equivalent to
+-- is equivalent to
 
 SELECT *
 FROM Employee E, Department D
@@ -587,6 +587,18 @@ ON E.department_id = D.department_id;
 `LEFT OUTER JOIN` returns all records from the left table (table1), and the
 matched records from the right table (table2). The result is NULL from the right
 side, if there is no match. Mutatis mutandis `RIGHT OUTER JOIN`.
+
+`FULL OUTER JOIN` returns all records from both tables.
+
+Actually the term `INNER` and `OUTER` can be omitted.
+
+#### Natural join
+
+We use `NATURAL JOIN` to make an inner join **on common attributes**.
+
+```sql
+SELECT * FROM Employee JOIN Department;
+```
 
 ### Distinct Results
 
