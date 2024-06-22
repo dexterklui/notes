@@ -585,6 +585,7 @@
 
    |manual query using NSS|
     ‣   [\$ getent hosts :domain_name:]\
+    ‣   [\$ getent ahosts :domain_name:]\ similar with the above
 
   > systemd resolved < {{{3
     ‣   [\$ resolvectl status]\ to check for status
