@@ -65,6 +65,8 @@
     ➱   [\openvpn]\ and [\networkmanager-openvpn]\
     ➱   [\wl-clipboard]\: for clipboard support to waydroid in wayland
     ➱   [\ifuse]\: Needed to enable iOS connection, even with Dolphin
+    ➱   [\systemd-resolvconf]\ to allow OpenVPN and WireGuard to interact with
+        [\systemd-resolved]\ for name resolution
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
