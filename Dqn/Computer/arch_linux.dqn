@@ -533,6 +533,31 @@
   > Workflow < {{{3
     1.  Invoke NSS
 
+        Check which service to use for resolution. Here, we use
+        [\resolve]\ (which stands for systemd-resolved) before [\files]\,
+        [\myhostname]\ and [\dns]\.
+
+    2.  Use [\systemd-resolved]\ stub to resolve name.
+
+    3.  Some programs (e.g. OpenVPN, WireGuard) use [\/usr/bin/resolvconf]\
+        which is provided by [\systemd-resolvconf]\ as a symlink to
+        [\/usr/bin/resolvectl]\ to set name servers and search domain. This
+        must be used with [\systemd-resolved]\ as the destination binary
+        [\/usr/bin/resolvectl]\ is the binary for [\systemd-resolved]\
+
+  > Major Config Files < {{{3
+    ➱   Some programs uses Name Service Switch, hence using the services specified
+        in [\/etc/nsswitch.conf]\.
+    ➱   Some programs read [\/etc/resolv.conf]\ directly. So if you want to
+        use [\systemd-resolved]\ for name resolution, it is recommended to use
+        the [[stub mode]] of [\systemd-resolved]\, which is set by setting up
+        a symlink from [\/etc/resolv.conf]\ to
+        [\/run/systemd/resolve/stub-resolv.conf]\
+    ➱   [\/etc/systemd/resolved.conf]\ and [\/etc/systemd/resolved.conf.d/*]\
+        for [\systemd-resolved]\
+    ➱   [\/etc/NetworkManager/NetworkManager.conf]\ and
+        [\/etc/NetworkManager/conf.d/*]\ for Network Manager
+
   > Name Service Switch < {{{3
     ['Name Service Switch]' (['NSS]') provides the computer with a variety of
     sources of common configuration databases and name resolution mechanisms,
@@ -555,6 +580,10 @@
 
    |manual query using NSS|
     ‣   [\$ getent hosts :domain_name:]\
+
+  > systemd resolved < {{{3
+    ‣   [\$ resolvectl status]\ to check for status
+    ‣   [\$ resolvectl query :...:]\ query for a domain name
 
  == Program Overview == {{{2
     ➱   [\ss]\ check tcp/udp open port
