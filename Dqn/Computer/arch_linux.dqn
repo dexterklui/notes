@@ -64,6 +64,7 @@
         characters, at least in Firefox, but may also be for all programs.
     ➱   [\openvpn]\ and [\networkmanager-openvpn]\
     ➱   [\wl-clipboard]\: for clipboard support to waydroid in wayland
+    ➱   [\ifuse]\: Needed to enable iOS connection, even with Dolphin
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
@@ -82,7 +83,6 @@
     ➱   [\khotkeys]\ seems it can be safely removed after upgrade to Plasma 6
     ➱   [\electron22]\
         ➱   [\-Rscn]\ also also deleted [\openssl-1.0]\ and [\mailspring-bin]\
-    ➱   [\ifuse]\: I think I can just use dolphin builtin support for iOS.
     ➱   [\jdk11-openjdk]\: I still has the default [\jdk-oepnjdk]\ package
     ➱   [\luit]\
 
