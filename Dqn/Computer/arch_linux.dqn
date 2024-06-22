@@ -23,6 +23,10 @@
         [\[mariadb]]\ section. (changing the root directory for mariadb data)
     ➱   [\~/.config/environment.d/envvars.conf]\: a new config file for
         setting up environment variables for Wayland session.
+
+  > Networking < {{{3
+    ➱   Added [\/etc/systemd/resolved.conf.d/]\ for adding drop-in config
+        files for [\systemd-resolved]\:
     
   > Firefox < {{{3
    |about:config|
