@@ -629,6 +629,18 @@ FROM Branch B, Loan L
 WHERE B.branch_id = L.branch_id;
 ```
 
+### Adding Query Column
+
+In fact `AS` keyword can be used to create any arbitrary column in the resulting
+table.
+
+```sql
+-- Create a new column "profession" whose value is 'author'
+SELECT "name", 'author' AS "profession" FROM "authors"
+UNION
+SELECT "name", 'translator' AS "profession" FROM "translators";
+```
+
 ### Order-by Clause
 
 `ORDER BY` specifies the order in which to display the result.
