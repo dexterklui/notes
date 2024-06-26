@@ -43,6 +43,7 @@
 - [SQL](Computer/Backend/sql.md)
 - [PostgreSQL](Computer/Backend/postgresql.md)
 - [MySQL](Computer/Backend/mysql.md)
+- [SQLite](Computer/Backend/sqlite.md)
 - [Firebase](Computer/Backend/firebase.md)
 - [aws](Computer/Backend/aws.md)
 
