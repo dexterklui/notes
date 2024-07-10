@@ -71,6 +71,9 @@
     ➱   [\ifuse]\: Needed to enable iOS connection, even with Dolphin
     ➱   [\systemd-resolvconf]\ to allow OpenVPN and WireGuard to interact with
         [\systemd-resolved]\ for name resolution
+    ➱   [\wireguard-tools]\: for NordVPN's nordlynx technology
+    ➱   [\eclipse-java-bin]\: for FDM Java course
+        ‣   [\jdk17-openjdk]\: for FDM Java course
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
@@ -109,6 +112,7 @@
     ➱   [\openvpn-update-systemd-resolved]\: install up and down scripts for
         openvpn
     ➱   [\nordvpn-bin]\
+    ➱   [\jdtls]\: Java language server, for NeoVim
 
    |Deleted|
     ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
