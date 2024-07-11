@@ -404,6 +404,22 @@
     ‣   Variables
     ‣   Literals
 
+ == Collection == {{{2
+  > Methods < {{{3
+    [[Static]] methods:
+
+    ➱   [\min()]\
+    ➱   [\max()]\
+    ➱   [\sort()]\
+    ➱   [\frequency()]\
+    ➱   [\reverse()]\
+
+    Note that for min, max and sort, the elements must implement
+    [\Comparable]\ interface, and implement the method
+    [\compareTo(type object)]\. The method should return negative if the
+    subject should sort before the argument, 0 when the same, and positive
+    when subject should sort after the argument.
+
  == Arrays == {{{2
   > Arrays < {{{3
     ➱   Indices start at 0.
