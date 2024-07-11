@@ -546,6 +546,12 @@
     ‣   /
     ‣   %
 
+   |different operand types|
+    ‣   char + char -> int
+    ‣   char + string -> string
+        ⮱   char + string + char is just concatenating to a longer string
+    ‣   char + char + string -> int + string -> e.g. "231myStr"
+
   > Relational operators < {{{3
     ‣   <
     ‣   <=
