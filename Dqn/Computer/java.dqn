@@ -1098,6 +1098,20 @@
         wish.
         ⮱   NOTE that when you override this method, you have to override the
             [\hashCode()]\ method as well.
+    ➱   Sometimes it's called fine grained comparison
+
+    Eclipse can auto-generate the following by default:
+    #beginCode#
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Component other = (Component) obj;
+        return Object.equals(attr1, other.attr1)
+            && Objects.equals(attr2, other.attr2);
+    }
+    #endCode#
 
    |hashCode()| {{{4
     ➱   [\int hashCode()]\ returns a hash code value for the current object
@@ -1107,6 +1121,15 @@
         hash.
         ⮱   So you must override this method if you wish to override
             [\equals()]\
+    ➱   Sometimes it's called coarse grained comparison
+
+    Eclipse can auto-generate the following by default:
+    #beginCode#
+    @Override
+    public int hashCode() {
+        return Objects.hash(attr1, attr2);
+    }
+    #endCode#
 
    |getClass()| {{{4
     ➱   [\final Class getClass()]\ returns a reference to a Class object that
@@ -1119,6 +1142,14 @@
     ➱   It is recommended that all subclasses [[override]] this method.
     ➱   By [[default]] the output is something like Dog@7852e922 ([\:CLASS`@HASH:]\)
         ⮱   But you can override to provide more textual information.
+
+    Eclipse can auto-generates the following by default:
+    #beginCode#
+    @Override
+    public String toString() {
+        return "Component [attr1=" + attr1 + ", attr2=" + attr2 + "]";
+    }
+    #endCode#
 
    |constructor|
     The default no-argument constructor is called when its direct descendent
