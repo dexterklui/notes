@@ -691,6 +691,9 @@
 
     From JDK7, the expression in switch can also be string, unlike C.
 
+    Note that it [[doesn't]] support all primitive type. It does support enums
+    and String.
+
   > For statements < {{{3
    |C like for-loop| {{{4
     Like C.
