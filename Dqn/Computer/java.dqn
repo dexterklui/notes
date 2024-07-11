@@ -840,6 +840,14 @@
     In Java they are called ['setters]'. It takes in arguments and set the
     value of an instance variable to the equivalent value of the argument.
 
+  > Access modifier < {{{3
+    ➱   public
+    ➱   protected
+    ➱   default
+    ➱   private
+
+    See the section Classes
+
   > Constructor < {{{3
     ➱   Same name with the class
     ➱   No return type, not even void
