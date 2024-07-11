@@ -23,6 +23,10 @@
     ➱   Better security
         ⮱   Java program is run in a sandbox confined by the JVM.
 
+ == Cons == {{{2
+    ➱   Interpreted
+    ➱   Still under dev (moving target)
+
 [~{ Coding Java }~] {{{1
  == Basic Rules & Conventions == {{{2
   > general rules < {{{3
