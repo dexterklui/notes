@@ -499,21 +499,28 @@
   > ArrayList < {{{3
     ➱   Like arrays but have more methods and cannot use brackets indexing
         syntax.
+    ➱   Its size change dynamically as you add more elements
+    ➱   Implement List, which implements [[Collection]]. You can use many
+        static methods in Collection, e.g. sort.
 
   > Not supporting primitive types < {{{3
     ➱   It only supports [[classes only]] and not primitive types.
+    ➱   Use ['wrapper class]' for primitive type.
 
   > Methods < {{{3
     ➱   [\add(Object elem)]\
         ⮱   You can [\add(new :OBJECT:())]\
     ➱   [\remove(int index)]\
     ➱   [\remove(Object elem)]\
+    ➱   [\get(int index)]\: accessing list[i]
+    ➱   [\set(int index, Object elem)]\: assigning to list[i]
+
+    ➱   [\size()]\
     ➱   [\boolean contains(Object elem)]\
     ➱   [\boolean isEmpty()]\
     ➱   [\int indexOf(Object elem)]\: -1 if the object not found
-    ➱   [\size()]\
-    ➱   [\get(int index)]\: accessing list[i]
-    ➱   [\set(int index, Object elem)]\: assigning to list[i]
+
+    ➱   [\toArray()]\: returns an array filled with elements in the list
 
   > Declaration < {{{3
     ➱   [\ArrayList<:TYPE`> IDENTIFIER:;]\
@@ -524,7 +531,9 @@
         ⮱   You may omit the TYPE when the type you want to create is already
             specified in the reference variable. E.g.:
             [\ArrayList<Integer> lst = new ArrayList<>();]\
-        ⮱   INIT can be [\List.of(1, 2, 3, 4, 5)]\ for example.
+        ⮱   INIT can be:
+            ‣   [\List.of(1, 2, 3, 4, 5)]\ for initial [[Collection]]
+            ‣   [\3]\ to specify the size is 3
 
   > Loop through ArrayList < {{{3
     Use [\for (:TYPE IDENTIFIER `: ARRAYLIST:)]\
