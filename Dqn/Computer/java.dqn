@@ -350,6 +350,9 @@
         ⮱   Before any static method of the class runs
     ➱   Use keyword [\static]\ after the access control keyword.
     ➱   Can be accessed using [[class name]].
+        ⮱   Can also be accessed through instance objects. But that's not good
+            style cause it makes it seem like the static variable is an
+            instance variable
     ➱   Can be used in static methods.
 
   > Final variables < {{{3
@@ -362,6 +365,7 @@
         ‣   At the time it is declared; or
         ‣   In the constructor. (A final variable does [[not get a default
             value]]!)
+    ➱   Instance final variable is usually used for ID.
 
   > Constant < {{{3
     ➱   To define a ['constant]', mark a variable both as [\static]\ and
