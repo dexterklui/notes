@@ -423,13 +423,15 @@
  == Arrays == {{{2
   > Arrays < {{{3
     ➱   Indices start at 0.
-    ➱   Can be of primitive type or of object references.
+    ➱   Can be of primitive type or of object references. All member must be
+        of the [[same type]]
     ➱   An array is not a primitive, but an [[object]].
     ➱   The array variable is a [[reference variable]] referring to an array
         object.
     ➱   So declaring an array object is different from creating an array
         object.
-    ➱   Size must be determined at creation, and cannot be changed later.
+    ➱   Size must be determined at creation, and [[cannot be changed]] later.
+    ➱   Size can be a variable on creation.
 
   > As an object: data and methods < {{{3
     ➱   Does not have any methods.
@@ -438,6 +440,7 @@
 
   > Declaration < {{{3
     ➱   [\:TYPE:[]: IDENTIFIER:;]\░
+    ➱   [\int[] numbers = new int[3];]\ initialise an array of length 3.
 
   > Creating an array < {{{3
     Use [\new :TYPE`[SiZE:]]\. NOTE that the [[size]] cannot be change later.
@@ -446,6 +449,7 @@
     ➱   [\:TYPE:[]: IDENTIFIER: = {:[ELEMENT[`,...]]:};]\░
         ⮱   NOTE that the array constant can only be used as an initializer
             list during the declaration
+    ➱   E.g. [\double[] prices = {1.25, 2.99, 1.99};]\
 
   > Arrays of object references < {{{3
     1.  Declare the array. [\MyClass[] my_arr;]\
