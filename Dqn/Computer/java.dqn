@@ -97,6 +97,61 @@
 
     ➱   Java does not support unsigned type.
 
+  > Wrapper classes for primitive types < {{{3
+   |wrapper classes| {{{4
+    |----------------+---------------|
+    | Primitive Type | Wrapper Class |
+    |----------------+---------------|
+    | boolean        | Boolean       |
+    | char           | Character     |
+    | byte           | Byte          |
+    | short          | Short         |
+    | int            | Integer       |
+    | long           | Long          |
+    | float          | Float         |
+    | double         | Double        |
+    |----------------+---------------|
+    ⮱   These wrapper classes are in [\java.lang]\.
+
+   |wrap a value| {{{4
+    E.g.:
+    [\boolean b = true;              ]\░
+    [\Boolean bWrap = new Boolean(b);]\░
+    [\Integer iWrap = new Integer(3);]\░
+
+   |unwrap a value| {{{4
+    Use methods, e.g.:
+    ➱   [\.booleanValue();]\
+    ➱   [\.charValue();]\
+    ➱   [\.intValue();]\
+    ➱   [\.doubleValue();]\
+
+   |autoboxing| {{{4
+    The ['autoboxing]' in Java performs the [[automatic conversion]] between
+    primitives and wrapper objects.
+
+    E.g.:
+    [\Boolean bWrap = false;]\
+    [\ArrayList<Integer> listOfNumbers = new ArrayList<Integer>();]\░
+    [\listOfNumbers.add(3); // auto wrapping                      ]\░
+    [\int intNum = listOfNumbers.get(0); // auto unwrapping       ]\░
+
+    Autoboxing works almost everywhere:
+    ➱   [[Assignment]].
+    ➱   In [[expressions]]:
+        ‣   Boolean expression, e.g. if condition
+        ‣   With arithmetic operations, e.g. + - * / ++ --
+    ➱   In method [[arguments]] and [[return]] value:
+        No matter if a method takes/returns a primitive or a wrapper, you can
+        supply either.
+
+   |default value as instance variable|
+    NOTE that it is still a class, so an instance variable of its type get the
+    default value [\null]\ (pointing to no object, so cannot be unboxed),
+    unlike an instance variable of primitive type.
+    ⮱   [\NullPointerException]\ arises when they wrapper cannot be unboxed
+        when necessary.
+
   > Boolean < {{{3
     WARN: unlike other language, boolean is not compatible with any other
     types. So for example [\1]\ isn't evaluated to be true automatically in a
@@ -342,60 +397,6 @@
 
   > Not supporting primitive types < {{{3
     ➱   It only supports [[classes only]] and not primitive types.
-    ➱   There is a ['wrapper class]' for every primitive type.
-
-  > Wrapper class < {{{3
-   |wrapper classes| {{{4
-    |----------------+---------------|
-    | Primitive Type | Wrapper Class |
-    |----------------+---------------|
-    | boolean        | Boolean       |
-    | char           | Character     |
-    | byte           | Byte          |
-    | short          | Short         |
-    | int            | Integer       |
-    | long           | Long          |
-    | float          | Float         |
-    | double         | Double        |
-    |----------------+---------------|
-    ⮱   These wrapper classes are in [\java.lang]\.
-
-   |wrap a value| {{{4
-    E.g.:
-    [\boolean b = true;              ]\░
-    [\Boolean bWrap = new Boolean(b);]\░
-    [\Integer iWrap = new Integer(3);]\░
-
-   |unwrap a value| {{{4
-    Use methods, e.g.:
-    ➱   [\.booleanValue();]\
-    ➱   [\.charValue();]\
-    ➱   [\.intValue();]\
-    ➱   [\.doubleValue();]\
-
-   |autoboxing| {{{4
-    The ['autoboxing]' in Java performs the [[automatic conversion]] between
-    primitives and wrapper objects.
-
-    E.g.:
-    [\ArrayList<Integer> listOfNumbers = new ArrayList<Integer>();]\░
-    [\listOfNumbers.add(3); // auto wrapping                      ]\░
-    [\int intNum = listOfNumbers.get(0); // auto unwrapping       ]\░
-
-    Autoboxing works almost everywhere:
-    ➱   [[Assignment]].
-    ➱   In [[expressions]]:
-        ‣   Boolean expression, e.g. if condition
-        ‣   With arithmetic operations, e.g. + - * / ++ --
-    ➱   In method [[arguments]] and [[return]] value:
-        No matter if a method takes/returns a primitive or a wrapper, you can supply either.
-
-   |default value as instance variable|
-    NOTE that it is still a class, so an instance variable of its type get the
-    default value [\null]\ (pointing to no object, so cannot be unboxed),
-    unlike an instance variable of primitive type.
-    ⮱   [\NullPointerException]\ arises when they wrapper cannot be unboxed
-        when necessary.
 
   > Methods < {{{3
     ➱   [\add(Object elem)]\
