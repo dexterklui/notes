@@ -645,6 +645,13 @@
     ‣   [\->]\
     ‣   [\=]\, [\op=]\
 
+  > Bitwise operators < {{{3
+    ‣   [\&]\
+    ‣   [\^]\
+
+  > Ternary operator < {{{3
+    String result = (mark > 75) ? "pass" : "fail";
+
  == I/O == {{{2
   > Console < {{{3
    |output| {{{4
