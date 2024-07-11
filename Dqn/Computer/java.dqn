@@ -381,6 +381,23 @@
     ⮱   Usually they store runtime-specific information
     ⮱   They are given [[default value]] during deserialization.
 
+ == Enums == {{{2
+  > What is an enum < {{{3
+    An enum type is a special data type that has a [[predefined]] set of
+    values. It is usually used to represent state, for conditional logic.
+
+  > Defining enum < {{{3
+    #beginCode#
+    public enum DaysOfTheWeek {
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY;
+    }
+    #endCode#
+
+  > Declaring Variable of Enum Type < {{{3
+    Just like normal.
+
+    [\DaysOfTheWeek today = DaysOfTheWeek.MONDAY;]\
+
  == Expressions == {{{2
     Consists of following:
     ‣   Operators
