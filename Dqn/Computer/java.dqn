@@ -163,6 +163,8 @@
     ➱   A hexadecimal literal begins with [\0x]\ or [\0X]\.
     ➱   An octal literal begins with [\0]\.
     ➱   A binary [[integer]] begins with [\0b]\ or [\0B]\.
+    ➱   We can use [[underscores]] [\_]\ to improve readability: [\2_000_000_000_000]\
+        The underscore is ignored
 
   > Character escape sequence < {{{3
     ➱   [\\']\: single quote
