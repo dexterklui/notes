@@ -1171,14 +1171,27 @@
     ➱   [\:SUBCLASS_VAR := (:SUBCLASS`) SUPERCLASS_VAR:]\, e.g.
         [\SportCar sCar = (SportCar) myCar;]\
     ➱   NOTE that even if the underlying object referenced by the
-        SUPERCLASS_VAR is really not of a SUBCLASS type, there downcasting
+        SUPERCLASS_VAR is really not of a SUBCLASS type, the downcasting
         is [[still successful]]. But it may result to runtime error at later
-        time.
+        time, which is ClassCastException.
 
     So it is a good idea to check if the classes are compatible with the cast:
     ➱   [\:OBJ1: instanceof :CLASS:]\ returns true if OBJ1 is an instance of
         the CLASS, e.g.:
         ⮱   [\if (myCar instanceof SportCar)]\
+
+    ['Upcasting]':
+    ➱   Explicitly:
+        #beginCode#
+        Car car = new Car();
+        Vehicle vehicle = car; // upcasting car to its superclass object
+        #endCode#
+    ➱   Implicitly:
+        #beginCode#
+        Car car = new Car();
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(car);
+        #endCode#
 
   > Inner class < {{{3
     ➱   An inner class is defined within the definition of an outer class.
