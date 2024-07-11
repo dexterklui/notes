@@ -782,6 +782,48 @@
         object that is passed (but not the reference to the original
         variable). I.e. you are passing a copy of the remote control.
 
+  > varargs < {{{3
+    You can specify that a method accept multiple arguments. Java will create
+    a new [[array]] to hold the given arguments
+
+    #beginCode#
+    static int add(int... values) {
+        int result = 0;
+        for (int value: values) {
+            result += value;
+        }
+        return result;
+    }
+    #endCode#
+
+    Note that you can have other parameters before varargs, as long as there
+    is only one varargs, and it is in the very last of the parameter list.
+
+   |safe use of varargs| {{{4
+    The varargs usage is safe if and only if:
+    1.  We don’t store anything in the implicitly created array. That means
+        within the body, we don't immediately modify the created array.
+    2.  We don’t let a reference to the generated array escape the method
+        (more on this later)
+
+    1st unsafe case:
+    #beginCode#
+    static String firstOfFirst(List<String>... strings) {
+        List<Integer> ints = Collections.singletonList(42);
+        Object[] objects = strings;
+        objects[0] = ints; // Heap pollution
+
+        return strings[0].get(0); // ClassCastException
+    }
+    #endCode#
+
+    2nd unsafe case:
+    #beginCode#
+    static <T> T[] toArray(T... arguments) {
+        return arguments;
+    }
+    #endCode#
+
   > Return value < {{{3
     Any return value must be:
     ‣   the same type as the declared return type; or
