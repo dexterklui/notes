@@ -913,6 +913,28 @@
     Any concrete class must implement any inherited abstract classes that have
     not been implemented yet.
 
+  > Overriding methods < {{{3
+    We add the flag [\@Override]\ (no semicolon) before the heading of method
+    definition to remind ourself this is overriding methods defined elsewhere.
+
+    This also tells Java that it should be defined before up in the
+    inheritance tree, and if Java doesn't find that, Java can warn the
+    developers.
+
+  > Overloading methods < {{{3
+    We ['overload]' methods by defining multiple methods with the same method
+    name, but with different parameter list (different type, or different
+    order, or different number of parameters). I.e. same name different
+    ['signature]'.
+
+    Java will choose the appropriate method to call depend on the given
+    arguments.
+
+    Do note the effect of ['widening]'. E.g. there're multiple sizes of
+    numerical types, like int, short, byte, long. Java will choose the most
+    appropriate type that most fit the type of the argument (the same type, or
+    the next type big enough).
+
  == Class == {{{2
   > Terminology < {{{3
     ‣   Data members are also called ['instance variables]'.
