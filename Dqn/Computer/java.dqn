@@ -480,6 +480,18 @@
     You cannot remove an item in array. For an array of reference, you achieve
     similar thing by assigning the value [\null]\.
 
+  > Methods < {{{3
+    ➱   A field: [\length]\
+
+    Some [[static]] methods ([\Arrays.]\)
+
+    ➱   [\sort(array)]\
+    ➱   [\fill(value)]\: replace all elements with the target value
+    ➱   [\binarySearch(array, key)]\: return the index,
+        or the [\(-insertion point - 1)]\ if it is not in the array
+
+    ➱   [\toString()]\
+
  == ArrayList == {{{2
   > Package < {{{3
     [\import java.util.ArrayList;]\
