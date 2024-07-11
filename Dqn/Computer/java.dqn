@@ -322,6 +322,11 @@
         allowed.
     ➱   Name of builtin methods should not be used.
 
+  > Naming Convention < {{{3
+    ➱   [\thisIsAVariableName]\ - camelCase
+    ➱   [\THIS_IS_CONSTANT]\ - CAPITAL_SNAKE_CASE
+    ➱   [\ThisIsEnumType]\ - pascal case
+
   > Object reference variables < {{{3
     There is actually no object variable, but only object [[reference]]
     variable which holds whatever it is that let JVM to get to the object.
