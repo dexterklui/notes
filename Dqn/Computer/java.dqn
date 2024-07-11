@@ -277,6 +277,18 @@
 
     ⮱   E.g. [\String.format("%.2f", myDouble)]\.
 
+  > Methods < {{{3
+    ➱   [\String substring(int start)]\
+        ‣   [\String substring(int start, int end)]\
+    ➱   [\String toUpperCase()]\, [\String toLowerCase()]\
+    ➱   [\char[] toCharArray()]\
+    ➱   [\String[] split(String regex)]\
+    ➱   [\concat]\
+    ➱   [\equals]\
+    ➱   [\contains]\
+    ➱   [\isEmpty]\
+    ➱   [\trim]\
+
  == Variables == {{{2
   > Reference vs primitive < {{{3
     Variables come in two flavours:
