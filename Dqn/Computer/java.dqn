@@ -221,6 +221,39 @@
     again if you so desire.
 
  == String == {{{2
+  > Two assignment methods < {{{3
+    Note that the two assignments methods are not the same.
+
+    1. [\String str1 = "Hello";]\
+    2. [\String str2 = new String("Hello");]\
+
+    When using the first method for assignment, string literal are stored in a
+    ['string pool]' where it will be reused when assigning the same string to
+    another variable using the first method.
+
+    Note the following difference, on the equality sign
+
+    Method 1:
+
+    #beginCode#
+    String str1 = "Hello";
+    String str2 = "Hello";
+    str1 == str2; // true, both point to string pool
+    str1.equals(str2); // true
+    #endCode#
+
+    Method 2:
+
+    #beginCode#
+    String str1 = mew String("Hello");
+    String str2 = mew String("Hello");
+    str1 == str2; // false, they point to different object
+    str1.equals(str2); // true
+    #endCode#
+
+    The equality sign returns true in the first method, because they both
+    point to the same memory location in the [[string pool]].
+
   > Convert String to Primitive < {{{3
     By using wrapper class, [\:WRAPPER`.PARSEMETHOD`(STRING:)]\.
     ⮱   E.g. [\int x = Integer.parseInt("2");]\
