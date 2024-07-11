@@ -1278,7 +1278,7 @@
     [\} while (:CONDITION:);]\
 
   > for loop < {{{3
-    ➱   [\for (:INIT[`,...]`; CONDITION`; UPDATE[`,...]:)]\:
+    ➱   [\for (:INIT; CONDITION`; UPDATE[`,...]:)]\:
         ‣   INIT is the initialisation step performed once before loop begins
         ‣   CONDITION is the condition for the loop to run
         ‣   UPDATE is a statement which performs at the end of each iteration
