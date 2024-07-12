@@ -1211,6 +1211,16 @@
     ➱   An inner class object must be [[tied to an outer class object]]. An
         inner class object must be instantiated without an outer class.
 
+  > Immutable Class < {{{3
+    A class whose state can't be changed after instantiated.
+
+    1.  Make the class final
+    2.  Make all attributes of the class final
+    3.  Initialise all attributes via the constructor performing a deep cloned
+        copy of any mutable argument
+    4.  Ensure that getter methods return deep cloned copies of any mutable
+        attributes
+
  == Dynamic memory == {{{2
   > New operator < {{{3
     The [\new]\ operator creates a new dynamic object in the ['heap]' memory
