@@ -289,6 +289,17 @@
     ➱   [\isEmpty]\
     ➱   [\trim]\
 
+  > StringBuilder and StringBuffer < {{{3
+    See java.md for more descriptions.
+
+    #beginCode#
+    StringBuilder sb1 = new StringBuilder("abc");
+    StringBuilder sb2 = sb1; // sb2 point to the same string builder sb1
+    sb1.append('d'); // sb2 will reflect the changes as well
+    // This prove StringBuilder is a mutable class.
+    sb2.append("anna"); // can also append a string
+    #endCode#
+
  == Variables == {{{2
   > Reference vs primitive < {{{3
     Variables come in two flavours:
