@@ -792,6 +792,9 @@
         object, the value is this reference. So it is the reference to the
         object that is passed (but not the reference to the original
         variable). I.e. you are passing a copy of the remote control.
+    ⮱   The ['Litmus]' test tests that Java is pass-by-value. It passes two
+        variables to a function [\swap(x, y)]\ to test if a language is
+        pass-by-value or pass-by-reference.
 
   > varargs < {{{3
     You can specify that a method accept multiple arguments. Java will create
