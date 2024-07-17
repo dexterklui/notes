@@ -292,6 +292,8 @@
   > StringBuilder and StringBuffer < {{{3
     See java.md for more descriptions.
 
+   |StringBuilder|
+
     #beginCode#
     StringBuilder sb1 = new StringBuilder("abc");
     StringBuilder sb2 = sb1; // sb2 point to the same string builder sb1
@@ -299,6 +301,9 @@
     // This prove StringBuilder is a mutable class.
     sb2.append("anna"); // can also append a string
     #endCode#
+
+    [\sb.delete(1, 5);]\ delete characters from sb for index 1 up to but not
+    include index 5.
 
  == Variables == {{{2
   > Reference vs primitive < {{{3
