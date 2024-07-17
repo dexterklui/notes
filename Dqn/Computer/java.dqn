@@ -1810,9 +1810,11 @@
     ➱   [[Class]] name start with capital letter
     ➱   [[Variables]] or [[methods]] begins with lowercase letter
         ⮱   E.g. makeNoise(), size
+        ⮱   For getters of [[final]] variables, use this: [\getFINAL_VAR()]\
     ➱   [[Symbolic constant]] consists of only capital letters.
     ➱   For names consisting of multiple words, subsequent words begins with a
         capital letter.
+    ➱   For [[enums]], use PascalCase
 
 [~{ API Documentations }~] {{{1
 
