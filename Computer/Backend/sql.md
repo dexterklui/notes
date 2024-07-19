@@ -258,6 +258,25 @@ You can use `LIKE` to create a table similar to another table.
 CREATE TABLE Branch_Copy LIKE Branch;
 ```
 
+### Constraints
+
+- `PRIMARY KEY`: NULL not allowed. Can have multiple columns
+- `FOREIGN KEY`
+- `UNIQUE`: NULL is allowed, but not duplicates
+- `NOT NULL`
+
+To give a name to a constraint:
+
+```sql
+CREATE TABLE Branch
+(
+  branch_id VARCHAR(15),
+  -- More column definitions...
+
+  CONSTRAINT branch_pk PRIMARY KEY(branch_id)
+);
+```
+
 ### Drop Table
 
 ```sql
