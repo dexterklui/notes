@@ -1487,6 +1487,11 @@
         ⮱   Multiple catch blocks must therefore be ordered from [[specific to
             generic]] exception.
 
+ == Object == {{{2
+    Instance Methods:
+    ‣   [\getClass()]\
+        ⮱   [\myObj.getClass().getName();]\
+
 [~{ GUI (Swing) and Event-handling }~] {{{1
  == Swing == {{{2
     Swing only has one thread to handle listeners, so if one of your listener
