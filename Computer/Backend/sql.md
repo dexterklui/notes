@@ -1,6 +1,7 @@
 ---
 date: 2023-11-27 (Mon)
 ---
+
 # SQL
 
 ## What is SQL?
@@ -283,7 +284,15 @@ CREATE TABLE Branch
 DROP TABLE Branch;
 ```
 
-- DBMS may not allow dropping a table that is referenced by another table.
+DBMS may not allow dropping a table that is referenced by another table. If this
+happens you need to drop the referencing table or the constraint first.
+
+```sql
+ALTER TABLE Customer DROP CONSTRAINT fk_branch_id;
+DROP TABLE Branch;
+```
+
+Use `IF EXISTS` to prevent errors: `DROP TABLE IF EXISTS Branch;`.
 
 ### Alter Table
 
@@ -1242,4 +1251,3 @@ WITH RECURSIVE
 [^cartesian-product]:
     Cartesian product is defined as
     $A \times B = \{(a, b) \mid a \in A, b \in B\}$.
-
