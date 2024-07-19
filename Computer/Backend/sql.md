@@ -236,12 +236,12 @@ balance`"]
 ```sql
 CREATE TABLE Branch
 (
-  # Column definitions
+  -- Column definitions
   branch_id VARCHAR(15),
   name VARCHAR(30) NOT NULL,
   asset INT UNSIGNED NOT NULL,
 
-  # Constraints
+  -- Constraints
   PRIMARY KEY(branch_id)
 );
 ```
@@ -251,6 +251,12 @@ CREATE TABLE Branch
 - `PRIMARY KEY` need not be assigned on creation, can be added later.
 - No comma after last column
 - `NOT NULL` means must not be a null value
+
+You can use `LIKE` to create a table similar to another table.
+
+```sql
+CREATE TABLE Branch_Copy LIKE Branch;
+```
 
 ### Drop Table
 
