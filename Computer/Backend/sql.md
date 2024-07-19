@@ -309,10 +309,21 @@ ALTER TABLE Branch ENGINE = INNODB;
 `INSERT INTO` inserts records (tuples) into a table.
 
 ```sql
-# Specify values of 1st, 2nd and 3rd column.
+-- Specify values of 1st, 2nd and 3rd column.
 INSERT INTO Branch VALUES
 ('B1', 'Central', 7100000),
 ('B2', 'Causeway Bay', 9000000);
+```
+
+```sql
+INSERT INTO Branch (branch_id, name, asset)
+VALUES ('B1', 'Central', 7100000),
+       ('B2', 'Causeway Bay', 9000000);
+```
+
+```sql
+INSERT INTO Branch_Copy (branch_id, name, asset)
+SELECT branch_id, name, asset FROM Branch;
 ```
 
 ### Load Data
