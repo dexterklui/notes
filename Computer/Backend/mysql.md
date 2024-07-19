@@ -20,6 +20,12 @@ can also enable it to start on boot automatically.
 - `show databases;`
 - `source <sql_file>` Execute SQL file
 
+## Settings
+
+- `SET SQL_SAFE_UPDATES = 0;` Allow updates without a `WHERE` clause, also allow
+  updates with a subquery
+- `SET FOREIGN_KEY_CHECKS = 0;` Disable foreign key checks
+
 ## 🧭 Navigation
 
 - [🔖 Parent index](../../index.md)
