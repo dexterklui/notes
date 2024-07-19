@@ -145,6 +145,12 @@
         No matter if a method takes/returns a primitive or a wrapper, you can
         supply either.
 
+    BUT NOTE that unboxing doesn't work for [\==]\ operator. Use [\equals()]\
+    method when dealing with objects.
+    ⮱   But why some autoboxed values are comparable via “==” and other not.
+        This is because of caching for Integer object values between -128 and
+        127 (inclusive). So for these values, the same object is reused.
+
    |default value as instance variable|
     NOTE that it is still a class, so an instance variable of its type get the
     default value [\null]\ (pointing to no object, so cannot be unboxed),
