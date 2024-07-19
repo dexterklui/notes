@@ -58,6 +58,15 @@ date: 2023-11-27 (Mon)
 - `TIMESTAMP`
 - `YEAR`
 
+Some builtin functions:
+
+- `CURDATE()` HH:MI:SS, `CURTIME()` YYYY-MM-DD, `NOW()` YYYY-MM-DD HH:MI:SS
+- `DAY(date)`, `DATE()`, `MONTH()`, `QUARTER(date)`, `YEAR(date)`
+- `DATE_FORMAT(NOW(), '%d/%m/%Y %H:%i:%s')`
+- `DATE_ADD(CURDATE(), INTERVAL -1 MONTH)`, can accept `NOW()`, and use other
+  units
+- `DATEDIFF(NOW(), hire_date) > 365` (compare days)
+
 ### String Data Types
 
 - `CHAR`
