@@ -300,11 +300,11 @@ Use `IF EXISTS` to prevent errors: `DROP TABLE IF EXISTS Branch;`.
 - `DROP` column or constraint
 
 ```sql
-# Add a column
+-- Add a column
 ALTER TABLE Branch ADD branch_phone INT (12);
-# Remove a column
+-- Remove a column
 ALTER TABLE Branch DROP branch_phone;
-# Add constraints
+-- Add constraints
 ALTER TABLE Branch ADD PRIMARY KEY (branch_id);
 ```
 
@@ -318,7 +318,7 @@ ALTER TABLE Branch ADD PRIMARY KEY (branch_id);
   - You can specify engine when creating table, or change engine afterwards.
 
 ```sql
-# When creating table
+-- When creating table
 CREATE TABLE Owner
 (
   customer_id VARCHAR(15),
@@ -328,11 +328,11 @@ CREATE TABLE Owner
   FOREIGN KEY(account_id) REFERENCES Account(accont_id)
 ) ENGINE = INNODB;
 
-# When altering table
+-- When altering table
 ALTER TABLE Owner
 ADD FOREIGN KEY(customer_id) REFERENCES Customer(customer_id);
 
-# Alter table engine
+-- Alter table engine
 ALTER TABLE Branch ENGINE = INNODB;
 ```
 
@@ -399,7 +399,7 @@ UPDATE Branch
 SET asset = 0
 WHERE branch_id = 'B1';
 
-# with arithmetic expressions
+-- with arithmetic expressions
 UPDATE Account
 SET balance = balance * 1.06
 WHERE balance > 500;
@@ -548,13 +548,13 @@ SELECT name
 FROM Branch
 WHERE branch_id IN ('B1', 'B2');
 
-# Find the names of all customers who have both an account and a loan
+-- Find the names of all customers who have both an account and a loan
 SELECT DISTINCT customer_id
 FROM Borrower
 WHERE customer_id IN
       (SELECT customer_id FROM Owner);
 
-# Find the names of all customers who have a loan but no account
+-- Find the names of all customers who have a loan but no account
 SELECT DISTINCT customer_id
 FROM Borrower
 WHERE customer_id NOT IN
@@ -568,7 +568,7 @@ WHERE customer_id NOT IN
   - A _boolean set-comparison operator_
 
 ```sql
-# Find the names of employees who work in department 1
+-- Find the names of employees who work in department 1
 SELECT E.name
 FROM Employees E
 WHERE EXISTS (
@@ -676,12 +676,12 @@ Rename can be done on both attributes and tables. The `AS` keyword is optional
 for renaming.
 
 ```sql
-# Rename attribute
+-- Rename attribute
 SELECT DISTINCT name AS 'Branch Name'
 FROM Branch, Loan
 WHERE Branch.branch_id = Loan.branch_id;
 
-# Rename table
+-- Rename table
 SELECT DISTINCT B.name
 FROM Branch B, Loan L
 WHERE B.branch_id = L.branch_id;
@@ -740,7 +740,7 @@ SElECT FIELD('D', 'A', 'B', 'C'); # returns 0 (not found)
 ```
 
 ```sql
-# Sort orders by status
+-- Sort orders by status
 SELECT orderNumber, status
 FROM orders
 ORDER BY FIELD(status,
@@ -793,7 +793,7 @@ attribute before grouping, but follows whatever order the table is in.
 `GROUP BY` is usually used with aggregate functions.
 
 ```sql
-# Find the average balance for each branch
+-- Find the average balance for each branch
 SELECT Branch_id, AVG(balance)
 FROM Account
 GROUP BY branch_id;
@@ -843,15 +843,15 @@ WHERE balance > 5000000;
   query. See [Exists Clause](#exists-clause).
 
 ```sql
-# Find the names of the employees in department 1
+-- Find the names of the employees in department 1
 SELECT E.name
 FROM Employees E, Works_in W
 WHERE E.employee_id = W.employee_id AND
   W.department_id = 1;
 
-# Same query but in more natural language:
-# Find employee names whose employee_id appears in the set of employee_ids
-# working for department 1.
+-- Same query but in more natural language:
+-- Find employee names whose employee_id appears in the set of employee_ids
+-- working for department 1.
 SELECT E.name
 FROM Employee E
 WHERE E.employee_id IN (
