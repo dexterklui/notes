@@ -66,6 +66,7 @@
 
 - [Boot Up and Kernel](Computer/Linux/boot-and-kernel.md)
 - [File System](Computer/Linux/file-system.md)
+- [Unix Commands](Computer/Linux/unix-commands.md)
 
 ### 🗂️ Misc
 
