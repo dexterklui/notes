@@ -109,6 +109,19 @@ WHERE required_date BETWEEN
 - `DELETE`
 - `MERGE`
 
+No DML transaction is complete until either of the following happens:
+
+- You exit
+- Session expires
+- You commit with `COMMIT;`
+
+You can undo you changes you have not committed using `ROLLBACK;` to your last
+commit.
+
+When autocommit is enabled, each statement is a transaction. When an error
+occurs for a statement execution, that statement is rolled back. To turn off
+autocommit, use `SET autocommit = 0;`.
+
 ### Data Control Language (DCL)
 
 - `GRANT`
