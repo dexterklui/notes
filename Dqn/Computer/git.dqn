@@ -668,6 +668,9 @@
     ➱   [\--no-ff]\ to always create a new commit even if a simply
         fast-forward is possible. This is usually use in merging pull requests
         in GitHub.
+    ➱   [\--squash]\ squash all the changes and apply the changes to the
+        current working tree and index, but do not commit them. This allow you
+        to commit the changes manually as a single commit later.
 
   > rebase < {{{3
     For rebasing, the patches of [[each commit]] is replayed onto a target
