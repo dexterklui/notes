@@ -1091,9 +1091,14 @@
 
   > Interface < {{{3
     ➱   Solves the problem of multiple inheritance.
-    ➱   [[All]] methods are [[abstract]], and by default the methods are
-        public. (so you can omit these keywords)
+    ➱   By default all methods are [[abstract]] and public. (so you can omit
+        these keywords)
+        ⮱   But you can give an default implementation to a method (default
+            method) by using the keyword [\default]\.
     ➱   It can be used as a [[polymorphic type]], like a regular superclass.
+    ➱   And interface can be extended by another interface. Within the
+        child interface, you don't need to implement the methods of the
+        extended interface.
 
    |definition| {{{4
     Use keyword [\interface]\, e.g.:
