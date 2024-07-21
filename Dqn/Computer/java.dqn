@@ -1487,6 +1487,12 @@
         ⮱   Multiple catch blocks must therefore be ordered from [[specific to
             generic]] exception.
 
+ == Assertion == {{{2
+    [\assert x < 5]\ is used to check if the condition is true, here x < 5.
+    When assertions is enabled during runtime, it throws an AssertionError
+    when the condition is false. We enable assertion by passing [\-ea]\ flag
+    to [\java]\ program.
+
  == Object == {{{2
     Instance Methods:
     ‣   [\getClass()]\
