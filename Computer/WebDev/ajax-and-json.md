@@ -187,7 +187,7 @@ There are few difference with the modern JS syntax:
 - No trailing commas are allowed after the last field of object or last element
   of array
 - A JSON object is purely a data format, only containing properties but no
-  methods.
+  methods. It must be either a JSON **object** or a JSON **array**.
 
 ### JSON Value Types
 
