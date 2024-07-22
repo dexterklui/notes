@@ -702,6 +702,65 @@
         [\throws java.io.IOException {]\░
         in order to handle input errors.
 
+  > Stream < {{{3
+    A stream is a flow of data from a writer source to reader destination.
+
+    There are four abstract classes in [\java.io]\:
+    ‣   [\InputStream]\: for reading byte (Good for reading image)
+    ‣   [\OutputStream]\: for writing byte
+    ‣   [\Reader]\: for reading character
+    ‣   [\Writer]\: for writing character
+
+  > InputStream and OutputStream < {{{3
+    [\InputStream]\ has:
+    ➱   [\void close()]\
+    ➱   [\int read()]\
+    ➱   [\int read(byte[] b)]\
+
+    [\OutputStream]\ has:
+    ➱   [\void close()]\
+    ➱   [\void flush()]\
+    ➱   [\void write(int b)]\
+    ➱   [\void write(byte[] b)]\
+
+  > Three System Streams < {{{3
+    ➱   [\System.in]\: an InputStream representing stdin
+    ➱   [\System.out]\: an OutputStream representing stdout
+    ➱   [\System.err]\: an OutputStream representing stderr
+
+  > File Streams < {{{3
+    ➱   [\FileInputStream]\: for reading file
+        ⮱   There are overloaded constructors:
+            ‣   [\FileInputStream(String path)]\: both absolute and relative
+            ‣   [\FileInputStream(File file)]\
+            ‣   [\FileInputStream(FileDescriptor fdObj)]\
+    ➱   [\FileOutputStream]\: for writing file
+        ⮱   There are overloaded constructors:
+            ‣   [\FileOutputStream(String path)]\
+            ‣   [\FileOutputStream(String path, boolean append)]\
+            ‣   [\FileOutputStream(File file)]\
+            ‣   [\FileOutputStream(File file, boolean append)]\
+            ‣   [\FileOutputStream(FileDescriptor fdObj)]\
+
+  > Data IO < {{{3
+    ➱   [\DataInputStream]\: for reading primitive data except char (e.g.
+        numeric primitives)
+        ⮱   (extends [\FilterInputStream]\
+
+  > Reader and Writer < {{{3
+    Read and write characters and support unicode
+
+  > Buffered Stream < {{{3
+    Increase the efficiency by reducing the number of read/write operations
+    ➱   readLine()
+    ➱   writeLine()
+
+    #beginCode#
+    FileReader in = new FileReader("./data.txt");
+    BufferReader br = new BufferReader(in);
+    br.readline();
+    #endCode#
+
  == Serialization [EMPTY] == {{{2
 
  == Compound Statements == {{{2
