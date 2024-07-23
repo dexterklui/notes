@@ -1465,8 +1465,8 @@
 
   > Exception class hierarchy < {{{3
                 Throwable
-                    │
-                Exception
+                    ├─────────────────────────────────────────────┐
+                Exception                                       Error
           ┌─────────┴─────────┬─────────────────────┐
     IOException     InterruptedException    RuntimeException
                                          ┌──────────┴─────────────┐
