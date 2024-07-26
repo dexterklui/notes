@@ -757,7 +757,7 @@
 
     #beginCode#
     FileReader in = new FileReader("./data.txt");
-    BufferReader br = new BufferReader(in);
+    BufferedReader br = new BufferedReader(in);
     br.readline();
     #endCode#
 
