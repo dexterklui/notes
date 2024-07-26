@@ -1497,6 +1497,10 @@
         method [\printStackTrace();]\ to print out info for debugging.
     ➱   A catch block can be empty.
     ➱   There must be at least one of catch or finally block.
+    ➱   You can catch multiple exceptions in one catch block:
+        ⮱   [\catch (SQLException | UnknownHostException e)]\
+        ⮱   Just that the multiple exceptions cannot have parent-child
+            relationship
 
    |flow of control| {{{4
     Two possible cases:
