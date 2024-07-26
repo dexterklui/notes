@@ -1566,6 +1566,50 @@
     ‣   [\getClass()]\
         ⮱   [\myObj.getClass().getName();]\
 
+ == JSON == {{{2
+  > Libraries < {{{3
+    ➱   Jackson
+    ➱   Gson (from Google)
+
+  > Data-binding < {{{3
+    Jackson defines how to convert JSON to/from POJO (Plain Old Java Object).
+
+  > Jackson ObjectMapper < {{{3
+    ➱   ObjectMapper is the main class to convert JSON to/from POJO.
+    ➱   To convert a JSON string to a POJO:
+        [\MyClass myObj = new ObjectMapper().readValue(:JSON_STRING:, MyClass.class);]\
+    ➱   To convert a POJO to a JSON string:
+        [\String jsonString = new ObjectMapper().writeValueAsString(:POJO:);]\
+
+    #beginCode#
+    ObjectMapper mapper = new ObjectMapper();
+
+    File file = new File("data.json");
+    Trainee trainee = new Trainee();
+    trainee.setName("John");
+    trainee.setAge(18);
+    mapper.writeValue(file, trainee);
+    #endCode#
+
+  > Jackson using JavaBean Convention < {{{3
+    By default, Jackson will assume your Java objects follow the JavaBean
+    convention:
+    ‣   Public, no-arg constructor
+    ‣   Properties with getters and setters
+        ⮱   By default, the names of JSON properties are based on getter /
+            setter names, not instance variable names
+        ⮱   You need both getter and setter as a pair for a attribute for
+            Jackson to recognize it. This gives you freedom to define custom
+            methods starting with "get" that are not getters but have custom
+            logic.
+    ‣   Implements [\Serializable]\
+
+    But Jackson does NOT require Java objects to implement [\Serializable]\.
+
+  > Jackson Annotations < {{{3
+    Use annotations to customize how Jackson picks up properties from your
+    custom objects.
+
 [~{ GUI (Swing) and Event-handling }~] {{{1
  == Swing == {{{2
     Swing only has one thread to handle listeners, so if one of your listener
