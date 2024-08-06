@@ -224,6 +224,41 @@ Info required:
 - Layout
 - Any other appender-specific configuration
 
+## What Severity Level to Use?
+
+From
+[StackOverflow](https://softwareengineering.stackexchange.com/questions/279690/why-does-the-trace-level-exist-and-when-should-i-use-it-rather-than-debug):
+
+> Here' my rule of thumb:
+>
+> ```text
+> error   you need        to do something
+> warn    you might need  to do something
+> info    you need        to log this in production
+> debug   you might need  to log this in production
+> trace   everything that is happening (no performance concerns)
+> ```
+>
+> The assumption behind this is that ops team will
+>
+> - always have production set to log-level info
+> - might have production set to log-level debug
+> - never have production set to log-level trace
+>
+> Armed with that assumption, here's how you, as a developer, can use the log
+> levels... Objective #1) not slowing down production performance too much
+>
+> debug solves #1. It is you, as the developer, doing your best to balance
+> information you might need in production with not having too much noise you
+> slow down the machine. You are saying "it is a fine idea to constantly log
+> this in production (if you want)." Objective #2) having verbose information
+> while developing
+>
+> trace solves problem #2. You have absolutely no concern what impact it would
+> have on a production machine, but you need that info right now while
+> developing the code. You are saying "I make no promises that it's a good idea
+> to always log this information in production."
+
 ## 🧭 Navigation
 
 - [🔼 Back to top](#log4j2)

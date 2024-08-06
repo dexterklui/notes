@@ -9,6 +9,10 @@ date: 2024-07-23 (Tue)
 - [JavaDoc](javadoc.md)
 - [Log4J2](log4j2.md)
 - [SOLID Principles](solid.md)
+- [Threading](threading.md)
+- [Lambda Expression](lambda-expression.md)
+- [Collections](collections.md)
+- [Streams and Optional](streams-and-optional.md)
 
 ## Jackson
 
@@ -127,6 +131,16 @@ data lost.
 
 See
 [What Is serialVersionUID?](https://dzone.com/articles/what-is-serialversionuid).
+
+### Some libraries
+
+- JavaFX for GUI animation
+
+## Links and Resources
+
+- [Java Lambdas and Streams - LinkedIn Learning](https://www.linkedin.com/learning/java-lambdas-and-streams/java-lambdas-and-streams)
+- [Learning Java Lambda Expressions - LinkedIn Learning](https://www.linkedin.com/learning/learning-java-lambda-expressions)
+- [Functional Programming with Java - LinkedIn Learning](https://www.linkedin.com/learning/functional-programming-with-java/functional-programming-a-new-way-to-organize-code)
 
 ## 🧭 Navigation
 
