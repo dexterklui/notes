@@ -85,6 +85,10 @@
 
 - [System Development Life Cycle](Computer/sdlc.md)
 
+## Finance
+
+- [Assets Management](Finance/assets-management.md)
+
 ## 🎮 Games
 
 ## 🎨 Design
