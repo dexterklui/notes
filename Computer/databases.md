@@ -1,6 +1,7 @@
 ---
 date: 2023-11-27 (Mon)
 ---
+
 # Databases
 
 ## Data Modeling
@@ -1071,8 +1072,14 @@ preserved.
   in 2NF and every non-key attribute is non-transitively dependent on the
   primary key.
 
+## Denormalization
+
+Joins can be expensive, especially when the tables are large.
+**_Denormalization_** is the process of **reducing the normalization** of a
+database to improve performance. It adds redundant data to a normalized database
+to speed up complex queries.
+
 ## 🧭 Navigation
 
 - [🔖 Parent index](../index.md)
 - [📑 Notes Index](../index.md)
-
