@@ -19,6 +19,7 @@ can also enable it to start on boot automatically.
 
 - `show databases;`
 - `source <sql_file>` Execute SQL file
+- `DESCRIBE <table>;` show table schema
 
 ## Settings
 
