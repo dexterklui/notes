@@ -61,6 +61,7 @@ date: 2023-11-27 (Mon)
 Some builtin functions:
 
 - `CURDATE()` HH:MI:SS, `CURTIME()` YYYY-MM-DD, `NOW()` YYYY-MM-DD HH:MI:SS
+  - These date and time is based on the server's clock
 - `DAY(date)`, `DATE()`, `MONTH()`, `QUARTER(date)`, `YEAR(date)`
 - `DATE_FORMAT(NOW(), '%d/%m/%Y %H:%i:%s')`
 - `DATE_ADD(CURDATE(), INTERVAL -1 MONTH)`, can accept `NOW()`, and use other
@@ -149,7 +150,7 @@ autocommit, use `SET autocommit = 0;`.
 - `SHOW`
 - `USE`
 
-## SQL Management Commands
+## MySQL Management Commands
 
 - `USE <database>;` selects a database.
 - `SELECT database();` shows the current selected databases.
@@ -281,11 +282,15 @@ To give a name to a constraint:
 CREATE TABLE Branch
 (
   branch_id VARCHAR(15),
+  place_id INT,
   -- More column definitions...
 
-  CONSTRAINT branch_pk PRIMARY KEY(branch_id)
+  CONSTRAINT branch_pk PRIMARY KEY(branch_id),
+  CONSTRAINT branch_place_fk FOREIGN KEY(place_id) REFERENCES Places(place_id)
 );
 ```
+
+NOTE that some vendors will ignore constraint name for PRIMARY KEY.
 
 ### Drop Table
 
@@ -359,6 +364,7 @@ INSERT INTO Branch VALUES
 ```
 
 ```sql
+-- Best practice: specify columns; you can change order
 INSERT INTO Branch (branch_id, name, asset)
 VALUES ('B1', 'Central', 7100000),
        ('B2', 'Causeway Bay', 9000000);
@@ -655,16 +661,38 @@ ON E.department_id = D.department_id;
 matched records from the right table (table2). The result is NULL from the right
 side, if there is no match. Mutatis mutandis `RIGHT OUTER JOIN`.
 
-`FULL OUTER JOIN` returns all records from both tables.
+`FULL OUTER JOIN` returns all records from both tables. Some vendors don't allow
+full outer join, then you need to union left and right outer join.
 
 Actually the term `INNER` and `OUTER` can be omitted.
+
+#### Coalesce
+
+When doing outer join, it is handy to use coalesce to provide a default value in
+case of NULL (due to no match).
+
+```sql
+SELECT
+  brokers.first_name 'First Name',
+  brokers.last_name 'Last Name',
+  coalesce(trades.price_total, 0) 'Total Price' -- if null, return 0
+FROM
+  brokers
+LEFT OUTER JOIN
+  trades
+ON
+  brokers.broker_id = trades.broker_id;
+
+-- If you need to filter on traders who have no trades, you need to test for
+-- `price_total IS NULL` instead of `price_total = 0`.
+```
 
 #### Natural join
 
 We use `NATURAL JOIN` to make an inner join **on common attributes**.
 
 ```sql
-SELECT * FROM Employee JOIN Department;
+SELECT * FROM Employee NATURAL JOIN Department;
 ```
 
 ### Distinct Results
@@ -679,14 +707,14 @@ FROM Branch, Loan
 WHERE Branch.branch_id = Loan.branch_id;
 ```
 
-### Renaming Query Results
+### Renaming Query Results (Aliases)
 
 Rename can be done on both attributes and tables. The `AS` keyword is optional
 for renaming.
 
 ```sql
 -- Rename attribute
-SELECT DISTINCT name AS 'Branch Name'
+SELECT DISTINCT name AS 'Branch Name' -- you can omit the AS
 FROM Branch, Loan
 WHERE Branch.branch_id = Loan.branch_id;
 
@@ -695,6 +723,9 @@ SELECT DISTINCT B.name
 FROM Branch B, Loan L
 WHERE B.branch_id = L.branch_id;
 ```
+
+Note that when you create a table alias, you must use the alias everywhere in
+the same query.
 
 ### Adding Query Column
 
@@ -808,6 +839,9 @@ FROM Account
 GROUP BY branch_id;
 ```
 
+- You must GROUP BY any **non-aggregate** columns in the SELECT
+- You can GROUP BY columns not in the SELECT
+
 #### Having Clause
 
 `HAVING` specifies the conditions that must be satisfied by the result of the
@@ -819,6 +853,11 @@ FROM Account
 GROUP BY branch_id
 HAVING AVG(balance) > 650;
 ```
+
+#### Multiple Aggregate Functions
+
+Some vendors don't support multiple aggregates, and you must use inline view
+instead.
 
 ### Modifying Functions
 
@@ -832,7 +871,15 @@ WHERE branch_id = 'B2';
 
 ### Set Operators
 
-`UNION`, `INTERSECT` and `EXCEPT` are set operators.
+`UNION`, `INTERSECT` and `EXCEPT` are set operators. `UNION ALL` un like
+`UNION`, it creates a set with all values without **removing duplicates**.
+
+For the set operations to be correct and make sense, the two sets must have the
+same number of attributes (columns), with the same **data type**, and in the
+same **order**.
+
+If in some vendor, there is no `INTERSECT` and `EXCEPT`, you can use
+`INNER JOIN` and `LEFT OUTER JOIN`.
 
 ```sql
 SELECT branch_id
@@ -1126,11 +1173,33 @@ WHERE branch_id = NEW.branch_id;
 
 ### What is a Transaction?
 
+- Only for DML, not for DDL or DCL. (Though for some DCL, you can revert)
 - A **_transaction_** is a sequence of operations that is executed as a single
   unit of work.
 - A transaction is a collection of operations that performs a single logical
   function in a database application.
 - A transaction must obey the [**_ACID Properties_**](#acid-properties)
+
+### When is a Transaction Committed?
+
+If you don't begin a transaction, any modification is committed when one of
+three scenarios happen:
+
+- You exit (you disconnect from the server)
+- Session expires (server makes you disconnected from the server)
+- You COMMIT
+
+Therefore, especially when you are doing `UPDATE` and `DELETE`, you should begin
+a transaction. In fact, you should almost never run these commands manually to a
+production server.
+
+### Auto-commit
+
+If auto-commit is turned on, every single modification is auto-committed.
+
+In MySQL:
+
+`SET autocommit = 0` turns off auto-commit.
 
 ### ACID Properties
 
