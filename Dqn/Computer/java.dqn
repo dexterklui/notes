@@ -1378,6 +1378,9 @@
         need to implement this method - this is the starting point of your
         job.
 
+    You can define a runnable in place:
+    [\Runnable job = () -> { try { ... } catch (InterruptedException e) {...} }]\
+
   > Thread < {{{3
     ➱   A ['thread]' object is a [[worker]] that performs jobs (runnable).
     ➱   You create a new instance of a worker:
@@ -1388,11 +1391,17 @@
         new call stack for that thread of execution.
     ➱   NOTE that you can assign the same instance of the job multiple times
         to different worker (Runnable objects).
+    ➱   Another ways is to extend the [\Thread]\ and then override the
+        [\run()]\ method. Then you can create an instance of this Thread
+        subclass and start a thread by calling [\start()]\
 
   > States of thread < {{{3
               ┌──────────┐
     NEW → RUNNABLE → RUNNING
               └ BLOCKED ←┘
+
+    Other than blocked, there are two more temporary thread states: waiting
+    and sleep.
 
   > Sleep < {{{3
     [\Thread.sleep(:MILISECOND:);]\ is a static method. Put the method in
