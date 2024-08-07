@@ -282,6 +282,7 @@ times.
 ## Reference
 
 - [The Cycle of TDD](https://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD)
+- [Test Driven Development: By Example](https://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530)
 
 ## 🧭 Navigation
 
