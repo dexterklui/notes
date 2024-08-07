@@ -659,6 +659,11 @@ SELECT *
 FROM Employee E LEFT OUTER JOIN
 Department D
 ON E.department_id = D.department_id;
+
+-- Using cartesian product
+SELECT *
+FROM Employee E, Department D
+WHERE E.department_id *= D.department_id; -- LEFT OUTER JOIN
 ```
 
 `LEFT OUTER JOIN` returns all records from the left table (table1), and the
@@ -698,6 +703,11 @@ We use `NATURAL JOIN` to make an inner join **on common attributes**.
 ```sql
 SELECT * FROM Employee NATURAL JOIN Department;
 ```
+
+#### Cross Join
+
+Is just a Cartesian product. It is rarely used. Try not to use it, cause it can
+result in a huge number of rows, where memory is not enough to handle.
 
 ### Distinct Results
 
