@@ -4,13 +4,99 @@ date: 2024-08-04 (Sun)
 
 # Collections
 
+## Basic Concepts
+
+### Basic Collections
+
+Lists have:
+
+- Elements
+- Position
+- Order
+
+Maps have:
+
+- Key
+- Value
+- Entry - the key-value pair
+
+### Data Structures
+
+Data structure is to store, organize, manage, and retrieve data.
+
+- Store: add, sometimes to a particular position
+- Organize: according to internal structure, usually to optimize for certain
+  operations
+- Manage: remove, replace, sort
+- Retrieve: Random access with a position or a key; or iterate; or search
+
 ## Collection Frameworks in Java
+
+### Three Sections
+
+- Interfaces - defines methods
+- Implementations - concrete classes we can use
+- Algorithms - static methods that work with collections
+
+### History
+
+The Collection Frameworks was introduced in Java 1.2. Before that, there are
+classes like Vectors and Hashtables.
+
+### Interfaces
 
 | Interfaces | Classes           |
 | ---------- | ----------------- |
 | List       | ArrayList, Vector |
 | Set        | HashSet, TreeSet  |
 | Map        | HashMap, TreeMap  |
+
+Note that all of the following are interfaces, not classes. Collection inherits
+from Iterable.
+
+```mermaid
+classDiagram
+class Collection
+class List
+class Queue
+class Set
+class Deque
+class Map
+Collection <|-- List
+Collection <|-- Queue
+Collection <|-- Set
+Queue <|-- Deque
+```
+
+`Collection` is generic, so as all interfaces and classes down the inheritance
+tree.
+
+### Implementations
+
+#### Implementation Breakdown
+
+1. Interfaces:
+
+   List, Map, Queue, Set
+
+2. Implementation Styles:
+
+   Array Based, Hash Based, Link Based, Tree Based
+
+The naming convention of the classes is `<Implementation Style><Interface>`:
+
+- `ArrayList`: Array based implementation of `List`
+- `HashMap`: Hash based implementation of `Map`
+- `LinkedHashSet`: Linked based and hash based implementation of `Set`
+
+|       | Hashing | Array      | Tree    | Link       | Hash and Link |
+| ----- | ------- | ---------- | ------- | ---------- | ------------- |
+| Set   | HashSet |            | TreeSet |            | LinkedHashSet |
+| List  |         | ArrayList  |         | LinkedList |               |
+| Deque |         | ArrayDeque |         | LinkedList |               |
+| Map   | HashMap |            | TreeMap |            | LinkedHashMap |
+
+#### Overview of Implementations
 
 - **_ArrayList_**: ordered, allows duplicates, dynamically resizable array
 - **_LinkedList_**: ordered, allows duplicates, doubly linked list
@@ -32,6 +118,61 @@ date: 2024-08-04 (Sun)
 | Map         | TreeMap       | N          | N     | Y      |
 | Map         | LinkedHashMap | N          | Y     | N      |
 | Map         | HashTable     | N          | N     | N      |
+
+#### Class Diagram of Implementations
+
+```mermaid
+classDiagram
+
+class Collection
+<<interface>> Collection
+class List
+<<interface>> List
+class Queue
+<<interface>> Queue
+class Set
+<<interface>> Set
+class Deque
+<<interface>> Deque
+class Map
+<<interface>> Map
+
+Collection <|-- List
+Collection <|-- Queue
+Collection <|-- Set
+Queue <|-- Deque
+
+class HashMap
+class LinkedHashMap
+Map <|.. HashMap
+HashMap <|-- LinkedHashMap
+
+class SortedSet
+<<interface>> SortedSet
+class HashSet
+class TreeSet
+class LinkedHashSet
+Set <|.. HashSet
+Set <|-- SortedSet
+SortedSet <|.. TreeSet
+HashSet .. LinkedHashSet
+
+class ArrayList
+class LinkedList
+class Vector
+class Stack
+
+List <|.. ArrayList
+List <|.. Vector
+List <|.. LinkedList
+Deque <|.. LinkedList
+Vector <|-- Stack
+
+class PriorityQueue
+class ArrayDeque
+Queue <|.. PriorityQueue
+Deque <|.. ArrayDeque
+```
 
 ## Introduction to Collections
 
@@ -59,6 +200,52 @@ The interfaces `List` (ordered), `Queue` (FIFO) and `Set` (unordered) all
 
 The interface `Map` **doesn't** extend the `Collection`. Instead of `add`, it
 uses `put(key, value)`. Key must be unique, one value per key.
+
+If possible, always use Collection variable to store a collection object, so you
+can switch the underlying implementation easily.
+
+### Methods
+
+`*` means optional. So some inherited class may throw a
+`UnsupportedOperationException`.
+
+Each Collection has a constructor that takes another collection as an argument.
+
+#### Inserting Elements
+
+- `boolean add(E e)*`
+- `boolean addAll(Collection<? extends E> e)*`
+
+#### Removing Elements
+
+- `void clear()*`
+- `boolean remove(Object o)*`
+- `boolean removeAll(Collection<?> c)*`
+- `boolean removeIf(Predicate<? super E> f)`
+- `boolean retainAll(Collection<?> c)*`
+
+#### Inspecting Collection
+
+- `boolean contains(Object o)`
+- `boolean containsAll(Collection<?> c)`
+- `boolean isEmpty()`
+- `int size()`
+
+#### Iterating Collection
+
+- `void forEach(Consumer<T> a)`
+- `Iterator<E> iterator()`
+- `Stream<E> parallelStream()`
+- `Spliterator<E> spliterator()`
+- `Stream<E> stream()`
+
+#### Miscellaneous
+
+- `boolean equals(Object o)`
+- `int hashCode()`
+- `Object[] toArray()`
+- `T[] toArray(IntFunction<T[]> g)`
+- `T[] toArray(T [])`
 
 ## List Interface
 
@@ -181,6 +368,23 @@ See [Set Interface](#set-interface) to see requirements to use hash and tree.
 | Method     | Description                   |
 | ---------- | ----------------------------- |
 | `addFirst` | Like add but add at beginning |
+
+## Static Methods
+
+### Arrays
+
+```java
+System.arraycopy(fromArray, fromIdx, toArray, toIndex, length);
+```
+
+### Creating Collection
+
+```java
+Arrays.copyOf(array, newLength); // Array
+Arrays.asList("a", "b", "c"); // ArrayList
+List.of("a", "b", "c"); // Immutable List
+new ArrayList<String>(List.of("a", "b", "c")); // ArrayList
+```
 
 ## Multi-threading and Collections
 
