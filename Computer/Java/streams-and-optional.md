@@ -24,10 +24,8 @@ IntStream.of(myIntArray);
 - `count()`
 - `collect()`
   - E.g. `.collect(Collectors.toList())`
-- `max()`
-- `min()`
-- `sum()`
-- `average()`
+- `max()` relies on the `compareTo()` method of the object
+- `min()` relies on the `compareTo()` method of the object
 - `forEach()`
 - `reduce()`
   - `reduce(accumulator)`: if you only pass in an accumulator, it returns an
@@ -35,6 +33,8 @@ IntStream.of(myIntArray);
     smart enough to not run the accumulator for the first element, but only
     starting from the second.
   - `reduce(initialValue, accumulator)`
+- `sum()` - only available on `IntStream`, `LongStream`, and `DoubleStream`
+- `average()` - only available on `IntStream`, `LongStream`, and `DoubleStream`
 
 ## 🧭 Navigation
 
