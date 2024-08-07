@@ -558,6 +558,9 @@ SELECT name FROM Customer WHERE name REGEXP BINARY '^A';
 
 `IN` and `NOT IN` specifies a set of values to match.
 
+NOTE that when using `NOT IN`, you need to be careful with `NULL` values. If the
+set contains `NULL`, then the result will be empty. See code example below.
+
 ```sql
 SELECT name
 FROM Branch
@@ -573,7 +576,8 @@ WHERE customer_id IN
 SELECT DISTINCT customer_id
 FROM Borrower
 WHERE customer_id NOT IN
-      (SELECT customer_id FROM Owner);
+      (SELECT customer_id FROM Owner WHERE customer_id IS NOT NULL);
+-- Must filter out NULL, otherwise the result will be empty.
 ```
 
 #### Exists Clause
