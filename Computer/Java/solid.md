@@ -17,7 +17,8 @@ Good design:
 - Maintainability
   - Holds up to changing user needs
 - Security
-- Bad design:
+
+Bad design:
 
 - Rigid- Difficult to change
 - Fragile - Easy to break
