@@ -470,6 +470,42 @@ FROM
 ) AS T;
 ```
 
+### Correlated Subqueries
+
+When the subquery references an attribute from the outer query, it is a
+correlated subquery.
+
+You use correlated subquery when there are non-aggregate columns to be displayed
+that are not listed within `GROUP BY`. But use correlated subquery as a last
+resort, because it is **expensive**. Cause the subquery is executed for each row
+in the outer query.
+
+To find the trade_id with the maximum price_total for each share_id, identify
+the three parts:
+
+1. What you are looking for: trade_id
+2. What to aggregate: price_total
+3. How to group: share_id
+
+```sql
+SELECT t.trade_id, t.price_total, t.share_id
+FROM trades t
+WHERE t.price_total = (
+  SELECT MAX(t2.price_total)
+  FROM trades t2
+  WHERE t2.share_id = t.share_id -- correlation condition
+)
+```
+
+Without using correlated subqueries, it is hard to get desired result. The
+following doesn't work.
+
+```sql
+SELECT trade_id, MAX(price_total), share_id
+FROM trades
+GROUP BY share_id;
+```
+
 ### Where Clause
 
 `WHERE` clause specifies the conditions that the result must satisfy.
