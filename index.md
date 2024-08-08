@@ -38,10 +38,6 @@
 - [Project Structure](Computer/WebDev/project-structure.md)
 - [Feature Done In The Past](Computer/WebDev/feature-done-in-the-past.md)
 
-### Java
-
-- [Index](Computer/Java/index.md)
-
 ### Backend
 
 - [SQL](Computer/Backend/sql.md)
@@ -65,6 +61,7 @@
 ### 💻 Computer Languages
 
 - [Lua](Computer/lua.md)
+- [Java](Computer/Java/index.md)
 
 ### 🐧 Linux
 
