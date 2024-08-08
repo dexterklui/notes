@@ -1326,6 +1326,9 @@ WITH RECURSIVE
 - Set operations: `UNIQUE`
 - More on foreign key constraints: `ON DELETE CASCADE`, `ON UPDATE CASCADE`
 - More on DCL (Data Control Language) `WITH GRANT OPTION`
+- Index
+- Store procedures
+- Cursors
 
 ## References and Links
 
