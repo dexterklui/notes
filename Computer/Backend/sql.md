@@ -1120,10 +1120,19 @@ All aggregate operations except `COUNT(*)` ignore tuples with null values on the
 - Can be used to hide complexity of a query.
 - Can be used to restrict access to the data.
 - Can be used to present data in a different way.
+- The base tables are tables the view is derived from.
+
+### Inline View
+
+**_Inline view_** (sometimes called _temporary table_) appears in the `FROM`
+clause of a query. Some vendors (e.g. MySQL) require you to label an inline view
+(like giving a table alias).
 
 ### Create-view Clause
 
 `CREATE VIEW <view-name> AS <expression>` creates a view.
+
+Recommended: `CREATE OR REPLACE VIEW <view-name> AS <expression>`.
 
 ```sql
 CREATE VIEW Employee_hide_salary AS (
@@ -1137,7 +1146,19 @@ CREATE VIEW Dpt_size(name, num_of_employee) AS (
   WHERE D.department_id = W.department_id
   GROUP BY W.department_id
 );
+
+CREATE OR REPLACE VIEW trade_full_details AS
+SELECT t.trade_id ...
 ```
+
+The to use the view:
+
+```sql
+SELECT `Share Amount`
+FROM trade_full_details;
+```
+
+To remove: `DROP VIEW <view-name>;`
 
 ## Authorization
 
