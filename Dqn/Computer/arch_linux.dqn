@@ -74,6 +74,7 @@
     ➱   [\wireguard-tools]\: for NordVPN's nordlynx technology
     ➱   [\eclipse-java-bin]\: for FDM Java course
         ‣   [\jdk17-openjdk]\: for FDM Java course
+    ➱   [\docker]\
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
