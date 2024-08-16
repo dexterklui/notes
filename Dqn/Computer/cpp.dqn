@@ -3527,7 +3527,7 @@
   > Comments < {{{3
     [\#]\ for inline comment
 
-  > Basic struccture: setting targets < {{{3
+  > Basic structure: setting targets < {{{3
     In the makefile, it consists of blocks of:
     [\:TARGET[ ...]`:[`:] DEPENDENCY[ ...] [; [FLAG...]CMD]:]\
     [\:  <TAB> [FLAG...]CMD                                ]\
