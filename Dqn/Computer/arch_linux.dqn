@@ -1335,3 +1335,15 @@
 
         </fontconfig>
         #endCode#
+        
+[~{ Gatcha Problem }~] {{{1
+ == Microphone == {{{2
+   |broken microphone|
+    Booting into windows and then "restart" (instead of
+    "shutdown")  will leave firmwares into undefined state, breaking the
+    microphone in Linux.
+
+    You should also make sure you didn't hibernate from Windows and then boot
+    into Linux. And quick/fast boot should be disabled.
+
+    See [=https://bbs.archlinux.org/viewtopic.php?id=298265]=
