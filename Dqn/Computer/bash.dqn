@@ -72,6 +72,8 @@
         ⮱   Either the PATTERN or ACTION can be omitted, but not both.
             ‣   If PATTERN is omitted, ACTION is done on every line.
             ‣   If ACTION is omitted, the default action is to print the line.
+        ⮱   If PATTERN is a regex, it is enclosed in slashes.
+        ⮱   If PATTERN is a string, it is enclosed in double quotes.
     ➱   [[Newlines]] usually separate rules
         ⮱   Newline after the followings is [[ignored]]:
             ‣   [\,]\
@@ -116,7 +118,14 @@
         space).
 
  == Variables == {{{2
+    Inside double quotes everything is literal, i.e. no variable or function
+    is expended. Strings and output are concatenated automatically:
+
+    [\awk '{ print "line "FNR" contains "length($0)" characters" }' "$1"]\
+
   > Predefined variables < {{{3
+    ‣   [\$0]\: The entire record.
+    ‣   [\$1]\: The first field.
     ‣   [\FILENAME]\: Name of current input file.
         ⮱   Is [\-]\ for stdin.
         ⮱   Is a null string inside a BEGIN rule.
@@ -128,6 +137,7 @@
         of the program's execution.
 
   > User-defined variables < {{{3
+    ‣   [\var = value]\: Assign value to a new or existing var
     ‣   Automatically initialized to 0.
 
  == Functions == {{{2
@@ -163,6 +173,7 @@
         Print a sorted list of login names of all users.
     ‣   [\END {print NR}]\: Print number of lines read by awk.
     ‣   [\NR % 2 == 0]\: Print even-numbered lines.
+    ‣   [\awk '{ print "line "FNR" contains "length($0)" characters" }' "$1"]\
 
 [~{ archiving }~] {{{1
  == zip == {{{2
