@@ -74,7 +74,7 @@
     ➱   [\wireguard-tools]\: for NordVPN's nordlynx technology
     ➱   [\eclipse-java-bin]\: for FDM Java course
         ‣   [\jdk17-openjdk]\: for FDM Java course
-    ➱   [\docker]\
+    ➱   [\docker]\ and [\docker-compose]\
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
@@ -114,6 +114,8 @@
         openvpn
     ➱   [\nordvpn-bin]\
     ➱   [\jdtls]\: Java language server, for NeoVim
+    ➱   [\mongodb-compass]\: For reading mongodb database. Used for FDM
+        hackathon
 
    |Deleted|
     ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
@@ -121,8 +123,6 @@
             [\noto-fonts-emoji]\
         ⮱   [=https://github.com/alex1701c/EmojiRunner/issues/1/]=
     ➱   [\franz-bin]\: Linux app for various mobile messenging apps
-    ➱   [\mongodb-compass]\: For reading mongodb database. Used for capstone
-        project for Xccelerate x Hollo
     ➱   [\dvm-bin]\: For installing old version of [\deno]\ needed for
         [\peek.nvim]\
         ⮱   [\EXPORT DENO_INSTALL="$HOME/.deno"]\, it is the directory in
