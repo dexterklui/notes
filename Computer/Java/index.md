@@ -6,6 +6,7 @@ date: 2024-07-23 (Tue)
 
 ## Link to Notes
 
+- [Java Memory Management](java-memory-management.md)
 - [JavaDoc](javadoc.md)
 - [Log4J2](log4j2.md)
 - [SOLID Principles](solid.md)
