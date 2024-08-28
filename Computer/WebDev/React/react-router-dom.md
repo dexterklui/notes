@@ -1,13 +1,14 @@
 ---
-title: React Router Dom
 date: 2023-09-02 (Sat)
 ---
 
-# Installation
+# React Router Dom
+
+## Installation
 
 `npm install react-router-dom`
 
-# Basic Usage
+## Basic Usage
 
 In `index.js`:
 
@@ -63,7 +64,7 @@ function App() {
 Actually, you can leave `index.js` unchanged and use `<BrowserRouter>` in
 `App.js` instead.
 
-# Pages
+## Pages
 
 Each page is just a JSX. It is conventional to put all js files for pages into a
 folder, e.g. `src/pages` or `src/screens`.
@@ -91,13 +92,13 @@ To include a page in `App.js`, add a `<Route>` tag in `<Routes>` tag:
   - Property `path` specifies the path of the page
   - Property `element` specifies the JSX to render for this path.
 
-# Components
+## Components
 
-## Links
+### Links
 
 `<Link to="/">Home</Link>` gives you an HTML anchor to the target path.
 
-## Navigate
+### Navigate
 
 When React encounters a `<Navigate to="/" />` while rendering, React will
 redirect the browser to the target path instead and render it.
@@ -105,9 +106,17 @@ redirect the browser to the target path instead and render it.
 If React encounters multiple `<Navigate>` tags, then react will keep redirecting
 one after another as it encounters those tags.
 
-# Hooks
+Or you can use the `useNavigate` hook from `react-router-dom`:
 
-## useLocation
+```javascript
+const navigate = useNavigate();
+// ...
+navigate("/");
+```
+
+## Hooks
+
+### useLocation
 
 ```js
 const location = useLocation();
@@ -126,7 +135,20 @@ redirected by `<Navigate>`
 const state = useLocation().state;
 ```
 
-# 🧭 Navigation
+### useParams
+
+The hook `useParams` is used to access the parameters passed to the current page
+
+## Catch All Route
+
+You can handle unfound path handling. E.g. create a `Error.jsx` component, and
+use it in catch-all `<Route>`:
+
+```javascript
+<Route path="*" element={<Error />} />
+```
+
+## 🧭 Navigation
 
 - [🔼 Back to top](#)
 - [◀️ Back](react.md)
