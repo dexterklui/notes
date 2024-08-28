@@ -1387,6 +1387,10 @@ WITH RECURSIVE
 - Store procedures
 - Cursors
 
+## Tools
+
+- [dbdiagram.io](https://dbdiagram.io/home)
+
 ## References and Links
 
 - [MySQL Tutorial](https://www.mysqltutorial.org/)
