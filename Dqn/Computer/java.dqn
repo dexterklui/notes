@@ -420,6 +420,9 @@
 
     [\DaysOfTheWeek today = DaysOfTheWeek.MONDAY;]\
 
+  > Type casting string to enum < {{{3
+    [\MyEnum.valueOf(myStr.toUpperCase())]\
+
  == Expressions == {{{2
     Consists of following:
     ‣   Operators
