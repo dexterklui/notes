@@ -1700,6 +1700,11 @@ solutions:
 - Override the default value of `vertical-align` to any other value.
 - Set parent element to `display: flex`.
 
+### Parent Container Size Bigger Than Content
+
+Could be a side effect of `min-`, `max-` `width` or `height` properties. Try
+removing them to see if the problem got fixed.
+
 ## 🧭 Navigation
 
 - [📑 Notes Index](../../index.md)
