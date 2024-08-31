@@ -33,6 +33,7 @@
   - [Next.Js](Computer/WebDev/React/nextjs.md)
   - [Tailwind](Computer/WebDev/React/tailwind.md)
   - [Redux](Computer/WebDev/React/redux.md)
+  - [Axios](Computer/WebDev/React/axios.md)
 - [Tests](Computer/WebDev/tests.md)
 - [Svelte](Computer/WebDev/Svelte/index.md)
 - [Project Structure](Computer/WebDev/project-structure.md)
