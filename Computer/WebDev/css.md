@@ -711,12 +711,12 @@ of rotation at 25% width from the left and 50% height from the top.
 
 #### Gradient in text
 
-1.  Set up colour gradient in the background
-2.  **Mask** the background to the text
-    - `background-clip: text`
-    - `-webkit-background-clip: text` for chrome
-3.  Set the text to be transparent
-    - `color: transparent`
+1. Set up colour gradient in the background
+2. **Mask** the background to the text
+   - `background-clip: text`
+   - `-webkit-background-clip: text` for chrome
+3. Set the text to be transparent
+   - `color: transparent`
 
 ### Background
 
@@ -1023,12 +1023,12 @@ animation:
 
 In this example the animation is as following ("|" is the blinking caret):
 
-1.  | Project
-2.  **My early** | Project
-3.  | Project
-4.  **My very armature** | project
-5.  | Project
-6.  (start all over again)
+1. | Project
+2. **My early** | Project
+3. | Project
+4. **My very armature** | project
+5. | Project
+6. (start all over again)
 
 ```html
 <h2>Project</h2>
