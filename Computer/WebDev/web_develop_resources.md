@@ -8,6 +8,10 @@
 
 - [Kenneth's website](https://kennethhau.com) Tutor's personal website
 
+## Mock
+
+- [JSONPlaceholder](http://jsonplaceholder.typicode.com/)
+
 ## Searching Resources
 
 - [WebDev Town](https://webdev.town)
