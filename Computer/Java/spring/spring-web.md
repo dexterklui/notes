@@ -176,6 +176,41 @@ public class ApiController {
 }
 ```
 
+### CORS Expose Headers
+
+You can add the following to `CorsConfig` class as in [#CORS](#cors).
+
+```java
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
+
+@Bean
+public Filter corsFilter() {
+    return new Filter() {
+        @Override
+        public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+                throws IOException, ServletException {
+            HttpServletResponse response = (HttpServletResponse) res;
+            response.setHeader("Access-Control-Expose-Headers", "Location");
+            chain.doFilter(req, res);
+        }
+
+        @Override
+        public void init(FilterConfig filterConfig) {
+        }
+
+        @Override
+        public void destroy() {
+        }
+    };
+}
+```
+
 ## 🧭 Navigation
 
 - [🔼 Back to top](#spring-web)
