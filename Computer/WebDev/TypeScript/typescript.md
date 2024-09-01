@@ -68,7 +68,21 @@ type ObjectWithUnknownFields = {
 type ObjectUsingRecord = Record<string, any>;
 ```
 
-#### Omission
+#### Pick keys from object
+
+Use `Pick<T, K>`
+
+```typescript
+interface Todo {
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
+type TodoPreview = Pick<Todo, "title" | "completed">;
+```
+
+#### Omit keys from object
 
 Use `Omit<T, K>`
 
