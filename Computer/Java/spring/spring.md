@@ -6,6 +6,8 @@ date: 2024-08-19 (Mon)
 
 ## ToC
 
+- [Spring Boot](spring-boot.md)
+- [Spring Data](spring-data.md)
 - [Spring Web](spring-web.md)
 - [Spring Validation](spring-validation.md)
 - [Rest Client](rest-client.md)
@@ -14,7 +16,7 @@ date: 2024-08-19 (Mon)
 ## Intro
 
 - Dependency on Maven
-- Inversion of Control - helps achieve loose coupling
+- **Inversion of Control** (**IoC**) - helps achieve loose coupling
   - The framework handling for us instead
 - A lot of modules - spring boot, security, data
 
@@ -28,7 +30,7 @@ Spring can be Configure by:
   combined them together and see as one configuration. So you can separate
   different kinds of configuration in different classes)
 
-`SpringApplication.run({config class}, args)`
+`SpringApplication.run({configClass}, args)`
 
 Three files are required for a Spring application
 
@@ -41,8 +43,8 @@ With Spring Boot, there is auto configuration based on what spring boot
 dependencies you add. E.g. with `data` module Spring Boot will automatically
 configure a datasource for you and try to connect to it.
 
-Package hierarchy is important, the @ComponentScan architecture only pick up
-subpackages from your root application
+**Package hierarchy** is important, the `@ComponentScan` architecture only pick
+up subpackages from your root application
 
 ## Spring Beans
 
@@ -53,17 +55,15 @@ subpackages from your root application
 - `@Repository` - that provide CRUD with a storage space such as a DAO
 - `@Controller` - handle http requests and response
 
-The
-
 `@Bean` - is for general objects like `@Component`. With `@Bean`, the bean name
 by default is the method name.
 
-With there are multiple beans, you can mark one as `@Primary`. By default the
+When there are multiple beans, you can mark one as `@Primary`. By default the
 first four component annotations are primary over ones defined by `@Bean`. Then
 `@Autowired` will use the `@Primary` bean matching the type. Or you can use
 `@Qualifier("beanName")` under `@Autowired` to specify which bean to use.
 
-### Auto wiring
+### Autowiring
 
 Autowiring is
 
@@ -88,100 +88,6 @@ Issues and exceptions with Spring are mostly two:
 
 - Bean not found
 - Multiple beans found
-
-## Spring Data
-
-### Managed Entity and Detached Entity
-
-When you call pass an entity instance to the `save` method of `JpaRepository`,
-the entity becomes a **_managed entity_** until the session is closed and any
-changes will be persisted to the database during this period.
-
-When an entity is not managed, it is called a **_deteched entity_**, and any
-change to the entity will not be persisted until you `save` it.
-
-The session is closed when the transaction is committed, or when the method
-calling the `save` method returns.
-
-## Spring Boot Project
-
-### Initializr
-
-- [Spring Initializr](https://start-spring.io) - create bare bone spring project
-
-  It by default comes with spring core and spring testing dependencies
-
-### Three Basic Files of Spring Boot Project
-
-- `<ProjectName>Application.java` - The application's bootstrap class and
-  primary Spring configuration class
-- `<ProjectName>ApplicationTests.java` - A basic integration test class
-- `application.properties` - A place to configure application and Spring Boot
-  properties
-
-### Spring Boot Application Class
-
-Marked by `@SpringBootApplication`, which combines three annotations:
-
-- `@Configuration` - As a configuration class replacing XML config file
-- `@ComponentScan` - Enable component scanning - auto read annotations in other
-  classes
-- `@EnableAutoConfiguration` - Enable Spring Boot's auto-configuration
-
-### Spring Boot Application Test Class
-
-```java
-@Test
-public void contextLoads() {} // test that context has been loaded
-```
-
-### Application Properties
-
-Where you can override auto-configuration properties from Spring Boot.
-
-You can import config from another file by
-`spring.config.import=optional:file:.local.properties`. Order of the import
-statement doesn't matter, as imported values always override the importing file.
-
-## JPA
-
-Java Persistant API
-
-JPA is abstraction on top of JDBC, which is an abstraction above databases
-
-ORM - Object Relational Mapping
-
-JPA requires persistence provider such as Hibernate, Eclipse Link or Apache Open
-JPA. Spring supports JPA and Hibernate by default.
-
-### Entity
-
-Entity classes are data we want to persist
-
-```java
-@Entity
-// @Table(name = "employee")
-public class Employee {
-  // you don't need to care about case sensitivity, cause the table is created
-  // by Hibernate automatically
-
-  @Id
-  @Column(name = "emp_id")
-  private int id;
-  private string mame; // map to column "name"
-
-  @Transient // not to be persisted, i.e. stored in database
-  private int age;
-}
-```
-
-`@Column()` can have many more arguments, like `nullable`, `unique`, `length`.
-Other libraries provide overlapped feature, like `@NotNull`
-
-### Spring dependency
-
-- `Spring Data JPA`
-- `MySQL Driver`
 
 ## Local Directory Storing Downloaded Dependencies
 
