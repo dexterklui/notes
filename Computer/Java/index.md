@@ -117,7 +117,7 @@ public class MyCustomException extends Exception {
 - [Debugging the Eclipse IDE for Java Development](https://www.eclipse.org/community/eclipse_newsletter/2017/june/article1.php)
 - [Eclipse Debugger Tutorial](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.ocl.doc%2Fhelp%2FDebuggerTutorial.html)
 
-### Misc
+### Misc Links
 
 - [Competitive Programming](https://cses.fi/book/book.pdf)
 
