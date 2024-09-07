@@ -13,8 +13,6 @@ date: 2024-08-19 (Mon)
 
 ## Intro
 
-#### Spring
-
 - Dependency on Maven
 - Inversion of Control - helps achieve loose coupling
   - The framework handling for us instead
