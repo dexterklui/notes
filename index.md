@@ -20,7 +20,7 @@
 - [HTML](Computer/WebDev/html.md)
 - [HTML - SVG](Computer/WebDev/html-svg.md)
 - [AJAX and JSON](Computer/WebDev/ajax-and-json.md)
-- [JavaScript - Index](Computer/WebDev/JavaScript/index.md)
+- [JavaScript - Index](Computer/WebDev/JavaScript/javascript.md)
 - [TypeScript](Computer/WebDev/TypeScript/typescript.md)
 - [Decorators](Computer/WebDev/decorators.md)
 - [CSS](Computer/WebDev/css.md)
@@ -35,7 +35,7 @@
   - [Redux](Computer/WebDev/React/redux.md)
   - [Axios](Computer/WebDev/React/axios.md)
 - [Tests](Computer/WebDev/tests.md)
-- [Svelte](Computer/WebDev/Svelte/index.md)
+- [Svelte](Computer/WebDev/Svelte/svelte.md)
 - [Project Structure](Computer/WebDev/project-structure.md)
 - [Feature Done In The Past](Computer/WebDev/feature-done-in-the-past.md)
 
@@ -50,7 +50,7 @@
 
 ### ⌨️ Vim
 
-- [NeoVim](Computer/Nvim/index.md)
+- [NeoVim](Computer/Nvim/nvim.md)
 - [LazyVim](Computer/lazyvim.md)
 
 ### 📝 Note Taking
@@ -62,7 +62,7 @@
 ### 💻 Computer Languages
 
 - [Lua](Computer/lua.md)
-- [Java](Computer/Java/index.md)
+- [Java](Computer/Java/java.md)
 
 ### ⚙️ DevOps
 
@@ -95,8 +95,8 @@
 
 ## 🎨 Design
 
-- [Web Design for Beginners](Design/WebDesignForBeginners/index.md)
+- [Web Design for Beginners](Design/WebDesignForBeginners/web-design.md)
 
 ## AI
 
-- [AI](Computer/AI/index.md)
+- [AI](Computer/AI/ai.md)

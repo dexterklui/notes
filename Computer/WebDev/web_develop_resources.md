@@ -18,7 +18,7 @@
 
 ## Design Tools
 
-- [Web Design Resources](../../Design/WebDesignForBeginners/index.md#resources)
+- [Web Design Resources](../../Design/WebDesignForBeginners/web-design.md#resources)
 
 ## Favicons
 

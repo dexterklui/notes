@@ -12,5 +12,5 @@ Also need some other dependencies such as RSA...
 
 - [🔼 Back to top](#spring-security)
 - [◀️ Back](spring.md)
-- [🔖 Parent index](../index.md)
+- [🔖 Parent index](../java.md)
 - [📑 Notes Index](../../../index.md)

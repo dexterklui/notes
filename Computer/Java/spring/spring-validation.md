@@ -33,5 +33,5 @@ public void addContact(@Valid @RequestBody Contact trade) {
 
 - [🔼 Back to top](#spring-validation)
 - [◀️ Back](spring.md)
-- [🔖 Parent index](../index.md)
+- [🔖 Parent index](../java.md)
 - [📑 Notes Index](../../../index.md)

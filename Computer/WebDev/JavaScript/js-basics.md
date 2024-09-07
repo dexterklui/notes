@@ -187,5 +187,5 @@ injection_.
 ## 🧭 Navigation
 
 - [🔼 Back to top](#js-basics)
-- [🔖 Parent index](./index.md)
+- [🔖 Parent index](javascript.md)
 - [📑 Notes Index](../../../index.md)

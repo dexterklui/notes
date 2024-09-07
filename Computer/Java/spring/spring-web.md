@@ -215,5 +215,5 @@ public Filter corsFilter() {
 
 - [🔼 Back to top](#spring-web)
 - [◀️ Back](spring.md)
-- [🔖 Parent index](../index.md)
+- [🔖 Parent index](../java.md)
 - [📑 Notes Index](../../../index.md)

@@ -8,5 +8,5 @@ date: 2024-08-23 (Fri)
 
 - [🔼 Back to top](#rest-client)
 - [◀️ Back](spring.md)
-- [🔖 Parent index](../index.md)
+- [🔖 Parent index](../java.md)
 - [📑 Notes Index](../../../index.md)
