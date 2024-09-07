@@ -185,13 +185,6 @@ Other libraries provide overlapped feature, like `@NotNull`
 - `Spring Data JPA`
 - `MySQL Driver`
 
-## Personal Project
-
-### Product Backlog
-
-- [ ] As a seller, I want to post a trade so that I can sell my product
-- [ ] As a buyer, I want to view a trade so that I can buy a product
-
 ## Local Directory Storing Downloaded Dependencies
 
 On Linux, its downloaded to `~/.m2/repository`
