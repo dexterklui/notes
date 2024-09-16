@@ -93,10 +93,18 @@ Issues and exceptions with Spring are mostly two:
 
 On Linux, its downloaded to `~/.m2/repository`
 
+## Web Server and Spring Architecture
+
+### Dispatcher Servlet and Handler Interceptor
+
+![Handler Interceptor Flow](interceptor.png)
+
 ## Links and Resources
 
 - [Reference - Spring Boot](https://docs.spring.io/spring-boot/reference/)
 - [Learning Spring with Spring Boot - LinkedIn](https://www.linkedin.com/learning/learning-spring-with-spring-boot-13886371/learn-rapid-development-with-spring-boot?u=78163626)
+- [Servlet things every Java Developer must know - Servlet, Container, Filter, and Listener - Medium](https://medium.com/javarevisited/servlet-things-every-java-developer-must-know-servlet-container-filter-and-listener-374a460169bd)
+- [Spring Framework - Filter vs Dispatcher Servlet vs Interceptor vs Controller - Medium](https://medium.com/javarevisited/spring-framework-filter-vs-dispatcher-servlet-vs-interceptor-vs-controller-745aa34b08d8)
 
 ## Q&A
 
