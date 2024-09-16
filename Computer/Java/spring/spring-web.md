@@ -13,23 +13,28 @@ date: 2024-08-22 (Thu)
 ## Apache Tomcat
 
 - Tomcat is both a web server and a web container.
-- The APIs for server-side programming are part of Java EE, whatever that means
+- The APIs for server-side programming are part of Java EE, now renamed to
+  Jakarta
 
 ## RESTful Web Services
 
 - Is a Web Services
 - Follows REST architecture
-- Response can be in different format
+- Response body can be in different format
 
 The point is that it is standard, and no need extensive docs for people to
 understand how to use it.
 
 ## Spring Boot Modules
 
-- Spring Web
+- **_Spring Web_**
   - Jackson comes with spring web. So can serialize what you return into JSON
-- Spring Boot DevTools
-- Validation
+- **_Spring Boot DevTools_**
+  - Allow hot module reloading
+- **_Validation_**
+  - Set up validation of JSON objects in request bodies using annotations in
+    your Java class with which deserializations happen
+  - It also validate when trying to persist the object into the database
 
 ## Controller
 
@@ -37,7 +42,8 @@ understand how to use it.
 document by default, unless `@ResponseBody` is used above the method.
 
 If you use `@RestController`, then the return value is already `@ResponseBody`
-by default. And Jackson is used to serialize the object into JSON by default.
+by default. And Jackson is used to serialize the returned value into JSON by
+default.
 
 ### Path Mapping
 
@@ -108,13 +114,49 @@ public class TradeNotFoundException extends RuntimeException {
 }
 ```
 
+When you are using OAuth2 to use JWT for user authorization, the
+`@ResponseStatus` annotation will have no effect, because the security filter is
+overriding the response. You can use a custom exception handler to handle the
+exception.
+
+#### Custom Exception Handlers
+
+It allows you to handle exceptions and return a custom response.
+
+```java
+/**
+ * Handles illegal values in the path variables in a dynamic path from the
+ * request.
+ */
+@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+public ResponseEntity<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+  HttpStatus status = HttpStatus.BAD_REQUEST;
+
+  Class<?> requiredType = ex.getRequiredType();
+  if (requiredType.isEnum()) {
+    String validValues = Arrays.stream(requiredType.getEnumConstants())
+        .map(Object::toString)
+        .collect(Collectors.joining(", "));
+    String message = "Invalid value for '" + ex.getName() + "'. Valid values are: " + validValues;
+
+    return new ResponseEntity<>(message, status);
+  } else {
+
+    return new ResponseEntity<>("Invalid value for " + ex.getName(), HttpStatus.BAD_REQUEST);
+  }
+}
+```
+
 ### Custom Serialization and Deserialization
 
 You can add `@JsonIgnore` to prevent circular reference.
 
 You can use **DTO** (Data Transfer Object) to serialize the object into JSON in
-your desired format. This can prevent exposing all the data structures
-recursively.
+your desired format.
+
+For serialization, a good practice is to use `@JsonIgnore` to prevent exposing
+nested objects, and sensitive or unnecessary data by default. And then use
+custom DTO to expose more info as needed in each endpoint.
 
 ### Response Entity
 
@@ -123,10 +165,14 @@ the controller class, using this can allow you to control the response message,
 like headers and status.
 
 - `ResponseEntity.ok()` or `ok(T body)`
+- `ResponseEntity.created(location)`
+- `ResponseEntity.noContent()`
+- `ResponseEntity.created(location).body(savedTrade)`
 
 ### CORS
 
-Global config:
+First way is to use WebMvcConfigurer, which let **_Spring MVC_** to config CORS
+globally.
 
 ```java
 import org.springframework.context.annotation.Bean;
@@ -175,6 +221,9 @@ public class ApiController {
     }
 }
 ```
+
+But sometimes not all requests/response will be handled by Spring MVC, but by a
+security filter. In this case you need to config CORS in the security filter.
 
 ### CORS Expose Headers
 
