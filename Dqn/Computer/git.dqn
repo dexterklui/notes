@@ -524,6 +524,25 @@
   > blame < {{{3
     Check the modification history of each line of a file.
 
+    ➱   [\--ignore-rev :commit:]\ ignores the changes made by a commit. This
+        is especially useful when you want to ignore a commit that does code
+        style formatting on a large scale, e.g. with [[prettier]].
+        ⮱   To rid the need to input every commit to be ignored, you can store
+            the commit hashes in a file (commonly [\.git-blame-ignore-revs]\)
+            and use [\--ignore-revs-file :file:]\ instead.
+
+            #beginCode#
+            # Conversion to PSR-2 code style
+            237de8a6367a88649a3f161112492d0d70d83707
+
+            # Fix line endings
+            df0ee6b006ee0f90cccc18b71ced290f6cae18d9
+            #endCode#
+        ⮱   You can even set the file in the configuration:
+            [\git config blame.ignoreRevsFile .git-blame-ignore-revs]\, if you
+            stick with the [\.git-blame-ignore-revs]\ naming convention, you
+            can make the setting [\--global]\ as well
+
   > show < {{{3
     [\git show :object:]\
     ➱   Show various types of objects
