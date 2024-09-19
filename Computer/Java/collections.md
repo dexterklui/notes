@@ -406,6 +406,13 @@ See [Set Interface](#set-interface) to see requirements to use hash and tree.
 
 ## Static Methods
 
+### General Static Methods
+
+- `<T extends Object & Comparable<? super T>> max(Collection<? extends T> coll)`
+- `<T extends Object & Comparable<? super T>> min(Collection<? extends T> coll)`
+- `T max(Collection<? extends T> coll, Comparator<? super T> comp)`
+- `T min(Collection<? extends T> coll, Comparator<? super T> comp)`
+
 ### Arrays
 
 ```java
@@ -420,6 +427,37 @@ Arrays.asList("a", "b", "c"); // ArrayList
 List.of("a", "b", "c"); // Immutable List
 new ArrayList<String>(List.of("a", "b", "c")); // ArrayList
 ```
+
+### Synchronized Collection
+
+- `Collection<T> synchronizedCollection(Collection<T> c)`
+- `List<T> synchronizedList(List<T> list)`
+- `Map<K, V> synchronizedMap(Map<K, V> m)`
+- `Set<T> synchronizedSet(Set<T> s)`
+
+### Unmodifiable Collection
+
+- `Collection<T> unmodifiableCollection(Collection<? extends T> C)`
+- `List<T> unmodifiableList(List<? extends T> list)`
+- `Map<K, V> unmodifiableMap(Map<? extends K, ? extends V> m)`
+- `Set<T> unmodifiableSet(Set<? extends T> s)`
+
+### Lists
+
+- `void rotate(List<?> list, int distance)`
+- `void shuffle(List<?> list)`
+- `void swap(List<?> list, int i, int j)`
+- `void reverse(List<?> list)`
+
+#### Sorting
+
+- `void sort(List<T> list)`
+- `void sort(List<T> list, Comparator<? super T> c)`
+
+### Sets
+
+- `Set<T> singleton(T o)` returns an immutable set containing only the specified
+  object.
 
 ## Multi-threading and Collections
 
