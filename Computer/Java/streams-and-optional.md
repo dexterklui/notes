@@ -23,7 +23,26 @@ IntStream.of(myIntArray);
 
 - `count()`
 - `collect()`
-  - E.g. `.collect(Collectors.toList())`
+
+  - Use builtin collector functions e.g. `.collect(Collectors.toList())`
+    - `Collectors.toMap(Function.identity(), x -> String.valueOf(x).toUpperCase())`
+      - The first argument is a function that returns the key, the second
+        returns the value
+    - `Collectors.joining(", ")` joins the element with a delimiter
+  - `<R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulator,BiConsumer<R, R> combiner)`
+    - `supplier`: a function that creates a new mutable result container. For
+      the parallel execution, this function may be called multiple times and it
+      must return a fresh value each time.
+      - You can also use e.g. `ArrayList::new`
+    - `accumulator` is a stateless function that must fold an element into a
+      result container.
+      - You can also use e.g. `ArrayList::add`
+    - `combiner` is a stateless function that accepts two partial result
+      containers and merges them, which must be compatible with the accumulator
+      function.
+      - You can also use e.g. `ArrayList::addAll`
+      - Only used for parallel streams (with `Collection.parallelStream()`)
+
 - `max()` relies on the `compareTo()` method of the object
 - `min()` relies on the `compareTo()` method of the object
 - `forEach()`
