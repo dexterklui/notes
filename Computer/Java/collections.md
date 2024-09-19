@@ -264,16 +264,15 @@ Each Collection has a constructor that takes another collection as an argument.
 
 ## Queue Interface
 
-- FIFO
-- Items are added at the end and removed from the front
+- FIFO - Items are added at the end and removed from the front
 
 | Method | Description                     |
 | ------ | ------------------------------- |
 | `poll` | Remove and return item at front |
 | `peek` | Return object at front          |
 
-- `LinkedList`
-- `PriorityQueue`
+- `LinkedList` - can be used as a queue
+- `PriorityQueue` - stores elements based on their natural order
 
 ## Deque Inteface
 
@@ -353,7 +352,7 @@ Set<Person> friendSet = new TreeSet<>(new FriendComparator());
 
 - Key-value pair, key is unique
 
-### Methods
+### Map Methods
 
 | Method          | Description                     |
 | --------------- | ------------------------------- |
@@ -383,20 +382,6 @@ flowchart TD
 - `TreeMap` stores elements in a red-black tree
 
 See [Set Interface](#set-interface) to see requirements to use hash and tree.
-
-## Queue Interface
-
-- FIFO (First-In-First-Out)
-
-`LinkedList` and `PriorityQueue` implements `Queue`.
-
-- `LinkedList` can be used as a queue
-- `PriorityQueue` stores elements based on their natural order
-
-| Method | Descrpition                                 |
-| ------ | ------------------------------------------- |
-| `poll` | Removes and returns the object at the front |
-| `peek` | Returns the object at the front             |
 
 ## LinkedList
 
