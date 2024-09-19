@@ -275,6 +275,41 @@ Each Collection has a constructor that takes another collection as an argument.
 - `LinkedList`
 - `PriorityQueue`
 
+## Deque Inteface
+
+- Short for "double-ended queue", pronounced "deck"
+- Support for insertion and removal at both ends
+
+|              | Throws Exception | Special value (null or false) |
+| ------------ | ---------------- | ----------------------------- |
+| Insert head  | `addFirst(e)`    | `offerFirst(e)`               |
+| Remove head  | `removeFirst(e)` | `pollFirst(e)`                |
+| Examine head | `getFirst(e)`    | `peekFirst(e)`                |
+| Insert last  | `addLast(e)`     | `offerLast(e)`                |
+| Remove last  | `removeLast()`   | `pollLast()`                  |
+| Examine last | `getLast()`      | `peekLast()`                  |
+
+### Compared to queue interface
+
+| Queue method | Equivalent Deque method |
+| ------------ | ----------------------- |
+| `add(e)`     | `addList(e)`            |
+| `offer(e)`   | `offerLast(e)`          |
+| `remove()`   | `removeFirst()`         |
+| `poll()`     | `pollFirst()`           |
+| `element()`  | `getFirst()`            |
+| `peek()`     | `peekFirst()`           |
+
+### Use as a stack
+
+When used as a stack, elements are added and removed from the front:
+
+| Stack method | Equivalent Deque method |
+| ------------ | ----------------------- |
+| `push(e)`    | `addFirst(e)`           |
+| `pop()`      | `removeFirst()`         |
+| `peek()`     | `getFirst()`            |
+
 ## Set Interface
 
 ```mermaid
