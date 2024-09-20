@@ -14,6 +14,7 @@ To understand Spring Security, please learn about basic concepts like web
 container, servlets, filters, listeners, servlet dispatchers and etc.
 
 - [Top 10 Courses to Learn Spring Security, OAuth2, and JWT with Spring Boot for Java Developers in 2024 - Medium](https://medium.com/javarevisited/top-10-courses-to-learn-spring-security-and-oauth2-with-spring-boot-for-java-developers-8f0222d6066d)
+- [Spring Security Form Login With RememberMe, Registration, Login and LogOut Functionality - Medium](https://medium.com/@sehgal.mohit06/spring-security-form-login-with-rememberme-registration-login-and-logout-functionality-bcbef244e57b)
 
 ## 🧭 Navigation
 
