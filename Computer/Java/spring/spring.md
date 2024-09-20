@@ -65,7 +65,8 @@ first four component annotations are primary over ones defined by `@Bean`. Then
 
 ### Autowiring
 
-Autowiring is
+Autowiring is the process of injecting the object dependency. Spring framework
+automatically creates the bean and injects all the necessary dependencies.
 
 Can be field-, constructor, or setter-injection. Placing `@Autowired` above any
 one.
