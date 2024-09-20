@@ -9,35 +9,11 @@
 - [Databases](Computer/databases.md)
 - [Algorithm and Data Structure](Computer/algorithm-data-structure.md)
 - [Test Driven Development](Computer/test-driven-development.md)
+- [Web Development](Computer/WebDev/web_dev.md)
 
 ### 📚 Courses
 
 - [WebDev Course Index](Links/GDC-C04-WebDev/index.md)
-
-### 🌐 Web Development
-
-- [Web Development Resources](Computer/WebDev/web_develop_resources.md)
-- [HTML](Computer/WebDev/html.md)
-- [HTML - SVG](Computer/WebDev/html-svg.md)
-- [AJAX and JSON](Computer/WebDev/ajax-and-json.md)
-- [JavaScript - Index](Computer/WebDev/JavaScript/javascript.md)
-- [TypeScript](Computer/WebDev/TypeScript/typescript.md)
-- [Decorators](Computer/WebDev/decorators.md)
-- [CSS](Computer/WebDev/css.md)
-- [PostCSS](Computer/WebDev/postcss.md)
-- [Figma](Computer/WebDev/figma.md)
-- [Bootstrap](Computer/WebDev/bootstrap.md)
-- [Prettier](Computer/WebDev/prettier.md)
-- [D3.js](Computer/WebDev/d3js.md)
-- [React](Computer/WebDev/React/react.md)
-  - [Next.Js](Computer/WebDev/React/nextjs.md)
-  - [Tailwind](Computer/WebDev/React/tailwind.md)
-  - [Redux](Computer/WebDev/React/redux.md)
-  - [Axios](Computer/WebDev/React/axios.md)
-- [Tests](Computer/WebDev/tests.md)
-- [Svelte](Computer/WebDev/Svelte/svelte.md)
-- [Project Structure](Computer/WebDev/project-structure.md)
-- [Feature Done In The Past](Computer/WebDev/feature-done-in-the-past.md)
 
 ### Backend
 
