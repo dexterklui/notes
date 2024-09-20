@@ -1,5 +1,12 @@
 # prettier
 
+## Quick Start
+
+- `bun add --dev --exact prettier`
+- `touch .prettierrc` and [set config options](#yaml-format)
+- `touch .prettierignore` and [set ignore rules](#ignore)
+- `bun prettier . --write` or `npx prettier . --write` to format files
+
 ## Config Files
 
 There's no global configuration. It is configured in the following order of
@@ -71,6 +78,8 @@ For the list of config options, and guidelines for configuration: see
 ## Ignore
 
 - Use `.prettierignore` like `.gitignore`
+  - Prettier will follow rules specified in .gitignore if it exists in the same
+    directory from which it is run.
 - Use `// prettier-ignore` to ignore the next block of code
 - Use `/* prettier-ignore-start */` and `/* prettier-ignore-end */` to ignore
   everything in between, but this only works on top level code blocks. It is for
