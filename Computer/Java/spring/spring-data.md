@@ -58,6 +58,19 @@ change to the entity will not be persisted until you `save` it.
 The session is closed when the transaction is committed, or when the method
 calling the `save` method returns.
 
+## Entity Attributes
+
+### GeneratedValue
+
+`@GeneratedValue(strategy = ...)` specifies strategy for generating primary key
+values.
+
+Available strategies:
+
+- `GenerationType.IDENTITY`: relies on an auto-incremented database column.
+  Supporting databases include MySQL, PostgreSQL, etc.
+- `GenerationType.SEQUENCE`: relies on a database sequence.
+
 ## Required Spring Dependencies
 
 - `Spring Data JPA`
