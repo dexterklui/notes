@@ -91,6 +91,19 @@ public interface UserRepo extends JpaRepository<User, UUID> {
 }
 ```
 
+## Created and Updated Date
+
+You can use `@CreationTimestamp` and `@UpdateTimestamp` to annotate fields of an
+entity (of type `Instant`, `Date`, `Calendar` and etc.), and Hibernate will
+automatically update these fields when an entity is created or updated.
+
+Alternatively, you can use `@EnableJpaAuditing` annotation in your main Spring
+application class, which enables the `@CreatedDate`, `@LastModifiedDate`, and
+etc. that annotates fields in an entity.
+
+Two approaches basically work the same, just that they are provided by Hibernate
+and JPA, respectively, and they may support different data type.
+
 ## Required Spring Dependencies
 
 - `Spring Data JPA`
