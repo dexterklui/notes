@@ -71,10 +71,34 @@ Available strategies:
   Supporting databases include MySQL, PostgreSQL, etc.
 - `GenerationType.SEQUENCE`: relies on a database sequence.
 
+## Repository
+
+To actually interact with the database, you need to create a repository
+interface.
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * Repository for User entity
+ */
+@Repository
+public interface UserRepo extends JpaRepository<User, UUID> {
+  Optional<User> findByUsername(String username);
+  Optional<User> findByEmail(String email);
+  List<User> findByRole_RoleName(String roleName);
+}
+```
+
 ## Required Spring Dependencies
 
 - `Spring Data JPA`
 - A driver for the database vendor, e.g. `MySQL Driver`
+
+## Links and Resources
+
+- [Spring Data JPA - Reference](https://docs.spring.io/spring-data/jpa/reference/index.html)
 
 ## 🧭 Navigation
 
