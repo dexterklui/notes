@@ -101,6 +101,16 @@ On Linux, its downloaded to `~/.m2/repository`
 
 ![Handler Interceptor Flow](interceptor.png)
 
+## Package Structure
+
+Traditionally, spring applications are packaged by **_layer_** (`models`, `dao`,
+`repo`, etc). But that would lead to many classes in one _god_ package, making
+the code base hard to understand.
+
+Instead we can package classes by **_feature_**. This makes it clear what each
+package does, and reduce the number of import statements and make class
+dependencies less spaghetti.
+
 ## Links and Resources
 
 - [Reference - Spring Boot](https://docs.spring.io/spring-boot/reference/)
