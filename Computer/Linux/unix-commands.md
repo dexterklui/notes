@@ -349,8 +349,10 @@ You can logically combine filters with `( expr )`, `! expr`, `-a`, `-o`, etc
 - `sed` - stream editor for filtering and transforming text
 - `awk` - pattern scanning and processing language
 - `grep`
+  - `-r` recursive into subdirectories
+  - `-n` show line numbers
   - `-c` count
-  - `-l` list file names
+  - `-l` only list file names
   - `-w` match whole word
   - `-i` case insensitive
   - `-v` invert match
