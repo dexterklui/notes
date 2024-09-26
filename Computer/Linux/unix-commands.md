@@ -265,7 +265,8 @@ done < <(find ... -print0)
   - command is executed at the start directory of find command
 - `-exec command {} +` like `-exec` but all found files are passed to command at
   once, instead of executing command for each found file
-- `-ok command {} ;` like `-exec`prompt before executing command
+- `-ok command {} ;` like `-exec` but prompt before executing command
+  - There is **no** `-ok command {} +` variant
 - `-execdir command {} ;` like `-exec` but execute command in the directory of
   the found file
 - `-okdir command {} +` to `-execdir` is like `-ok` to `-exec`
