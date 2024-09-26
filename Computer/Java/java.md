@@ -15,6 +15,7 @@ date: 2024-07-23 (Tue)
 - [Collections](collections.md)
 - [Streams and Optional](streams-and-optional.md)
 - [Date and Time](date-and-time.md)
+- [Maven](maven.md)
 - [Spring](spring/spring.md)
 
 ## Jackson
