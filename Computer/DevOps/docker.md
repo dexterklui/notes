@@ -16,6 +16,10 @@ date: 2024-08-08 (Thu)
 
 - `docker ps`: List running containers
   - `-a`: List all containers, including stopped ones
+  - `-q`: List only container IDs
+  - `-f <condition>`: filters output based on condition
+    - `status=exited`: List only containers that have exited
+- `docker images`: List images
 - `docker run <image>`: Run a container from an image.`
   - `docker run <image> <command>`: Run a command in a container
   - `-it`: Interactive mode
@@ -28,7 +32,6 @@ date: 2024-08-08 (Thu)
 - `docker port <container>`: Show port mappings
 - `docker rm <container>`: Remove a container
 - `docker container prune`: Remove all stopped containers
-- `docker images`: List images
 - `docker search <term>`: Search for an image
 - `docker pull <image>`: Download an image
   - `docker pull <image>:<tag>`: Download a specific version of an image
