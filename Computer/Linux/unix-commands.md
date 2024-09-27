@@ -196,7 +196,15 @@ myscript -ba # output: Option b \n myscript: option requires an argument -- a
   - `-g` group ID
   - `-G` all groups
   - `-n` name instead of number
-- `groups`
+- `groups [user]` list groups current or specified user belongs to
+- `usermod {option} [user]` - modify a user account
+  - `-aG mygroup,myothergroup` adds supplementary groups of a user
+  - `-G mygroup,myothergroup` sets (i.e. replaces) supplementary group list
+
+### List Groups
+
+- `cat /etc/group` - file containing group information
+- `getent group [groupname]` - list all groups, or list info of a specific group
 
 ## File System
 
