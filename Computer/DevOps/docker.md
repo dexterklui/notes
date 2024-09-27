@@ -100,6 +100,17 @@ container will not be able to communicate with the outside world.
 
   A registry of Docker images.
 
+## Docker on Linux
+
+- Docker has a server-client architecture: docker CLI is the client that
+  interacts with the docker daemon.
+- To start the docker daemon, `systemctl start docker.service`
+- Then you can use `docker` CLI tool to interact with the docker daemon.
+- By default, the docker daemon is running as root, so you need root privileges
+  to interact with the docker daemon.
+- You can add the `docker` group to your user account, then you don't need to
+  use `sudo` to interact with the docker daemon.
+
 ## Links and Resources
 
 - [A Docker Tutorial for Beginners - Docker](https://docker-curriculum.com/)
