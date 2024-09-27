@@ -21,6 +21,6 @@ See [aws: secure your AWS account]
 ## 🧭 Navigation
 
 - [🔼 Back to top](#aws)
-- [◀️ Back](../../index.md)
-- [🔖 Parent index](../../index.md)
-- [📑 Notes Index](../../index.md)
+- [◀️ Back](../../../index.md)
+- [🔖 Parent index](../../../index.md)
+- [📑 Notes Index](../../../index.md)

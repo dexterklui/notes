@@ -23,7 +23,7 @@
 - [MySQL](Computer/Backend/mysql.md)
 - [SQLite](Computer/Backend/sqlite.md)
 - [Firebase](Computer/Backend/firebase.md)
-- [aws](Computer/Backend/aws.md)
+- [aws](Computer/Cloud/Aws/aws.md)
 
 ### ⌨️ Vim
 
