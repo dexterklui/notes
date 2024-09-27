@@ -116,6 +116,7 @@
     ➱   [\jdtls]\: Java language server, for NeoVim
     ➱   [\mongodb-compass]\: For reading mongodb database. Used for FDM
         hackathon
+    ➱   [\aws-cli-v2]\: For AWS CLI v2
 
    |Deleted|
     ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
