@@ -1306,6 +1306,8 @@
     ➱   [\fc-cache]\: Rebuild fontconfig's configuration.
         ⮱   Change only be visible in newly launched applications
 
+    After installing a font, you can refresh the cache with: [\fc-cache -fv]\
+
   > fc-match < {{{3
     [\fc-match :query-str:]\ test what font the system selects for a query str
 
