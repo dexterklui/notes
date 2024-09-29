@@ -4,6 +4,12 @@ date: 2024-05-09 (Thu)
 
 # AWS
 
+## Notes
+
+### General
+
+- [AWS Terms and Acronyms](aws-terms-and-acronyms.md)
+
 ## New Accounts
 
 See [aws: secure your AWS account]
