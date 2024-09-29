@@ -25,6 +25,13 @@ See [aws: secure your AWS account]
 7. Record the **Username** and **AWS access portal URL**, where the user is able
    to login. (Note: login with username, not with email).
 
+## 🔗 Links and Resources
+
+### Courses
+
+- [Solution Architect - Knowledge Badge Readiness Path- AWS Skill Builder](https://explore.skillbuilder.aws/learn/public/learning_plan/view/1044/solutions-architect-learning-plan?la=cta&cta=topbanner)
+- [Learn CanTrill IO](https://learn.cantrill.io/)
+
 ## 🧭 Navigation
 
 - [🔼 Back to top](#aws)
