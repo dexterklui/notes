@@ -100,9 +100,7 @@
     ➱   [\ocs-url]\: An install helper program for items served via
         OpenCollaborationServices (ocs://).
     ➱   firefox tridactyl native
-    ➱   [\whatsapp-nativefier]\
     ➱   [\noto-color-emoji-fontconfig]\
-    ➱   [\figma-linux-bin]\
     ➱   [\exercism-bin]\: For exercism cli. Program for a coding training web.
     ➱   [\python310]\: python 3.10 for pyTorch required by Stable Diffusion
         Web UI - Generative AI software.
@@ -117,6 +115,7 @@
     ➱   [\mongodb-compass]\: For reading mongodb database. Used for FDM
         hackathon
     ➱   [\aws-cli-v2]\: For AWS CLI v2
+    ➱   [\postman-bin]\: program for testing APIs.
 
    |Deleted|
     ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
@@ -129,7 +128,8 @@
         ⮱   [\EXPORT DENO_INSTALL="$HOME/.deno"]\, it is the directory in
             which different versions of deno is installed.
     ➱   [\bun-bin]\: a new npm
-    ➱   [\postman-bin]\: program for testing APIs.
+    ➱   [\whatsapp-nativefier]\
+    ➱   [\figma-linux-bin]\
 
    |live-server|
     ➱   [\nodejs-live-server]\
