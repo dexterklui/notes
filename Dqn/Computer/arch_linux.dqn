@@ -75,6 +75,8 @@
     ➱   [\eclipse-java-bin]\: for FDM Java course
         ‣   [\jdk17-openjdk]\: for FDM Java course
     ➱   [\docker]\ and [\docker-compose]\
+    ➱   [\ledger]\, [\hledger]\ and [\hledger-web]\: for tracking personal
+        finance
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
