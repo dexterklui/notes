@@ -8,6 +8,7 @@ date: 2024-05-09 (Thu)
 
 ### General
 
+- [AWS CLI](aws-cli.md)
 - [AWS Terms and Acronyms](aws-terms-and-acronyms.md)
 
 ## New Accounts
