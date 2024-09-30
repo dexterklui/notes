@@ -267,10 +267,16 @@ Each Collection has a constructor that takes another collection as an argument.
 
 - FIFO - Items are added at the end and removed from the front
 
-| Method | Description                     |
-| ------ | ------------------------------- |
-| `poll` | Remove and return item at front |
-| `peek` | Return object at front          |
+| Method    | Description                                        |
+| --------- | -------------------------------------------------- |
+| `offer`   | Add an item at the end, return false if failed     |
+| `poll`    | Remove and return item at front                    |
+| `element` | Return object at front, throws exception if failed |
+| `peek`    | Return object at front                             |
+
+The difference between `add`, `remove` and `offer`, `poll` are that the former
+throws an exception where as the later returns `false` or `null` when the
+operation fails.
 
 - `LinkedList` - can be used as a queue
 - `PriorityQueue` - stores elements based on their natural order
