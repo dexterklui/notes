@@ -251,11 +251,12 @@ Each Collection has a constructor that takes another collection as an argument.
 
 - Ordered, allows duplicates
 
-| Method        | Description                                                  |
-| ------------- | ------------------------------------------------------------ |
-| `get`         | Retrieve an item                                             |
-| `indexOf`     | Retrieve the first position of an item (-1 if doesn't exist) |
-| `lastIndexOf` | Retrieve the last position of an item (-1 if doesn't exist)  |
+| Method          | Description                                                  |
+| --------------- | ------------------------------------------------------------ |
+| `get`           | Retrieve an item                                             |
+| `set(idx, val)` | Replace element at the specified index                       |
+| `indexOf`       | Retrieve the first position of an item (-1 if doesn't exist) |
+| `lastIndexOf`   | Retrieve the last position of an item (-1 if doesn't exist)  |
 
 `ArrayList`, `LinkedList` and `Vector` implements `List`.
 
