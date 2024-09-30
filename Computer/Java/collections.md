@@ -316,6 +316,8 @@ When used as a stack, elements are added and removed from the front:
 | `pop()`      | `removeFirst()`         |
 | `peek()`     | `getFirst()`            |
 
+Note that the stack methods are also available in Deque interface.
+
 ## Set Interface
 
 ```mermaid
