@@ -4,14 +4,29 @@ date: 2024-07-29 (Mon)
 
 # Threading
 
-## Concurrent Programming
+## Multi-Threading Programming
 
-Concurrent programming (Multi-Threading) is sharing the same CPU resource (e.g.
-same cores). Parallel programming is using different resources.
+### Concurrent, Parallel and Multi-threading
 
-Register is the CPU memory. Context switch is the process of saving the current
-state of the CPU and loading the state of another process. (Register stores the
-states)
+**_Multi-threading programming_** is a programming technique that allows a
+single process to have multiple threads of execution. It allows a program to
+perform multiple tasks simultaneously.
+
+**_Concurrent computing_** is a form of computing in which several computations
+are executed during overlapping time periods - concurrently - instead of
+sequentially (one completing before the next starts).
+
+**_Parallel programming_** is a programming technique that dedicates a separate
+CPU to each thread of execution.
+
+In multi-threading, CPU cores switch between threads, giving the illusion that a
+single core is executing multiple threads simultaneously.
+
+### CPU Registers and Context Switch
+
+**_Register_** is the CPU memory. **_Context switch_** is the process of saving
+the current state of the CPU and loading the state of another process. (Register
+stores the states)
 
 A thread has its own program counter, thread id, register and stack.
 
