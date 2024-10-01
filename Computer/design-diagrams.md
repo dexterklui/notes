@@ -64,7 +64,8 @@ To represent _static_ members, **underline** it.
 
 - `+`: public
 - `-`: private
-- `#`: protected
+- `#`: protected - accessible by subclasses
+- `~`: package-private
 
 #### Abstract Class and Methods
 
