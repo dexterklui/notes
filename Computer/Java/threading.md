@@ -30,6 +30,155 @@ stores the states)
 
 A thread has its own program counter, thread id, register and stack.
 
+## Basic Thread Management
+
+### Creating and Running Threads
+
+#### Threads and Runnable
+
+A `Thread` is like a worker, and a `Runnable` is like a job. A worker can work
+on a job.
+
+#### Creating Threads
+
+Two methods:
+
+- Extending `Thread` class
+
+  Needs to override the `run()` method.
+
+- Implementing `Runnable` interface, and pass it to a `Thread` object
+
+  Needs to implement the `run()` method.
+
+  Since a runnable is also a
+  [functional interface](lambda-expression.md#functional-interface), we can use
+  a **lambda expression** to define a runnable in place:
+  `Thread thread = new Thread(() -> { /* code */ });`.
+
+> [!NOTE]
+>
+> Since a thread can be interrupted by another thread, the `run()` method should
+> be enclosed in a try-catch block to catch `InterruptedException`.
+
+#### Running Threads
+
+Call the `start()` method of a thread object.
+
+#### Thread Names
+
+You can give a name to a thread:
+
+- Passing to the constructor: `Thread(myRunnable, "myThreadName")`, etc.
+- Setting it: `myThread.setName("myThreadName")`
+
+More than one thread may have the same name. If a name is not specified when a
+thread is created, a new name is generated for it.
+
+#### Examples of Creating and Running Threads
+
+##### Extending `Thread` class
+
+```java
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        // Code to be executed in the new thread
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("Thread " + Thread.currentThread().getId() + ": Count " + i);
+        }
+    }
+}
+
+public class ThreadExample {
+    public static void main(String[] args) {
+        MyThread thread1 = new MyThread();
+        MyThread thread2 = new MyThread();
+
+        thread1.start(); // Starts the first thread
+        thread2.start(); // Starts the second thread
+    }
+}
+```
+
+##### Implementing `Runnable` interface
+
+```java
+class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("Thread " + Thread.currentThread().getId() + ": Count " + i);
+        }
+    }
+}
+
+public class ThreadExample {
+    public static void main(String[] args) {
+        MyRunnable myRunnable = new MyRunnable();
+        Thread thread1 = new Thread(myRunnable);
+        Thread thread2 = new Thread(myRunnable);
+
+        thread1.start(); // Starts the first thread
+        thread2.start(); // Starts the second thread
+    }
+}
+```
+
+### Lifecycle of a Thread
+
+```text
+          ┌──────────┐
+NEW → RUNNABLE → RUNNING -> TERMINATED
+          └ BLOCKED ←┘
+```
+
+Other than blocked, _sleep_ and _waiting_ are two more temporary states.
+
+### Thread Priority
+
+JVM uses thread priority to decide which thread to execute first when multiple
+threads are waiting to be executed.
+
+- `Thread.MAX_PRIORITY` (10)
+- `Thread.NORM_PRIORITY` (5)
+- `Thread.MIN_PRIORITY` (1)
+
+`myThread.setPriority(7)` sets the priority of a thread to be 7.
+
+### Daemon Thread
+
+All threads are either _user_ thread or **_daemon thread_**. When all the
+non-daemon threads finish, the JVM exits.
+
+A newly created thread inherits the daemon status of its parent thread.
+
+Related methods:
+
+- `myThread.setDaemon(myBoolean)` marks the thread as a daemon thread if
+  `myBoolean` is true.
+- `myThread.isDaemon()` checks if a thread is a daemon thread.
+
+### Thread Group
+
+A thread can belong to a
+[thread group](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ThreadGroup.html).
+We can use `ThreadGroup` to manage threads.
+
+```java
+ThreadGroup threadGroup = new ThreadGroup("MyThreadGroup");
+Thread thread = new Thread(threadGroup, "MyThread");
+```
+
+### Getting Current Thread
+
+Use the static method `Thread.currentThread()` to get the current thread.
+
+### Handling Uncaught Exceptions
+
+`myThread.setUncaughtExceptionHandler(myExceptionHandler)` sets the handler
+invoked when this thread abruptly terminates due to an uncaught exception.
+
 ## Preventing a race condition
 
 - Synchronization (monitor)
