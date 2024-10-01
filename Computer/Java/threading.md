@@ -320,14 +320,32 @@ Still, it is imperative that the user manually synchronize on the returned
 sorted set when traversing it or any of its subSet, headSet, or tailSet views
 via Iterator, Spliterator or Stream:
 
-## Threads Managements
+## Executor Framework
 
 Use `ExecutorService` interface to manage threads. Check the tutorial and docs
-in [Links and Resources](#links-and-resources) below. Use this when you want to
-follow one-thread-per-task model.
+in
+[A Guide to the Java ExecutorService - Baeldung](https://www.baeldung.com/java-executor-service-tutorial).
+Use this when you want to follow one-thread-per-task model.
 
 Join and fork are used for improving performance in cases where a task can be
 broken down to smaller tasks recursively.
+
+### Factory Methods of Executors
+
+- `Executors.newSingleThreadExecutor()` creates a single thread executor.
+- `Executors.newFixedThreadPool(n)` creates a fixed thread pool with `n`
+  threads.
+- `Executors.newCachedThreadPool()` creates a cached thread pool.
+
+### Submitting Tasks
+
+`myExecutorService.submit(myRunnable)` submits a task for execution and returns
+a [`Future`](#callable-and-future) representing the task.
+
+### Shutting Down ExecutorService
+
+`myExecutorService.shutdown()` will allow previously submitted tasks to execute
+before terminating, but it won't accept any new tasks.
 
 ## Synchronizers
 
