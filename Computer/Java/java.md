@@ -6,15 +6,20 @@ date: 2024-07-23 (Tue)
 
 ## Link to Notes
 
-- [Java Memory Management](java-memory-management.md)
-- [JavaDoc](javadoc.md)
-- [Log4J2](log4j2.md)
+### Java Basics
+
 - [SOLID Principles](solid.md)
 - [Threading](threading.md)
 - [Lambda Expression](lambda-expression.md)
 - [Collections](collections.md)
+- [Java Memory Management](java-memory-management.md)
 - [Streams and Optional](streams-and-optional.md)
 - [Date and Time](date-and-time.md)
+- [JavaDoc](javadoc.md)
+
+### Java Libraries
+
+- [Log4J2](log4j2.md)
 - [Maven](maven.md)
 - [Spring](spring/spring.md)
 
