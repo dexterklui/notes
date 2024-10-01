@@ -67,6 +67,7 @@
 
 ## Finance
 
+- [Hledger](Finance/hledger.md)
 - [Assets Management](Finance/assets-management.md)
 
 ## 🎮 Games
