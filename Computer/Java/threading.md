@@ -406,7 +406,6 @@ synchronized (thread-safe) list.
 ## Links and Resources
 
 - [Package java.util.concurrent - Java 17 SE Docs](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/package-summary.html)
-- [A Guide to the Java ExecutorService - Baeldung](https://www.baeldung.com/java-executor-service-tutorial)
 
 ## 🧭 Navigation
 
