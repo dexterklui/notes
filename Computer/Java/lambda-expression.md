@@ -13,7 +13,10 @@ date: 2024-07-30 (Tue)
 
 ## Functional Interface
 
-- Can only declare one abstract method
+Interfaces marked by annotation `@FunctionalInterface` can be used as the
+assignment target for a lambda expression or method reference.
+
+A functional interface can only declare one abstract method.
 
 ```java
 @FunctionalInterface
@@ -25,6 +28,8 @@ MyFunctionalInterface incrementor = x -> x + 1;
 final int num = 0;
 final int numIncremented = incrementor.apply(num);
 ```
+
+`Callable` and `Runnable` are examples of functional interfaces.
 
 ## Built-In Functional Interface
 
