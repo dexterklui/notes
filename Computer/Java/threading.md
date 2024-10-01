@@ -277,16 +277,14 @@ execution.
 
 ## Thread Communication
 
-- wait()
-- notify()
-- notifyAll()
-
-## Functional Interfaces
-
-Interfaces marked by annotation `@FunctionalInterface` can be used as the
-assignment target for a lambda expression or method reference.
-
-`Callable` and `Runnable` are examples of functional interfaces.
+- `wait()` - a lock must be held on the object on which `wait()` is called.
+  - E.g. to enter a synchronized method, a thread must obtain the lock of the
+    object. When `wait()` or `this.wait()` is called, the thread releases the
+    lock and goes into the waiting state
+- `notify()`
+  - e.g. `this.notify()` wakes up one thread (non-deterministic) that is waiting
+    on `this` object.
+- `notifyAll()`
 
 ## Concurrent Collections
 
