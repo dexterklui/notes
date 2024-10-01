@@ -26,6 +26,44 @@ Bad design:
 - Repetitive
 - Needlessly Complicated - "Over-designed"
 
+## Four Pillars of OOP
+
+### 4 Pillars of OOP
+
+- Abstraction
+
+  Hiding complex implementation details while exposing only the high level
+  essential features of an object.
+
+- Encapsulation
+
+  Binding the data and the code that operates on the data into a single unit.
+
+- Inheritance
+
+  A mechanism in which one object acquires all the properties and behaviours of
+  a parent object.
+
+- Polymorphism
+
+  The ability of an object to take on many forms. The most common use of
+  polymorphism in OOP occurs when a parent class reference is used to refer to a
+  child class object.
+
+### Polymorphism
+
+Two types:
+
+- Overriding - runtime polymorphism
+- Overloading - compile time polymorphism
+
+You should add `@Override` (without semicolon) annotation above the overriding.
+
+To access the overridden method, use `super.overriddenMethod()`.
+
+`final` method doesn't allow subclass to override this method - otherwise
+there's a compile time error
+
 ## Single Responsibility
 
 A class should have only one reason to change. Limit the scope of your change.

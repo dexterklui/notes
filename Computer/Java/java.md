@@ -8,7 +8,7 @@ date: 2024-07-23 (Tue)
 
 ### Java Basics
 
-- [SOLID Principles](solid.md)
+- [Four Pillars and SOLID Principles](solid.md)
 - [Threading](threading.md)
 - [Lambda Expression](lambda-expression.md)
 - [Collections](collections.md)
