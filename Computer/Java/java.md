@@ -9,6 +9,7 @@ date: 2024-07-23 (Tue)
 ### Java Basics
 
 - [Four Pillars and SOLID Principles](solid.md)
+- [OOP Dependency](../design-diagrams.md#oop)
 - [Threading](threading.md)
 - [Lambda Expression](lambda-expression.md)
 - [Collections](collections.md)
