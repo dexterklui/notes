@@ -417,7 +417,7 @@ System.arraycopy(fromArray, fromIdx, toArray, toIndex, length);
 
 ```java
 Arrays.copyOf(array, newLength); // Array
-Arrays.asList("a", "b", "c"); // ArrayList
+Arrays.asList("a", "b", "c"); // Fixed-size write-through ArrayList
 List.of("a", "b", "c"); // Immutable List
 new ArrayList<String>(List.of("a", "b", "c")); // ArrayList
 ```
