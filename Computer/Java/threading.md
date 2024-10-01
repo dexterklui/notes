@@ -347,6 +347,34 @@ a [`Future`](#callable-and-future) representing the task.
 `myExecutorService.shutdown()` will allow previously submitted tasks to execute
 before terminating, but it won't accept any new tasks.
 
+## Callable and Future
+
+`Callable` interface is similar to `Runnable` but can return a result or throw
+an exception. The `Future` interface represents the result of an asynchronous
+computation, and provides a method to retrieve the result.
+
+```java
+import java.util.concurrent.*;
+public class CallableAndFutureExample {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        Callable<Integer> task = () -> {
+            Thread.sleep(2000);
+            return 42;
+        };
+
+        Future<Integer> future = executorService.submit(task);
+
+        System.out.println("Waiting for the result...");
+        Integer result = future.get();
+        System.out.println("Result: " + result);
+
+        executorService.shutdown();
+    }
+}
+```
+
 ## Synchronizers
 
 - [Semaphore](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Semaphore.html)
