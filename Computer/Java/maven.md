@@ -89,6 +89,11 @@ compiled and packaged files. Then it runs the `default` life cycle up to the
 E.g. `mvn install:install` will run the `install` goal without running any other
 goals or build phases.
 
+## Package
+
+When maven package a project into a JAR file, it will include the resources
+under `src/main/resources` directory. If the resources are not included in the
+
 ## 🧭 Navigation
 
 - [🔼 Back to top](#maven)
