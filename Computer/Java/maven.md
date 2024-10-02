@@ -83,7 +83,7 @@ the bounding `rar:rar`, `war:war`, etc.
 - `mvn <plugin>:<goal>` runs a specific plugin goal
 
 E.g. `mvn clean install` will run the `clean` life cycle to clear all previously
-compiled and packaged files and then run the the `default` life cycle up to the
+compiled and packaged files. Then it runs the `default` life cycle up to the
 `install` phase.
 
 E.g. `mvn install:install` will run the `install` goal without running any other
