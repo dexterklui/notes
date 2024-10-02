@@ -31,6 +31,10 @@ phases are executed:
   package to the remote repository for sharing with other developers and
   projects
 
+### Skipping Tests
+
+You can skip tests by adding `-DskipTests` to the maven command.
+
 ## Plugin Goals
 
 A build phase is made up of plugin goals.
