@@ -56,6 +56,7 @@
 
 - [tmux](Computer/tmux.md)
 - [Git](Computer/git.md)
+- [GitHub](Computer/github.md)
 - [Bash](Computer/bash.md)
 - [EBNA - Meta Language](Computer/ebna.md)
 - [GPG Key](Computer/gpg-key.md)
