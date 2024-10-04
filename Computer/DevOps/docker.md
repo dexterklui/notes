@@ -17,9 +17,11 @@ date: 2024-08-08 (Thu)
 - `docker ps`: List running containers
   - `-a`: List all containers, including stopped ones
   - `-q`: List only container IDs
-  - `-f <condition>`: filters output based on condition
+  - `-f <condition>`: Filter output based on condition
     - `status=exited`: List only containers that have exited
 - `docker images`: List images
+  - `-f <condition>`: Filter output based on condition
+    - `dangling=true`: List only images that are dangling (have no tag)
 - `docker run <image>`: Run a container from an image.`
   - `docker run <image> <command>`: Run a command in a container
   - `-it`: Interactive mode
@@ -36,6 +38,9 @@ date: 2024-08-08 (Thu)
 - `docker pull <image>`: Download an image
   - `docker pull <image>:<tag>`: Download a specific version of an image
 - `docker rmi <image>`: Remove an image
+- `docker container logs <container>`: Show logs for a container
+- `docker volume ls`: list volumes
+- `docker volume rm <volume>`: remove a volume
 
 ### Simple Dockerfile
 
