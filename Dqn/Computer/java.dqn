@@ -514,6 +514,9 @@
     ➱   [\fill(value)]\: replace all elements with the target value
     ➱   [\binarySearch(array, key)]\: return the index,
         or the [\(-insertion point - 1)]\ if it is not in the array
+    ➱   [\copyOfRange(array, from, to)]\ return a new array like python's
+        slicing
+    ➱   [\Arrays.stream(array)]\ return a stream of the array
 
     ➱   [\toString()]\
 
