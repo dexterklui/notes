@@ -116,6 +116,11 @@ container will not be able to communicate with the outside world.
 - You can add the `docker` group to your user account, then you don't need to
   use `sudo` to interact with the docker daemon.
 
+## Docker Bench
+
+Docker bench security scans your docker setting in your local machine and
+reports vulnerabilities and best practices.
+
 ## Links and Resources
 
 - [A Docker Tutorial for Beginners - Docker](https://docker-curriculum.com/)
