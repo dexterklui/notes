@@ -10,6 +10,8 @@ date: 2024-09-29 (Sun)
 - `hledger print` prints the journal
 - `hledger register` prints the register
 - `hledger balance` prints the balance
+- `hledger bs` - balance sheet
+- `hledger is` - cash flow statement
 
 Reports can filter by different criteria:
 
