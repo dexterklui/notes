@@ -9,6 +9,7 @@ date: 2024-05-09 (Thu)
 ### General
 
 - [AWS Accounts](aws-accounts.md)
+- [AWS IAM](aws-iam.md)
 - [AWS CLI](aws-cli.md)
 - [AWS Terms and Acronyms](aws-terms-and-acronyms.md)
 
