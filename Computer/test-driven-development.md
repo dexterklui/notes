@@ -46,6 +46,15 @@ that working software a long-term survivable structure.
 2. Make it right
 3. Make it fast
 
+### Three strategies of writing code to make the test pass
+
+1. Fake it - return a constant and gradually replace constants with variables
+   until you have the real code
+2. Use obvious implementation - type in the real implementation
+   - When you are feeling confident. When the test won't pass, you back off and
+     use the first strategy again
+3. Triangulation
+
 ### What tests to start?
 
 1. Select the user story with highest priority in sprint planning
