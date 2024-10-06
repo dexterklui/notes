@@ -12,6 +12,7 @@
 - [Web Development](Computer/WebDev/web_dev.md)
 - [Security](Computer/Security/security.md)
 - [Design Diagrams](Computer/design-diagrams.md)
+- [Networking](Computer/Networking/networking.md)
 
 ### 📚 Courses
 
