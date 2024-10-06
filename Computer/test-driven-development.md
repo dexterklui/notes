@@ -73,7 +73,22 @@ enough, it shouldn't take too long either.
 
 #### What to refactor?
 
-_Extract function_ refactoring is to move a piece of code into a separate
+##### Remove duplication
+
+First and foremost is to **remove duplication**. Actually the underlying problem
+is **dependency** between the code and the test. Since you just wrote the
+minimal code to make the test pass, your code depends on the particularities of
+the test case. Duplication is just the symptom of this dependency. Luckily, in
+the world of programming, removing duplication is enough to remove the
+dependency (unlike in real world, removing the symptom doesn't remove the
+disease).
+
+So what exactly is duplicated? Well usually it's some pieces of logic, or actual
+value of some constants being repeated in both the test and the code.
+
+##### Further Refactoring
+
+E.g. _Extract function_ refactoring is to move a piece of code into a separate
 function. You do this when you find that the intention of a function does not
 align well with the implementation, e.g. when implementation do more than the
 intention, you extract the extra part into a separate function. This conforms
