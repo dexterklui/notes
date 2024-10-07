@@ -11,12 +11,15 @@ date: 2024-07-23 (Tue)
 - [Four Pillars and SOLID Principles](solid.md)
 - [OOP Dependency](../design-diagrams.md#oop)
 - [Threading](threading.md)
-- [Lambda Expression](lambda-expression.md)
 - [Collections](collections.md)
 - [Java Memory Management](java-memory-management.md)
-- [Streams and Optional](streams-and-optional.md)
 - [Date and Time](date-and-time.md)
 - [JavaDoc](javadoc.md)
+
+### Functional Programming
+
+- [Lambda Expression](FuntionalProgramming/lambda-expression.md)
+- [Streams and Optional](FuntionalProgramming/streams-and-optional.md)
 
 ### Java Libraries
 

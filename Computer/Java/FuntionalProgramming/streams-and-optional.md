@@ -60,4 +60,4 @@ IntStream.of(myIntArray);
 - [🔼 Back to top](#streams-and-optional)
 - [◀️ Back](index.md)
 - [🔖 Parent index](index.md)
-- [📑 Notes Index](../../index.md)
+- [📑 Notes Index](../../../index.md)

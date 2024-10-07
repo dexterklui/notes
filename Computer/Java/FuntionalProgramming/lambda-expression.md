@@ -62,4 +62,4 @@ Combining or creating functional interfaces:
 - [🔼 Back to top](#lambda-expression)
 - [◀️ Back](index.md)
 - [🔖 Parent index](index.md)
-- [📑 Notes Index](../../index.md)
+- [📑 Notes Index](../../../index.md)

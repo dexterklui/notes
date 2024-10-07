@@ -52,7 +52,7 @@ Two methods:
   Needs to implement the `run()` method.
 
   Since a runnable is also a
-  [functional interface](lambda-expression.md#functional-interface), we can use
+  [functional interface](FuntionalProgramming/lambda-expression.md#functional-interface), we can use
   a **lambda expression** to define a runnable in place:
   `Thread thread = new Thread(() -> { /* code */ });`.
 
