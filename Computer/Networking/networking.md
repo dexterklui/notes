@@ -12,6 +12,10 @@ date: 2024-10-05 (Sat)
 - Applications
 - [OSI 7-Layer Model](Osi7LayerModel/osi-7-layer-model.md)
 
+### Other Networking
+
+- [Network Address Translation](nat.md)
+
 ## 🧭 Navigation
 
 - [🔼 Back to top](#networking)
