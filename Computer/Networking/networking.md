@@ -14,6 +14,7 @@ date: 2024-10-05 (Sat)
 
 ### Other Networking
 
+- [IP Addresses](ip-addresses.md)
 - [Network Address Translation](nat.md)
 
 ## 🧭 Navigation

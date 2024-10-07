@@ -33,24 +33,7 @@ handles **_end-to-end_** communication across multiple networks.
 
 ## IP Addressing
 
-### IPv4 Addresses
-
-Dotted decimal notation: 4 octets, each 8 bits.
-
-There are two parts: network and host.
-
-#### Subnet Mask
-
-**_Subnet mask_** is used to determine the network and host parts of an IP
-address.
-
-A `255.255.0.0` subnet mask or `/16` prefix means the first 16 bits are the
-network part.
-
-### Static vs Dynamic IP Address
-
-Static IP addresses are manually assigned, while dynamic IP addresses are
-assigned by a DHCP server.
+For IPv4, see [IP Addresses](../ip-addresses.md).
 
 ## IP Routing
 

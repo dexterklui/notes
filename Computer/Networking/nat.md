@@ -4,19 +4,11 @@ date: 2024-10-07 (Mon)
 
 # Network Address Translation
 
-**_Network address translation_** (**_NAT_**) translates private **IPv4**
-addresses to public
+**_Network address translation_** (**_NAT_**) translates
+[private **IPv4** addresses](ip-addresses.md#private-ip-addresses) to public
 
 - Address IPv4 shortages
 - Provides some security benefits
-
-## IP Address Space
-
-Private IP address space:
-
-- **_Class A_**: 10.0.0.0/8
-- **_Class B_**: 172.16.0.0/12 (- 172.31.255.255)
-- **_Class C_**: 192.168.0.0/16
 
 ## Types of NAT
 
