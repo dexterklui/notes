@@ -18,6 +18,7 @@ date: 2024-07-23 (Tue)
 
 ### Functional Programming
 
+- [Functional Interfaces](FuntionalProgramming/functional-interfaces.md)
 - [Lambda Expression](FuntionalProgramming/lambda-expression.md)
 - [Streams and Optional](FuntionalProgramming/streams-and-optional.md)
 
