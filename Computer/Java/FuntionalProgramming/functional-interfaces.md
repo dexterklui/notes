@@ -29,6 +29,8 @@ public interface MyFunction {
 
 ```java
 MyFunction func = (t) -> t.value + 1;
+Dollar dollar = new Dollar(10); // dollar.value = 10
+int incrementedDollarAmount = func.apply(dollar);
 ```
 
 ## Builtin Functional Interfaces
