@@ -217,6 +217,7 @@ myscript -ba # output: Option b \n myscript: option requires an argument -- a
   - `-S` sort by size
   - `-i` print inode number
   - `-A` list all except `.` and `..`
+  - `-R` recursive
 - `tree` show directory tree
 - `du` - estimate file space usage (not the actual size, but disk space reserved
   for the file, which depend on the block size of the file system)
@@ -366,6 +367,7 @@ You can logically combine filters with `( expr )`, `! expr`, `-a`, `-o`, etc
   - `-l` only list file names
   - `-w` match whole word
   - `-i` case insensitive
+  - `-I` ignore binary files
   - `-v` invert match
   - `-q` quite mode (exit 0 if at least one match)
   - `egrep` equals `grep -E` extended regex (`|`, `()`, `?`, `+`, `{}`)
