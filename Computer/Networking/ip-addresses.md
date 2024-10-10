@@ -10,6 +10,19 @@ Dotted decimal notation: 4 octets, each 8 bits.
 
 There are two parts: network and host.
 
+### IPv4 Space
+
+Totally 4,294,967,296 IPv4 addresses
+
+- **_Class A_**: 0.0.0.0/1
+  - 1 octet for network: 0.0.0.0/8 to 127.0.0.0/8 (128 networks)
+- **_Class B_**: 128.0.0.0/2
+  - 2 octets for network: 128.0.0.0/16 to 192.255.0.0/16 (16,384 networks)
+- **_Class C_**: 192.0.0.0/4
+  - 3 octets for network: 192.0.0.0/24 to 223.255.255.0/24 (2,097,152 networks)
+- **_Class D_**: for multicast
+- **_Class E_**: reserved
+
 ### Subnet Mask
 
 **_Subnet mask_** is used to determine the network and host parts of an IP
@@ -29,19 +42,6 @@ host part. This is called **_subnetting_**. For example:
 
 Usually networks are split into 2, 4, 8, etc. sub-networks. But you can also
 have odd number splits as well.
-
-### IPv4 Space
-
-Totally 4,294,967,296 IPv4 addresses
-
-- **_Class A_**: 0.0.0.0/1
-  - 1 octet for network: 0.0.0.0/8 to 127.0.0.0/8 (128 networks)
-- **_Class B_**: 128.0.0.0/2
-  - 2 octets for network: 128.0.0.0/16 to 192.255.0.0/16 (16,384 networks)
-- **_Class C_**: 192.0.0.0/4
-  - 3 octets for network: 192.0.0.0/24 to 223.255.255.0/24 (2,097,152 networks)
-- **_Class D_**: for multicast
-- **_Class E_**: reserved
 
 ### Private IP Addresses
 
