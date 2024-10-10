@@ -11,7 +11,9 @@ date: 2024-07-18 (Thu)
 - `top`
 - `ps`
   - `-f` full format in current session
-  - `-u {username}` processes by user
+  - `-u {username}` processes by effective user (user permission used by
+    process)
+  - `-U {username}` processes by real user (user who started the process)
   - `-fu` full format in all sessions by same user
   - `-e` all processes
 - `pstree`
