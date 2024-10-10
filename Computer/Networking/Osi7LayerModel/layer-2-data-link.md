@@ -39,7 +39,7 @@ the network. **_Ethernet frame_** is the most common frame format used in LANs.
 
 ## MAC Addresses
 
-Devices at L2, e.g. network interface cards, have a unique **hardware** **_MAC
+Devices at L2, e.g. _network interface cards_, have a unique **hardware** **_MAC
 address_**. It is 48 bits, in hex format.
 
 A MAC address has two parts:
