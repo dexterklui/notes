@@ -25,6 +25,10 @@ Totally 4,294,967,296 IPv4 addresses
 
 ### Subnet Mask
 
+Historically, IP addresses were only divided into classes, and we cannot further
+divide them into sub-networks. With Classless Inter-Domain Routing (CIDR), we
+can divide a network into sub-networks.
+
 **_Subnet mask_** is used to determine the network and host parts of an IP
 address.
 
