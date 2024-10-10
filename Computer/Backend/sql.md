@@ -1391,6 +1391,10 @@ WITH RECURSIVE
 
 - [dbdiagram.io](https://dbdiagram.io/home)
 
+## Gatchas
+
+The `=` and `!=` operators return true if one of the operands is `NULL`.
+
 ## References and Links
 
 - [MySQL Tutorial](https://www.mysqltutorial.org/)
