@@ -680,6 +680,14 @@
   > Ternary operator < {{{3
     String result = (mark > 75) ? "pass" : "fail";
 
+  > Shift operators < {{{3
+    Shifts the bits of the number to the left or right by a specific number, filling the shifted
+    bits with zeros.
+    ‣   [\>>]\: right shift: [\1 << 3]\ shifts [\1]\ by 3 positions, resulting
+        in [\1000]\ in bits which is 8 in decimal.
+        ⮱   [\1 << n]\ is equivalent to [\2^n]\
+    ‣   [\<<]\: left shift
+
  == I/O == {{{2
   > Console < {{{3
    |output| {{{4
