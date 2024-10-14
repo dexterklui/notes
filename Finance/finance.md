@@ -36,6 +36,7 @@ date: 2024-10-08 (Tue)
 - [liquidity](https://www.investopedia.com/terms/l/liquidity.asp)
 - [hurdle rate](https://www.investopedia.com/terms/h/hurdlerate.asp)
 - Cost of Capital and [WACC](https://www.investopedia.com/terms/w/wacc.asp)
+- [Internal Rate of Return (IRR)](https://www.investopedia.com/terms/i/irr.asp)
 
 ## 🧭 Navigation
 
