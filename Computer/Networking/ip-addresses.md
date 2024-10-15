@@ -17,7 +17,7 @@ Totally 4,294,967,296 IPv4 addresses
 - **_Class A_**: 0.0.0.0/1
   - 1 octet for network: 0.0.0.0/8 to 127.0.0.0/8 (128 networks)
 - **_Class B_**: 128.0.0.0/2
-  - 2 octets for network: 128.0.0.0/16 to 192.255.0.0/16 (16,384 networks)
+  - 2 octets for network: 128.0.0.0/16 to 191.255.0.0/16 (16,384 networks)
 - **_Class C_**: 192.0.0.0/4
   - 3 octets for network: 192.0.0.0/24 to 223.255.255.0/24 (2,097,152 networks)
 - **_Class D_**: for multicast
