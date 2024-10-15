@@ -19,7 +19,7 @@ date: 2024-10-05 (Sat)
 
 ### Cyber Security
 
-- [DDoS](../Security/CyberSecurity/ddos.md)
+- [Cyber Security](../Security/security.md#cyber-security)
 
 ## 🧭 Navigation
 

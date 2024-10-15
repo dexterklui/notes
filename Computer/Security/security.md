@@ -6,7 +6,7 @@ date: 2024-09-25 (Wed)
 
 ## Index
 
-Cyber Security:
+### Cyber Security
 
 - [DDoS](CyberSecurity/ddos.md)
 
