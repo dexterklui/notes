@@ -1240,6 +1240,122 @@ SET asset = asset - OLD.balance + NEW.balance
 WHERE branch_id = NEW.branch_id;
 ```
 
+## Stored Procedures
+
+[How to use Stored Procedures in MySQL - Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-use-stored-procedures-in-mysql)
+[Defining Stored Programs - MySQL 8.0 Reference Manual](https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html)
+
+### What is a Stored Procedure?
+
+It is like a function in programming. It groups a set of SQL statements for
+reuse as a subroutine.
+
+A stored procedure can make use of:
+
+- **Parameters** passed to the stored procedure or returned through it.
+- **Declared variables** to process retrieved data directly within the procedure
+  code.
+- **Conditional** statements, which allow the execution of parts of the stored
+  procedure code depending on certain conditions, such as IF or CASE
+  instructions.
+- **Loops**, such as WHILE, LOOP, and REPEAT, allow executing parts of the code
+  multiple times, such as for each row in a retrieved data set.
+- **Error handling** instructions, such as returning error messages to the
+  database users accessing the procedure.
+- **Calls to other stored procedures** in the database.
+
+### Pros of Stored Procedures
+
+- Code reuse across applications
+- Data validation
+- Data security - users must have permission to procedures, and may not have
+  permission to access database directly
+
+### Defining Stored Procedures
+
+General syntax:
+
+```sql
+DELIMITER //
+CREATE PROCEDURE procedure_name(parameter_1, parameter_2, . . ., parameter_n)
+BEGIN
+    instruction_1;
+    instruction_2;
+    . . .
+    instruction_n;
+END //
+DELIMITER ;
+```
+
+- `DELIMITER //` temporarily changes the statement delimiter to `//`.
+- Use empty `()` if there're no parameters
+- To declare a parameter, use `IN`, `OUT`, or `INOUT` before the parameter name.
+  e.g. `IN balance INT`, where `balance` is the parameter name, and `INT` is the
+  type.
+  - `IN` means the parameter is passed into the procedure.
+  - `OUT` means the parameter is returned from the procedure.
+
+> [!NOTE]
+>
+> Depending on your MySQL user permissions, you may receive an error when
+> executing the `CREATE PROCEDURE` command:
+> `ERROR 1044 (42000): Access denied for user 'sammy'@'localhost' to database 'procedures'`.
+> To grant permissions to create and execute stored procedures to your user:
+>
+> ```sql
+> GRANT CREATE ROUTINE, ALTER ROUTINE, EXECUTE on *.* TO 'sammy'@'localhost';
+> FLUSH PRIVILEGES;
+> ```
+>
+> See
+> [Stored Routines and MySQL Privileges](https://dev.mysql.com/doc/refman/8.0/en/stored-routines-privileges.html)
+> for more info.
+
+### Using Stored Procedures
+
+```sql
+CALL my_procedure; -- no parameters
+CALL other_procedure(100, 'hello'); -- with parameters
+```
+
+### Output Parameters
+
+```sql
+DELIMITER //
+CREATE PROCEDURE get_car_stats_by_year(
+    IN year_filter int,
+    OUT cars_number int,
+    OUT min_value decimal(10, 2),
+    OUT avg_value decimal(10, 2),
+    OUT max_value decimal(10, 2)
+)
+BEGIN
+    SELECT COUNT(*), MIN(value), AVG(value), MAX(value)
+    INTO cars_number, min_value, avg_value, max_value
+    FROM cars
+    WHERE year = year_filter ORDER BY make, value DESC;
+END //
+DELIMITER ;
+```
+
+- `INTO` is used to assign values to the output parameters.
+
+To get the values from output parameters:
+
+```sql
+CALL get_car_stats_by_year(2017, @number, @min, @avg, @max);
+-- Then you can retrieve the values using SELECT
+SELECT @number, @min, @avg, @max
+```
+
+- `@` is used to denote a user-defined variable.
+
+### Removing Stored Procedures
+
+```sql
+DROP PROCEDURE my_procedure;
+```
+
 ## Transactions
 
 ### What is a Transaction?
