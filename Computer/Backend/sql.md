@@ -711,27 +711,6 @@ full outer join, then you need to union left and right outer join.
 
 Actually the term `INNER` and `OUTER` can be omitted.
 
-#### Coalesce
-
-When doing outer join, it is handy to use coalesce to provide a default value in
-case of NULL (due to no match).
-
-```sql
-SELECT
-  brokers.first_name 'First Name',
-  brokers.last_name 'Last Name',
-  coalesce(trades.price_total, 0) 'Total Price' -- if null, return 0
-FROM
-  brokers
-LEFT OUTER JOIN
-  trades
-ON
-  brokers.broker_id = trades.broker_id;
-
--- If you need to filter on traders who have no trades, you need to test for
--- `price_total IS NULL` instead of `price_total = 0`.
-```
-
 #### Natural join
 
 We use `NATURAL JOIN` to make an inner join **on common attributes**.
@@ -908,6 +887,37 @@ HAVING AVG(balance) > 650;
 
 Some vendors don't support multiple aggregates, and you must use inline view
 instead.
+
+### Conditionals
+
+#### if
+
+`if(condition, true-value, false-value)`
+
+#### ifnull
+
+`ifnull(value, default-value)`
+
+#### Coalesce
+
+When doing outer join, it is handy to use coalesce to provide a default value in
+case of NULL (due to no match).
+
+```sql
+SELECT
+  brokers.first_name 'First Name',
+  brokers.last_name 'Last Name',
+  coalesce(trades.price_total, 0) 'Total Price' -- if null, return 0
+FROM
+  brokers
+LEFT OUTER JOIN
+  trades
+ON
+  brokers.broker_id = trades.broker_id;
+
+-- If you need to filter on traders who have no trades, you need to test for
+-- `price_total IS NULL` instead of `price_total = 0`.
+```
 
 ### Modifying Functions
 
