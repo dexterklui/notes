@@ -522,6 +522,8 @@ WHERE Customer.customer_id = Borrower.customer_id;
 
 - `=`, `<>`, `!=`, `>`, `<`, `>=`, `<=`
 
+True is 1, false is 0.
+
 #### Logical Operators
 
 Comparison results can be combined using logical operators: `AND`, `OR`, `NOT`.
@@ -951,7 +953,7 @@ Use to modify values
 SELECT ROUND(AVG(balance), 2) # average
 FROM Account
 WHERE branch_id = 'B2';
-```
+````
 
 ### Set Operators
 
