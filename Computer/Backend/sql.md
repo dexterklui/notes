@@ -919,6 +919,22 @@ ON
 -- `price_total IS NULL` instead of `price_total = 0`.
 ```
 
+#### Case
+
+Case is used to evaluate a list of conditions and return a value.
+
+```sql
+SELECT
+  orderNumber,
+  orderDate,
+  CASE
+    WHEN status = 'Shipped' THEN 'On Time'
+    WHEN status = 'In Process' THEN 'Late'
+    ELSE 'Unknown'
+  END AS 'Order Status'
+FROM orders;
+```
+
 ### Modifying Functions
 
 Use to modify values
