@@ -25,6 +25,16 @@ date: 2024-07-18 (Thu)
   - `-18` SIGCONT resume a paused process
 - `hostname` show or set the system's host name
 
+### Sysstat Utilities
+
+- `iostat` report CPU and I/O statistics
+  - `iostat [opt]... [device]... [interval [count]]`
+  - `-x` - extended statistics
+  - `-c` - only CPU statistics
+  - `-d` - only device (disk) statistics
+  - `-k` - in KB/s; `-m` - in MB/s
+  - `-p [device,...]` - for specific device(s)
+
 ## Networking
 
 - `ss` checks socket statistics and open ports
