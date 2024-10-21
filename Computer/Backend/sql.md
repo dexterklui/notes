@@ -935,6 +935,14 @@ SELECT
 FROM orders;
 ```
 
+#### Nullif
+
+`nullif(x, y)` returns `NULL` if `x = y`, otherwise it returns `x`.
+
+````sql
+SELECT nullif(balance, 0) FROM Account;
+``
+
 ### Modifying Functions
 
 Use to modify values
