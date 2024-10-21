@@ -27,13 +27,15 @@ date: 2024-07-18 (Thu)
 
 ### Sysstat Utilities
 
-- `iostat` report CPU and I/O statistics
+- [`iostat`](https://www.geeksforgeeks.org/iostat-command-in-linux-with-examples/)
+  reports CPU and I/O statistics
   - `iostat [opt]... [device]... [interval [count]]`
   - `-x` - extended statistics
   - `-c` - only CPU statistics
   - `-d` - only device (disk) statistics
   - `-k` - in KB/s; `-m` - in MB/s
   - `-p [device,...]` - for specific device(s)
+  - `-z` - suppresses zero statistics
 
 ## Networking
 
