@@ -410,6 +410,33 @@ You can logically combine filters with `( expr )`, `! expr`, `-a`, `-o`, etc
   - GETCHA: be ware of passing a regex starting with `-`, it would be considered
     an option. To prevent that use `-e {pattern}`
 
+### sed
+
+[Sed - An Introduction and Tutorial](https://www.grymoire.com/Unix/Sed.html)
+
+#### Hold space and pattern space
+
+Other than the `s` command for substitution, you can use
+
+- `h` / `H` for copying / appending pattern space to hold space
+- `g` / `G` for copying / appending hold space to pattern space
+- `x` for exchanging hold space and pattern space
+
+#### Options
+
+- `-r` (GNU) or `-E` (POXIS) extended regex
+- `-e {script}` add the script to the commands to be executed
+  - Multiple `-e` can be used for running a series of scripts
+
+#### Substitution flags
+
+- `I` case insensitive
+- `g` global, replace all occurrences on a line
+- `2` replace the second occurrence
+- `p` print the line (after substitution if there is one)
+- `w {file}` write the line to file, e.g. `sed -n '/^2024-.*/&/w year2024'`
+  - Has to be the **last** flag
+
 ### Data Formatting
 
 - `expand` - convert tabs to spaces
