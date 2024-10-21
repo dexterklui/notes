@@ -25,6 +25,29 @@ date: 2024-07-18 (Thu)
   - `-18` SIGCONT resume a paused process
 - `hostname` show or set the system's host name
 
+## Networking
+
+- `ss` checks socket statistics and open ports
+  - `-t` TCP
+  - `-u` UDP
+  - `-l` listening
+  - `-n` numeric (do not try to resolve into hostnames)
+  - `-p` shows process name
+  - `-i` shows internal TCP information
+- `netstat` shows open ports and active connections
+  - Without any option, it shows active TCP connections with IP addresses and
+    ports, and TCP state
+  - `-a` active TCP connections with listening state, and listening UDP
+  - `-f` shows fully qualified domain names
+  - `-n` numeric (do not try to resolve into hostnames)
+  - `-o` shows PID of the process
+  - `-p` specifies protocol (one and only one only), e.g. `tcp`, `udp`, `icmp`,
+    `ip`
+  - `-r` shows routing table
+  - Argument is a time interval in seconds to refresh the output
+- `telnet` communicate with another host using the TELNET protocol
+  - `telnet {host} [port]`
+
 ## Shell
 
 - `env` print environment variables, or run a command in a modified environment
