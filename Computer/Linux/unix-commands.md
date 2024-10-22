@@ -454,8 +454,12 @@ Other than the `s` command for substitution, you can use
 ## Calculations
 
 - `bc`
-  - `echo "scale=2; 5/3" | bc` scale defines number of decimal point
+  - `echo "scale=2; 5/3" | bc` scale defines number of decimal point (it is
+    **truncate** not **rounding**)
+    - Default scale is 0.
   - `-s` standard
+  - If you want to round to 4 d.p., for example, do `scale=5`, and pipe to
+    `printf "%.4f\n"`. Scale 5 because the 5th digit is for rounding to 4th d.p.
 - `expr`
 - `$[expression]` or `$((expression))`
 
