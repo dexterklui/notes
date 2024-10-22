@@ -77,6 +77,7 @@
     ➱   [\docker]\ and [\docker-compose]\
     ➱   [\ledger]\, [\hledger]\ and [\hledger-web]\: for tracking personal
         finance
+    ➱   [\sysstat]\: for system monitoring
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
