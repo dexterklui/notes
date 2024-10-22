@@ -388,7 +388,8 @@ You can logically combine filters with `( expr )`, `! expr`, `-a`, `-o`, etc
   - `-w` number of words
 - `cut` - print selected parts of lines (e.g. columns)
   - `-d` delimiter, default is tab
-  - `-c` character; `-c 1-3` 1st to 3rd char; `-c 2-` from 2nd char onwards
+  - `-c` character; `-c 1-3` 1st to 3rd char; `-c 2-` from 2nd char onwards;
+    `-c 2,7` 2nd and 7th char
   - `-f` field; `-f 1-3` 1st to 3rd field; `-f 2-` from 2nd field onwards
 - `tr set1 [set2]` - translate or delete characters
   - `tr 'a-z' 'A-Z'` convert lowercase to uppercase
