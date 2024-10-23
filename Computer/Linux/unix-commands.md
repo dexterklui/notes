@@ -378,9 +378,11 @@ You can logically combine filters with `( expr )`, `! expr`, `-a`, `-o`, etc
   - `-u` only unique lines
 - `head`
   - `-n` number of lines (`-n2` is same as `-2`. `-n-2`: up to 2nd last line)
+  - `-c` number of bytes
 - `tail`
   - `-n` number of lines (`-n2` is the same as `-2`. `-n+2`: from 2nd line)
   - `-f` follow, meaning output appended data as file grows
+  - `-c` number of bytes
 - `wc`
   - `-l` number of lines
   - `-c` number of bytes
