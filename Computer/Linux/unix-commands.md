@@ -417,6 +417,16 @@ You can logically combine filters with `( expr )`, `! expr`, `-a`, `-o`, etc
   - `fgrep` equals `grep -F` fixed string (no regex)
   - GETCHA: be ware of passing a regex starting with `-`, it would be considered
     an option. To prevent that use `-e {pattern}`
+- `paste` - join lines consisting of the sequentially corresponding lines from
+  each file. I.e. joining line n from file 1 with line n from file 2.
+  - `paste [opt]... [file]...`
+    - If no file, or `-` is the file, it is read from stdin. Multiple `-` means
+      reading from multiple line from stdin at a time and join them into single
+      line. So `paste - - -` will join every 3 lines from stdin into a single
+      line
+  - `-d <delimiter>` delimiter (default is tab)
+  - `-s` paste one file at a time instead of in parallel.
+    - Use this to join lines from one file, or from stdin, into a single line
 
 ### sed
 
