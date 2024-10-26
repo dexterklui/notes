@@ -425,11 +425,14 @@ do
 done < peptides.txt
 ```
 
-`[ -n "$p" ]` is needed because `read` return non-zero if EOF is detected, so
-this will handle the last line.
-
 Setting **empty** `IFS` is needed to preserve leading and trailing spaces in the
 `read` line.
+
+> [!NOTE]
+>
+> StackOverflow answer above said `[ -n "$p" ]` is needed because `read` return
+> non-zero if EOF is detected, so this will handle the last line. But in my
+> testing it still works fine without it.
 
 ## function
 
