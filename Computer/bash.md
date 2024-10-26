@@ -539,6 +539,10 @@ Explanations:
 - Can think that bash evaluates everything within `(( ))` arithmetically, and
   `$` means substitution.
 
+### Operators
+
+- `+`, `-`, `*`, `/`, `%`, `**`, `^` (XOR), `&` (AND), `|` (OR)
+
 ### Base Conversion
 
 To store value in other than base ten:
