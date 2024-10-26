@@ -483,6 +483,8 @@ Other than the `s` command for substitution, you can use
 - `expr`
 - `$[expression]` or `$((expression))`
 
+See also [bash - ways to do calculations](../bash.md#ways-to-do-calculations).
+
 ## 🧭 Navigation
 
 - [🔼 Back to top](#unix-commands)

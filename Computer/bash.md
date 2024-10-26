@@ -515,31 +515,31 @@ echo "The cube of 3 is $x." # The cube of 3 is 27.
 echo "The value of y is $y." # The value of y is .
 ```
 
-## Calculation
+## Calculations
 
-- `echo "2 * 3" | bc -s`
+### Ways to do calculations
 
+- Use [`bc`](Linux/unix-commands.md#calculations)
 - `$(( 2 * 3 ))` arithmetic expansion
-
-  - respect arithmetic operation precedence
-  - Note that cannot quote the tokens, so this doesn't work:
-    `num=2; echo $(( "$num" * 3 ))`. Instead, you can do
-    `num=2; echo $(( $num * 3 ))`
-  - In fact anything `(( ))` is evaluated in the manner of arithmetic operation
-    - `(( count++ ))` increments count by 1
-    - `(( count+= 1 ))` the same
-    - `let "count++"` the same
-    - `let "count+=1"` the same
-
 - `$[ 2 * 3 ]`. Like `$(( ))` but deprecated and not POSIX compliant
-
 - `expr 2 \* 3`
-
 - `let num="2+3"`
 
-  - respect arithmetic operation precedence
-  - stores the result 5 in `num`
-  - If it is not a valid arithmetic expression, it will return an error
+Explanations:
+
+- Respect arithmetic operation **precedence**
+- Note that cannot quote the tokens, so this doesn't work:
+  `num=2; echo $(( "$num" * 3 ))`. Instead, you can do
+  `num=2; echo $(( $num * 3 ))`
+- In fact anything `(( ))` is evaluated in the manner of arithmetic operation
+  - `(( count++ ))` increments count by 1
+  - `(( count += 1 ))` and `((count += 1 ))` the same
+  - `let "count++"` the same
+  - `let "count+=1"` the same
+- Can think that bash evaluates everything within `(( ))` arithmetically, and
+  `$` means substitution.
+
+### Base Conversion
 
 To store value in other than base ten:
 
