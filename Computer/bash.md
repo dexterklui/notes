@@ -87,24 +87,46 @@ Now, running `dollarAt 1 "2 3" 4` will output:
 4
 ```
 
-### Array
+## Array
 
-Define an array:
+[Tutorial](https://www.thegeekstuff.com/2010/06/bash-array-tutorial/)
+
+### Defining an array
 
 ```bash
 names[0]="Alice"
 names[1]="Bob"
 
-names=("Alice" "Bob")
+names=("Alice" "Bob") # parentheses denotes an array
+declare -a names=("Alice" "Bob") # same as above, unnecessary in newer version
+
+names+=("Charlie" "david") # append elements. Since bash 3
+filecontent=($(cat file.txt)) # read file content word by word (split by IFS)
+filecontent=($(< file.txt)) # read file content word by word (split by IFS)
+mapfile -t filecontent < file.txt # read file content into an array line by line
 ```
 
-Using an array:
+> [!NOTE]
+>
+> In zsh, index starts at 1 instead of 0.
+
+> [!TIP]
+>
+> To read lines from a file, see
+> [Reading Lines From a File](#reading-lines-from-a-file).
+
+### Using an array
 
 ```bash
-echo ${names[0]}
+echo ${names[0]} # echo ${names} has the same effect - print first element
 echo ${names[1]}
-echo ${names[*]}
-echo ${#names[*]}
+echo ${names[*]} # print all elements separated by IFS
+echo ${names[@]} # print all elements separated by space
+echo ${#names[*]} # number of elements in array
+echo ${#names} # number of characters in first element
+echo ${#names[3]} # number of characters of element at index 3
+echo ${names[@]:3:2} # print 2 elements starting at index 3
+printf "%s\n" "${names[@]}" # print each element in a new line
 ```
 
 ## Compound Statements
