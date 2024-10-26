@@ -1543,6 +1543,32 @@ WITH RECURSIVE
 
 - [dbdiagram.io](https://dbdiagram.io/home)
 
+## Window Functions
+
+> A window function performs a calculation across a set of table rows that are
+> somehow related to the current row. This is comparable to the type of
+> calculation that can be done with an aggregate function. But unlike regular
+> aggregate functions, use of a window function does not cause rows to become
+> grouped into a single output row — the rows retain their separate identities.
+> Behind the scenes, the window function is able to access more than just the
+> current row of the query result.
+
+```sql
+SELECT duration_seconds,
+       SUM(duration_seconds) OVER (ORDER BY start_time) AS running_total
+FROM tutorial.dc_bikeshare_q1_2012
+```
+
+```sql
+SELECT start_terminal,
+       duration_seconds,
+       SUM(duration_seconds) OVER
+          (PARTITION BY start_terminal ORDER BY start_time)
+          AS running_total
+FROM tutorial.dc_bikeshare_q1_2012
+WHERE start_time < '2012-01-08'
+```
+
 ## Gatchas
 
 The `=` and `!=` operators return true if one of the operands is `NULL`.
