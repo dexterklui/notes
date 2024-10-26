@@ -65,6 +65,10 @@ date: 2024-07-18 (Thu)
 - `env` print environment variables, or run a command in a modified environment
   - `env [opt]... [-] [name=value]... [command [arg]...]` run command
   - `-i` run with empty environment
+- `declare` list or set variables
+  - without options, it lists all variables (including functions)
+  - `-a` indexed array
+  - `-A` associative array
 - `echo`
   - `-n` no newline at end
   - `-e` enable interpretation of backslash escapes
