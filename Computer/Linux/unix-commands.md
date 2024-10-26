@@ -216,6 +216,8 @@ myscript -ba # output: Option b \n myscript: option requires an argument -- a
   - `-p {prompt}` prompt
   - `-r` raw input, no backslash escapes
 - `xargs` build and execute command lines from standard input
+- `mapfile` read lines from standard input into an array. See
+  [more](../bash.md#mapfile)
 
 ### Running Scripts
 

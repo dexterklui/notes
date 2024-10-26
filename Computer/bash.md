@@ -129,6 +129,16 @@ echo ${names[@]:3:2} # print 2 elements starting at index 3
 printf "%s\n" "${names[@]}" # print each element in a new line
 ```
 
+### Mapfile
+
+`mapfile [opt]... arrayvar` read stdin into an array variable. It is a shell
+builtin.
+
+- `-t` removes trailing newline (without `-t` every element except the last will
+  have a newline character)
+- `-d <delim>` to specify a delimiter (default is newline)
+- `-s <count>` discard the first count lines read
+
 ## Compound Statements
 
 ### Condition
