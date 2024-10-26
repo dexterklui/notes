@@ -378,6 +378,7 @@ You can logically combine filters with `( expr )`, `! expr`, `-a`, `-o`, etc
   - `-R` randomize
 - `uniq` - report or omit repeated lines
   - `-c` count
+  - `-i` case insensitive
   - `-d` only repeated lines
   - `-u` only unique lines
 - `head`
