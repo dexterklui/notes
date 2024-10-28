@@ -112,18 +112,42 @@
     ‣   [\BEGIN]\: Execute before reading any input. Stop if there are no
         other statements (e.g. rules like [\:PAT `{ ACT :}]\) in the program,
         instead of trying to read input.
+    ‣   [\END]\: Execute after reading all input.
+
+ == Regex == {{{2
+    ‣   [\!/pattern/]\: negation
 
  == Options == {{{2
     ‣   [\-F :SEP-STRING:]\: Define input field separators ([[default]] is
         space).
 
  == Variables == {{{2
+    Two types of builtin variables:
+    ‣   Variables which defines values that can be changed such as field
+        separators and record separators
+    ‣   Variables which can be used for processing and reports such as number
+        of records and number of fields.
+
     Inside double quotes everything is literal, i.e. no variable or function
     is expended. Strings and output are concatenated automatically:
 
     [\awk '{ print "line "FNR" contains "length($0)" characters" }' "$1"]\
 
-  > Predefined variables < {{{3
+  > Variables that can be changed < {{{3
+    ➱   [\FS]\: Field separator, which is space by default
+        ‣   Set with [\awk -F $'\t']\ or [\awk 'BEGIN { FS = "\t"; }']\
+        ‣   Can be any single character or regular expression
+    ➱   [\OFS]\: Output field separator, which is space by default. Used in
+        the print statement with multiple arguments: [\{ print $1,$2 }]\.
+    ➱   [\RS]\: Record separator, which is newline by default
+        ‣   [\BEGIN { RS = "\n\n" }]\: treat double newline as record
+            separator
+    ➱   [\ORS]\: Output record separator, which is newline by default. I guess
+        it is used as the last character in the print statement.
+        ⮱   [\awk 'ORS = NR % 2 ? "," ~: "\n"' file]\ concatenates every two lines
+            with a comma.
+
+  > Variables for processing < {{{3
     ‣   [\$0]\: The entire record.
     ‣   [\$1]\: The first field.
     ‣   [\FILENAME]\: Name of current input file.
@@ -135,6 +159,8 @@
             [\$0]\ changes.
     ‣   [\NR]\: Number of input records awk has processed since the beginning
         of the program's execution.
+
+    There is double expansion: [\$NF]\ is the last field.
 
   > User-defined variables < {{{3
     ‣   [\var = value]\: Assign value to a new or existing var
@@ -155,6 +181,37 @@
     ‣   [\srand(:[X]:)]\: Generate a new seed for [\rand()]\. Without X, use
         current date and time for seed for seed generation. Return value is
         the previous seed.
+
+ == Conditionals == {{{2
+    #beginCode#
+    if (condition)
+        action
+
+    if (condition)
+    {
+        action1;
+        action2;
+    }
+
+    if (condition)
+        action1
+    else
+        action2
+
+    condition ? action1 : action2
+
+    if (condition)
+        action1;
+    else if (condition)
+        action2;
+    else
+        action3;
+    #endCode#
+
+ == Printing == {{{2
+    #beginCode#
+    printf "Hello, %s\n", name
+    #endCode#
 
  == Some Useful Short Program == {{{2
     ‣   [\length($0) > 80]\
