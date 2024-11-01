@@ -37,6 +37,10 @@ date: 2024-07-18 (Thu)
   - `-p [device,...]` - for specific device(s)
   - `-z` - suppresses zero statistics
 
+### System Logging
+
+See [System Logging](system-logging.md)
+
 ## Networking
 
 - `ss` checks socket statistics and open ports
