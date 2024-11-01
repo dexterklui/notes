@@ -242,6 +242,19 @@ myscript -ba # output: Option b \n myscript: option requires an argument -- a
 - `cat /etc/group` - file containing group information
 - `getent group [groupname]` - list all groups, or list info of a specific group
 
+### Permissions
+
+- `chmod`
+  - For octal mode, there are four octal digits:
+    - 1st digit: (4) set user ID, (2) set group ID, (1) sticky bit
+    - 2nd digit: owner's permission - (4) read, (2) write, (1) execute
+    - 3rd digit: group's permission
+    - 4th digit: other's permission
+  - `chmod ug+x` add execute permission for user and group
+  - `chmod +t` set sticky bit
+  - `chmod u+s` set user ID
+  - `chmod g+s` set group ID
+
 ## File System
 
 - `ls`
