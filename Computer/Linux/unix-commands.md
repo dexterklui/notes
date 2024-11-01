@@ -228,21 +228,14 @@ myscript -ba # output: Option b \n myscript: option requires an argument -- a
 
 ## Users
 
-- `w` - show who is logged on and what they are doing
-- `who` - show who is logged on, where they are logged in from, and when they
-  logged in
-- `whoami`
-- `finger` - user information lookup program
-- `users` - list users currently logged in
-- `id` - print real and effective user and group IDs
-  - `-u` user ID
-  - `-g` group ID
-  - `-G` all groups
-  - `-n` name instead of number
-- `groups [user]` list groups current or specified user belongs to
-- `usermod {option} [user]` - modify a user account
-  - `-aG mygroup,myothergroup` adds supplementary groups of a user
-  - `-G mygroup,myothergroup` sets (i.e. replaces) supplementary group list
+- `sudo` run command as superuser
+
+  - `-i` run shell as superuser
+  - `sudo su --login` (`-l`) run a login shell as superuser using the root's
+    environment variables
+  - `-e` edit files as superuser
+
+- See [User Administration](user-administration.md).
 
 ### List Groups
 
