@@ -1569,6 +1569,38 @@ FROM tutorial.dc_bikeshare_q1_2012
 WHERE start_time < '2012-01-08'
 ```
 
+### LEAD and LAG
+
+- [LEAD and LAG](https://www.geeksforgeeks.org/mysql-lead-and-lag-function/)
+
+```sql
+SELECT
+  LEAD(column, n, default) OVER (ORDER BY start_time) AS next_duration,
+  LAG(column, n, default) OVER (ORDER BY start_time) AS previous_duration,
+FROM observations;
+```
+
+- Column is the column to be used
+- n is a positive number of rows before or after the current row, default is 1.
+- default is the value to return if the offset goes beyond the bounds of the
+  partition, without default, it returns `NULL`.
+
+### ROWS and RANGE
+
+```sql
+SELECT
+  time, subject, val,
+  SUM(val) OVER (PARTITION BY subject ORDER BY time
+                ROWS UNBOUNDED PRECEDING)
+    AS running_total,
+  AVG(val) OVER (PARTITION BY subject ORDER BY time
+                ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING)
+    AS running_average
+  AVG(val) OVER (PARTITION BY subject ORDER BY time
+                ROWS BETWEEN 6 PRECEDING AND CRRENT ROW)
+FROM observations;
+```
+
 ## Gatchas
 
 The `=` and `!=` operators return true if one of the operands is `NULL`.
