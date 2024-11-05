@@ -1104,10 +1104,19 @@ WHERE D.budget = (
 );
 ```
 
-### Limit Clause
+### Limit and offset Clause
 
 ```sql
-SELECT title FROM books LIMIT 10; # select first 10 rows
+SELECT title FROM books LIMIT 10; -- select first 10 rows
+```
+
+`OFFSET` is used to skip a number of rows before starting to return rows. It
+**must** be used with `LIMIT`.
+
+```sql
+-- two ways to select all books starting at the 11th
+SELECT title FROM books LIMIT 18446744073709551610, OFFSET 10;
+SELECT title FROM books LIMIT 11, 18446744073709551610;
 ```
 
 ## Null and Unknwon Values
