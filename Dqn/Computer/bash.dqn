@@ -106,6 +106,9 @@
     ➱   Save to a executable file and use hashbang like [\#! /bin/awk -f]\.
     ➱   Then execute the script. E.g. [\./my_awk_prog inputfile]\
 
+    Other options:
+    ➱   [\-F '|']\ set [\|]\ as field separator
+
  == Special Directive In Place of Pattern == {{{2
     E.g. [\awk 'BEGIN { print "Print this sentence before reading input" }']\
 
