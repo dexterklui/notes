@@ -10,7 +10,8 @@ date: 2024-07-18 (Thu)
 - `free`
 - `top`
 - `ps`
-  - `-f` full format in current session
+  - `-f` full format in current session; `-F` extra full format; `-l` long
+    format
   - `-u {username}` processes by effective user (user permission used by
     process)
   - `-U {username}` processes by real user (user who started the process)
@@ -23,7 +24,27 @@ date: 2024-07-18 (Thu)
   - `-15` SIGTERM
   - `-19` SIGSTOP pause a (background) process
   - `-18` SIGCONT resume a paused process
+- `pgrep {pattern}` find process IDs by name, `pkill {name}` kill processes by
+  name
 - `hostname` show or set the system's host name
+- `nice {command}` runs command with adjusted niceness
+  - `-n {value}` nice value to be added. 0 - 19 for normal user, -20 - 19 for
+    system administrator. Without this option, the niceness added is 10.
+- `renice {value} {pid}` change the niceness of a running process
+
+### top
+
+| Colummn            | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| `PID`              | Process ID                                         |
+| `USER`             | User running the process                           |
+| `PR`               | Priority - how important the task is               |
+| `NI`               | Nice value                                         |
+| `VIRT`/`RES`/`SHR` | Memory usage information                           |
+| `S`                | State of the process                               |
+| `%CPU`             | How much of a single CPU core the process is using |
+| `MEM`              | Its share of available memory                      |
+| `TIME`             | The cumulative CPU time the process has used       |
 
 ### Sysstat Utilities
 
