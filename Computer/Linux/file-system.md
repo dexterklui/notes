@@ -62,6 +62,48 @@ To grow a disk partition (or called disk slice):
    - For XFS file system, use `xfs_growfs {mountpoint|device}`
    - For ext4 file system, use `resize2fs {device}`
 
+## Logical Volume
+
+### Logical Volume Management
+
+**_Logical Volume Management_** (**_LVM_**) is a method of managing disk space
+that abstracts away the physical disk layout. It allows creating virtual disks
+called **_logical volumes_** (**_LVs_**), which use multiple **_physical
+volumes_** (**_PVs_**) (a whole disk or just a partition) spanning across
+multiple physical disks.
+
+Physical volumes are combined into **_volume groups_** (**_VGs_**), which is a
+pool of storage.
+
+When a PV is added to a VG, the PV is divided into physical **_extents_** each
+with the same size (usually 4MB). When a new LV is created or extended, physical
+extents are allocated from the VG to the LV as the logical extents.
+
+### Creating a Logical Volume
+
+1. Define space as a physical volume (PV) `pvcreate /dev/sdc`
+   - Check with `pvdisplay`
+2. Create a volume group (VG) using PVs `vgcreate newVG /dev/sdc /dev/sdd`
+   - Check with `vgdisplay`
+   - Use `vgextend` to add more PVs to an existing VG
+3. Create a logical volume (LV) `lvcreate -n newLV -L 100M newVG`
+   - Check with `lvdisplay`
+   - For `lvcreate`:
+     - `-n` specifies the name
+     - `-L` specifies the size
+     - `-l` specifies the number of extents
+
+### Using a Logical Volume
+
+1. Format the logical volume `mkfs.ext4 /dev/newVG/newLV`
+2. Mounting the logical volume `mount /dev/newVG/newLV /mnt/newLV`
+
+### Growing a Logical Volume
+
+1. Extend the logical volume `lvextend -L +100M newVG/newLV`
+2. Grow the actual file system structure `xfs_growfs {device}` (for XFS) or
+   `resize2fs {device}` (for ext4)
+
 ## 🧭 Navigation
 
 - [🔼 Back to top](#)
