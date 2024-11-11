@@ -304,6 +304,29 @@ myscript -ba # output: Option b \n myscript: option requires an argument -- a
   - `-c {format}` specify output format
     - `%i` inode number
 - `quota` display disk usage and limits for a user (`-v`)
+- `gdisk` - GPT fdisk (partitioning tool)
+- `lsblk` lists block devices `-f` or `--fs` shows filesystem type
+- `mount` mounts a filesystem, or shows mounted filesystem
+  - `-t {type}` specify filesystem type
+  - `-o {options}` specify mount options
+- `umount` unmounts a mounted filesystem
+- `lsof {path|network-location}` - list open file - lists process that have a
+  given file open
+  - `-i [46][protocol][@hostname|@hostaddr][:service|:port]` shows processes
+    that uses specific network connection
+  - `-t` only output PID
+  - `-u {username}` shows files opened by a user
+  - `-p {PID}` shows files opened by a process
+  - `-c {command}` shows files opened by a command
+- `fuser` identifies processes using files or sockets. Useful to check which
+  user/process is preventing successful unmounts
+  - `-c {path}` (POXIS compatible) or `-m {path}` shows processes accessing the
+    filesystem that contains the path
+  - `-v` - verbose - ps-like output with user and PID
+  - `-u` shows username of the process owner
+- `fsck` - file system consistency check and repair
+  - `-N`/`-n` (depend on version I guess) dry run
+- `partprobe` inform the OS of partition table changes
 
 ### find program
 
