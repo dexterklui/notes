@@ -50,6 +50,18 @@ Note that exFAT and NTFS doesn't support Linux user:group privileged setting.
    `exFAT`).
 5. Format the partition with `sudo mkfs.exfat -n MyLabel /dev/sdb1`
 
+## Growing a Disk Partition
+
+To grow a disk partition (or called disk slice):
+
+1. Redefine the partition table to make the partition size bigger
+   - Delete old partition and create a new one with the same starting sector but
+     a later ending sector
+2. Use `partprobe` to inform the OS of the partition table changes
+3. Grow the actual file system structure.
+   - For XFS file system, use `xfs_growfs {mountpoint|device}`
+   - For ext4 file system, use `resize2fs {device}`
+
 ## 🧭 Navigation
 
 - [🔼 Back to top](#)
