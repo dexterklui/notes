@@ -4,6 +4,30 @@ date: 2024-04-18 (Thu)
 
 # File System
 
+## Device File
+
+Located in `/dev` directory. `/dev/sd*` is a device file for a hard disk.
+`/dev/xvd*` is a device file for a virtual disk. `/dev/nvme*` is a device file
+for a NVMe disk.
+
+`ls -l {device-file}` shows details of a device file
+
+- E.g. `ls -l /dev/sd*`
+- Leading `b` in the first column (of permission) indicates a block device, `c`
+  indicates a character device
+- After the group `disk`, it shows the major and minor number
+  - Major number indicates the driver used to communicate with the device
+  - Minor number identifies the device managed by the same driver, starting from
+    `0`
+
+### Block vs Character Device
+
+System assigns block devices with a buffer cache, which flushes the data when
+the buffer is full or after a period of time (or when explicitly requested).
+
+Character device doesn't have a buffer cache. System read and writes character
+by character. Keyboards are typical of character devices.
+
 ## Format a USB
 
 ### File System Type
