@@ -596,6 +596,8 @@
    |manual query using NSS|
     ‣   [\$ getent hosts :domain_name:]\
     ‣   [\$ getent ahosts :domain_name:]\ similar with the above
+    ‣   [\$ getent ahostsv4 :domain_name:]\ only IPv4
+    ‣   [\$ getent ahostsv6 :domain_name:]\ only IPv6
 
   > systemd resolved < {{{3
     ‣   [\$ resolvectl status]\ to check for status
