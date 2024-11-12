@@ -26,8 +26,8 @@ Totally 4,294,967,296 IPv4 addresses
 ### Subnet Mask
 
 Historically, IP addresses were only divided into classes, and we cannot further
-divide them into sub-networks. With Classless Inter-Domain Routing (CIDR), we
-can divide a network into sub-networks.
+divide them into sub-networks. With **_Classless Inter-Domain Routing_**
+(**_CIDR_**), we can divide a network into sub-networks.
 
 **_Subnet mask_** is used to determine the network and host parts of an IP
 address.
@@ -59,6 +59,13 @@ Private IP address space:
 - 256 class C networks: 192.168.0.0/16 (192.168.0.0/24 - 192.168.255.0/24)
 
 ## IPv6 Addresses
+
+- 16 bytes (128 bits), 8 groups of 4 hexadecimal digits
+- Can compress consecutive fields of 0s as `::` (only once per address) and
+  missing out leading 0s in each group
+- IPv6 address are usually **self assigned** generated from the machine **MAC
+  address** which is already worldwide unique. Now they have newer mechanism to
+  generate a random number which is more secure.
 
 ## Static vs Dynamic IP Address
 
