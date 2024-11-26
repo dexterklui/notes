@@ -37,6 +37,11 @@ the network. **_Ethernet frame_** is the most common frame format used in LANs.
   bytes. It is used to check if the frame is received correctly. It is
   calculated using the **_Cyclic Redundancy Check_** (**_CRC_**) algorithm.
 
+### Jumbo Frames
+
+**_Jumbo frames_** are Ethernet frames with a payload greater than 1500 bytes,
+usually up to 9000 bytes.
+
 ## MAC Addresses
 
 Devices at L2, e.g. _network interface cards_, have a unique **hardware** **_MAC

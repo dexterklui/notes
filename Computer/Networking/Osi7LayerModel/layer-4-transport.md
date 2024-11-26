@@ -52,7 +52,7 @@ Then connection is established.
 - Well-known ports: 0-1023
 - Registered ports: 1024-49151
 - Dynamic ports: 49152-65535
-- Ephemeral ports: ports used by the client
+- Ephemeral ports: ports used by the client (1024-65535 depending on OS)
 
 ## 🧭 Navigation
 
