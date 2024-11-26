@@ -169,6 +169,10 @@
     ‣   [\var = value]\: Assign value to a new or existing var
     ‣   Automatically initialized to 0.
 
+    For dictionary-like variable, use associative arrays:
+    ‣   [\array[1] = "a"]\
+    ‣   [\array["A"] = 1]\
+
  == Functions == {{{2
   > Predefined functions < {{{3
    |numeric functions| {{{4
