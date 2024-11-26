@@ -12,6 +12,7 @@ date: 2024-10-08 (Tue)
 
 ### Instruments
 
+- [Fixed-income](Instruments/fixed-income.md)
 - [Bond](Instruments/bond.md)
 
 ### Strategies
