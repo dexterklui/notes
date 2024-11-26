@@ -78,6 +78,7 @@
     ➱   [\ledger]\, [\hledger]\ and [\hledger-web]\: for tracking personal
         finance
     ➱   [\sysstat]\: for system monitoring
+    ➱   [\bat]\: A CLI program which adds syntax highlight to [\cat]\.
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
