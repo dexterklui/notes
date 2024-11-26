@@ -64,6 +64,10 @@ See [System Logging](system-logging.md)
 
 ## Networking
 
+- `ip` shows / manipulates routing, network devices, interfaces and tunnels.
+  Works on both layer 2 (data-link) and 3 (network), but focus more on layer 3.
+  - `ip -s link` show statistics, e.g. RX (receive) and TX (transmit) bytes and
+    packets, of different interfaces.
 - `ss` checks socket statistics and open ports
   - `-t` TCP
   - `-u` UDP
@@ -76,14 +80,18 @@ See [System Logging](system-logging.md)
     ports, and TCP state
   - `-a` active TCP connections with listening state, and listening UDP
   - `-f` shows fully qualified domain names
-  - `-n` numeric (do not try to resolve into hostnames)
+  - `-n` numeric (do not try to resolve into hostnames). Works with layer 4.
   - `-o` shows PID of the process
   - `-p` specifies protocol (one and only one only), e.g. `tcp`, `udp`, `icmp`,
     `ip`
-  - `-r` shows routing table
+  - `-r` shows routing table. Works with layer 3.
   - Argument is a time interval in seconds to refresh the output
+  - `-i` shows network interfaces statistics, like RX (receive) and TX
+    (transmit) bytes and packets. Works with layer 2.
+  - E.g. `netstat -n | grep "ESTABLISHED"`
 - `telnet` communicate with another host using the TELNET protocol
   - `telnet {host} [port]`
+- `nmap` network exploration tool and security / port scanner
 
 ## Shell
 
