@@ -491,6 +491,14 @@ You can logically combine filters with `( expr )`, `! expr`, `-a`, `-o`, etc
   - `-d <delimiter>` delimiter (default is tab)
   - `-s` paste one file at a time instead of in parallel.
     - Use this to join lines from one file, or from stdin, into a single line
+- `join` join lines of two files on a common field
+  - `join [OPT]... FILE1 FILE2`
+  - `-t {char}` field separator, default is space
+  - `-j {field}` equivalent to `-1 {field} -2 {field}`
+  - `-1 {field}` join on this field of file 1
+  - `-2 {field}` join on this field of file 2
+  - `-a {filenum}`, where `filenum` is 1 or 2. Print unpairable lines from the
+    given file. Like outer join.
 
 ### sed
 
