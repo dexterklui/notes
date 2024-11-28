@@ -431,7 +431,7 @@ You can logically combine filters with `( expr )`, `! expr`, `-a`, `-o`, etc
 
 - `tee`
 - `sort` - default is `-d` dictionary order, which depends on current Locale
-  - `-d` dictionary order. use `env LC_ALL=C sort` for traditional sort order
+  - `-d` dictionary order. Use `env LC_ALL=C sort` for traditional sort order
   - `-n` sort numerically
   - `-f` case insensitive (fold lower case to upper case)
   - `-b` ignore leading blanks
