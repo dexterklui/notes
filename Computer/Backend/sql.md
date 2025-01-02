@@ -1207,9 +1207,17 @@ To remove: `DROP VIEW <view-name>;`
 
 ## Authorization
 
+### Create User
+
+`CREATE USER <username>@<host> IDENTIFIED BY <password>`
+
+E.g. `CREATE USER 'sammy'@'localhost' IDENTIFIED BY 'password';`
+
 ### Grant Privileges
 
 `GRANT <privilege list> ON <table/view> TO <user/role list>`
+
+E.g. `GRANT ALL ON *.* TO 'superuser'@'localhost'`
 
 ```sql
 GRANT SELECT ON Departments TO Johnson, Brown;
