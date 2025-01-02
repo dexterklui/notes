@@ -3,9 +3,9 @@ title: Tips and Tricks
 date: 2023-09-23 (Sat)
 ---
 
-# Return and Handle Different Types Conditionally
+## Return and Handle Different Types Conditionally
 
-## Problem
+### Problem
 
 Sometimes a function returns different kinds of result in different situations.
 And outside you need to handle the returned value differently based on the kinds
@@ -18,7 +18,7 @@ TypeScript, you can create custom types to help you identify what kinds of
 result is returned, but not in JavaScript. But actually there is a much more
 simplistic method to solve this problem.
 
-## Solution
+### Solution
 
 The solution is to wrap the result in an object before returning. Different
 kinds of result uses different keys. This way, you can use destructuring in the
@@ -43,7 +43,7 @@ if (error) {
 }
 ```
 
-# 🧭 Navigation
+## 🧭 Navigation
 
 - [🔼 Back to top](#)
 - [◀️ Back](index.md)
