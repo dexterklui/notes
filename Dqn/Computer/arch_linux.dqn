@@ -1357,3 +1357,14 @@
     into Linux. And quick/fast boot should be disabled.
 
     See [=https://bbs.archlinux.org/viewtopic.php?id=298265]=
+
+ == Wifi == {{{2
+    When connected to public WiFi, e.g. in hotels where you need to login
+    through a captive portal, the internet connection become unstable or even
+    stopped after a while, while it is shown that the connection is still on.
+    The problem only exists in Linux, not in for example your phone.
+
+    This may be due to the randomization of MAC address, and the hotel limit
+    the connection.
+
+    Check [=https://www.reddit.com/r/archlinux/comments/6ls9gn/how_to_disable_random_mac_address/]=
