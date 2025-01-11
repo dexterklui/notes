@@ -111,6 +111,7 @@
     ➱   [\ast-grep-bin]\: Ast-grep
     ➱   [\waydroid]\: for running adroid apps
     ➱   [\python-pyclip]\: clipboard support for [\waydroid]\
+    ➱   [\python-gbinder]\: for [\waydroid]\
     ➱   [\cutechess]\: for playing chess and reading database of chess
     ➱   [\openvpn-update-systemd-resolved]\: install up and down scripts for
         openvpn
