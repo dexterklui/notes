@@ -122,6 +122,7 @@
     ➱   [\aws-cli-v2]\: For AWS CLI v2
     ➱   [\postman-bin]\: program for testing APIs.
     ➱   [\anki-bin]\: SRS flashcard program
+    ➱   [\icaclient]\: Citrix Workspace for Morgan Stanley
 
    |Deleted|
     ➱   [\plasma5-runners-emoji]\: search and input emoji in krunner
