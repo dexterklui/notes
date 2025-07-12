@@ -79,6 +79,7 @@
         finance
     ➱   [\sysstat]\: for system monitoring
     ➱   [\bat]\: A CLI program which adds syntax highlight to [\cat]\.
+    ➱   `bats`: Bash automated testing system - used for exercism Bash track
 
    |Dependencies explicitly installed| {{{4
     ➱   [\python-nose]\ for [\papis]\
