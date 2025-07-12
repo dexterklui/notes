@@ -564,6 +564,17 @@ One common style is:
 
 `echo $0: error: {what went wrong}`
 
+## Keybindings Interactive Terminal
+
+### Edit
+
+- `<C-x> <C-e>` brings up editor (in the order of `VISUAL`, `EDITOR`, emacs) to
+  edit current command, and immediately execute what's saved. Be careful that if
+  you cancel save and quit, the original command before you enter the editor
+  would be executed immediately.
+- `<C-x> <C-u>` undos
+- `<C-M-e>` expands command
+
 ## Links and Resources
 
 - [Advanced Bash-Scripting Guide](http://tldp.org/LDP/abs/html/index.html)
